@@ -1,6 +1,6 @@
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertUser, users, studentProfiles, InsertStudentProfile, chunks, conversations, InsertConversation, messages, InsertMessage, studentChunkProgress, alerts, InsertAlert } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -89,4 +89,103 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+// Student profile queries
+export async function getStudentProfile(studentId: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(studentProfiles).where(eq(studentProfiles.userId, studentId)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createStudentProfile(data: InsertStudentProfile) {
+  const db = await getDb();
+  if (!db) return undefined;
+  await db.insert(studentProfiles).values(data);
+  return getStudentProfile(data.userId);
+}
+
+// Chunks queries
+export async function getChunksByLevel(level: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(chunks).where(eq(chunks.level, level as any));
+}
+
+export async function getChunksByContext(context: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(chunks).where(eq(chunks.context, context as any));
+}
+
+// Conversation queries
+export async function createConversation(data: InsertConversation) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.insert(conversations).values(data);
+  return result;
+}
+
+export async function getConversationsByStudent(studentId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(conversations).where(eq(conversations.studentId, studentId));
+}
+
+// Message queries
+export async function addMessageToConversation(data: InsertMessage) {
+  const db = await getDb();
+  if (!db) return undefined;
+  await db.insert(messages).values(data);
+}
+
+export async function getConversationMessages(conversationId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(messages).where(eq(messages.conversationId, conversationId));
+}
+
+// Student chunk progress
+export async function getStudentChunkProgress(studentId: number, chunkId: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(studentChunkProgress).where(
+    and(eq(studentChunkProgress.studentId, studentId), eq(studentChunkProgress.chunkId, chunkId))
+  ).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function updateChunkProgress(studentId: number, chunkId: number, isCorrect: boolean) {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  let progress = await getStudentChunkProgress(studentId, chunkId);
+  if (!progress) {
+    await db.insert(studentChunkProgress).values({
+      studentId,
+      chunkId,
+      masteryLevel: 'learning',
+      correctAnswers: isCorrect ? 1 : 0,
+      totalAttempts: 1,
+    });
+  } else {
+    const newCorrectAnswers = progress.correctAnswers + (isCorrect ? 1 : 0);
+    const newTotalAttempts = progress.totalAttempts + 1;
+    const masteryLevel = newCorrectAnswers / newTotalAttempts > 0.8 ? 'mastered' : 'practicing';
+    
+    await db.update(studentChunkProgress)
+      .set({
+        correctAnswers: newCorrectAnswers,
+        totalAttempts: newTotalAttempts,
+        masteryLevel: masteryLevel as any,
+        lastPracticedAt: new Date(),
+      })
+      .where(and(eq(studentChunkProgress.studentId, studentId), eq(studentChunkProgress.chunkId, chunkId)));
+  }
+}
+
+// Alerts
+export async function createAlert(data: InsertAlert) {
+  const db = await getDb();
+  if (!db) return undefined;
+  await db.insert(alerts).values(data);
+}
