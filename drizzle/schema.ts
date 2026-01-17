@@ -148,3 +148,84 @@ export const alerts = mysqlTable("alerts", {
 
 export type Alert = typeof alerts.$inferSelect;
 export type InsertAlert = typeof alerts.$inferInsert;
+// Books table (inFlux curriculum)
+export const books = mysqlTable("books", {
+  id: int("id").autoincrement().primaryKey(),
+  bookId: varchar("book_id", { length: 50 }).notNull().unique(),
+  name: varchar("name", { length: 255 }).notNull(),
+  level: mysqlEnum("level", ["starter", "beginner", "elementary", "pre_intermediate", "intermediate", "upper_intermediate", "advanced"]).notNull(),
+  category: mysqlEnum("category", ["junior", "regular"]).notNull(),
+  stages: int("stages").default(2).notNull(),
+  totalUnits: int("total_units").notNull(),
+  description: text("description"),
+  order: int("order").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Book = typeof books.$inferSelect;
+export type InsertBook = typeof books.$inferInsert;
+
+// Units table (units within each book)
+export const units = mysqlTable("units", {
+  id: int("id").autoincrement().primaryKey(),
+  bookId: int("book_id").notNull(),
+  unitNumber: int("unit_number").notNull(),
+  title: varchar("title", { length: 255 }).notNull(),
+  stage: int("stage").notNull(),
+  lessons: int("lessons").notNull(),
+  description: text("description"),
+  learningObjectives: json("learning_objectives"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Unit = typeof units.$inferSelect;
+export type InsertUnit = typeof units.$inferInsert;
+
+// Chunks by unit table (chunks specific to each unit)
+export const chunksByUnit = mysqlTable("chunks_by_unit", {
+  id: int("id").autoincrement().primaryKey(),
+  unitId: int("unit_id").notNull(),
+  chunkId: int("chunk_id").notNull(),
+  chunkType: mysqlEnum("chunk_type", ["phrasal_verb", "collocation", "expression", "grammar_structure", "vocabulary_set", "conversational_pattern"]).notNull(),
+  order: int("order").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type ChunkByUnit = typeof chunksByUnit.$inferSelect;
+export type InsertChunkByUnit = typeof chunksByUnit.$inferInsert;
+
+// Student book progress table
+export const studentBookProgress = mysqlTable("student_book_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("student_id").notNull(),
+  bookId: int("book_id").notNull(),
+  currentUnit: int("current_unit").default(1).notNull(),
+  completedUnits: int("completed_units").default(0).notNull(),
+  progressPercentage: decimal("progress_percentage", { precision: 5, scale: 2 }).default("0").notNull(),
+  startedAt: timestamp("started_at").defaultNow().notNull(),
+  completedAt: timestamp("completed_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type StudentBookProgress = typeof studentBookProgress.$inferSelect;
+export type InsertStudentBookProgress = typeof studentBookProgress.$inferInsert;
+
+// Spaced repetition schedule table
+export const spacedRepetitionSchedule = mysqlTable("spaced_repetition_schedule", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("student_id").notNull(),
+  chunkId: int("chunk_id").notNull(),
+  nextReviewAt: timestamp("next_review_at").notNull(),
+  interval: int("interval").default(1).notNull(),
+  easeFactor: decimal("ease_factor", { precision: 3, scale: 2 }).default("2.5").notNull(),
+  repetitions: int("repetitions").default(0).notNull(),
+  lastReviewAt: timestamp("last_review_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type SpacedRepetitionSchedule = typeof spacedRepetitionSchedule.$inferSelect;
+export type InsertSpacedRepetitionSchedule = typeof spacedRepetitionSchedule.$inferInsert;

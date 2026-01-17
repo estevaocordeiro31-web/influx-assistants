@@ -15,6 +15,13 @@
       "when": 1768532823563,
       "tag": "0001_busy_colleen_wing",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1768649993394,
+      "tag": "0002_cynical_nighthawk",
+      "breakpoints": true
     }
   ]
 }

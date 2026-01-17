@@ -77,3 +77,31 @@
 - [ ] Criar simuladores contextualizados por livro
 - [ ] Personalizar exercícios por nível e livro
 - [ ] Implementar app mobile com experiência personalizada
+
+
+## Fase 7: Integração do Conteúdo Programático dos Livros
+- [x] Criar tabela de livros inFlux (10 livros: Junior Starter A/B, Junior 1/2/3, Book 1-5)
+- [x] Criar tabela de units por livro com descrição e objetivos
+- [x] Criar tabela de chunks específicos de cada unit
+- [x] Criar tabela de relação aluno-livro com progresso
+- [x] Implementar seed de dados com conteúdo programático completo
+- [x] Criar aba de Alunos com filtros por livro e nível
+- [x] Implementar visualização de progresso por unit
+- [x] Testar integração de conteúdo programático
+
+## Fase 8: Sistema de Revisiting e Repetição Espaçada
+- [ ] Criar tabela de histórico de chunks estudados
+- [ ] Implementar algoritmo de repetição espaçada (Spaced Repetition)
+- [ ] Criar sistema de recomendação de chunks para revisiting
+- [ ] Implementar dashboard de revisiting para alunos
+- [ ] Criar notificações de chunks que precisam revisão
+- [ ] Testar sistema de repetição espaçada
+
+## Fase 9: Experiência Personalizada Extrema
+- [ ] Adaptar chat do assistente para focar no livro do aluno
+- [ ] Criar recomendações de chunks baseadas no progresso
+- [ ] Implementar simuladores contextualizados por livro
+- [ ] Criar exercícios personalizados por unit e nível
+- [ ] Implementar sistema de badges e milestones
+- [ ] Criar relatórios de progresso personalizados
+- [ ] Testar experiência personalizada completa
