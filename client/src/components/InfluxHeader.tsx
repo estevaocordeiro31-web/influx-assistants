@@ -1,13 +1,27 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { useLocation } from "wouter";
-import { LogOut, Menu, X } from "lucide-react";
+import { LogOut, Menu, X, Flame, Trophy } from "lucide-react";
 import { useState } from "react";
+
+// Dados de demonstração
+const DEMO_USER = {
+  name: "Estevao Cordeiro",
+  level: "Avançado",
+  streakDays: 45,
+};
 
 export default function InfluxHeader() {
   const { user, logout } = useAuth();
   const [, setLocation] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Usar dados de demonstração
+  const displayUser = {
+    name: user?.name || DEMO_USER.name,
+    role: user?.role || "student",
+  };
 
   const handleLogout = async () => {
     await logout();
@@ -15,81 +29,99 @@ export default function InfluxHeader() {
   };
 
   return (
-    <header className="bg-gradient-to-r from-blue-900 to-blue-800 text-white shadow-lg">
-      <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+    <header className="bg-slate-900/95 backdrop-blur border-b border-slate-800 text-white sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
         {/* Logo e Marca */}
-        <div className="flex items-center gap-3 cursor-pointer" onClick={() => setLocation("/")}>
+        <div className="flex items-center gap-4 cursor-pointer" onClick={() => setLocation("/student/dashboard")}>
           <img
             src="/logo-influx.png"
             alt="inFlux Logo"
-            className="w-10 h-10"
+            className="w-10 h-10 rounded-lg"
           />
           <div className="hidden sm:block">
-            <h1 className="text-xl font-bold">inFlux</h1>
-            <p className="text-xs opacity-75">Personal Tutor</p>
+            <h1 className="text-lg font-bold text-white">inFlux <span className="text-green-400">Personal Tutor</span></h1>
           </div>
         </div>
 
+        {/* Centro - Streak e Level */}
+        <div className="hidden md:flex items-center gap-4">
+          <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/30 px-3 py-1">
+            <Flame className="w-4 h-4 mr-1" />
+            {DEMO_USER.streakDays} dias
+          </Badge>
+          <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/30 px-3 py-1">
+            <Trophy className="w-4 h-4 mr-1" />
+            {DEMO_USER.level}
+          </Badge>
+        </div>
+
         {/* Menu Desktop */}
-        <div className="hidden md:flex items-center gap-6">
-          {user && (
-            <>
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-green-400 flex items-center justify-center font-bold text-blue-900">
-                  {user.name?.charAt(0).toUpperCase() || "A"}
-                </div>
-                <div className="text-sm">
-                  <p className="font-medium">{user.name || "Aluno"}</p>
-                  <p className="text-xs opacity-75 capitalize">{user.role}</p>
-                </div>
-              </div>
-              <Button
-                onClick={handleLogout}
-                variant="outline"
-                size="sm"
-                className="border-white text-white hover:bg-white/10"
-              >
-                <LogOut className="w-4 h-4 mr-2" />
-                Sair
-              </Button>
-            </>
-          )}
+        <div className="hidden md:flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center font-bold text-slate-900 text-sm">
+              {displayUser.name.charAt(0).toUpperCase()}
+            </div>
+            <div className="text-sm">
+              <p className="font-medium text-white">{displayUser.name}</p>
+              <p className="text-xs text-slate-400">Book 5 - Unit 8</p>
+            </div>
+          </div>
+          <Button
+            onClick={handleLogout}
+            variant="ghost"
+            size="sm"
+            className="text-slate-400 hover:text-white hover:bg-slate-800"
+          >
+            <LogOut className="w-4 h-4" />
+          </Button>
         </div>
 
         {/* Menu Mobile */}
         <div className="md:hidden flex items-center gap-2">
-          {user && (
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 hover:bg-white/10 rounded"
-            >
-              {mobileMenuOpen ? (
-                <X className="w-6 h-6" />
-              ) : (
-                <Menu className="w-6 h-6" />
-              )}
-            </button>
-          )}
+          <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/30 px-2 py-1 text-xs">
+            <Flame className="w-3 h-3 mr-1" />
+            {DEMO_USER.streakDays}
+          </Badge>
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="p-2 hover:bg-slate-800 rounded-lg"
+          >
+            {mobileMenuOpen ? (
+              <X className="w-5 h-5" />
+            ) : (
+              <Menu className="w-5 h-5" />
+            )}
+          </button>
         </div>
       </div>
 
       {/* Menu Mobile Expandido */}
-      {mobileMenuOpen && user && (
-        <div className="md:hidden bg-blue-800 px-4 py-4 border-t border-blue-700">
-          <div className="flex items-center gap-2 mb-4 pb-4 border-b border-blue-700">
-            <div className="w-8 h-8 rounded-full bg-green-400 flex items-center justify-center font-bold text-blue-900">
-              {user.name?.charAt(0).toUpperCase() || "A"}
+      {mobileMenuOpen && (
+        <div className="md:hidden bg-slate-800 px-4 py-4 border-t border-slate-700">
+          <div className="flex items-center gap-3 mb-4 pb-4 border-b border-slate-700">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center font-bold text-slate-900">
+              {displayUser.name.charAt(0).toUpperCase()}
             </div>
-            <div className="text-sm">
-              <p className="font-medium">{user.name || "Aluno"}</p>
-              <p className="text-xs opacity-75 capitalize">{user.role}</p>
+            <div>
+              <p className="font-medium text-white">{displayUser.name}</p>
+              <p className="text-xs text-slate-400">Book 5 - Unit 8 • {DEMO_USER.level}</p>
             </div>
+          </div>
+          <div className="flex gap-2 mb-4">
+            <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/30">
+              <Flame className="w-3 h-3 mr-1" />
+              {DEMO_USER.streakDays} dias seguidos
+            </Badge>
+            <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/30">
+              <Trophy className="w-3 h-3 mr-1" />
+              {DEMO_USER.level}
+            </Badge>
           </div>
           <Button
             onClick={handleLogout}
             variant="outline"
             size="sm"
-            className="w-full border-white text-white hover:bg-white/10"
+            className="w-full border-slate-600 text-slate-300 hover:bg-slate-700"
           >
             <LogOut className="w-4 h-4 mr-2" />
             Sair

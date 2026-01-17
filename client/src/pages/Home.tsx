@@ -1,7 +1,8 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { BookOpen, MessageCircle, Zap, Users, TrendingUp, Award } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { BookOpen, MessageCircle, Zap, TrendingUp, Award, Users, Play, ArrowRight, Sparkles } from "lucide-react";
 import { useLocation } from "wouter";
 import { getLoginUrl } from "@/const";
 
@@ -20,156 +21,219 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
-      <header className="bg-white border-b border-border shadow-sm">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      {/* Header */}
+      <header className="border-b border-slate-800/50 backdrop-blur-sm bg-slate-900/80 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <BookOpen className="w-8 h-8 text-primary" />
-            <h1 className="text-2xl font-bold text-foreground">inFlux</h1>
+          <div className="flex items-center gap-3">
+            <img src="/logo-influx.png" alt="inFlux" className="w-10 h-10" />
+            <div>
+              <h1 className="text-xl font-bold text-white">inFlux <span className="text-green-400">Personal Tutor</span></h1>
+            </div>
           </div>
-          <Button asChild className="bg-primary hover:bg-primary/90">
-            <a href={getLoginUrl()}>Fazer Login</a>
-          </Button>
+          <div className="flex items-center gap-3">
+            <Button 
+              onClick={() => setLocation("/demo")}
+              variant="ghost" 
+              className="text-slate-300 hover:text-white hover:bg-slate-800"
+            >
+              <Play className="w-4 h-4 mr-2" />
+              Ver Demo
+            </Button>
+            <Button asChild className="bg-green-500 hover:bg-green-600 text-slate-900 font-bold">
+              <a href={getLoginUrl()}>Entrar</a>
+            </Button>
+          </div>
         </div>
       </header>
 
-      <section className="max-w-7xl mx-auto px-4 py-20 text-center">
-        <h2 className="text-5xl font-bold text-foreground mb-4">
-          Aprenda Inglês com IA Personalizada
-        </h2>
-        <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-          Assistentes de aprendizado baseados na metodologia inFlux de Chunks e Equivalência.
-          Pratique como nativos falam, não como os livros ensinam.
-        </p>
-        <div className="flex gap-4 justify-center">
-          <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
-            <a href={getLoginUrl()}>Começar Agora</a>
-          </Button>
-          <Button size="lg" variant="outline">
-            Saiba Mais
-          </Button>
+      {/* Hero Section */}
+      <section className="max-w-7xl mx-auto px-4 py-20">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <Badge className="mb-4 bg-green-500/20 text-green-400 border-green-500/30">
+              <Sparkles className="w-3 h-3 mr-1" />
+              Metodologia Exclusiva inFlux
+            </Badge>
+            <h2 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+              Aprenda Inglês como os 
+              <span className="text-green-400"> Nativos Falam</span>
+            </h2>
+            <p className="text-xl text-slate-300 mb-8 leading-relaxed">
+              Seu tutor pessoal de IA que ensina usando <strong className="text-white">Chunks e Equivalência</strong>. 
+              Pratique expressões reais, não frases de livro.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button 
+                onClick={() => setLocation("/demo")}
+                size="lg" 
+                className="bg-green-500 hover:bg-green-600 text-slate-900 font-bold text-lg px-8 py-6"
+              >
+                <Play className="w-5 h-5 mr-2" />
+                Experimentar Agora
+              </Button>
+              <Button 
+                asChild
+                size="lg" 
+                variant="outline"
+                className="border-slate-600 text-slate-300 hover:bg-slate-800 hover:text-white text-lg px-8 py-6"
+              >
+                <a href={getLoginUrl()}>
+                  Fazer Login
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </a>
+              </Button>
+            </div>
+          </div>
+          <div className="relative hidden lg:block">
+            <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-3xl blur-3xl"></div>
+            <div className="relative bg-slate-800/50 backdrop-blur border border-slate-700 rounded-3xl p-8">
+              <div className="flex items-center gap-4 mb-6">
+                <img src="/fluxie.png" alt="Fluxie" className="w-20 h-20" />
+                <div>
+                  <h3 className="text-white font-bold text-xl">Olá! Eu sou o Fluxie 👋</h3>
+                  <p className="text-slate-400">Seu tutor pessoal de inglês</p>
+                </div>
+              </div>
+              <div className="space-y-4">
+                <div className="bg-slate-700/50 rounded-xl p-4">
+                  <p className="text-green-400 font-bold mb-1">"take it for granted"</p>
+                  <p className="text-slate-300 text-sm">= dar como certo</p>
+                  <p className="text-slate-500 text-xs mt-2 italic">"Don't take your health for granted."</p>
+                </div>
+                <div className="bg-slate-700/50 rounded-xl p-4">
+                  <p className="text-green-400 font-bold mb-1">"once in a blue moon"</p>
+                  <p className="text-slate-300 text-sm">= muito raramente</p>
+                  <p className="text-slate-500 text-xs mt-2 italic">"I only see him once in a blue moon."</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
+      {/* Features */}
       <section className="max-w-7xl mx-auto px-4 py-16">
-        <h3 className="text-3xl font-bold text-foreground mb-12 text-center">
-          Por que escolher inFlux?
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card>
-            <CardHeader>
-              <MessageCircle className="w-8 h-8 text-primary mb-2" />
-              <CardTitle>Chat com IA</CardTitle>
-              <CardDescription>
-                Converse em tempo real com um assistente inteligente
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Pratique inglês natural através de conversas interativas baseadas em seus objetivos.
+        <div className="text-center mb-12">
+          <h3 className="text-3xl font-bold text-white mb-4">
+            Por que escolher o inFlux Personal Tutor?
+          </h3>
+          <p className="text-slate-400 max-w-2xl mx-auto">
+            Combinamos inteligência artificial com a metodologia comprovada da inFlux
+          </p>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <Card className="bg-slate-800/50 border-slate-700 hover:border-green-500/50 transition-colors">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center mb-4">
+                <MessageCircle className="w-6 h-6 text-green-400" />
+              </div>
+              <h4 className="text-white font-bold text-lg mb-2">Chat com IA</h4>
+              <p className="text-slate-400 text-sm">
+                Converse em tempo real com um assistente que entende seu nível e objetivos.
               </p>
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <Zap className="w-8 h-8 text-secondary mb-2" />
-              <CardTitle>Chunks e Equivalência</CardTitle>
-              <CardDescription>
-                Metodologia exclusiva da inFlux
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
+          <Card className="bg-slate-800/50 border-slate-700 hover:border-blue-500/50 transition-colors">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mb-4">
+                <Zap className="w-6 h-6 text-blue-400" />
+              </div>
+              <h4 className="text-white font-bold text-lg mb-2">Chunks e Equivalência</h4>
+              <p className="text-slate-400 text-sm">
                 Aprenda combinações de palavras reais usadas por nativos, com equivalências em português.
               </p>
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <TrendingUp className="w-8 h-8 text-green-600 mb-2" />
-              <CardTitle>Progresso Personalizado</CardTitle>
-              <CardDescription>
-                Acompanhamento em tempo real
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Veja seu progresso em detalhes e receba recomendações personalizadas.
+          <Card className="bg-slate-800/50 border-slate-700 hover:border-purple-500/50 transition-colors">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center mb-4">
+                <TrendingUp className="w-6 h-6 text-purple-400" />
+              </div>
+              <h4 className="text-white font-bold text-lg mb-2">Spaced Repetition</h4>
+              <p className="text-slate-400 text-sm">
+                Sistema inteligente de revisão que garante que você nunca esqueça o que aprendeu.
               </p>
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <Award className="w-8 h-8 text-blue-600 mb-2" />
-              <CardTitle>Exercícios Adaptativos</CardTitle>
-              <CardDescription>
-                Prática focada no seu nível
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Exercícios que se adaptam ao seu progresso e dificuldades.
+          <Card className="bg-slate-800/50 border-slate-700 hover:border-yellow-500/50 transition-colors">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-yellow-500/20 rounded-xl flex items-center justify-center mb-4">
+                <Award className="w-6 h-6 text-yellow-400" />
+              </div>
+              <h4 className="text-white font-bold text-lg mb-2">Exercícios Adaptativos</h4>
+              <p className="text-slate-400 text-sm">
+                Prática focada no seu nível atual, com feedback imediato e personalizado.
               </p>
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <Users className="w-8 h-8 text-purple-600 mb-2" />
-              <CardTitle>Simuladores Reais</CardTitle>
-              <CardDescription>
-                Pratique situações do dia a dia
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Simule entrevistas, viagens, apresentações e muito mais.
+          <Card className="bg-slate-800/50 border-slate-700 hover:border-orange-500/50 transition-colors">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-orange-500/20 rounded-xl flex items-center justify-center mb-4">
+                <Users className="w-6 h-6 text-orange-400" />
+              </div>
+              <h4 className="text-white font-bold text-lg mb-2">Simuladores Reais</h4>
+              <p className="text-slate-400 text-sm">
+                Pratique situações reais: entrevistas, viagens, reuniões e muito mais.
               </p>
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <BookOpen className="w-8 h-8 text-indigo-600 mb-2" />
-              <CardTitle>Dashboard Admin</CardTitle>
-              <CardDescription>
-                Gestão completa para coordenadores
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Monitore o desempenho de todos os alunos em um único lugar.
+          <Card className="bg-slate-800/50 border-slate-700 hover:border-pink-500/50 transition-colors">
+            <CardContent className="p-6">
+              <div className="w-12 h-12 bg-pink-500/20 rounded-xl flex items-center justify-center mb-4">
+                <BookOpen className="w-6 h-6 text-pink-400" />
+              </div>
+              <h4 className="text-white font-bold text-lg mb-2">10 Livros Completos</h4>
+              <p className="text-slate-400 text-sm">
+                Do Junior ao Avançado, todo o conteúdo programático da inFlux integrado.
               </p>
             </CardContent>
           </Card>
         </div>
       </section>
 
-      <section className="bg-primary text-white py-16">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h3 className="text-3xl font-bold mb-4">
-            Pronto para transformar seu aprendizado?
-          </h3>
-          <p className="text-lg mb-8 opacity-90">
-            Junte-se a centenas de alunos que já estão aprendendo com a metodologia inFlux.
-          </p>
-          <Button
-            asChild
-            size="lg"
-            className="bg-white text-primary hover:bg-gray-100"
-          >
-            <a href={getLoginUrl()}>Começar Grátis</a>
-          </Button>
+      {/* CTA */}
+      <section className="py-20">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="bg-gradient-to-r from-green-500 via-green-400 to-emerald-400 rounded-3xl p-12 text-center relative overflow-hidden">
+            <div className="absolute right-0 top-0 opacity-20">
+              <div className="w-64 h-64 bg-white rounded-full -mr-32 -mt-32"></div>
+            </div>
+            <div className="relative z-10">
+              <h3 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">
+                Pronto para transformar seu inglês?
+              </h3>
+              <p className="text-lg text-slate-800 mb-8 max-w-2xl mx-auto">
+                Experimente agora mesmo a versão de demonstração e veja como é aprender com o Fluxie!
+              </p>
+              <Button 
+                onClick={() => setLocation("/demo")}
+                size="lg" 
+                className="bg-slate-900 hover:bg-slate-800 text-white font-bold text-lg px-10 py-6"
+              >
+                <Play className="w-5 h-5 mr-2" />
+                Ver Demonstração Completa
+              </Button>
+            </div>
+          </div>
         </div>
       </section>
 
-      <footer className="bg-foreground text-white py-8">
+      {/* Footer */}
+      <footer className="border-t border-slate-800 py-8">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <p className="text-sm opacity-75">
-            © 2024 inFlux Personal Tutor. Todos os direitos reservados.
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <img src="/logo-influx.png" alt="inFlux" className="w-8 h-8" />
+            <span className="text-white font-bold">inFlux Personal Tutor</span>
+          </div>
+          <p className="text-sm text-slate-500">
+            © 2025 inFlux. Todos os direitos reservados.
           </p>
         </div>
       </footer>

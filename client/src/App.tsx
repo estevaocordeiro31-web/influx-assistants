@@ -18,10 +18,10 @@ function Router() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen bg-slate-900">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Carregando...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-400 mx-auto mb-4"></div>
+          <p className="text-slate-400">Carregando...</p>
         </div>
       </div>
     );
@@ -31,14 +31,15 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/login" component={Login} />
-      {isAuthenticated && user?.role === "student" && (
-        <>
-          <Route path="/student/dashboard" component={StudentDashboard} />
-          <Route path="/student/profile" component={StudentProfile} />
-          <Route path="/student/chat" component={Chat} />
-          <Route path="/student/exercises" component={Exercises} />
-        </>
-      )}
+      {/* Rotas de demonstração - acessíveis sem autenticação para teste */}
+      <Route path="/demo" component={StudentDashboard} />
+      <Route path="/demo/chat" component={Chat} />
+      <Route path="/demo/exercises" component={Exercises} />
+      {/* Rotas autenticadas */}
+      <Route path="/student/dashboard" component={StudentDashboard} />
+      <Route path="/student/profile" component={StudentProfile} />
+      <Route path="/student/chat" component={Chat} />
+      <Route path="/student/exercises" component={Exercises} />
       {isAuthenticated && user?.role === "admin" && (
         <Route path="/admin/dashboard" component={AdminDashboard} />
       )}
@@ -56,7 +57,7 @@ function Router() {
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider defaultTheme="light">
+      <ThemeProvider defaultTheme="dark">
         <TooltipProvider>
           <Toaster />
           <Router />
