@@ -1,14 +1,17 @@
 # inFlux Personal Tutor - Design System
 
-## Identidade Visual
+## Identidade Visual inFlux
 
-A plataforma adota uma identidade visual moderna, acessível e focada em educação. O design reflete a metodologia pedagógica inFlux com cores que transmitem confiança, aprendizado e progresso.
+A plataforma adota a identidade visual oficial da inFlux com o mascote Fluxie como elemento central. O design reflete a metodologia pedagógica inFlux com cores que transmitem confiança, aprendizado e progresso.
 
-## Paleta de Cores
+**Mascote:** Fluxie - personagem verde amigável que acompanha o aluno em toda a jornada de aprendizado.
+
+## Paleta de Cores (inFlux)
 
 ### Cores Primárias
-- **Azul Primário:** `#0066CC` - Confiança, aprendizado e profissionalismo
-- **Laranja Secundário:** `#FF8C00` - Energia, motivação e progresso
+- **Verde inFlux:** `#7FCC39` - Cor principal da marca, energia e progresso (usada em Fluxie)
+- **Azul Escuro inFlux:** `#001F4D` - Confiança, profissionalismo e estabilidade (logo inFlux)
+- **Laranja Destaque:** `#FF8C00` - Chamadas à ação e elementos interativos
 - **Verde Sucesso:** `#22C55E` - Conquistas e marcos atingidos
 
 ### Cores Neutras
@@ -37,8 +40,8 @@ A plataforma adota uma identidade visual moderna, acessível e focada em educaç
 ## Componentes Principais
 
 ### Botões
-- **Primary:** Azul primário com texto branco
-- **Secondary:** Cinza claro com texto azul primário
+- **Primary:** Verde inFlux com texto branco
+- **Secondary:** Azul escuro com texto branco
 - **Success:** Verde sucesso com texto branco
 - **Danger:** Vermelho erro com texto branco
 
@@ -46,9 +49,10 @@ A plataforma adota uma identidade visual moderna, acessível e focada em educaç
 - Fundo branco com sombra suave (`box-shadow: 0 1px 3px rgba(0,0,0,0.1)`)
 - Borda arredondada: 8px
 - Padding: 16px
+- Borda superior em verde inFlux (3px) para destaque
 
 ### Formulários
-- Inputs com borda cinza claro e foco em azul primário
+- Inputs com borda cinza claro e foco em verde inFlux
 - Labels em cinza escuro
 - Placeholder em cinza médio
 
@@ -63,20 +67,22 @@ A plataforma adota uma identidade visual moderna, acessível e focada em educaç
 
 ## Layouts
 
-### Dashboard (Admin)
-- Sidebar esquerda com navegação
-- Conteúdo principal à direita
-- Header com usuário e logout
+### Dashboard do Aluno
+- Header com logo inFlux e informações do perfil
+- Abas de navegação: Perfil, Livro, Progresso, Chat, Exercícios
+- Fluxie como mascote na sidebar ou em seções de boas-vindas
+- Progresso visual com barras em verde inFlux
 
-### Página do Aluno
-- Header com informações do perfil
-- Seção de chat/simulador
-- Sidebar com histórico de conversas
+### Chat com Assistente
+- Mensagens do aluno à direita (azul escuro)
+- Mensagens do assistente à esquerda com ícone de Fluxie
+- Sugestões de chunks em cards com borda verde
 
 ### Página de Exercícios
 - Grid de cards com exercícios
-- Progresso visual em barras
-- Feedback imediato após resposta
+- Progresso visual em barras verde inFlux
+- Feedback imediato com ícone de sucesso ou erro
+- Fluxie oferecendo dicas
 
 ## Ícones
 
@@ -88,3 +94,24 @@ Utilizar Lucide React para ícones consistentes e acessíveis.
 - Foco visível em todos os elementos interativos
 - Suporte a navegação por teclado
 - ARIA labels em componentes complexos
+- Fluxie com descrição alt em todas as imagens
+
+## Elementos Visuais Especiais
+
+### Fluxie (Mascote)
+- Usado em momentos de celebração de conquistas
+- Oferece dicas e motivação
+- Presente em seções de boas-vindas
+- Tamanho responsivo conforme contexto
+
+### Logo inFlux
+- Exibida no header de todas as páginas
+- Versão horizontal no header
+- Versão ícone na sidebar
+- Sempre clicável para voltar à home
+
+### Progresso Visual
+- Barras de progresso em verde inFlux
+- Números e percentuais claros
+- Animações suaves ao atingir marcos
+

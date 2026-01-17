@@ -4,6 +4,7 @@ import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { chatRouter } from "./routers/chat";
 import { pronunciationRouter } from "./routers/pronunciation";
+import { studentRouter } from "./routers/student";
 
 export const appRouter = router({
   system: systemRouter,
@@ -20,6 +21,7 @@ export const appRouter = router({
 
   chat: chatRouter,
   pronunciation: pronunciationRouter,
+  student: studentRouter,
 });
 
 export type AppRouter = typeof appRouter;

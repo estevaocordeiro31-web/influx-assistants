@@ -105,3 +105,44 @@
 - [ ] Implementar sistema de badges e milestones
 - [ ] Criar relatórios de progresso personalizados
 - [ ] Testar experiência personalizada completa
+
+
+## Fase 9: Integração de Identidade Visual inFlux
+- [ ] Adicionar logo inFlux ao projeto
+- [ ] Integrar Fluxie (mascote) nas interfaces
+- [ ] Atualizar paleta de cores para verde/azul inFlux
+- [ ] Criar componentes reutilizáveis com identidade inFlux
+- [ ] Atualizar Home.tsx com nova identidade visual
+
+## Fase 10: Dashboard Funcional do Aluno
+- [ ] Criar abas de navegação (Perfil, Livro, Progresso, Chat, Exercícios)
+- [ ] Implementar exibição de informações do aluno
+- [ ] Mostrar livro atual e progresso por unit
+- [ ] Exibir chunks para revisão (spaced repetition)
+- [ ] Criar seção de próximas ações
+
+## Fase 11: Integração com Sponte
+- [ ] Criar helper para integração com API Sponte
+- [ ] Puxar dados de alunos do Sponte
+- [ ] Sincronizar informações de desempenho
+- [ ] Atualizar dados do aluno em tempo real
+- [ ] Criar rotina de sincronização automática
+
+## Fase 12: Abas Personalizadas de Aluno
+- [ ] Aba "Meu Perfil" - Dados cadastrais e objetivo
+- [ ] Aba "Meu Livro" - Progresso e units
+- [ ] Aba "Revisão" - Chunks para estudar
+- [ ] Aba "Chat" - Conversa com assistente
+- [ ] Aba "Exercícios" - Prática personalizada
+
+
+## Fase 13: Integração com Sponte e Controle de Acesso
+- [x] Criar helper para integração com API Sponte (autenticação e dados)
+- [x] Implementar função para puxar alunos ativos do Sponte
+- [x] Criar middleware de autenticação que verifica status do aluno
+- [x] Implementar bloqueio de acesso para alunos inativos/desistentes
+- [x] Criar rotina de sincronização automática (diária às 18h)
+- [x] Adicionar campo de status do aluno no banco de dados local
+- [x] Criar procedure tRPC para atualizar status do aluno
+- [x] Testar integração e sincronização com Sponte
+- [x] Implementar logs de acesso e tentativas de acesso negado
