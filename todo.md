@@ -156,3 +156,22 @@
 - [x] Criar interface visual rica com gráficos de evolução
 - [x] Implementar timeline de aprendizado
 - [x] Adicionar badges e conquistas visuais
+
+
+## Fase 15: Integração do Fluxie no Chat
+- [x] Adicionar imagem do Fluxie com fone como avatar do assistente
+- [x] Atualizar interface do chat com o novo avatar
+- [x] Testar exibição do avatar nas mensagens
+
+
+## Fase 16: Conectar Dados Reais do Sponte
+- [ ] Configurar credenciais da API Sponte
+- [ ] Implementar sincronização automática de alunos
+- [ ] Substituir dados de demonstração por dados reais
+- [ ] Criar job de sincronização diária às 18h
+
+## Fase 17: Sistema de Notificações para Coordenadores
+- [x] Implementar alertas quando alunos atingem marcos
+- [x] Notificar sobre dificuldades recorrentes em chunks específicos
+- [x] Criar painel de notificações no dashboard admin
+- [x] Configurar envio de emails automáticos

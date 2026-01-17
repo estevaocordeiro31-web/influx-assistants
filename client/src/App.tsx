@@ -12,6 +12,7 @@ import StudentProfile from "./pages/StudentProfile";
 import Chat from "./pages/Chat";
 import Exercises from "./pages/Exercises";
 import Login from "./pages/Login";
+import AdminNotifications from "./pages/AdminNotifications";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -41,8 +42,14 @@ function Router() {
       <Route path="/student/chat" component={Chat} />
       <Route path="/student/exercises" component={Exercises} />
       {isAuthenticated && user?.role === "admin" && (
-        <Route path="/admin/dashboard" component={AdminDashboard} />
+        <>
+          <Route path="/admin/dashboard" component={AdminDashboard} />
+          <Route path="/admin/notifications" component={AdminNotifications} />
+        </>
       )}
+      {/* Rotas de demonstração admin */}
+      <Route path="/admin" component={AdminDashboard} />
+      <Route path="/admin/notifications" component={AdminNotifications} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

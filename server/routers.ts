@@ -5,6 +5,7 @@ import { publicProcedure, router } from "./_core/trpc";
 import { chatRouter } from "./routers/chat";
 import { pronunciationRouter } from "./routers/pronunciation";
 import { studentRouter } from "./routers/student";
+import { notificationsRouter } from "./routers/notifications";
 
 export const appRouter = router({
   system: systemRouter,
@@ -22,6 +23,7 @@ export const appRouter = router({
   chat: chatRouter,
   pronunciation: pronunciationRouter,
   student: studentRouter,
+  notifications: notificationsRouter,
 });
 
 export type AppRouter = typeof appRouter;

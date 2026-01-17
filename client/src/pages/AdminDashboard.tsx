@@ -2,7 +2,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Users, AlertCircle, LogOut, Search } from "lucide-react";
+import { Users, AlertCircle, LogOut, Search, Bell } from "lucide-react";
 import { useLocation } from "wouter";
 import { useState } from "react";
 
@@ -81,6 +81,18 @@ export default function AdminDashboard() {
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
           <h1 className="text-2xl font-bold text-foreground">Dashboard Administrativo</h1>
           <div className="flex items-center gap-4">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => setLocation("/admin/notifications")}
+              className="relative"
+            >
+              <Bell className="w-4 h-4 mr-2" />
+              Notificações
+              <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                3
+              </span>
+            </Button>
             <span className="text-sm text-muted-foreground">{user?.name}</span>
             <Button variant="ghost" size="sm" onClick={handleLogout}>
               <LogOut className="w-4 h-4 mr-2" />
