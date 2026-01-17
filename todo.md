@@ -52,3 +52,28 @@
 - [x] Implementar streaming de respostas no frontend
 - [x] Criar simuladores de situações reais (Carreira, Viagens, Estudos)
 - [x] Testar integração com LLM e validar qualidade das respostas
+
+
+## Fase 6: Transcrição de Áudio e Avaliação de Pronúncia
+- [x] Implementar upload de áudio no frontend
+- [x] Integrar transcribeAudio para transcrever áudio enviado
+- [x] Criar procedure para avaliar pronúncia com IA
+- [x] Salvar transcrição e score de pronúncia no banco de dados
+- [x] Exibir feedback de pronúncia para o aluno
+- [x] Testar transcrição e avaliação
+
+## Fase 7: Estrutura de Livros e Categorização de Alunos
+- [ ] Criar tabela de livros inFlux no banco de dados
+- [ ] Criar tabela de relação aluno-livro
+- [ ] Implementar aba de Alunos com filtros por livro
+- [ ] Criar sistema de revisiting de conteúdo estudado
+- [ ] Implementar histórico de progresso por livro
+- [ ] Criar dashboard personalizado por livro
+
+## Fase 8: Experiência Personalizada Extrema
+- [ ] Adaptar conteúdo baseado no livro do aluno
+- [ ] Criar recomendações de chunks por livro
+- [ ] Implementar sistema de repetição espaçada
+- [ ] Criar simuladores contextualizados por livro
+- [ ] Personalizar exercícios por nível e livro
+- [ ] Implementar app mobile com experiência personalizada
