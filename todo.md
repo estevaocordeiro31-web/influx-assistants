@@ -42,3 +42,13 @@
 - [ ] Refinar UX/UI baseado em testes
 - [ ] Criar checkpoint final
 - [ ] Implantar permanentemente
+
+
+## Fase 5: Integração com LLM - Chat com IA
+- [x] Criar procedure tRPC para chat com assistente
+- [x] Implementar prompt system com contexto de Chunks e Equivalência
+- [x] Integrar invokeLLM para gerar respostas do assistente
+- [x] Adicionar histórico de conversas ao banco de dados
+- [x] Implementar streaming de respostas no frontend
+- [x] Criar simuladores de situações reais (Carreira, Viagens, Estudos)
+- [x] Testar integração com LLM e validar qualidade das respostas

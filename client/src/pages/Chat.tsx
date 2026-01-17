@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { ArrowLeft, Send, Mic } from "lucide-react";
 import { useLocation } from "wouter";
 import { useState } from "react";
+import { trpc } from "@/lib/trpc";
+import { Streamdown } from "streamdown";
 
 export default function Chat() {
   const { user } = useAuth();
@@ -12,29 +14,47 @@ export default function Chat() {
   const [messages, setMessages] = useState<Array<{ role: string; content: string }>>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [conversationId, setConversationId] = useState<number | null>(null);
+
+  const sendMessageMutation = trpc.chat.sendMessage.useMutation();
 
   const handleSendMessage = async () => {
-    if (!input.trim()) return;
+    if (!input.trim() || loading) return;
 
     const userMessage = { role: "user", content: input };
-    setMessages([...messages, userMessage]);
+    const currentInput = input;
+    setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setLoading(true);
 
-    // TODO: Integrar com assistente de IA
-    setTimeout(() => {
+    try {
+      const result = await sendMessageMutation.mutateAsync({
+        conversationId: conversationId || undefined,
+        message: currentInput,
+        objective: "career",
+        level: "intermediate",
+      });
+
+      setConversationId(result.conversationId);
       const assistantMessage = {
         role: "assistant",
-        content: "Olá! Sou seu assistente de IA. Como posso ajudá-lo hoje?",
+        content: result.message,
       };
       setMessages((prev) => [...prev, assistantMessage]);
+    } catch (error) {
+      console.error("Erro ao enviar mensagem:", error);
+      const errorMessage = {
+        role: "assistant",
+        content: "Desculpe, ocorreu um erro ao processar sua mensagem. Tente novamente.",
+      };
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      {/* Header */}
       <header className="bg-white border-b border-border shadow-sm">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center gap-4">
           <Button
@@ -53,9 +73,7 @@ export default function Chat() {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="flex-1 max-w-4xl mx-auto w-full px-4 py-8 flex flex-col">
-        {/* Chat Messages */}
         <Card className="flex-1 flex flex-col mb-4">
           <CardContent className="flex-1 overflow-y-auto p-4 space-y-4">
             {messages.length === 0 ? (
@@ -82,7 +100,11 @@ export default function Chat() {
                         : "bg-muted text-foreground"
                     }`}
                   >
-                    <p className="text-sm">{msg.content}</p>
+                    {msg.role === "assistant" ? (
+                      <Streamdown>{msg.content}</Streamdown>
+                    ) : (
+                      <p className="text-sm">{msg.content}</p>
+                    )}
                   </div>
                 </div>
               ))
@@ -107,7 +129,6 @@ export default function Chat() {
           </CardContent>
         </Card>
 
-        {/* Input Area */}
         <div className="space-y-3">
           <div className="flex gap-2">
             <Input
