@@ -175,3 +175,20 @@
 - [x] Notificar sobre dificuldades recorrentes em chunks específicos
 - [x] Criar painel de notificações no dashboard admin
 - [x] Configurar envio de emails automáticos
+
+
+## Fase 18: Chat Funcional com IA
+- [x] Conectar frontend do chat ao backend tRPC
+- [x] Implementar envio de mensagens em tempo real
+- [x] Adicionar histórico de conversas persistente
+- [x] Integrar metodologia de Chunks nas respostas do Fluxie
+- [x] Criar sugestões de tópicos baseadas no livro atual do aluno
+- [x] Implementar feedback visual durante geração de resposta
+
+## Fase 19: Exercícios Interativos Personalizados
+- [x] Criar tipos de exercícios: preenchimento, múltipla escolha, tradução
+- [x] Implementar geração dinâmica de exercícios baseados em chunks
+- [x] Adicionar sistema de pontuação e feedback imediato
+- [x] Criar progresso visual por exercício
+- [x] Implementar revisão de exercícios errados
+- [x] Salvar histórico de exercícios no banco de dados

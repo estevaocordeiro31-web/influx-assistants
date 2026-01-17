@@ -2,20 +2,79 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { ArrowLeft, Send, Mic, Sparkles } from "lucide-react";
+import { ArrowLeft, Send, Mic, Sparkles, BookOpen, History, Zap } from "lucide-react";
 import { useLocation } from "wouter";
 import { useState, useRef, useEffect } from "react";
 import { trpc } from "@/lib/trpc";
 import { Streamdown } from "streamdown";
+import { toast } from "sonner";
+
+interface Message {
+  role: "user" | "assistant";
+  content: string;
+  timestamp?: Date;
+}
+
+// Dados de demonstração do aluno Book 5
+const DEMO_STUDENT = {
+  name: "Estevão",
+  level: "advanced",
+  currentBook: "Book 5",
+  currentUnit: "Unit 8",
+  objective: "career",
+  chunksLearned: 1847,
+};
+
+// Chunks de demonstração para Book 5
+const DEMO_CHUNKS_BOOK5 = [
+  { chunk: "I've been meaning to", equivalent: "Eu tenho querido / Eu estava querendo", context: "Expressar intenção adiada" },
+  { chunk: "It goes without saying", equivalent: "É óbvio / Nem precisa dizer", context: "Enfatizar algo evidente" },
+  { chunk: "As far as I'm concerned", equivalent: "Na minha opinião / Para mim", context: "Expressar opinião pessoal" },
+  { chunk: "I couldn't agree more", equivalent: "Concordo plenamente", context: "Concordância enfática" },
+  { chunk: "That being said", equivalent: "Dito isso / Mesmo assim", context: "Transição de ideias" },
+];
+
+// Sugestões de tópicos por objetivo
+const TOPIC_SUGGESTIONS = {
+  career: [
+    { icon: "💼", label: "Reunião de negócios", prompt: "How do I lead a business meeting in English?" },
+    { icon: "📊", label: "Apresentação", prompt: "Teach me phrases for giving a professional presentation" },
+    { icon: "🤝", label: "Negociação", prompt: "What are key phrases for negotiating in English?" },
+    { icon: "📧", label: "Email profissional", prompt: "Help me write professional emails in English" },
+  ],
+  travel: [
+    { icon: "✈️", label: "Aeroporto", prompt: "What phrases do I need at the airport?" },
+    { icon: "🏨", label: "Hotel", prompt: "Teach me hotel check-in vocabulary" },
+    { icon: "🍽️", label: "Restaurante", prompt: "How do I order food at a restaurant?" },
+    { icon: "🚕", label: "Transporte", prompt: "What phrases do I need for transportation?" },
+  ],
+  studies: [
+    { icon: "📚", label: "Vocabulário acadêmico", prompt: "Teach me academic vocabulary" },
+    { icon: "✍️", label: "Redação", prompt: "Help me improve my essay writing" },
+    { icon: "🎓", label: "Entrevista", prompt: "Prepare me for a university interview" },
+    { icon: "📖", label: "Leitura", prompt: "How do I improve my reading comprehension?" },
+  ],
+};
 
 export default function Chat() {
-  const { user } = useAuth();
-  const [, setLocation] = useLocation();
-  const [messages, setMessages] = useState<Array<{ role: string; content: string }>>([]);
+  const { user, isAuthenticated } = useAuth();
+  const [location, setLocation] = useLocation();
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [conversationId, setConversationId] = useState<number | null>(null);
+  const [showHistory, setShowHistory] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const isDemo = location.startsWith("/demo");
+  const studentData = isDemo ? DEMO_STUDENT : { 
+    name: user?.name || "Aluno", 
+    level: "intermediate",
+    currentBook: "Book 3",
+    currentUnit: "Unit 5",
+    objective: "career",
+    chunksLearned: 450,
+  };
 
   const sendMessageMutation = trpc.chat.sendMessage.useMutation();
 
@@ -27,37 +86,77 @@ export default function Chat() {
   const handleSendMessage = async () => {
     if (!input.trim() || loading) return;
 
-    const userMessage = { role: "user", content: input };
+    const userMessage: Message = { role: "user", content: input, timestamp: new Date() };
     const currentInput = input;
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setLoading(true);
 
+    // Se for demo, simular resposta
+    if (isDemo) {
+      await simulateDemoResponse(currentInput);
+      return;
+    }
+
     try {
       const result = await sendMessageMutation.mutateAsync({
         conversationId: conversationId || undefined,
         message: currentInput,
-        objective: "career",
-        level: "intermediate",
+        objective: studentData.objective,
+        level: studentData.level,
       });
 
       setConversationId(result.conversationId);
-      const assistantMessage = {
+      const assistantMessage: Message = {
         role: "assistant",
         content: result.message,
+        timestamp: new Date(),
       };
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
       console.error("Erro ao enviar mensagem:", error);
-      const errorMessage = {
+      const errorMessage: Message = {
         role: "assistant",
         content: "Desculpe, ocorreu um erro ao processar sua mensagem. Tente novamente.",
+        timestamp: new Date(),
       };
       setMessages((prev) => [...prev, errorMessage]);
+      toast.error("Erro ao enviar mensagem");
     } finally {
       setLoading(false);
     }
   };
+
+  // Simular resposta para modo demo
+  const simulateDemoResponse = async (userInput: string) => {
+    await new Promise(resolve => setTimeout(resolve, 1500));
+
+    const randomChunk = DEMO_CHUNKS_BOOK5[Math.floor(Math.random() * DEMO_CHUNKS_BOOK5.length)];
+    
+    const responses = [
+      `Great question, ${studentData.name}! 🎯\n\nLet me teach you a powerful chunk for this:\n\n**CHUNK:** "${randomChunk.chunk}"\n**EQUIVALÊNCIA:** ${randomChunk.equivalent}\n**CONTEXTO:** ${randomChunk.context}\n\n**EXEMPLO:**\n> "${randomChunk.chunk} talk to you about this project."\n> "${randomChunk.equivalent} falar com você sobre este projeto."\n\nThis is a very natural expression used by native speakers. Try using it in your next conversation! 💪`,
+      
+      `Excellent! Let's work on that, ${studentData.name}! 📚\n\nHere's a chunk that will help you sound more natural:\n\n**CHUNK:** "${randomChunk.chunk}"\n**EQUIVALÊNCIA:** ${randomChunk.equivalent}\n\n**QUANDO USAR:**\n${randomChunk.context}\n\n**PRÁTICA:**\nTry completing this sentence:\n"${randomChunk.chunk} ____________"\n\nRemember: Chunks are the secret to fluency! Native speakers think in chunks, not individual words. 🌟`,
+      
+      `Perfect timing for this question! 🚀\n\nAs a Book 5 student, you're ready for more sophisticated expressions:\n\n**CHUNK:** "${randomChunk.chunk}"\n**EQUIVALÊNCIA:** ${randomChunk.equivalent}\n\n**NÍVEL:** Avançado (Book 5)\n**USO:** ${randomChunk.context}\n\n**DICA PRO:**\nThis chunk is commonly used in professional settings. It shows confidence and fluency!\n\nWant me to give you more examples or practice exercises? 📝`,
+    ];
+
+    const response = responses[Math.floor(Math.random() * responses.length)];
+    
+    const assistantMessage: Message = {
+      role: "assistant",
+      content: response,
+      timestamp: new Date(),
+    };
+    setMessages((prev) => [...prev, assistantMessage]);
+    setLoading(false);
+  };
+
+  const handleTopicClick = (prompt: string) => {
+    setInput(prompt);
+  };
+
+  const suggestions = TOPIC_SUGGESTIONS[studentData.objective as keyof typeof TOPIC_SUGGESTIONS] || TOPIC_SUGGESTIONS.career;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex flex-col">
@@ -67,7 +166,7 @@ export default function Chat() {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => setLocation("/demo")}
+            onClick={() => setLocation(isDemo ? "/demo" : "/student/dashboard")}
             className="text-slate-300 hover:text-white hover:bg-slate-700"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -93,8 +192,24 @@ export default function Chat() {
               </span>
             </h1>
             <p className="text-sm text-slate-400">
-              Seu assistente pessoal de inglês
+              {studentData.currentBook} • {studentData.currentUnit}
             </p>
+          </div>
+
+          {/* Botões de ação */}
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowHistory(!showHistory)}
+              className="text-slate-400 hover:text-white hover:bg-slate-700"
+            >
+              <History className="w-4 h-4" />
+            </Button>
+            <div className="flex items-center gap-1 bg-slate-700/50 px-3 py-1.5 rounded-full">
+              <Zap className="w-4 h-4 text-yellow-400" />
+              <span className="text-sm text-slate-300 font-medium">{studentData.chunksLearned}</span>
+            </div>
           </div>
         </div>
       </header>
@@ -111,39 +226,56 @@ export default function Chat() {
                   className="w-32 h-32 mb-6 drop-shadow-2xl"
                 />
                 <h2 className="text-2xl font-bold text-white mb-2">
-                  Hey! I'm Fluxie! 👋
+                  Hey, {studentData.name}! 👋
                 </h2>
-                <p className="text-slate-400 mb-4 max-w-md">
+                <p className="text-slate-400 mb-2 max-w-md">
                   Sou seu tutor pessoal de inglês. Vou te ajudar a aprender usando 
                   <span className="text-green-400 font-semibold"> chunks </span> 
                   e 
                   <span className="text-blue-400 font-semibold"> equivalências</span>!
                 </p>
-                <div className="flex flex-wrap gap-2 justify-center">
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    className="bg-slate-700/50 border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white"
-                    onClick={() => setInput("How do I introduce myself in a business meeting?")}
-                  >
-                    💼 Business English
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    className="bg-slate-700/50 border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white"
-                    onClick={() => setInput("What are common phrases for traveling?")}
-                  >
-                    ✈️ Travel English
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    className="bg-slate-700/50 border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white"
-                    onClick={() => setInput("Teach me everyday expressions")}
-                  >
-                    🗣️ Daily Conversation
-                  </Button>
+                <p className="text-sm text-slate-500 mb-6">
+                  <BookOpen className="w-4 h-4 inline mr-1" />
+                  Você está no {studentData.currentBook} - {studentData.currentUnit}
+                </p>
+                
+                {/* Sugestões de tópicos */}
+                <div className="w-full max-w-lg">
+                  <p className="text-xs text-slate-500 mb-3 uppercase tracking-wider">
+                    Sugestões para você
+                  </p>
+                  <div className="grid grid-cols-2 gap-2">
+                    {suggestions.map((topic, idx) => (
+                      <Button 
+                        key={idx}
+                        variant="outline" 
+                        size="sm"
+                        className="bg-slate-700/50 border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white justify-start h-auto py-3 px-4"
+                        onClick={() => handleTopicClick(topic.prompt)}
+                      >
+                        <span className="text-lg mr-2">{topic.icon}</span>
+                        <span className="text-left">{topic.label}</span>
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Chunks recentes */}
+                <div className="mt-6 w-full max-w-lg">
+                  <p className="text-xs text-slate-500 mb-3 uppercase tracking-wider">
+                    Chunks do seu nível
+                  </p>
+                  <div className="flex flex-wrap gap-2 justify-center">
+                    {DEMO_CHUNKS_BOOK5.slice(0, 3).map((chunk, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setInput(`Teach me how to use "${chunk.chunk}"`)}
+                        className="bg-gradient-to-r from-green-500/10 to-blue-500/10 border border-green-500/30 text-green-400 px-3 py-1.5 rounded-full text-sm hover:from-green-500/20 hover:to-blue-500/20 transition-all"
+                      >
+                        {chunk.chunk}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
             ) : (
@@ -183,7 +315,7 @@ export default function Chat() {
                     {/* Avatar do usuário */}
                     {msg.role === "user" && (
                       <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0 mt-1 text-white text-sm font-bold">
-                        {user?.name?.charAt(0) || "E"}
+                        {studentData.name.charAt(0)}
                       </div>
                     )}
                   </div>
@@ -242,6 +374,7 @@ export default function Chat() {
               variant="outline" 
               size="icon" 
               disabled={loading}
+              onClick={() => toast.info("Gravação de áudio em breve!")}
               className="h-12 w-12 rounded-xl border-slate-600 bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white"
             >
               <Mic className="w-5 h-5" />
