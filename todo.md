@@ -1,4 +1,4 @@
-# inFlux Personal Assistants - TODO
+# inFlux Personal Tutor - TODO
 
 ## Fase 1: Arquitetura, Design e Banco de Dados
 - [x] Definir identidade visual e paleta de cores

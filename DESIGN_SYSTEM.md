@@ -1,4 +1,4 @@
-# inFlux Personal Assistants - Design System
+# inFlux Personal Tutor - Design System
 
 ## Identidade Visual
 

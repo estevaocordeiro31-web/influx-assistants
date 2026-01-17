@@ -169,7 +169,7 @@ export default function Home() {
       <footer className="bg-foreground text-white py-8">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <p className="text-sm opacity-75">
-            © 2024 inFlux Personal Assistants. Todos os direitos reservados.
+            © 2024 inFlux Personal Tutor. Todos os direitos reservados.
           </p>
         </div>
       </footer>
