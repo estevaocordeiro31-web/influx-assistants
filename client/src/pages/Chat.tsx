@@ -2,7 +2,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { ArrowLeft, Send, Mic, Sparkles, BookOpen, History, Zap } from "lucide-react";
+import { ArrowLeft, Send, Mic, MicOff, Sparkles, BookOpen, History, Zap, Square, Loader2 } from "lucide-react";
 import { useLocation } from "wouter";
 import { useState, useRef, useEffect } from "react";
 import { trpc } from "@/lib/trpc";
@@ -13,6 +13,10 @@ interface Message {
   role: "user" | "assistant";
   content: string;
   timestamp?: Date;
+  isAudio?: boolean;
+  audioUrl?: string;
+  transcription?: string;
+  pronunciationScore?: number;
 }
 
 // Dados de demonstração do aluno Book 5
@@ -66,6 +70,14 @@ export default function Chat() {
   const [showHistory, setShowHistory] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // Estados para gravação de áudio
+  const [isRecording, setIsRecording] = useState(false);
+  const [recordingTime, setRecordingTime] = useState(0);
+  const [audioProcessing, setAudioProcessing] = useState(false);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
+  const recordingIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
   const isDemo = location.startsWith("/demo");
   const studentData = isDemo ? DEMO_STUDENT : { 
     name: user?.name || "Aluno", 
@@ -82,6 +94,160 @@ export default function Chat() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
+
+  // Cleanup ao desmontar
+  useEffect(() => {
+    return () => {
+      if (recordingIntervalRef.current) {
+        clearInterval(recordingIntervalRef.current);
+      }
+      if (mediaRecorderRef.current && isRecording) {
+        mediaRecorderRef.current.stop();
+      }
+    };
+  }, [isRecording]);
+
+  // Iniciar gravação de áudio
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+      mediaRecorderRef.current = mediaRecorder;
+      audioChunksRef.current = [];
+
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          audioChunksRef.current.push(event.data);
+        }
+      };
+
+      mediaRecorder.onstop = async () => {
+        stream.getTracks().forEach(track => track.stop());
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        await processAudio(audioBlob);
+      };
+
+      mediaRecorder.start();
+      setIsRecording(true);
+      setRecordingTime(0);
+
+      // Timer para mostrar tempo de gravação
+      recordingIntervalRef.current = setInterval(() => {
+        setRecordingTime(prev => prev + 1);
+      }, 1000);
+
+      toast.success("Gravação iniciada! Fale em inglês...");
+    } catch (error) {
+      console.error("Erro ao acessar microfone:", error);
+      toast.error("Não foi possível acessar o microfone. Verifique as permissões.");
+    }
+  };
+
+  // Parar gravação
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && isRecording) {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
+      if (recordingIntervalRef.current) {
+        clearInterval(recordingIntervalRef.current);
+        recordingIntervalRef.current = null;
+      }
+    }
+  };
+
+  // Processar áudio gravado
+  const processAudio = async (audioBlob: Blob) => {
+    setAudioProcessing(true);
+    
+    // Criar URL do áudio para reprodução
+    const audioUrl = URL.createObjectURL(audioBlob);
+
+    // Adicionar mensagem do usuário com áudio
+    const userMessage: Message = {
+      role: "user",
+      content: "🎤 Áudio enviado para avaliação de pronúncia...",
+      timestamp: new Date(),
+      isAudio: true,
+      audioUrl,
+    };
+    setMessages(prev => [...prev, userMessage]);
+
+    // Simular processamento no modo demo
+    if (isDemo) {
+      await simulateAudioProcessing(audioUrl);
+      return;
+    }
+
+    // TODO: Integrar com backend real para transcrição e avaliação
+    try {
+      // Converter blob para base64
+      const reader = new FileReader();
+      reader.readAsDataURL(audioBlob);
+      reader.onloadend = async () => {
+        const base64Audio = reader.result as string;
+        
+        // Aqui você integraria com o backend real
+        // const result = await pronunciationMutation.mutateAsync({ audio: base64Audio });
+        
+        // Por enquanto, simular resposta
+        await simulateAudioProcessing(audioUrl);
+      };
+    } catch (error) {
+      console.error("Erro ao processar áudio:", error);
+      toast.error("Erro ao processar áudio");
+      setAudioProcessing(false);
+    }
+  };
+
+  // Simular processamento de áudio no modo demo
+  const simulateAudioProcessing = async (audioUrl: string) => {
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    const randomChunk = DEMO_CHUNKS_BOOK5[Math.floor(Math.random() * DEMO_CHUNKS_BOOK5.length)];
+    const score = Math.floor(Math.random() * 30) + 70; // Score entre 70-100
+
+    const feedbackResponses = [
+      {
+        transcription: "I've been meaning to call you about the project",
+        feedback: `Excellent pronunciation, ${studentData.name}! 🎯\n\n**Transcrição:** "I've been meaning to call you about the project"\n\n**Score de Pronúncia:** ${score}/100 ${score >= 85 ? '⭐' : ''}\n\n**Análise:**\n- ✅ **Clareza:** Muito boa! Suas palavras estão claras.\n- ✅ **Fluência:** Bom ritmo de fala.\n- ${score >= 85 ? '✅' : '⚠️'} **Entonação:** ${score >= 85 ? 'Natural e expressiva!' : 'Pode melhorar um pouco a entonação.'}\n\n**Chunk detectado:** "${randomChunk.chunk}"\n**Equivalência:** ${randomChunk.equivalent}\n\n**Dica:** ${score >= 85 ? 'Continue praticando assim! Você está no caminho certo.' : 'Tente enfatizar mais as palavras-chave do chunk.'} 💪`,
+      },
+      {
+        transcription: "As far as I'm concerned, this is the best option",
+        feedback: `Great job on your pronunciation! 🎤\n\n**Transcrição:** "As far as I'm concerned, this is the best option"\n\n**Score de Pronúncia:** ${score}/100 ${score >= 85 ? '⭐' : ''}\n\n**Análise Detalhada:**\n| Aspecto | Avaliação |\n|---------|----------|\n| Clareza | ${score >= 80 ? 'Excelente' : 'Boa'} |\n| Fluência | ${score >= 85 ? 'Muito natural' : 'Pode melhorar'} |\n| Entonação | ${score >= 90 ? 'Perfeita!' : 'Boa'} |\n\n**Chunk identificado:** "${randomChunk.chunk}"\n\n**Próximo passo:** Tente usar este chunk em uma frase diferente! 🚀`,
+      },
+      {
+        transcription: "It goes without saying that we need to improve",
+        feedback: `Nice effort, ${studentData.name}! 🌟\n\n**Transcrição:** "It goes without saying that we need to improve"\n\n**Score de Pronúncia:** ${score}/100\n\n**O que você fez bem:**\n- Pronúncia clara das palavras principais\n- Bom uso do chunk "${randomChunk.chunk}"\n\n**Áreas para melhorar:**\n- Conecte as palavras de forma mais natural\n- Pratique a entonação descendente no final\n\n**Exercício sugerido:**\nRepita 3 vezes: "${randomChunk.chunk}"\n\nLembre-se: A prática leva à perfeição! 🎯`,
+      },
+    ];
+
+    const response = feedbackResponses[Math.floor(Math.random() * feedbackResponses.length)];
+
+    // Atualizar a mensagem do usuário com a transcrição
+    setMessages(prev => {
+      const updated = [...prev];
+      const lastUserMsg = updated.findLastIndex(m => m.role === "user" && m.isAudio);
+      if (lastUserMsg !== -1) {
+        updated[lastUserMsg] = {
+          ...updated[lastUserMsg],
+          content: `🎤 "${response.transcription}"`,
+          transcription: response.transcription,
+          pronunciationScore: score,
+        };
+      }
+      return updated;
+    });
+
+    // Adicionar resposta do Fluxie
+    const assistantMessage: Message = {
+      role: "assistant",
+      content: response.feedback,
+      timestamp: new Date(),
+    };
+    setMessages(prev => [...prev, assistantMessage]);
+    setAudioProcessing(false);
+    toast.success(`Pronúncia avaliada: ${score}/100`);
+  };
 
   const handleSendMessage = async () => {
     if (!input.trim() || loading) return;
@@ -154,6 +320,12 @@ export default function Chat() {
 
   const handleTopicClick = (prompt: string) => {
     setInput(prompt);
+  };
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
   const suggestions = TOPIC_SUGGESTIONS[studentData.objective as keyof typeof TOPIC_SUGGESTIONS] || TOPIC_SUGGESTIONS.career;
@@ -250,7 +422,7 @@ export default function Chat() {
                         key={idx}
                         variant="outline" 
                         size="sm"
-                        className="bg-slate-700/50 border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white justify-start h-auto py-3 px-4"
+                        className="justify-start border-slate-600 bg-slate-800/50 text-slate-300 hover:bg-slate-700 hover:text-white hover:border-slate-500"
                         onClick={() => handleTopicClick(topic.prompt)}
                       >
                         <span className="text-lg mr-2">{topic.icon}</span>
@@ -277,6 +449,15 @@ export default function Chat() {
                     ))}
                   </div>
                 </div>
+
+                {/* Dica de áudio */}
+                <div className="mt-6 bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-xl p-4 max-w-lg">
+                  <p className="text-sm text-purple-300">
+                    <Mic className="w-4 h-4 inline mr-2" />
+                    <strong>Novo!</strong> Clique no microfone para praticar sua pronúncia. 
+                    O Fluxie vai avaliar e dar feedback personalizado!
+                  </p>
+                </div>
               </div>
             ) : (
               <>
@@ -299,7 +480,9 @@ export default function Chat() {
                     <div
                       className={`max-w-[75%] px-4 py-3 rounded-2xl ${
                         msg.role === "user"
-                          ? "bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-br-md"
+                          ? msg.isAudio 
+                            ? "bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-br-md"
+                            : "bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-br-md"
                           : "bg-slate-700/80 text-slate-100 rounded-bl-md border border-slate-600"
                       }`}
                     >
@@ -308,13 +491,37 @@ export default function Chat() {
                           <Streamdown>{msg.content}</Streamdown>
                         </div>
                       ) : (
-                        <p className="text-sm">{msg.content}</p>
+                        <div>
+                          {msg.isAudio && (
+                            <div className="flex items-center gap-2 mb-2">
+                              <Mic className="w-4 h-4" />
+                              <span className="text-xs opacity-75">Áudio</span>
+                              {msg.pronunciationScore && (
+                                <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full">
+                                  Score: {msg.pronunciationScore}/100
+                                </span>
+                              )}
+                            </div>
+                          )}
+                          <p className="text-sm">{msg.content}</p>
+                          {msg.audioUrl && (
+                            <audio 
+                              src={msg.audioUrl} 
+                              controls 
+                              className="mt-2 w-full h-8 opacity-75"
+                            />
+                          )}
+                        </div>
                       )}
                     </div>
                     
                     {/* Avatar do usuário */}
                     {msg.role === "user" && (
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0 mt-1 text-white text-sm font-bold">
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1 text-white text-sm font-bold ${
+                        msg.isAudio 
+                          ? "bg-gradient-to-br from-purple-500 to-pink-600"
+                          : "bg-gradient-to-br from-blue-500 to-purple-600"
+                      }`}>
                         {studentData.name.charAt(0)}
                       </div>
                     )}
@@ -322,7 +529,7 @@ export default function Chat() {
                 ))}
                 
                 {/* Indicador de digitação */}
-                {loading && (
+                {(loading || audioProcessing) && (
                   <div className="flex gap-3 justify-start">
                     <img 
                       src="/fluxie-chat.png" 
@@ -330,16 +537,25 @@ export default function Chat() {
                       className="w-8 h-8 rounded-full border border-green-500/50 flex-shrink-0 mt-1 animate-pulse"
                     />
                     <div className="bg-slate-700/80 text-slate-100 px-4 py-3 rounded-2xl rounded-bl-md border border-slate-600">
-                      <div className="flex gap-1.5">
-                        <div className="w-2 h-2 bg-green-400 rounded-full animate-bounce"></div>
-                        <div
-                          className="w-2 h-2 bg-green-400 rounded-full animate-bounce"
-                          style={{ animationDelay: "0.15s" }}
-                        ></div>
-                        <div
-                          className="w-2 h-2 bg-green-400 rounded-full animate-bounce"
-                          style={{ animationDelay: "0.3s" }}
-                        ></div>
+                      <div className="flex items-center gap-2">
+                        {audioProcessing ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin text-purple-400" />
+                            <span className="text-sm text-slate-400">Analisando pronúncia...</span>
+                          </>
+                        ) : (
+                          <div className="flex gap-1.5">
+                            <div className="w-2 h-2 bg-green-400 rounded-full animate-bounce"></div>
+                            <div
+                              className="w-2 h-2 bg-green-400 rounded-full animate-bounce"
+                              style={{ animationDelay: "0.15s" }}
+                            ></div>
+                            <div
+                              className="w-2 h-2 bg-green-400 rounded-full animate-bounce"
+                              style={{ animationDelay: "0.3s" }}
+                            ></div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -352,6 +568,22 @@ export default function Chat() {
 
         {/* Input de mensagem */}
         <div className="mt-4 space-y-2">
+          {/* Indicador de gravação */}
+          {isRecording && (
+            <div className="flex items-center justify-center gap-3 bg-gradient-to-r from-red-500/20 to-pink-500/20 border border-red-500/30 rounded-xl p-3 animate-pulse">
+              <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+              <span className="text-red-400 font-medium">Gravando... {formatTime(recordingTime)}</span>
+              <Button
+                onClick={stopRecording}
+                size="sm"
+                className="bg-red-500 hover:bg-red-600 text-white"
+              >
+                <Square className="w-4 h-4 mr-1" />
+                Parar
+              </Button>
+            </div>
+          )}
+
           <div className="flex gap-2">
             <div className="flex-1 relative">
               <Input
@@ -359,13 +591,13 @@ export default function Chat() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
-                disabled={loading}
+                disabled={loading || isRecording || audioProcessing}
                 className="bg-slate-800 border-slate-600 text-white placeholder:text-slate-500 pr-12 h-12 rounded-xl focus:border-green-500 focus:ring-green-500/20"
               />
             </div>
             <Button
               onClick={handleSendMessage}
-              disabled={loading || !input.trim()}
+              disabled={loading || !input.trim() || isRecording || audioProcessing}
               className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white h-12 w-12 rounded-xl shadow-lg shadow-green-500/20"
             >
               <Send className="w-5 h-5" />
@@ -373,15 +605,19 @@ export default function Chat() {
             <Button 
               variant="outline" 
               size="icon" 
-              disabled={loading}
-              onClick={() => toast.info("Gravação de áudio em breve!")}
-              className="h-12 w-12 rounded-xl border-slate-600 bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white"
+              disabled={loading || audioProcessing}
+              onClick={isRecording ? stopRecording : startRecording}
+              className={`h-12 w-12 rounded-xl transition-all ${
+                isRecording 
+                  ? "bg-red-500 border-red-500 text-white hover:bg-red-600 animate-pulse"
+                  : "border-slate-600 bg-slate-800 text-slate-300 hover:bg-purple-500/20 hover:border-purple-500 hover:text-purple-400"
+              }`}
             >
-              <Mic className="w-5 h-5" />
+              {isRecording ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
             </Button>
           </div>
           <p className="text-xs text-slate-500 text-center">
-            💡 Fluxie ensina usando <span className="text-green-400">chunks</span> (combinações de palavras) e <span className="text-blue-400">equivalências</span> em português
+            💡 Digite ou <span className="text-purple-400">grave áudio</span> para praticar pronúncia com feedback do Fluxie
           </p>
         </div>
       </main>

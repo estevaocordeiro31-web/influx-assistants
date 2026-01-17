@@ -192,3 +192,21 @@
 - [x] Criar progresso visual por exercício
 - [x] Implementar revisão de exercícios errados
 - [x] Salvar histórico de exercícios no banco de dados
+
+
+## Fase 20: Sistema de Áudio no Chat para Pronúncia
+- [x] Implementar gravação de áudio no navegador (MediaRecorder API)
+- [x] Criar botão de gravação no chat com feedback visual
+- [x] Fazer upload do áudio para S3
+- [x] Integrar transcrição de áudio (Whisper)
+- [x] Enviar transcrição para Fluxie avaliar pronúncia
+- [x] Exibir feedback de pronúncia com score e sugestões
+- [x] Adicionar indicador de gravação em andamento
+
+## Fase 21: Biblioteca de Exercícios Dinâmicos por Livro
+- [x] Criar banco de chunks por livro (Book 1-5)
+- [x] Implementar geração dinâmica de exercícios baseados no livro atual
+- [x] Adicionar mais tipos de exercícios (ordenação, conexão, ditado)
+- [x] Criar sistema de dificuldade progressiva
+- [x] Implementar revisão espaçada de chunks errados
+- [x] Salvar progresso de exercícios no banco de dados

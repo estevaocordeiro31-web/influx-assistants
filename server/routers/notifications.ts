@@ -2,7 +2,7 @@ import { z } from "zod";
 import { router, protectedProcedure } from "../_core/trpc";
 import { notifyOwner } from "../_core/notification";
 import { getDb } from "../db";
-import { users, studentProgress, chunks } from "../../drizzle/schema";
+import { users, studentBookProgress, chunks } from "../../drizzle/schema";
 import { eq, and, lt, desc, sql } from "drizzle-orm";
 
 // Tipos de alertas
