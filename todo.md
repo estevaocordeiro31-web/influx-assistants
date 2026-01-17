@@ -210,3 +210,13 @@
 - [x] Criar sistema de dificuldade progressiva
 - [x] Implementar revisão espaçada de chunks errados
 - [x] Salvar progresso de exercícios no banco de dados
+
+
+## Fase 22: Bate-Papo por Voz com Síntese de Voz
+- [x] Implementar Web Speech API para reconhecimento de fala contínuo
+- [x] Integrar síntese de voz (Text-to-Speech) para respostas do Fluxie
+- [x] Criar interface de conversação por voz com indicadores visuais
+- [x] Adicionar suporte para pausar/retomar conversa
+- [x] Implementar feedback visual de compreensão da fala
+- [x] Testar qualidade de áudio e reconhecimento em diferentes idiomas
+- [x] Adicionar opção de velocidade de fala (lento/normal/rápido)

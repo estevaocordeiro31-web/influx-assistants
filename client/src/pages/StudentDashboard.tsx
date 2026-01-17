@@ -7,7 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { 
   BookOpen, MessageCircle, Zap, TrendingUp, Award, RotateCcw, 
-  Trophy, Star, Target, Clock, CheckCircle2, Flame, Medal
+  Trophy, Star, Target, Clock, CheckCircle2, Flame, Medal, Mic
 } from "lucide-react";
 import { useLocation } from "wouter";
 
@@ -406,13 +406,22 @@ export default function StudentDashboard() {
                     simulações de situações reais e prática de conversação fluente!
                   </p>
                 </div>
-                <Button 
-                  onClick={() => setLocation("/student/chat")}
-                  className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-6 text-lg"
-                >
-                  <MessageCircle className="w-5 h-5 mr-2" />
-                  Abrir Chat com Fluxie
-                </Button>
+                <div className="grid grid-cols-2 gap-3">
+                  <Button 
+                    onClick={() => setLocation("/student/chat")}
+                    className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-6 text-lg"
+                  >
+                    <MessageCircle className="w-5 h-5 mr-2" />
+                    Chat
+                  </Button>
+                  <Button 
+                    onClick={() => setLocation("/student/voice-chat")}
+                    className="bg-purple-500 hover:bg-purple-600 text-white font-bold py-6 text-lg"
+                  >
+                    <Mic className="w-5 h-5 mr-2" />
+                    Voice Chat
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>

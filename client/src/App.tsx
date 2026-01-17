@@ -13,6 +13,7 @@ import Chat from "./pages/Chat";
 import Exercises from "./pages/Exercises";
 import Login from "./pages/Login";
 import AdminNotifications from "./pages/AdminNotifications";
+import VoiceChatPage from "./pages/VoiceChatPage";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -36,11 +37,13 @@ function Router() {
       <Route path="/demo" component={StudentDashboard} />
       <Route path="/demo/chat" component={Chat} />
       <Route path="/demo/exercises" component={Exercises} />
+      <Route path="/demo/voice-chat" component={VoiceChatPage} />
       {/* Rotas autenticadas */}
       <Route path="/student/dashboard" component={StudentDashboard} />
       <Route path="/student/profile" component={StudentProfile} />
       <Route path="/student/chat" component={Chat} />
       <Route path="/student/exercises" component={Exercises} />
+      <Route path="/student/voice-chat" component={VoiceChatPage} />
       {isAuthenticated && user?.role === "admin" && (
         <>
           <Route path="/admin/dashboard" component={AdminDashboard} />
