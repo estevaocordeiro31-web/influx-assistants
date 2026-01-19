@@ -181,7 +181,7 @@ export default function StudentDashboard() {
 
         {/* Abas Principais */}
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid w-full grid-cols-5 bg-slate-800/50 border border-slate-700 rounded-xl p-1">
+          <TabsList className="grid w-full grid-cols-6 bg-slate-800/50 border border-slate-700 rounded-xl p-1">
             <TabsTrigger value="overview" className="data-[state=active]:bg-green-500 data-[state=active]:text-slate-900 text-slate-300 rounded-lg">
               <BookOpen className="w-4 h-4 mr-2" />
               <span className="hidden sm:inline">Visão Geral</span>
@@ -200,7 +200,11 @@ export default function StudentDashboard() {
             </TabsTrigger>
             <TabsTrigger value="exercises" className="data-[state=active]:bg-green-500 data-[state=active]:text-slate-900 text-slate-300 rounded-lg">
               <Zap className="w-4 h-4 mr-2" />
-              <span className="hidden sm:inline">Exercícios</span>
+              <span className="hidden sm:inline">Exercicios</span>
+            </TabsTrigger>
+            <TabsTrigger value="blog" className="data-[state=active]:bg-green-500 data-[state=active]:text-slate-900 text-slate-300 rounded-lg">
+              <BookOpen className="w-4 h-4 mr-2" />
+              <span className="hidden sm:inline">Blog</span>
             </TabsTrigger>
           </TabsList>
 
@@ -496,6 +500,60 @@ export default function StudentDashboard() {
                 </Button>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          {/* Aba: Blog */}
+          <TabsContent value="blog" className="space-y-4 mt-4">
+            <div className="space-y-4">
+              {/* Dica do Dia */}
+              <div>
+                <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                  <Flame className="w-5 h-5 text-orange-400" />
+                  Dica do Dia
+                </h3>
+                <TipOfDayWidget 
+                  tip={tipOfDayData?.tip || undefined} 
+                  isLoading={tipLoading}
+                  onViewMore={setSelectedTip}
+                />
+              </div>
+
+              {/* Dicas Recomendadas */}
+              <div>
+                <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                  <Star className="w-5 h-5 text-yellow-400" />
+                  Dicas Recomendadas para Você
+                </h3>
+                <RecommendedTipsSection 
+                  tips={recommendedTipsData?.tips || []} 
+                  isLoading={recommendedLoading}
+                  onViewMore={setSelectedTip}
+                />
+              </div>
+
+              {/* Todas as Dicas do Blog */}
+              <Card className="bg-slate-800/50 border-slate-700">
+                <CardHeader>
+                  <CardTitle className="text-white flex items-center gap-2">
+                    <BookOpen className="w-5 h-5 text-green-400" />
+                    Todas as Dicas do Blog inFlux
+                  </CardTitle>
+                  <CardDescription className="text-slate-400">
+                    Explore dicas e artigos do blog da inFlux para melhorar seu inglês
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-center py-8">
+                    <img src="/fluxie-learning.png" alt="Fluxie" className="w-24 h-24 mx-auto mb-4" />
+                    <p className="text-slate-300 mb-4">Explore dicas do blog para complementar seus estudos</p>
+                    <Button className="bg-green-500 hover:bg-green-600 text-slate-900 font-bold">
+                      <BookOpen className="w-4 h-4 mr-2" />
+                      Visitar Blog inFlux
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
         </Tabs>
       </main>
