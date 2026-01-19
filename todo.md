@@ -257,3 +257,38 @@
 - [x] Integrar push notifications para envio de dicas
 - [x] Criar dashboard de histórico de dicas recebidas pelo aluno
 - [x] Testar sistema de dicas e recomendações
+
+
+## Fase 27: Integração de Dicas no Dashboard do Aluno
+- [x] Criar componente TipOfDayWidget para exibir dica do dia
+- [x] Integrar getTipOfDay no Overview tab
+- [x] Criar seção de "Dicas Recomendadas" baseada em dificuldades
+- [x] Adicionar histórico de dicas recebidas
+- [x] Implementar UI para visualizar detalhes da dica
+- [x] Testar integração no dashboard
+
+## Fase 27.5: Atualizar Imagens do Fluxie
+- [x] Substituir imagem do Fluxie na Home.tsx
+- [x] Substituir imagem do Fluxie no StudentDashboard.tsx
+- [x] Usar nova imagem do Fluxie com fone e joinha
+
+## Fase 28: Scheduler Automático para Envio de Dicas
+- [x] Implementar job que roda diariamente às 8h
+- [x] Analisar dificuldades do aluno automaticamente
+- [x] Buscar dicas recomendadas
+- [x] Enviar notificação push com dica
+- [x] Salvar histórico de dicas enviadas
+- [x] Testar scheduler com diferentes horários
+- [x] Criar router para gerenciar scheduler (start/stop/trigger)
+- [x] Adicionar testes para scheduler router
+
+## Fase 29: Conectar com Dados Reais do Sponte
+- [x] Configurar credenciais reais do Sponte (estevao2@influxjundiai2)
+- [x] Testar autenticação com API real
+- [x] Adicionar variáveis de Sponte ao arquivo env.ts
+- [x] Criar testes de integração com Sponte
+- [x] Validar credenciais fornecidas
+- [ ] Sincronizar alunos reais do Sponte
+- [ ] Verificar dados de desempenho
+- [ ] Validar integração completa
+- [ ] Documentar processo de configuração

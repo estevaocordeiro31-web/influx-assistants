@@ -6,9 +6,11 @@
 import axios from "axios";
 
 // Configurações do Sponte
+import { ENV } from "./_core/env";
+
 const SPONTE_BASE_URL = "https://api.sponteweb.com.br";
-const SPONTE_LOGIN = process.env.SPONTE_LOGIN || "estevao2@influxjundiai2";
-const SPONTE_PASSWORD = process.env.SPONTE_PASSWORD || "Estevao1!";
+const SPONTE_LOGIN = ENV.sponteLogin;
+const SPONTE_PASSWORD = ENV.spontePassword;
 
 interface SponteStudent {
   id: string;

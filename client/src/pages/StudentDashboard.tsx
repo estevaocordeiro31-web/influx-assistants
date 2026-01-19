@@ -10,6 +10,10 @@ import {
   Trophy, Star, Target, Clock, CheckCircle2, Flame, Medal, Mic
 } from "lucide-react";
 import { useLocation } from "wouter";
+import { useEffect, useState } from "react";
+import TipOfDayWidget from "@/components/TipOfDayWidget";
+import RecommendedTipsSection from "@/components/RecommendedTipsSection";
+import { trpc } from "@/lib/trpc";
 
 // Dados de demonstração - Aluno avançado Book 5
 const DEMO_STUDENT = {
@@ -59,6 +63,20 @@ const DEMO_STUDENT = {
 export default function StudentDashboard() {
   const { user, isAuthenticated } = useAuth();
   const [, setLocation] = useLocation();
+  const [selectedTip, setSelectedTip] = useState<any>(null);
+
+  // Buscar dica do dia
+  const { data: tipOfDayData, isLoading: tipLoading } = trpc.blogTips.getTipOfDay.useQuery(
+    undefined,
+    { enabled: isAuthenticated }
+  );
+
+  // Buscar dicas recomendadas (simulando dificuldades do aluno)
+  const { data: recommendedTipsData, isLoading: recommendedLoading } =
+    trpc.blogTips.getRecommendedTips.useQuery(
+      { difficulties: ["phrasal-verbs", "chunks", "vocabulary"] },
+      { enabled: isAuthenticated }
+    );
 
   // Usar dados de demonstração
   const studentData = DEMO_STUDENT;
@@ -95,7 +113,7 @@ export default function StudentDashboard() {
               </div>
             </div>
             <img
-              src="/fluxie.png"
+              src="/fluxie-headphones.png"
               alt="Fluxie Mascote"
               className="w-32 h-32 hidden lg:block drop-shadow-2xl"
             />
@@ -241,6 +259,20 @@ export default function StudentDashboard() {
                 </CardContent>
               </Card>
             </div>
+
+            {/* Dica do Dia */}
+            <TipOfDayWidget
+              tip={tipOfDayData?.tip || undefined}
+              isLoading={tipLoading}
+              onViewMore={setSelectedTip}
+            />
+
+            {/* Dicas Recomendadas */}
+            <RecommendedTipsSection
+              tips={recommendedTipsData?.tips || []}
+              isLoading={recommendedLoading}
+              onViewMore={setSelectedTip}
+            />
 
             {/* Chunks Recentes */}
             <Card className="bg-slate-800/50 border-slate-700">
@@ -395,7 +427,7 @@ export default function StudentDashboard() {
               <CardContent className="space-y-4">
                 <div className="p-6 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl border border-blue-500/30">
                   <div className="flex items-center gap-4 mb-4">
-                    <img src="/fluxie.png" alt="Fluxie" className="w-16 h-16" />
+                    <img src="/fluxie-chat.png" alt="Fluxie" className="w-16 h-16 rounded-full" />
                     <div>
                       <h3 className="text-white font-bold text-lg">Fluxie - Seu Tutor Pessoal</h3>
                       <p className="text-slate-400 text-sm">Especializado em Chunks e Equivalência</p>

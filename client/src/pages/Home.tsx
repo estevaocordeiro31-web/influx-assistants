@@ -89,7 +89,7 @@ export default function Home() {
             <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-3xl blur-3xl"></div>
             <div className="relative bg-slate-800/50 backdrop-blur border border-slate-700 rounded-3xl p-8">
               <div className="flex items-center gap-4 mb-6">
-                <img src="/fluxie.png" alt="Fluxie" className="w-20 h-20" />
+                <img src="/fluxie-chat.png" alt="Fluxie" className="w-20 h-20 rounded-full" />
                 <div>
                   <h3 className="text-white font-bold text-xl">Olá! Eu sou o Fluxie 👋</h3>
                   <p className="text-slate-400">Seu tutor pessoal de inglês</p>
