@@ -31,7 +31,7 @@ let tokenExpiresAt: number | null = null;
 /**
  * Autentica com a API do Sponte e retorna um token
  */
-async function getSponteToken(): Promise<string> {
+export async function getSponteToken(): Promise<string> {
   // Verifica se token em cache ainda é válido
   if (cachedToken && tokenExpiresAt && Date.now() < tokenExpiresAt) {
     return cachedToken;
@@ -94,7 +94,8 @@ export async function getSponteStudent(studentId: string): Promise<SponteStudent
 }
 
 /**
- * Puxar lista de alunos ativos do Sponte
+/**
+ * Recupera lista de alunos ativos do Sponte
  */
 export async function getSponteActiveStudents(): Promise<SponteStudent[]> {
   try {

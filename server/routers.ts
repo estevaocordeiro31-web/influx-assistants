@@ -6,6 +6,7 @@ import { chatRouter } from "./routers/chat";
 import { pronunciationRouter } from "./routers/pronunciation";
 import { studentRouter } from "./routers/student";
 import { notificationsRouter } from "./routers/notifications";
+import { sponteSyncRouter } from "./routers/sponte-sync";
 
 export const appRouter = router({
   system: systemRouter,
@@ -24,6 +25,7 @@ export const appRouter = router({
   pronunciation: pronunciationRouter,
   student: studentRouter,
   notifications: notificationsRouter,
+  sponteSync: sponteSyncRouter,
 });
 
 export type AppRouter = typeof appRouter;
