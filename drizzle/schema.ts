@@ -231,3 +231,46 @@ export const spacedRepetitionSchedule = mysqlTable("spaced_repetition_schedule",
 
 export type SpacedRepetitionSchedule = typeof spacedRepetitionSchedule.$inferSelect;
 export type InsertSpacedRepetitionSchedule = typeof spacedRepetitionSchedule.$inferInsert;
+
+// Blog tips badges table
+export const blogTipsBadges = mysqlTable("blog_tips_badges", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("student_id").notNull(),
+  badgeName: varchar("badge_name", { length: 100 }).notNull(),
+  badgeDescription: text("badge_description").notNull(),
+  badgeIcon: varchar("badge_icon", { length: 255 }),
+  tipsCompleted: int("tips_completed").default(0).notNull(),
+  unlockedAt: timestamp("unlocked_at").defaultNow().notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type BlogTipsBadge = typeof blogTipsBadges.$inferSelect;
+export type InsertBlogTipsBadge = typeof blogTipsBadges.$inferInsert;
+
+// Blog tips favorites table
+export const blogTipsFavorites = mysqlTable("blog_tips_favorites", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("student_id").notNull(),
+  tipId: varchar("tip_id", { length: 255 }).notNull(),
+  tipTitle: varchar("tip_title", { length: 255 }).notNull(),
+  tipCategory: varchar("tip_category", { length: 100 }).notNull(),
+  savedAt: timestamp("saved_at").defaultNow().notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type BlogTipsFavorite = typeof blogTipsFavorites.$inferSelect;
+export type InsertBlogTipsFavorite = typeof blogTipsFavorites.$inferInsert;
+
+// Blog tips feedback table
+export const blogTipsFeedback = mysqlTable("blog_tips_feedback", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("student_id").notNull(),
+  tipId: varchar("tip_id", { length: 255 }).notNull(),
+  tipTitle: varchar("tip_title", { length: 255 }).notNull(),
+  feedback: mysqlEnum("feedback", ["useful", "not_useful"]).notNull(),
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type BlogTipsFeedback = typeof blogTipsFeedback.$inferSelect;
+export type InsertBlogTipsFeedback = typeof blogTipsFeedback.$inferInsert;

@@ -303,3 +303,34 @@
 - [x] Integrar Dica do Dia no Blog
 - [x] Integrar Dicas Recomendadas no Blog
 - [x] Criar seção para explorar blog completo
+
+
+## Fase 31: Gamificação no Blog com Sistema de Badges
+- [x] Criar tabela de badges no banco de dados
+- [x] Implementar lógica de conquista de badges
+- [x] Criar componente de exibição de badges
+- [x] Integrar badges na aba do Blog
+- [x] Testar sistema de gamificação
+- [x] Criar helper blog-engagement.ts com 4 badges
+- [x] Criar router tRPC blogEngagement
+- [x] Adicionar 6 testes passando
+
+## Fase 32: Sistema de Favoritos de Dicas
+- [x] Criar tabela de favoritos no banco de dados
+- [x] Implementar procedimento tRPC para salvar/remover favoritos
+- [x] Criar seção "Meus Favoritos" no Blog
+- [x] Adicionar botão de favoritar em cada dica
+- [x] Sincronizar com histórico de aprendizado
+- [x] Testar sistema de favoritos
+- [x] Criar componente MyFavoriteTips com filtros
+- [x] Integrar no StudentDashboard
+
+## Fase 33: Feedback de Dicas para Treinar Algoritmo
+- [x] Criar tabela de feedback no banco de dados
+- [x] Implementar botões "Útil" e "Não útil" nas dicas
+- [x] Criar procedimento tRPC para salvar feedback
+- [x] Atualizar algoritmo de recomendação baseado em feedback
+- [x] Adicionar análise de feedback no dashboard
+- [x] Testar sistema de feedback
+- [x] Criar componente TipFeedbackButtons
+- [x] Integrar getTipFeedbackStats no router

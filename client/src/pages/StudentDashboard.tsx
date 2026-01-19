@@ -13,6 +13,8 @@ import { useLocation } from "wouter";
 import { useEffect, useState } from "react";
 import TipOfDayWidget from "@/components/TipOfDayWidget";
 import RecommendedTipsSection from "@/components/RecommendedTipsSection";
+import MyFavoriteTips from "@/components/MyFavoriteTips";
+import BadgesDisplay from "@/components/BadgesDisplay";
 import { trpc } from "@/lib/trpc";
 
 // Dados de demonstração - Aluno avançado Book 5
@@ -529,6 +531,16 @@ export default function StudentDashboard() {
                   isLoading={recommendedLoading}
                   onViewMore={setSelectedTip}
                 />
+              </div>
+
+              {/* Meus Favoritos */}
+              <div>
+                <MyFavoriteTips />
+              </div>
+
+              {/* Minhas Conquistas */}
+              <div>
+                <BadgesDisplay />
               </div>
 
               {/* Todas as Dicas do Blog */}
