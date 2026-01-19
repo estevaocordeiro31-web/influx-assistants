@@ -246,3 +246,14 @@
 - [ ] Permitir que professores customize exercícios gerados
 - [ ] Implementar sistema de validação de respostas
 - [ ] Salvar histórico de exercícios criados
+
+
+## Fase 26: Sistema de Dicas do Blog inFlux com Push Notifications
+- [x] Implementar web scraper para extrair dicas do blog inFlux (https://www.influx.com.br/blog/)
+- [x] Criar tabela de dicas no banco de dados com categorização
+- [x] Implementar agendador para enviar dica do dia diariamente
+- [x] Criar sistema de análise de dificuldades do aluno
+- [x] Implementar recomendação inteligente de dicas baseada em dificuldades
+- [x] Integrar push notifications para envio de dicas
+- [x] Criar dashboard de histórico de dicas recebidas pelo aluno
+- [x] Testar sistema de dicas e recomendações

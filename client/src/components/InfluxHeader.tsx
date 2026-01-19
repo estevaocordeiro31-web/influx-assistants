@@ -34,9 +34,9 @@ export default function InfluxHeader() {
         {/* Logo e Marca */}
         <div className="flex items-center gap-4 cursor-pointer" onClick={() => setLocation("/student/dashboard")}>
           <img
-            src="/logo-influx.png"
-            alt="inFlux Logo"
-            className="w-10 h-10 rounded-lg"
+            src="/fluxie-chat.png"
+            alt="Fluxie - inFlux Mascot"
+            className="w-10 h-10 rounded-full object-cover"
           />
           <div className="hidden sm:block">
             <h1 className="text-lg font-bold text-white">inFlux <span className="text-green-400">Personal Tutor</span></h1>
