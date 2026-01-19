@@ -220,3 +220,29 @@
 - [x] Implementar feedback visual de compreensão da fala
 - [x] Testar qualidade de áudio e reconhecimento em diferentes idiomas
 - [x] Adicionar opção de velocidade de fala (lento/normal/rápido)
+
+
+## Fase 23: Dashboard de Professor/Coordenador
+- [ ] Criar página de dashboard para professores com visão geral de turmas
+- [ ] Implementar gerenciamento de turmas (criar, editar, deletar)
+- [ ] Visualizar lista de alunos por turma com status
+- [ ] Exibir progresso de cada aluno (livro atual, chunks dominados, últimas atividades)
+- [ ] Criar filtros por turma, livro e status do aluno
+- [ ] Implementar busca de alunos por nome ou email
+
+## Fase 24: Criador de Aulas com Fluxo inFlux (3 Steps)
+- [ ] Criar interface para criar nova aula
+- [ ] Implementar STEP ONE (Before Class): Diálogos, Vocabulary Expansion, Key Phrases
+- [ ] Implementar STEP TWO (Before Class): Communication Activities com exercícios
+- [ ] Implementar STEP THREE (After Class): Consolidation Exercises
+- [ ] Permitir upload de áudio para diálogos
+- [ ] Criar editor visual para cada step da aula
+- [ ] Salvar aulas no banco de dados com versionamento
+
+## Fase 25: Banco de Exercícios e Gerador com IA
+- [ ] Criar banco de exercícios organizados por step, tipo e nível
+- [ ] Implementar gerador de exercícios com IA baseado no conteúdo da aula
+- [ ] Criar tipos de exercícios: preenchimento, múltipla escolha, tradução, ordenação, conexão
+- [ ] Permitir que professores customize exercícios gerados
+- [ ] Implementar sistema de validação de respostas
+- [ ] Salvar histórico de exercícios criados
