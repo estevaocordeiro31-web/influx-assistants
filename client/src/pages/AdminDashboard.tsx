@@ -2,7 +2,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Users, AlertCircle, LogOut, Search, Bell, Loader2, Edit } from "lucide-react";
+import { Users, AlertCircle, LogOut, Search, Bell, Loader2, Edit, BarChart3 } from "lucide-react";
 import { useLocation } from "wouter";
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
@@ -238,7 +238,7 @@ export default function AdminDashboard() {
                               : "Em Risco"}
                           </span>
                         </td>
-                        <td className="py-3 px-4 text-sm">
+                        <td className="py-3 px-4 text-sm flex gap-2">
                           <Button
                             size="sm"
                             variant="ghost"
@@ -250,6 +250,18 @@ export default function AdminDashboard() {
                           >
                             <Edit className="w-4 h-4 mr-1" />
                             Editar
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setLocation(`/admin/student/${student.id}/analysis`);
+                            }}
+                            className="text-purple-600 hover:text-purple-800 hover:bg-purple-50"
+                          >
+                            <BarChart3 className="w-4 h-4 mr-1" />
+                            Análise
                           </Button>
                         </td>
                       </tr>
@@ -304,6 +316,13 @@ export default function AdminDashboard() {
                 >
                   <Edit className="w-4 h-4 mr-2" />
                   Editar Perfil Detalhado
+                </Button>
+                <Button
+                  onClick={() => setLocation(`/admin/student/${selectedStudent.id}/analysis`)}
+                  className="bg-purple-600 hover:bg-purple-700 text-white"
+                >
+                  <BarChart3 className="w-4 h-4 mr-2" />
+                  Ver Análise Cruzada
                 </Button>
               </div>
             </CardContent>

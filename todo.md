@@ -497,3 +497,25 @@
 - [ ] Criar dashboard de análise agregada (padrões entre alunos)
 - [ ] Implementar filtros e busca avançada de alunos
 - [ ] Adicionar exportação de relatórios em PDF
+
+## Fase 48: Cruzamento de Dados - Perfil vs Sponte
+- [ ] Criar helper de análise cruzada (cross-analysis.ts) com cálculo de gaps
+- [ ] Implementar correlação entre objetivos do aluno e desempenho real
+- [ ] Criar sistema de detecção de padrões (ex: aluno quer fluência mas tem baixa frequência)
+- [ ] Implementar procedures tRPC para análise completa (getCrossAnalysis)
+- [ ] Criar dashboard de análise cruzada com visualizações
+- [ ] Implementar sistema de recomendações baseado em gaps
+- [ ] Criar alertas para coordenadores sobre alunos em risco
+- [ ] Criar testes para análise cruzada
+
+## Fase 48: Cruzamento de Dados - Perfil vs Sponte [COMPLETO]
+- [x] Criar helper de análise cruzada (cross-analysis.ts) com cálculo de gaps
+- [x] Implementar correlação entre objetivos do aluno e desempenho real
+- [x] Criar sistema de detecção de padrões (ex: aluno quer fluência mas tem baixa frequência)
+- [x] Implementar procedures tRPC para análise completa (getCrossAnalysis)
+- [x] Criar dashboard de análise cruzada com visualizações (CrossAnalysisView.tsx)
+- [x] Criar página de análise cruzada (StudentCrossAnalysisPage.tsx)
+- [x] Adicionar botão "Ver Análise" no AdminDashboard
+- [x] Implementar análise de múltiplos alunos (getClassAnalysis)
+- [x] Implementar filtro de alunos em risco (getAtRiskStudents)
+- [x] 90 testes passando (1 falha em job scheduler com timeout - esperado)

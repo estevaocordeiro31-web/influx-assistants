@@ -22,6 +22,7 @@ import { MaterialUploadForm } from "./components/MaterialUploadForm";
 import MaterialUploadPage from "./pages/MaterialUploadPage";
 import TestLogin from "./pages/TestLogin";
 import StudentProfileEditPage from "./pages/StudentProfileEditPage";
+import StudentCrossAnalysisPage from "./pages/StudentCrossAnalysisPage";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -73,6 +74,7 @@ function Router() {
       <Route path="/admin/upload-materials" component={MaterialUploadPage} />
       <Route path="/test-login" component={TestLogin} />
       <Route path="/admin/student/:studentId/edit" component={StudentProfileEditPage} />
+      <Route path="/admin/student/:studentId/analysis" component={StudentCrossAnalysisPage} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

@@ -16,6 +16,7 @@ import { sponteDataRouter } from "./routers/sponte-data";
 import { materialUploadRouter } from "./routers/material-upload";
 import { adminStudentsRouter } from "./routers/admin-students";
 import { studentProfileRouter } from "./routers/student-profile";
+import { crossAnalysisRouter } from "./routers/cross-analysis";
 
 export const appRouter = router({
   system: systemRouter,
@@ -44,6 +45,7 @@ export const appRouter = router({
   sponteData: sponteDataRouter,
   materialUpload: materialUploadRouter,
   adminStudents: adminStudentsRouter,
+  crossAnalysis: crossAnalysisRouter,
 });
 
 export type AppRouter = typeof appRouter;
