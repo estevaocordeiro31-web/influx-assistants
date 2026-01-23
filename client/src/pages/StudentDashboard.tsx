@@ -18,6 +18,7 @@ import BadgesDisplay from "@/components/BadgesDisplay";
 import { SponteDataSection } from "@/components/SponteDataSection";
 import { ExclusiveMaterialsSection } from "@/components/ExclusiveMaterialsSection";
 import { ReadingClubFeed } from "@/components/ReadingClubFeed";
+import { BoogeymanExperience } from "@/components/BoogeymanExperience";
 import { trpc } from "@/lib/trpc";
 
 // Dados de demonstração - Aluno avançado Book 5
@@ -222,6 +223,10 @@ export default function StudentDashboard() {
             <TabsTrigger value="reading-club" className="data-[state=active]:bg-green-500 data-[state=active]:text-slate-900 text-slate-300 rounded-lg">
               <Trophy className="w-4 h-4 mr-2" />
               <span className="hidden sm:inline">Reading Club</span>
+            </TabsTrigger>
+            <TabsTrigger value="boogeyman" className="data-[state=active]:bg-green-500 data-[state=active]:text-slate-900 text-slate-300 rounded-lg">
+              <Zap className="w-4 h-4 mr-2" />
+              <span className="hidden sm:inline">Boogeyman</span>
             </TabsTrigger>
           </TabsList>
 
@@ -644,6 +649,11 @@ export default function StudentDashboard() {
           {/* Aba: Reading Club */}
           <TabsContent value="reading-club" className="space-y-4 mt-4">
             <ReadingClubFeed />
+          </TabsContent>
+
+          {/* Aba: Boogeyman Experience */}
+          <TabsContent value="boogeyman" className="space-y-4 mt-4">
+            <BoogeymanExperience />
           </TabsContent>
         </Tabs>
       </main>
