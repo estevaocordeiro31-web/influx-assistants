@@ -714,6 +714,601 @@ export const SITUATIONS: Situation[] = [
       { word: "syrup", translation: "xarope", example: "This cough syrup works well." },
     ],
   },
+
+  // ==================== BOOK 1 - BÁSICO (Saudações, Apresentações) ====================
+  {
+    id: 'meeting-someone-new',
+    category: 'social',
+    title: 'Meeting Someone New',
+    titlePt: 'Conhecendo Alguém Novo',
+    description: 'Practice introducing yourself and basic greetings',
+    descriptionPt: 'Pratique se apresentar e saudações básicas',
+    difficulty: 'beginner',
+    bookLevel: [1],
+    icon: '👋',
+    scenario: 'You are at a party and meet someone new. Practice basic introductions and small talk.',
+    scenarioPt: 'Você está em uma festa e conhece alguém novo. Pratique apresentações básicas e conversa informal.',
+    context: 'Social gathering, party',
+    objectives: [
+      'Introduce yourself',
+      'Ask basic questions',
+      'Make small talk',
+    ],
+    keyChunks: [
+      { chunk: "Hi, I'm...", equivalent: "Oi, eu sou...", usage: "Se apresentar" },
+      { chunk: "Nice to meet you", equivalent: "Prazer em conhecê-lo", usage: "Cumprimento ao conhecer alguém" },
+      { chunk: "Where are you from?", equivalent: "De onde você é?", usage: "Perguntar origem" },
+      { chunk: "What do you do?", equivalent: "O que você faz?", usage: "Perguntar profissão" },
+    ],
+    dialogueStarters: [
+      {
+        npc: "Hi there! I don't think we've met. I'm Sarah.",
+        npcPt: "Oi! Acho que não nos conhecemos. Eu sou Sarah.",
+        suggestedResponses: [
+          "Hi Sarah! I'm [your name]. Nice to meet you!",
+          "Hello! My name is [your name]. How are you?",
+          "Hi! I'm [your name]. Great party, isn't it?",
+        ],
+      },
+      {
+        npc: "So, where are you from?",
+        npcPt: "Então, de onde você é?",
+        suggestedResponses: [
+          "I'm from Brazil. And you?",
+          "I'm from São Paulo. What about you?",
+          "I'm Brazilian. I live in [city].",
+        ],
+      },
+      {
+        npc: "What do you do for a living?",
+        npcPt: "O que você faz da vida?",
+        suggestedResponses: [
+          "I'm a student.",
+          "I work as a [profession].",
+          "I'm a teacher. And you?",
+        ],
+      },
+    ],
+    vocabulary: [
+      { word: "nice to meet you", translation: "prazer em conhecê-lo", example: "Nice to meet you, John!" },
+      { word: "how are you", translation: "como vai você", example: "Hi! How are you?" },
+      { word: "I'm fine", translation: "estou bem", example: "I'm fine, thanks!" },
+      { word: "see you later", translation: "até mais", example: "See you later!" },
+    ],
+  },
+
+  {
+    id: 'asking-for-directions-basic',
+    category: 'daily',
+    title: 'Asking for Simple Directions',
+    titlePt: 'Pedindo Direções Simples',
+    description: 'Learn to ask where things are located',
+    descriptionPt: 'Aprenda a perguntar onde as coisas ficam',
+    difficulty: 'beginner',
+    bookLevel: [1],
+    icon: '📍',
+    scenario: 'You are lost and need to find a place. Practice asking for basic directions.',
+    scenarioPt: 'Você está perdido e precisa encontrar um lugar. Pratique pedir direções básicas.',
+    context: 'Street, asking a passerby',
+    objectives: [
+      'Ask where something is',
+      'Understand simple directions',
+      'Thank the person',
+    ],
+    keyChunks: [
+      { chunk: "Excuse me, where is...?", equivalent: "Com licença, onde fica...?", usage: "Perguntar localização" },
+      { chunk: "Is it far from here?", equivalent: "É longe daqui?", usage: "Perguntar distância" },
+      { chunk: "Thank you very much", equivalent: "Muito obrigado", usage: "Agradecer" },
+      { chunk: "Go straight", equivalent: "Vá em frente", usage: "Direção" },
+    ],
+    dialogueStarters: [
+      {
+        npc: "Hi! Can I help you?",
+        npcPt: "Oi! Posso ajudar?",
+        suggestedResponses: [
+          "Yes, please. Where is the bank?",
+          "Excuse me, where is the supermarket?",
+          "Hi! Is there a pharmacy near here?",
+        ],
+      },
+      {
+        npc: "It's on Main Street. Go straight and turn left.",
+        npcPt: "Fica na Rua Principal. Vá em frente e vire à esquerda.",
+        suggestedResponses: [
+          "Thank you! Is it far?",
+          "Got it. Go straight and turn left. Thanks!",
+          "How long does it take to walk there?",
+        ],
+      },
+    ],
+    vocabulary: [
+      { word: "turn left", translation: "vire à esquerda", example: "Turn left at the corner." },
+      { word: "turn right", translation: "vire à direita", example: "Turn right after the bank." },
+      { word: "go straight", translation: "vá em frente", example: "Go straight for two blocks." },
+      { word: "near here", translation: "perto daqui", example: "Is there a restaurant near here?" },
+    ],
+  },
+
+  // ==================== BOOK 2 - ELEMENTAR (Compras Simples, Transporte) ====================
+  {
+    id: 'buying-clothes-simple',
+    category: 'shopping',
+    title: 'Buying Clothes - Basic',
+    titlePt: 'Comprando Roupas - Básico',
+    description: 'Practice buying clothes with simple vocabulary',
+    descriptionPt: 'Pratique comprar roupas com vocabulário simples',
+    difficulty: 'beginner',
+    bookLevel: [2],
+    icon: '👕',
+    scenario: 'You are at a clothing store and want to buy a shirt. Practice asking about sizes and prices.',
+    scenarioPt: 'Você está em uma loja de roupas e quer comprar uma camisa. Pratique perguntar sobre tamanhos e preços.',
+    context: 'Clothing store',
+    objectives: [
+      'Ask about sizes',
+      'Ask about prices',
+      'Make a purchase',
+    ],
+    keyChunks: [
+      { chunk: "Do you have this in...?", equivalent: "Você tem isso em...?", usage: "Perguntar tamanho/cor" },
+      { chunk: "How much is this?", equivalent: "Quanto custa isso?", usage: "Perguntar preço" },
+      { chunk: "Can I try this on?", equivalent: "Posso experimentar?", usage: "Pedir para provar" },
+      { chunk: "I'll take it", equivalent: "Vou levar", usage: "Decidir comprar" },
+    ],
+    dialogueStarters: [
+      {
+        npc: "Hello! Can I help you find something?",
+        npcPt: "Olá! Posso ajudar a encontrar algo?",
+        suggestedResponses: [
+          "Yes, I'm looking for a shirt.",
+          "Hi! Do you have this in blue?",
+          "I need a size medium, please.",
+        ],
+      },
+      {
+        npc: "This one is $29.99. Would you like to try it on?",
+        npcPt: "Este custa $29.99. Gostaria de experimentar?",
+        suggestedResponses: [
+          "Yes, please. Where is the fitting room?",
+          "That's a good price. I'll take it!",
+          "Do you have it in a different color?",
+        ],
+      },
+    ],
+    vocabulary: [
+      { word: "size", translation: "tamanho", example: "What size do you wear?" },
+      { word: "fitting room", translation: "provador", example: "The fitting room is over there." },
+      { word: "on sale", translation: "em promoção", example: "These shirts are on sale." },
+      { word: "receipt", translation: "recibo", example: "Here's your receipt." },
+    ],
+  },
+
+  {
+    id: 'taking-a-taxi',
+    category: 'daily',
+    title: 'Taking a Taxi',
+    titlePt: 'Pegando um Táxi',
+    description: 'Practice taking a taxi and giving directions',
+    descriptionPt: 'Pratique pegar um táxi e dar direções',
+    difficulty: 'beginner',
+    bookLevel: [2],
+    icon: '🚕',
+    scenario: 'You need to take a taxi to your hotel. Practice communicating with the driver.',
+    scenarioPt: 'Você precisa pegar um táxi para seu hotel. Pratique se comunicar com o motorista.',
+    context: 'Taxi, street',
+    objectives: [
+      'Tell the driver your destination',
+      'Ask about the fare',
+      'Pay and thank the driver',
+    ],
+    keyChunks: [
+      { chunk: "Can you take me to...?", equivalent: "Pode me levar até...?", usage: "Pedir destino" },
+      { chunk: "How much will it cost?", equivalent: "Quanto vai custar?", usage: "Perguntar preço" },
+      { chunk: "Keep the change", equivalent: "Fique com o troco", usage: "Dar gorjeta" },
+      { chunk: "Stop here, please", equivalent: "Pare aqui, por favor", usage: "Pedir para parar" },
+    ],
+    dialogueStarters: [
+      {
+        npc: "Where to?",
+        npcPt: "Para onde?",
+        suggestedResponses: [
+          "To the Grand Hotel, please.",
+          "Can you take me to the airport?",
+          "123 Main Street, please.",
+        ],
+      },
+      {
+        npc: "That'll be $15.",
+        npcPt: "São $15.",
+        suggestedResponses: [
+          "Here you go. Keep the change.",
+          "Do you accept credit cards?",
+          "Here's $20. Can I have the change?",
+        ],
+      },
+    ],
+    vocabulary: [
+      { word: "fare", translation: "tarifa", example: "The fare is $15." },
+      { word: "meter", translation: "taxímetro", example: "Is the meter running?" },
+      { word: "tip", translation: "gorjeta", example: "Here's a tip for you." },
+      { word: "trunk", translation: "porta-malas", example: "Can you open the trunk?" },
+    ],
+  },
+
+  // ==================== BOOK 3 - PRÉ-INTERMEDIÁRIO (Restaurantes, Hotéis) ====================
+  {
+    id: 'making-hotel-complaints',
+    category: 'travel',
+    title: 'Making Hotel Complaints',
+    titlePt: 'Fazendo Reclamações no Hotel',
+    description: 'Practice politely complaining about hotel issues',
+    descriptionPt: 'Pratique reclamar educadamente sobre problemas no hotel',
+    difficulty: 'intermediate',
+    bookLevel: [3],
+    icon: '🛏️',
+    scenario: 'There are problems with your hotel room. Practice making polite complaints.',
+    scenarioPt: 'Há problemas com seu quarto de hotel. Pratique fazer reclamações educadas.',
+    context: 'Hotel, front desk',
+    objectives: [
+      'Describe the problem clearly',
+      'Request a solution politely',
+      'Negotiate if necessary',
+    ],
+    keyChunks: [
+      { chunk: "I'm afraid there's a problem with...", equivalent: "Receio que haja um problema com...", usage: "Introduzir reclamação educadamente" },
+      { chunk: "Would it be possible to...?", equivalent: "Seria possível...?", usage: "Pedir solução educadamente" },
+      { chunk: "I'd appreciate it if...", equivalent: "Eu agradeceria se...", usage: "Fazer pedido educado" },
+      { chunk: "Could you look into this?", equivalent: "Você poderia verificar isso?", usage: "Pedir ação" },
+    ],
+    dialogueStarters: [
+      {
+        npc: "Good evening. How can I help you?",
+        npcPt: "Boa noite. Como posso ajudá-lo?",
+        suggestedResponses: [
+          "I'm afraid there's a problem with the air conditioning in my room.",
+          "Excuse me, the Wi-Fi in my room isn't working.",
+          "I'm sorry to bother you, but my room is very noisy.",
+        ],
+      },
+      {
+        npc: "I'm very sorry about that. Let me see what I can do.",
+        npcPt: "Sinto muito por isso. Deixe-me ver o que posso fazer.",
+        suggestedResponses: [
+          "Would it be possible to change rooms?",
+          "I'd appreciate it if you could send someone to fix it.",
+          "Could you offer a discount for the inconvenience?",
+        ],
+      },
+    ],
+    vocabulary: [
+      { word: "inconvenience", translation: "inconveniência", example: "I apologize for the inconvenience." },
+      { word: "compensation", translation: "compensação", example: "We can offer compensation." },
+      { word: "maintenance", translation: "manutenção", example: "I'll call maintenance right away." },
+      { word: "upgrade", translation: "upgrade", example: "We can upgrade your room." },
+    ],
+  },
+
+  {
+    id: 'restaurant-special-requests',
+    category: 'food',
+    title: 'Restaurant Special Requests',
+    titlePt: 'Pedidos Especiais no Restaurante',
+    description: 'Practice making dietary requests and modifications',
+    descriptionPt: 'Pratique fazer pedidos dietéticos e modificações',
+    difficulty: 'intermediate',
+    bookLevel: [3],
+    icon: '🥗',
+    scenario: 'You have dietary restrictions and need to communicate them at a restaurant.',
+    scenarioPt: 'Você tem restrições alimentares e precisa comunicá-las no restaurante.',
+    context: 'Restaurant',
+    objectives: [
+      'Explain dietary restrictions',
+      'Ask about ingredients',
+      'Request modifications',
+    ],
+    keyChunks: [
+      { chunk: "I'm allergic to...", equivalent: "Sou alérgico a...", usage: "Informar alergia" },
+      { chunk: "Does this contain...?", equivalent: "Isso contém...?", usage: "Perguntar ingredientes" },
+      { chunk: "Could you make it without...?", equivalent: "Poderia fazer sem...?", usage: "Pedir modificação" },
+      { chunk: "Is there a vegetarian option?", equivalent: "Tem opção vegetariana?", usage: "Perguntar alternativas" },
+    ],
+    dialogueStarters: [
+      {
+        npc: "Are you ready to order?",
+        npcPt: "Estão prontos para pedir?",
+        suggestedResponses: [
+          "Yes, but I'm allergic to nuts. Does the salad contain any?",
+          "I'm vegetarian. What do you recommend?",
+          "Could you tell me if this dish is gluten-free?",
+        ],
+      },
+      {
+        npc: "The pasta sauce contains dairy. Would you like something else?",
+        npcPt: "O molho da massa contém laticínios. Gostaria de outra coisa?",
+        suggestedResponses: [
+          "Could you make it with olive oil instead?",
+          "What other sauces do you have?",
+          "Is there a dairy-free option?",
+        ],
+      },
+    ],
+    vocabulary: [
+      { word: "allergy", translation: "alergia", example: "I have a nut allergy." },
+      { word: "gluten-free", translation: "sem glúten", example: "Do you have gluten-free bread?" },
+      { word: "vegan", translation: "vegano", example: "Is this dish vegan?" },
+      { word: "lactose intolerant", translation: "intolerante à lactose", example: "I'm lactose intolerant." },
+    ],
+  },
+
+  // ==================== BOOK 4 - INTERMEDIÁRIO (Trabalho, Negociações) ====================
+  {
+    id: 'business-email-discussion',
+    category: 'work',
+    title: 'Discussing Business Emails',
+    titlePt: 'Discutindo E-mails de Negócios',
+    description: 'Practice discussing and clarifying business communications',
+    descriptionPt: 'Pratique discutir e esclarecer comunicações de negócios',
+    difficulty: 'intermediate',
+    bookLevel: [4],
+    icon: '📧',
+    scenario: 'You need to discuss an important email with a colleague and clarify some points.',
+    scenarioPt: 'Você precisa discutir um e-mail importante com um colega e esclarecer alguns pontos.',
+    context: 'Office, meeting',
+    objectives: [
+      'Summarize email content',
+      'Ask for clarification',
+      'Discuss next steps',
+    ],
+    keyChunks: [
+      { chunk: "According to the email...", equivalent: "De acordo com o e-mail...", usage: "Referenciar conteúdo" },
+      { chunk: "Could you clarify what they mean by...?", equivalent: "Poderia esclarecer o que eles querem dizer com...?", usage: "Pedir esclarecimento" },
+      { chunk: "I think we should follow up on...", equivalent: "Acho que devemos dar seguimento em...", usage: "Sugerir ação" },
+      { chunk: "Let me get back to you on that", equivalent: "Deixe-me retornar sobre isso", usage: "Adiar resposta" },
+    ],
+    dialogueStarters: [
+      {
+        npc: "Did you see the email from the client?",
+        npcPt: "Você viu o e-mail do cliente?",
+        suggestedResponses: [
+          "Yes, I did. They're asking for a deadline extension.",
+          "I saw it. Could you clarify what they mean by 'revised proposal'?",
+          "Yes. According to the email, they want to schedule a meeting.",
+        ],
+      },
+      {
+        npc: "What do you think we should do?",
+        npcPt: "O que você acha que devemos fazer?",
+        suggestedResponses: [
+          "I think we should follow up with a call.",
+          "Let me get back to you on that after I check with the team.",
+          "We should send them a detailed response by tomorrow.",
+        ],
+      },
+    ],
+    vocabulary: [
+      { word: "follow up", translation: "dar seguimento", example: "I'll follow up on this tomorrow." },
+      { word: "deadline", translation: "prazo", example: "The deadline is next Friday." },
+      { word: "proposal", translation: "proposta", example: "They accepted our proposal." },
+      { word: "attachment", translation: "anexo", example: "Please see the attachment." },
+    ],
+  },
+
+  {
+    id: 'salary-negotiation',
+    category: 'work',
+    title: 'Salary Negotiation',
+    titlePt: 'Negociação de Salário',
+    description: 'Practice negotiating salary and benefits',
+    descriptionPt: 'Pratique negociar salário e benefícios',
+    difficulty: 'intermediate',
+    bookLevel: [4],
+    icon: '💰',
+    scenario: 'You received a job offer and want to negotiate better terms.',
+    scenarioPt: 'Você recebeu uma oferta de emprego e quer negociar melhores condições.',
+    context: 'HR office, negotiation meeting',
+    objectives: [
+      'Express appreciation for the offer',
+      'Present your counteroffer',
+      'Negotiate professionally',
+    ],
+    keyChunks: [
+      { chunk: "I appreciate the offer, however...", equivalent: "Agradeço a oferta, porém...", usage: "Introduzir contraoferta" },
+      { chunk: "Based on my experience...", equivalent: "Com base na minha experiência...", usage: "Justificar pedido" },
+      { chunk: "Would you be open to...?", equivalent: "Você estaria aberto a...?", usage: "Propor alternativa" },
+      { chunk: "Is there any flexibility on...?", equivalent: "Há alguma flexibilidade em...?", usage: "Perguntar margem de negociação" },
+    ],
+    dialogueStarters: [
+      {
+        npc: "We'd like to offer you the position with a salary of $60,000.",
+        npcPt: "Gostaríamos de oferecer a vaga com um salário de $60,000.",
+        suggestedResponses: [
+          "I appreciate the offer. Based on my experience, I was hoping for something closer to $70,000.",
+          "Thank you for the offer. Is there any flexibility on the salary?",
+          "I'm excited about the opportunity. Would you be open to discussing the benefits package?",
+        ],
+      },
+      {
+        npc: "That's above our initial budget. What would make this work for you?",
+        npcPt: "Isso está acima do nosso orçamento inicial. O que faria isso funcionar para você?",
+        suggestedResponses: [
+          "Perhaps we could meet in the middle at $65,000?",
+          "Would additional vacation days be possible instead?",
+          "I'd be flexible if there's a performance bonus structure.",
+        ],
+      },
+    ],
+    vocabulary: [
+      { word: "counteroffer", translation: "contraoferta", example: "I'd like to make a counteroffer." },
+      { word: "benefits package", translation: "pacote de benefícios", example: "The benefits package includes health insurance." },
+      { word: "performance bonus", translation: "bônus por desempenho", example: "There's an annual performance bonus." },
+      { word: "negotiate", translation: "negociar", example: "Let's negotiate the terms." },
+    ],
+  },
+
+  // ==================== BOOK 5 - AVANÇADO (Debates, Apresentações, Discussões Complexas) ====================
+  {
+    id: 'business-presentation',
+    category: 'work',
+    title: 'Giving a Business Presentation',
+    titlePt: 'Fazendo uma Apresentação de Negócios',
+    description: 'Practice presenting ideas and handling Q&A',
+    descriptionPt: 'Pratique apresentar ideias e lidar com perguntas',
+    difficulty: 'advanced',
+    bookLevel: [5],
+    icon: '📊',
+    scenario: 'You are presenting a project proposal to senior management.',
+    scenarioPt: 'Você está apresentando uma proposta de projeto para a gerência sênior.',
+    context: 'Conference room, board meeting',
+    objectives: [
+      'Present your proposal clearly',
+      'Handle challenging questions',
+      'Conclude with a call to action',
+    ],
+    keyChunks: [
+      { chunk: "I'd like to walk you through...", equivalent: "Gostaria de apresentar...", usage: "Introduzir apresentação" },
+      { chunk: "The key takeaway here is...", equivalent: "O ponto principal aqui é...", usage: "Destacar ponto importante" },
+      { chunk: "That's a great question. Let me address that...", equivalent: "Ótima pergunta. Deixe-me abordar isso...", usage: "Responder perguntas" },
+      { chunk: "In conclusion, I'd recommend...", equivalent: "Em conclusão, eu recomendaria...", usage: "Concluir apresentação" },
+    ],
+    dialogueStarters: [
+      {
+        npc: "Thank you for joining us. Please go ahead with your presentation.",
+        npcPt: "Obrigado por se juntar a nós. Por favor, prossiga com sua apresentação.",
+        suggestedResponses: [
+          "Thank you. I'd like to walk you through our Q3 strategy proposal.",
+          "Good morning, everyone. Today I'll be presenting our market expansion plan.",
+          "Thank you for the opportunity. Let me start by outlining the key objectives.",
+        ],
+      },
+      {
+        npc: "What's the expected ROI on this project?",
+        npcPt: "Qual é o ROI esperado deste projeto?",
+        suggestedResponses: [
+          "That's a great question. Based on our projections, we expect a 25% ROI within the first year.",
+          "Let me address that. Our conservative estimate shows a 20% return.",
+          "I'm glad you asked. The data suggests we'll break even within 6 months.",
+        ],
+      },
+      {
+        npc: "How does this compare to our competitors' approach?",
+        npcPt: "Como isso se compara à abordagem dos nossos concorrentes?",
+        suggestedResponses: [
+          "Our approach differs in three key ways. First...",
+          "That's an excellent point. Our competitive analysis shows...",
+          "We've benchmarked against industry leaders, and our strategy offers...",
+        ],
+      },
+    ],
+    vocabulary: [
+      { word: "ROI", translation: "retorno sobre investimento", example: "The ROI exceeded expectations." },
+      { word: "benchmark", translation: "referência/padrão", example: "We benchmark against industry leaders." },
+      { word: "stakeholder", translation: "parte interessada", example: "All stakeholders approved the plan." },
+      { word: "deliverable", translation: "entregável", example: "The key deliverables are outlined here." },
+    ],
+  },
+
+  {
+    id: 'debate-discussion',
+    category: 'social',
+    title: 'Engaging in a Debate',
+    titlePt: 'Participando de um Debate',
+    description: 'Practice expressing opinions and responding to counterarguments',
+    descriptionPt: 'Pratique expressar opiniões e responder a contra-argumentos',
+    difficulty: 'advanced',
+    bookLevel: [5],
+    icon: '🗣️',
+    scenario: 'You are participating in a discussion about remote work vs. office work.',
+    scenarioPt: 'Você está participando de uma discussão sobre trabalho remoto vs. trabalho no escritório.',
+    context: 'Professional discussion, meeting',
+    objectives: [
+      'Express your opinion clearly',
+      'Support your arguments with evidence',
+      'Respond respectfully to opposing views',
+    ],
+    keyChunks: [
+      { chunk: "From my perspective...", equivalent: "Do meu ponto de vista...", usage: "Introduzir opinião" },
+      { chunk: "I see your point, however...", equivalent: "Entendo seu ponto, porém...", usage: "Discordar educadamente" },
+      { chunk: "Research suggests that...", equivalent: "Pesquisas sugerem que...", usage: "Apresentar evidência" },
+      { chunk: "Let me play devil's advocate here...", equivalent: "Deixe-me fazer o papel de advogado do diabo...", usage: "Apresentar visão contrária" },
+    ],
+    dialogueStarters: [
+      {
+        npc: "What's your take on remote work becoming permanent?",
+        npcPt: "Qual é sua opinião sobre o trabalho remoto se tornar permanente?",
+        suggestedResponses: [
+          "From my perspective, a hybrid model offers the best of both worlds.",
+          "I believe remote work has proven its effectiveness. Research suggests productivity actually increases.",
+          "It depends on the industry. For creative roles, in-person collaboration is still valuable.",
+        ],
+      },
+      {
+        npc: "But don't you think company culture suffers without in-person interaction?",
+        npcPt: "Mas você não acha que a cultura da empresa sofre sem interação presencial?",
+        suggestedResponses: [
+          "I see your point, however, many companies have successfully built strong cultures remotely.",
+          "That's a valid concern. Let me play devil's advocate here - couldn't virtual team-building be just as effective?",
+          "You raise an important point. Perhaps the solution is regular in-person retreats combined with remote work.",
+        ],
+      },
+    ],
+    vocabulary: [
+      { word: "counterargument", translation: "contra-argumento", example: "Let me address that counterargument." },
+      { word: "perspective", translation: "perspectiva", example: "From a different perspective..." },
+      { word: "hybrid model", translation: "modelo híbrido", example: "We're adopting a hybrid model." },
+      { word: "devil's advocate", translation: "advogado do diabo", example: "Let me play devil's advocate." },
+    ],
+  },
+
+  {
+    id: 'crisis-management',
+    category: 'work',
+    title: 'Crisis Management Communication',
+    titlePt: 'Comunicação em Gerenciamento de Crise',
+    description: 'Practice handling difficult situations professionally',
+    descriptionPt: 'Pratique lidar com situações difíceis profissionalmente',
+    difficulty: 'advanced',
+    bookLevel: [5],
+    icon: '⚠️',
+    scenario: 'A project is behind schedule and you need to communicate this to the client.',
+    scenarioPt: 'Um projeto está atrasado e você precisa comunicar isso ao cliente.',
+    context: 'Client meeting, crisis communication',
+    objectives: [
+      'Communicate bad news professionally',
+      'Take responsibility appropriately',
+      'Propose solutions and next steps',
+    ],
+    keyChunks: [
+      { chunk: "I need to be transparent with you about...", equivalent: "Preciso ser transparente com você sobre...", usage: "Introduzir notícia difícil" },
+      { chunk: "We take full responsibility for...", equivalent: "Assumimos total responsabilidade por...", usage: "Assumir responsabilidade" },
+      { chunk: "Here's our action plan to address this...", equivalent: "Aqui está nosso plano de ação para resolver isso...", usage: "Apresentar solução" },
+      { chunk: "We're committed to making this right", equivalent: "Estamos comprometidos em corrigir isso", usage: "Demonstrar compromisso" },
+    ],
+    dialogueStarters: [
+      {
+        npc: "So, how is the project progressing?",
+        npcPt: "Então, como está o progresso do projeto?",
+        suggestedResponses: [
+          "I need to be transparent with you. We've encountered some unexpected challenges that have impacted our timeline.",
+          "Thank you for asking. I want to give you an honest update - we're currently two weeks behind schedule.",
+          "Before I give you the status update, I want to acknowledge that we haven't met our original deadline.",
+        ],
+      },
+      {
+        npc: "This is very disappointing. What happened?",
+        npcPt: "Isso é muito decepcionante. O que aconteceu?",
+        suggestedResponses: [
+          "We take full responsibility. The delay was caused by unforeseen technical issues. Here's our action plan to address this.",
+          "I completely understand your frustration. Let me explain what happened and, more importantly, how we're going to fix it.",
+          "You're right to be concerned. We're committed to making this right. Here's what we're doing to get back on track.",
+        ],
+      },
+    ],
+    vocabulary: [
+      { word: "transparency", translation: "transparência", example: "We value transparency in our communication." },
+      { word: "accountability", translation: "responsabilidade", example: "We take accountability for this issue." },
+      { word: "mitigation", translation: "mitigação", example: "Our mitigation plan is ready." },
+      { word: "contingency", translation: "contingência", example: "We have a contingency plan in place." },
+    ],
+  },
 ];
 
 // Função para obter situações por categoria

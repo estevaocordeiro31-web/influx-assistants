@@ -14,6 +14,8 @@ import { useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Streamdown } from "streamdown";
 import { toast } from "sonner";
+import { SimulationReport } from "@/components/SimulationReport";
+import { AudioRecorder } from "@/components/AudioRecorder";
 import { 
   SITUATIONS, 
   SITUATION_CATEGORIES, 
@@ -38,6 +40,9 @@ interface SimulationState {
   score: number;
   chunksUsed: string[];
   feedback: string[];
+  startTime: Date | null;
+  endTime: Date | null;
+  showReport: boolean;
 }
 
 export default function SituationSimulator() {
@@ -51,11 +56,15 @@ export default function SituationSimulator() {
     score: 0,
     chunksUsed: [],
     feedback: [],
+    startTime: null,
+    endTime: null,
+    showReport: false,
   });
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [showHints, setShowHints] = useState(false);
+  const [inputMode, setInputMode] = useState<'text' | 'audio'>('text');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Dados do aluno
@@ -81,6 +90,9 @@ export default function SituationSimulator() {
       score: 0,
       chunksUsed: [],
       feedback: [],
+      startTime: new Date(),
+      endTime: null,
+      showReport: false,
     });
 
     // Mensagem de contexto
@@ -116,6 +128,22 @@ export default function SituationSimulator() {
       health: "Pharmacist",
     };
     return names[category] || "Character";
+  };
+
+  // Processar áudio gravado
+  const handleAudioReady = async (audioBlob: Blob, transcript?: string) => {
+    if (!simulation.situation) return;
+    
+    // Usar a transcrição como texto da mensagem
+    const messageText = transcript || "[Resposta em áudio]";
+    setInput(messageText);
+    
+    // Simular envio da mensagem com o texto transcrito
+    setTimeout(() => {
+      handleSendMessage();
+    }, 100);
+    
+    toast.success("🎙️ Áudio processado com sucesso!");
   };
 
   // Enviar resposta do usuário
@@ -189,6 +217,11 @@ export default function SituationSimulator() {
           timestamp: new Date(),
         };
         setMessages(prev => [...prev, feedbackMsg]);
+        
+        // Mostrar relatório de desempenho após 2 segundos
+        setTimeout(() => {
+          showPerformanceReport();
+        }, 2000);
       }, 1000);
     }
 
@@ -261,9 +294,28 @@ export default function SituationSimulator() {
       score: 0,
       chunksUsed: [],
       feedback: [],
+      startTime: null,
+      endTime: null,
+      showReport: false,
     });
     setMessages([]);
     setShowHints(false);
+  };
+
+  // Mostrar relatório de desempenho
+  const showPerformanceReport = () => {
+    setSimulation(prev => ({
+      ...prev,
+      endTime: new Date(),
+      showReport: true,
+    }));
+  };
+
+  // Tentar novamente a mesma simulação
+  const tryAgain = () => {
+    if (simulation.situation) {
+      startSimulation(simulation.situation);
+    }
   };
 
   // Text-to-speech
@@ -528,23 +580,54 @@ export default function SituationSimulator() {
 
         {/* Input */}
         <div className="border-t border-slate-700 p-4 bg-slate-800/50">
-          <div className="flex gap-2">
-            <Input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSendMessage()}
-              placeholder="Type your response in English..."
-              className="flex-1 bg-slate-700/50 border-slate-600 text-white placeholder:text-slate-500"
-              disabled={loading}
-            />
+          {/* Toggle entre texto e áudio */}
+          <div className="flex justify-center gap-2 mb-3">
             <Button
-              onClick={handleSendMessage}
-              disabled={!input.trim() || loading}
-              className="bg-green-500 hover:bg-green-600"
+              variant={inputMode === 'text' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setInputMode('text')}
+              className={inputMode === 'text' ? 'bg-green-500 hover:bg-green-600' : 'border-slate-600'}
             >
-              <Send className="w-4 h-4" />
+              <MessageCircle className="w-4 h-4 mr-2" />
+              Digitar
+            </Button>
+            <Button
+              variant={inputMode === 'audio' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setInputMode('audio')}
+              className={inputMode === 'audio' ? 'bg-red-500 hover:bg-red-600' : 'border-slate-600'}
+            >
+              <Mic className="w-4 h-4 mr-2" />
+              Gravar Voz
             </Button>
           </div>
+
+          {inputMode === 'text' ? (
+            <div className="flex gap-2">
+              <Input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSendMessage()}
+                placeholder="Type your response in English..."
+                className="flex-1 bg-slate-700/50 border-slate-600 text-white placeholder:text-slate-500"
+                disabled={loading}
+              />
+              <Button
+                onClick={handleSendMessage}
+                disabled={!input.trim() || loading}
+                className="bg-green-500 hover:bg-green-600"
+              >
+                <Send className="w-4 h-4" />
+              </Button>
+            </div>
+          ) : (
+            <AudioRecorder
+              onAudioReady={handleAudioReady}
+              disabled={loading}
+              placeholder="🎙️ Pressione para gravar sua resposta em inglês"
+              showTranscript={true}
+            />
+          )}
           <p className="text-xs text-slate-500 mt-2 text-center">
             💡 Use os chunks sugeridos para ganhar pontos extras!
           </p>
@@ -599,7 +682,20 @@ export default function SituationSimulator() {
       <main className="max-w-4xl mx-auto p-4 h-[calc(100vh-64px)]">
         <Card className="h-full bg-slate-800/50 border-slate-700 overflow-hidden">
           <CardContent className="p-0 h-full">
-            {simulation.isActive ? (
+            {simulation.showReport && simulation.situation && simulation.startTime && simulation.endTime ? (
+              <div className="p-6 overflow-y-auto h-full">
+                <SimulationReport
+                  situation={simulation.situation}
+                  score={simulation.score}
+                  chunksUsed={simulation.chunksUsed}
+                  totalMessages={messages.filter(m => m.role === 'user').length}
+                  startTime={simulation.startTime}
+                  endTime={simulation.endTime}
+                  onNewSimulation={resetSimulation}
+                  onTryAgain={tryAgain}
+                />
+              </div>
+            ) : simulation.isActive ? (
               renderActiveSimulation()
             ) : selectedCategory ? (
               <div className="p-6 overflow-y-auto h-full">

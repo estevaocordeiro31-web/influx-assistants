@@ -382,3 +382,30 @@
 - [x] Implementar sugestões de resposta clicáveis
 - [x] Implementar text-to-speech para NPC
 - [x] Sistema de pontuação (+10 pts por chunk usado)
+
+
+## Fase 39: Situações Específicas por Livro
+- [x] Criar situações para Book 1 (básico - saudações, apresentações)
+- [x] Criar situações para Book 2 (elementar - compras simples, direções)
+- [x] Criar situações para Book 3 (pré-intermediário - restaurantes, hotéis)
+- [x] Criar situações para Book 4 (intermediário - trabalho, entrevistas)
+- [x] Criar situações para Book 5 (avançado - negociações, debates)
+- [x] Filtrar situações por nível do aluno
+- [x] Usar chunks específicos de cada livro
+
+## Fase 40: Avaliação de Desempenho nas Simulações
+- [x] Criar tela de relatório ao final da simulação (SimulationReport.tsx)
+- [x] Mostrar pontuação total e chunks usados
+- [x] Exibir análise de pontos fortes e fracos
+- [x] Adicionar sugestões de melhoria personalizadas
+- [x] Implementar botões "Tentar Novamente" e "Nova Simulação"
+- [x] Mostrar badges desbloqueados para pontuação >= 75
+
+## Fase 41: Gravação de Áudio nas Respostas
+- [x] Adicionar botão de gravação no simulador
+- [x] Implementar MediaRecorder API (AudioRecorder.tsx)
+- [x] Criar toggle entre texto e áudio
+- [x] Implementar transcrição em tempo real (Web Speech API)
+- [x] Enviar transcrição como resposta
+- [x] Adicionar visualização de áudio animada
+- [x] Implementar preview e playback do áudio gravado
