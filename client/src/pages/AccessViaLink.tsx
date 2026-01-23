@@ -11,25 +11,29 @@ export function AccessViaLink() {
   const linkHash = params?.linkHash as string | undefined;
   const [sessionToken, setSessionToken] = useState<string | null>(null);
 
-  const validateLinkQuery = trpc.personalizedLinks.validateLink.useQuery(
-    { linkHash: linkHash || '' },
-    { enabled: !!linkHash }
-  );
+  // Mutation para autenticar via link
+  const authenticateMutation = trpc.personalizedLinks.authenticateViaLink.useMutation();
 
   useEffect(() => {
-    if (validateLinkQuery.data?.isValid && validateLinkQuery.data.studentId > 0) {
-      // Armazenar token de sessão
-      const token = `link_${linkHash}_${Date.now()}`;
-      localStorage.setItem('personalizedLinkToken', token);
-      localStorage.setItem('linkedStudentId', String(validateLinkQuery.data.studentId));
-      setSessionToken(token);
+    if (!linkHash) return;
 
-      // Redirecionar para dashboard após 2 segundos
-      setTimeout(() => {
-        setLocation('/student/dashboard');
-      }, 2000);
-    }
-  }, [validateLinkQuery.data, linkHash, setLocation]);
+    // Chamar mutation para autenticar via link
+    authenticateMutation.mutate(
+      { linkHash },
+      {
+        onSuccess: (data) => {
+          setSessionToken(linkHash);
+          // Redirecionar para dashboard após 2 segundos
+          setTimeout(() => {
+            setLocation('/student/dashboard');
+          }, 2000);
+        },
+        onError: (error) => {
+          console.error('Authentication error:', error);
+        },
+      }
+    );
+  }, [linkHash]);
 
   if (!match) {
     return (
@@ -50,7 +54,7 @@ export function AccessViaLink() {
     );
   }
 
-  if (validateLinkQuery.isLoading) {
+  if (authenticateMutation.isPending) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
         <Card className="w-full max-w-md p-8 text-center">
@@ -64,7 +68,7 @@ export function AccessViaLink() {
     );
   }
 
-  if (validateLinkQuery.isError || !validateLinkQuery.data?.isValid) {
+  if (authenticateMutation.isError) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
         <Card className="w-full max-w-md p-8">
@@ -73,7 +77,7 @@ export function AccessViaLink() {
             <h1 className="text-2xl font-bold text-gray-900">Link Expirado</h1>
           </div>
           <p className="text-gray-600 mb-6">
-            {validateLinkQuery.data?.message || 'Este link de acesso expirou ou não é válido. Por favor, solicite um novo link ao seu coordenador.'}
+            {authenticateMutation.error?.message || 'Este link de acesso expirou ou não é válido. Por favor, solicite um novo link ao seu coordenador.'}
           </p>
           <Button onClick={() => setLocation('/')} className="w-full">
             Voltar para Home

@@ -543,3 +543,10 @@
 - [ ] Criar página de eventos presenciais
 - [ ] Implementar upload de imagens para posts
 - [ ] Criar sistema de recompensas (trocar badges por prêmios)
+
+## Fase 49: Adicionar Alunas Laís e Camila
+- [ ] Adicionar Laís Milena Gambini (matrícula 6200) - Book 4
+- [ ] Adicionar Camila Gonsalves da Rosa de Carvalho (matrícula 6220) - Book 4
+- [ ] Criar perfis detalhados com turma, horário, notas, presença
+- [ ] Gerar links personalizados para ambas
+- [ ] Criar relatório com informações das alunas

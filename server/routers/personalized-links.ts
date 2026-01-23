@@ -1,6 +1,8 @@
 import { router, protectedProcedure, publicProcedure } from '../_core/trpc';
 import { z } from 'zod';
 import { TRPCError } from '@trpc/server';
+import { sdk } from '../_core/sdk';
+import { eq } from 'drizzle-orm';
 import {
   createPersonalizedLink,
   validatePersonalizedLink,
@@ -12,7 +14,8 @@ import {
   getLinkStatistics,
 } from '../personalized-access';
 import { getDb } from '../db';
-import { exclusiveMaterials } from '../../drizzle/schema';
+import { exclusiveMaterials, users } from '../../drizzle/schema';
+import { COOKIE_NAME } from '@shared/const';
 
 export const personalizedLinksRouter = router({
   // Criar um novo link personalizado para um aluno
@@ -42,7 +45,7 @@ export const personalizedLinksRouter = router({
       }
     }),
 
-  // Validar um link e obter dados do aluno
+  // Validar um link e obter dados do aluno (apenas validação, sem criar sessão)
   validateLink: publicProcedure
     .input(z.object({ linkHash: z.string() }))
     .query(async ({ input }) => {
@@ -185,6 +188,68 @@ export const personalizedLinksRouter = router({
         throw new TRPCError({
           code: 'INTERNAL_SERVER_ERROR',
           message: `Erro ao marcar material como acessado: ${error}`,
+        });
+      }
+    }),
+
+  // Autenticar via link personalizado (cria sessão para o aluno)
+  authenticateViaLink: publicProcedure
+    .input(z.object({ linkHash: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      try {
+        // Validar o link
+        const linkValidation = await validatePersonalizedLink(input.linkHash);
+        
+        if (!linkValidation.isValid || linkValidation.studentId === 0) {
+          throw new TRPCError({
+            code: 'UNAUTHORIZED',
+            message: linkValidation.message || 'Link inválido ou expirado',
+          });
+        }
+
+        const db = await getDb();
+        if (!db) {
+          throw new TRPCError({
+            code: 'INTERNAL_SERVER_ERROR',
+            message: 'Database not available',
+          });
+        }
+
+        // Obter dados do aluno
+        const studentResult = await db
+          .select()
+          .from(users)
+          .where(eq(users.id, linkValidation.studentId))
+          .limit(1);
+
+        if (!studentResult || studentResult.length === 0) {
+          throw new TRPCError({
+            code: 'NOT_FOUND',
+            message: 'Aluno não encontrado',
+          });
+        }
+
+        const student = studentResult[0];
+
+        // Criar token de sessão para o aluno
+        const sessionToken = await sdk.createSessionToken(student.openId, {
+          name: student.name || 'Student',
+        });
+
+        // Definir cookie de sessão
+        ctx.res.setHeader('Set-Cookie', `${COOKIE_NAME}=${sessionToken}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${7 * 24 * 60 * 60}`);
+
+        return {
+          success: true,
+          studentId: student.id,
+          studentName: student.name,
+          message: 'Autenticação via link bem-sucedida',
+        };
+      } catch (error) {
+        console.error('Error authenticating via link:', error);
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: `Erro ao autenticar via link: ${error}`,
         });
       }
     }),
