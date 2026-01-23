@@ -334,3 +334,35 @@
 - [x] Testar sistema de feedback
 - [x] Criar componente TipFeedbackButtons
 - [x] Integrar getTipFeedbackStats no router
+
+
+## Fase 34: Testar Conexão App Mobile com Servidor
+- [x] Testar endpoint de health check (200 OK)
+- [x] Testar autenticação OAuth (401 correto)
+- [x] Testar endpoints tRPC principais (blogTips funcionando)
+- [x] Verificar latência e performance (~760ms)
+- [x] Documentar resultados dos testes
+
+## Fase 35: Integrar Dados Reais do Sponte
+- [x] Acessar Sponteweb com credenciais reais
+- [x] Sincronizar lista de alunos ativos (171 alunos)
+- [x] Importar dados de turmas (9 turmas abertas)
+- [x] Documentar dados extraídos (sponte_data.md)
+- [x] Testar integração completa
+
+## Fase 36: Sistema de Relatórios em PDF
+- [x] Criar template de relatório de progresso do aluno (pdf-reports.ts)
+- [x] Implementar geração de HTML com dados do aluno
+- [x] Adicionar estatísticas de desempenho ao relatório
+- [x] Criar botão de download no dashboard (StudentReportViewer.tsx)
+- [x] Criar router tRPC para relatórios (reports.ts)
+- [x] Testar geração de relatórios
+
+## Fase 37: Melhorar UI/UX
+- [x] Adicionar animações de transição (animations.css)
+- [x] Criar classes de animação reutilizáveis
+- [x] Implementar skeleton loaders (SkeletonLoaders.tsx)
+- [x] Adicionar micro-interações (hover, focus, pulse)
+- [x] Criar efeitos de glow e float
+- [x] Implementar animações de entrada/saída
+- [ ] Testar em diferentes dispositivos

@@ -10,6 +10,7 @@ import { sponteSyncRouter } from "./routers/sponte-sync";
 import { blogTipsRouter } from "./routers/blog-tips";
 import { schedulerRouter } from "./routers/scheduler";
 import { blogEngagementRouter } from "./routers/blog-engagement";
+import { reportsRouter } from "./routers/reports";
 
 export const appRouter = router({
   system: systemRouter,
@@ -32,6 +33,7 @@ export const appRouter = router({
   blogTips: blogTipsRouter,
   scheduler: schedulerRouter,
   blogEngagement: blogEngagementRouter,
+  reports: reportsRouter,
 });
 
 export type AppRouter = typeof appRouter;
