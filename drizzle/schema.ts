@@ -342,3 +342,38 @@ export const materialStudentShare = mysqlTable("material_student_share", {
 
 export type MaterialStudentShare = typeof materialStudentShare.$inferSelect;
 export type InsertMaterialStudentShare = typeof materialStudentShare.$inferInsert;
+
+
+// ==================== DADOS DE ALUNOS IMPORTADOS ====================
+// Student imported data from external sources (Sponte, etc)
+export const studentImportedData = mysqlTable("student_imported_data", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("student_id").notNull().references(() => users.id),
+  matricula: varchar("matricula", { length: 50 }).notNull(),
+  book: varchar("book", { length: 50 }),
+  className: varchar("class_name", { length: 100 }),
+  schedule: varchar("schedule", { length: 100 }),
+  teacher: varchar("teacher", { length: 100 }),
+  
+  // Grades data (JSON array of semesters)
+  gradesData: json("grades_data"), // [{semester: 1, grade: 8.5, period: "2024-01"}, ...]
+  
+  // Attendance data (JSON array of semesters)
+  attendanceData: json("attendance_data"), // [{semester: 1, rate: 95, absences: 2, period: "2024-01"}, ...]
+  
+  // Average grade
+  averageGrade: decimal("average_grade", { precision: 4, scale: 2 }),
+  
+  // Overall attendance rate
+  overallAttendanceRate: decimal("overall_attendance_rate", { precision: 5, scale: 2 }),
+  
+  // Notes and observations
+  notes: text("notes"),
+  
+  importedAt: timestamp("imported_at").defaultNow().notNull(),
+  importedBy: int("imported_by").references(() => users.id),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type StudentImportedData = typeof studentImportedData.$inferSelect;
+export type InsertStudentImportedData = typeof studentImportedData.$inferInsert;
