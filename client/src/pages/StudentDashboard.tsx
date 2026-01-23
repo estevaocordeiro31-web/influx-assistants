@@ -17,6 +17,7 @@ import MyFavoriteTips from "@/components/MyFavoriteTips";
 import BadgesDisplay from "@/components/BadgesDisplay";
 import { SponteDataSection } from "@/components/SponteDataSection";
 import { ExclusiveMaterialsSection } from "@/components/ExclusiveMaterialsSection";
+import { ReadingClubFeed } from "@/components/ReadingClubFeed";
 import { trpc } from "@/lib/trpc";
 
 // Dados de demonstração - Aluno avançado Book 5
@@ -217,6 +218,10 @@ export default function StudentDashboard() {
             <TabsTrigger value="materials" className="data-[state=active]:bg-green-500 data-[state=active]:text-slate-900 text-slate-300 rounded-lg">
               <BookOpen className="w-4 h-4 mr-2" />
               <span className="hidden sm:inline">Materiais</span>
+            </TabsTrigger>
+            <TabsTrigger value="reading-club" className="data-[state=active]:bg-green-500 data-[state=active]:text-slate-900 text-slate-300 rounded-lg">
+              <Trophy className="w-4 h-4 mr-2" />
+              <span className="hidden sm:inline">Reading Club</span>
             </TabsTrigger>
           </TabsList>
 
@@ -634,6 +639,11 @@ export default function StudentDashboard() {
                 />
               </CardContent>
             </Card>
+          </TabsContent>
+
+          {/* Aba: Reading Club */}
+          <TabsContent value="reading-club" className="space-y-4 mt-4">
+            <ReadingClubFeed />
           </TabsContent>
         </Tabs>
       </main>

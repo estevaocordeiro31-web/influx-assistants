@@ -377,3 +377,143 @@ export const studentImportedData = mysqlTable("student_imported_data", {
 
 export type StudentImportedData = typeof studentImportedData.$inferSelect;
 export type InsertStudentImportedData = typeof studentImportedData.$inferInsert;
+
+
+// ==================== READING CLUB ====================
+// Reading Club posts (compartilhamentos de livros, revistas, gibis, podcasts)
+export const readingClubPosts = mysqlTable("rc_posts", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("student_id").notNull().references(() => users.id),
+  contentType: mysqlEnum("content_type", ["book", "magazine", "comic", "podcast", "article"]).notNull(),
+  title: varchar("title", { length: 255 }).notNull(),
+  excerpt: text("excerpt"), // Trecho ou expressão compartilhada
+  imageUrl: varchar("image_url", { length: 255 }),
+  sourceUrl: varchar("source_url", { length: 255 }),
+  notes: text("notes"), // Notas pessoais do aluno
+  likes: int("likes").default(0).notNull(),
+  commentsCount: int("comments_count").default(0).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type ReadingClubPost = typeof readingClubPosts.$inferSelect;
+export type InsertReadingClubPost = typeof readingClubPosts.$inferInsert;
+
+// Reading Club comments
+export const readingClubComments = mysqlTable("rc_comments", {
+  id: int("id").autoincrement().primaryKey(),
+  postId: int("post_id").notNull().references(() => readingClubPosts.id),
+  studentId: int("student_id").notNull().references(() => users.id),
+  content: text("content").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type ReadingClubComment = typeof readingClubComments.$inferSelect;
+export type InsertReadingClubComment = typeof readingClubComments.$inferInsert;
+
+// Reading Club badges (Leitor Ativo, Compartilhador, Participante de Evento, etc)
+export const readingClubBadges = mysqlTable("rc_badges", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("student_id").notNull().references(() => users.id),
+  badgeType: mysqlEnum("badge_type", [
+    "active_reader",      // Compartilhou 5+ posts
+    "sharer",             // Compartilhou 10+ posts
+    "commenter",          // Comentou em 10+ posts
+    "event_participant",  // Participou de 1+ evento presencial
+    "book_master",        // Completou leitura de um livro
+    "weekly_warrior",     // Participou 4+ semanas consecutivas
+  ]).notNull(),
+  influxDollars: int("influx_dollars").default(10).notNull(), // Recompensa em inFlux Dollars
+  earnedAt: timestamp("earned_at").defaultNow().notNull(),
+});
+
+export type ReadingClubBadge = typeof readingClubBadges.$inferSelect;
+export type InsertReadingClubBadge = typeof readingClubBadges.$inferInsert;
+
+// Reading Club events (encontros presenciais)
+export const readingClubEvents = mysqlTable("rc_events", {
+  id: int("id").autoincrement().primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description"),
+  eventType: mysqlEnum("event_type", ["discussion", "dramatization", "book_club", "library_visit"]).notNull(),
+  scheduledAt: timestamp("scheduled_at").notNull(),
+  location: varchar("location", { length: 255 }),
+  capacity: int("capacity"),
+  createdBy: int("created_by").references(() => users.id),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type ReadingClubEvent = typeof readingClubEvents.$inferSelect;
+export type InsertReadingClubEvent = typeof readingClubEvents.$inferInsert;
+
+// Reading Club event participants
+export const readingClubEventParticipants = mysqlTable("rc_event_participants", {
+  id: int("id").autoincrement().primaryKey(),
+  eventId: int("event_id").notNull().references(() => readingClubEvents.id),
+  studentId: int("student_id").notNull().references(() => users.id),
+  attendedAt: timestamp("attended_at"),
+  notes: text("notes"),
+  joinedAt: timestamp("joined_at").defaultNow().notNull(),
+});
+
+export type ReadingClubEventParticipant = typeof readingClubEventParticipants.$inferSelect;
+export type InsertReadingClubEventParticipant = typeof readingClubEventParticipants.$inferInsert;
+
+// School library books
+export const libraryBooks = mysqlTable("library_books", {
+  id: int("id").autoincrement().primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(),
+  author: varchar("author", { length: 255 }),
+  language: mysqlEnum("language", ["english", "portuguese", "spanish"]).default("english").notNull(),
+  level: mysqlEnum("level", ["beginner", "elementary", "intermediate", "upper_intermediate", "advanced"]),
+  isbn: varchar("isbn", { length: 20 }),
+  imageUrl: varchar("image_url", { length: 255 }),
+  description: text("description"),
+  quantity: int("quantity").default(1).notNull(),
+  addedAt: timestamp("added_at").defaultNow().notNull(),
+});
+
+export type LibraryBook = typeof libraryBooks.$inferSelect;
+export type InsertLibraryBook = typeof libraryBooks.$inferInsert;
+
+// Student library loans
+export const libraryLoans = mysqlTable("library_loans", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("student_id").notNull().references(() => users.id),
+  bookId: int("book_id").notNull().references(() => libraryBooks.id),
+  borrowedAt: timestamp("borrowed_at").defaultNow().notNull(),
+  returnedAt: timestamp("returned_at"),
+  dueAt: timestamp("due_at"),
+});
+
+export type LibraryLoan = typeof libraryLoans.$inferSelect;
+export type InsertLibraryLoan = typeof libraryLoans.$inferInsert;
+
+// Student inFlux Dollars balance
+export const studentInfluxDollars = mysqlTable("student_influx_dollars", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("student_id").notNull().unique().references(() => users.id),
+  balance: int("balance").default(0).notNull(),
+  totalEarned: int("total_earned").default(0).notNull(),
+  totalSpent: int("total_spent").default(0).notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type StudentInfluxDollars = typeof studentInfluxDollars.$inferSelect;
+export type InsertStudentInfluxDollars = typeof studentInfluxDollars.$inferInsert;
+
+// inFlux Dollars transactions
+export const influxDollarTransactions = mysqlTable("influx_dollar_transactions", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("student_id").notNull().references(() => users.id),
+  amount: int("amount").notNull(),
+  type: mysqlEnum("type", ["earn", "spend"]).notNull(),
+  reason: varchar("reason", { length: 255 }).notNull(), // "badge_earned", "reward_redeemed", etc
+  relatedId: int("related_id"), // ID da badge ou recompensa
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type InfluxDollarTransaction = typeof influxDollarTransactions.$inferSelect;
+export type InsertInfluxDollarTransaction = typeof influxDollarTransactions.$inferInsert;

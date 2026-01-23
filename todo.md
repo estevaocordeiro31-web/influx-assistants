@@ -519,3 +519,27 @@
 - [x] Implementar análise de múltiplos alunos (getClassAnalysis)
 - [x] Implementar filtro de alunos em risco (getAtRiskStudents)
 - [x] 90 testes passando (1 falha em job scheduler com timeout - esperado)
+
+## Fase 48: Sistema de Reading Club
+- [ ] Expandir schema com tabelas de Reading Club (posts, comentários, badges, eventos, biblioteca)
+- [ ] Criar procedures tRPC para gerenciar Reading Club
+- [ ] Criar componentes de UI para feed de compartilhamentos
+- [ ] Criar sistema de badges e recompensas (inFlux Dollars)
+- [ ] Criar leaderboard de alunos mais ativos
+- [ ] Criar página de eventos presenciais
+- [ ] Integrar Reading Club como aba no StudentDashboard
+- [ ] Criar testes para Reading Club
+
+## Fase 48: Sistema de Reading Club - IMPLEMENTADO
+- [x] Expandir schema com tabelas de Reading Club (rc_posts, rc_comments, rc_badges, rc_events, rc_event_participants)
+- [x] Expandir schema com tabelas de biblioteca (library_books, library_loans)
+- [x] Expandir schema com tabelas de inFlux Dollars (student_influx_dollars, influx_dollar_transactions)
+- [x] Criar procedures tRPC para gerenciar Reading Club (createPost, getPosts, addComment, getLeaderboard, awardBadge, getStudentBadges, getStudentBalance)
+- [x] Criar componente ReadingClubFeed com feed de compartilhamentos
+- [x] Criar sistema de badges e recompensas (inFlux Dollars)
+- [x] Criar leaderboard de alunos mais ativos
+- [x] Integrar Reading Club como aba no StudentDashboard
+- [x] Criar página de Reading Club (ReadingClubPage.tsx)
+- [ ] Criar página de eventos presenciais
+- [ ] Implementar upload de imagens para posts
+- [ ] Criar sistema de recompensas (trocar badges por prêmios)

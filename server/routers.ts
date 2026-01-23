@@ -17,6 +17,7 @@ import { materialUploadRouter } from "./routers/material-upload";
 import { adminStudentsRouter } from "./routers/admin-students";
 import { studentProfileRouter } from "./routers/student-profile";
 import { crossAnalysisRouter } from "./routers/cross-analysis";
+import { readingClubRouter } from "./routers/reading-club";
 
 export const appRouter = router({
   system: systemRouter,
@@ -46,6 +47,7 @@ export const appRouter = router({
   materialUpload: materialUploadRouter,
   adminStudents: adminStudentsRouter,
   crossAnalysis: crossAnalysisRouter,
+  readingClub: readingClubRouter,
 });
 
 export type AppRouter = typeof appRouter;
