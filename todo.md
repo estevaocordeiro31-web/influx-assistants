@@ -456,9 +456,11 @@
 - [x] Criar página de gerenciamento de links para admin (PersonalizedLinksManager.tsx)
 - [x] Adicionar rotas no App.tsx para acesso via link e gerenciador
 - [x] Criar testes para sistema de links (6 testes passando)
-- [ ] Gerar link para Fabio (fabio_hk@hotmail.com)
+- [x] Gerar link para Fabio (fabio_hk@hotmail.com)
+- [x] Adicionar dados do Sponte ao dashboard do aluno (attendance, absences, evaluations)
+- [x] Criar seção de Materiais Exclusivos no dashboard
+- [x] Criar router tRPC para dados do Sponte (sponteDataRouter)
+- [x] Criar helper para extrair dados do Sponte (getSponteStudentData)
 - [ ] Testar acesso via link com Fabio
-- [ ] Adicionar dados do Sponte ao dashboard do aluno (attendance, absences, evaluations)
-- [ ] Criar seção de Materiais Exclusivos no dashboard
 - [ ] Implementar upload de materiais para compartilhamento
 - [ ] Testar fluxo completo com Fabio

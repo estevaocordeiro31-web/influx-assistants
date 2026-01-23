@@ -15,6 +15,8 @@ import TipOfDayWidget from "@/components/TipOfDayWidget";
 import RecommendedTipsSection from "@/components/RecommendedTipsSection";
 import MyFavoriteTips from "@/components/MyFavoriteTips";
 import BadgesDisplay from "@/components/BadgesDisplay";
+import { SponteDataSection } from "@/components/SponteDataSection";
+import { ExclusiveMaterialsSection } from "@/components/ExclusiveMaterialsSection";
 import { trpc } from "@/lib/trpc";
 
 // Dados de demonstração - Aluno avançado Book 5
@@ -183,7 +185,7 @@ export default function StudentDashboard() {
 
         {/* Abas Principais */}
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid w-full grid-cols-6 bg-slate-800/50 border border-slate-700 rounded-xl p-1">
+          <TabsList className="grid w-full grid-cols-8 bg-slate-800/50 border border-slate-700 rounded-xl p-1">
             <TabsTrigger value="overview" className="data-[state=active]:bg-green-500 data-[state=active]:text-slate-900 text-slate-300 rounded-lg">
               <BookOpen className="w-4 h-4 mr-2" />
               <span className="hidden sm:inline">Visão Geral</span>
@@ -207,6 +209,14 @@ export default function StudentDashboard() {
             <TabsTrigger value="blog" className="data-[state=active]:bg-green-500 data-[state=active]:text-slate-900 text-slate-300 rounded-lg">
               <BookOpen className="w-4 h-4 mr-2" />
               <span className="hidden sm:inline">Blog</span>
+            </TabsTrigger>
+            <TabsTrigger value="sponte" className="data-[state=active]:bg-green-500 data-[state=active]:text-slate-900 text-slate-300 rounded-lg">
+              <TrendingUp className="w-4 h-4 mr-2" />
+              <span className="hidden sm:inline">Dados</span>
+            </TabsTrigger>
+            <TabsTrigger value="materials" className="data-[state=active]:bg-green-500 data-[state=active]:text-slate-900 text-slate-300 rounded-lg">
+              <BookOpen className="w-4 h-4 mr-2" />
+              <span className="hidden sm:inline">Materiais</span>
             </TabsTrigger>
           </TabsList>
 
@@ -569,6 +579,61 @@ export default function StudentDashboard() {
                 </CardContent>
               </Card>
             </div>
+          </TabsContent>
+
+          {/* Aba: Materiais Exclusivos */}
+          <TabsContent value="materials" className="space-y-4 mt-4">
+            <Card className="bg-slate-800/50 border-slate-700">
+              <CardHeader>
+                <CardTitle className="text-white flex items-center gap-2">
+                  <BookOpen className="w-5 h-5 text-purple-400" />
+                  Materiais Exclusivos
+                </CardTitle>
+                <CardDescription className="text-slate-400">
+                  Materiais compartilhados especialmente para você
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ExclusiveMaterialsSection />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Aba: Dados do Sponte */}
+          <TabsContent value="sponte" className="space-y-4 mt-4">
+            <Card className="bg-slate-800/50 border-slate-700">
+              <CardHeader>
+                <CardTitle className="text-white flex items-center gap-2">
+                  <TrendingUp className="w-5 h-5 text-purple-400" />
+                  Seus Dados Escolares
+                </CardTitle>
+                <CardDescription className="text-slate-400">
+                  Frequência, faltas e avaliações do Sponte
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <SponteDataSection 
+                  data={{
+                    attendance: {
+                      total: 20,
+                      present: 18,
+                      absent: 2,
+                      percentage: 90,
+                    },
+                    absences: {
+                      total: 2,
+                      justified: 1,
+                      unjustified: 1,
+                    },
+                    evaluations: {
+                      average: 8.5,
+                      lastScore: 9.0,
+                      trend: 'up',
+                    },
+                  }}
+                />
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
       </main>
