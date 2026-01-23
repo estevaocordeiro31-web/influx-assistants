@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { BookOpen, Zap, Play, Award } from "lucide-react";
 import { BoogeymanExperience } from "./BoogeymanExperience";
+import { BoogeymanPhotoGallery } from "./BoogeymanPhotoGallery";
 import { ReadingClubFeed } from "./ReadingClubFeed";
 
 export function ReadingClubIntegrated() {
@@ -71,9 +72,10 @@ export function ReadingClubIntegrated() {
         {/* Aba: Boogeyman com Vídeos */}
         <TabsContent value="boogeyman" className="space-y-6 mt-6">
           <div className="grid md:grid-cols-3 gap-6">
-            {/* Coluna Principal: Experiência Boogeyman */}
-            <div className="md:col-span-2">
+            {/* Coluna Principal: Experiência Boogeyman + Galeria */}
+            <div className="md:col-span-2 space-y-6">
               <BoogeymanExperience />
+              <BoogeymanPhotoGallery />
             </div>
 
             {/* Coluna Lateral: Vídeos */}
