@@ -274,3 +274,61 @@ export const blogTipsFeedback = mysqlTable("blog_tips_feedback", {
 
 export type BlogTipsFeedback = typeof blogTipsFeedback.$inferSelect;
 export type InsertBlogTipsFeedback = typeof blogTipsFeedback.$inferInsert;
+
+
+// ==================== LINKS PERSONALIZADOS E MATERIAIS ====================
+// Personalized links for student access
+export const personalizedLinks = mysqlTable("personalized_links", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("student_id").notNull().references(() => users.id),
+  linkHash: varchar("link_hash", { length: 64 }).notNull().unique(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  expiresAt: timestamp("expires_at").notNull(),
+  accessedAt: timestamp("accessed_at"),
+  accessCount: int("access_count").default(0),
+  isActive: boolean("is_active").default(true),
+});
+
+export type PersonalizedLink = typeof personalizedLinks.$inferSelect;
+export type InsertPersonalizedLink = typeof personalizedLinks.$inferInsert;
+
+// Exclusive materials table
+export const exclusiveMaterials = mysqlTable("exclusive_materials", {
+  id: int("id").autoincrement().primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description"),
+  fileUrl: varchar("file_url", { length: 512 }).notNull(),
+  fileKey: varchar("file_key", { length: 255 }).notNull(),
+  fileType: varchar("file_type", { length: 50 }),
+  fileSize: int("file_size"),
+  createdBy: int("created_by").notNull().references(() => users.id),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull().onUpdateNow(),
+  isActive: boolean("is_active").default(true),
+});
+
+export type ExclusiveMaterial = typeof exclusiveMaterials.$inferSelect;
+export type InsertExclusiveMaterial = typeof exclusiveMaterials.$inferInsert;
+
+// Material sharing by class
+export const materialClassShare = mysqlTable("material_class_share", {
+  id: int("id").autoincrement().primaryKey(),
+  materialId: int("material_id").notNull().references(() => exclusiveMaterials.id),
+  classId: int("class_id").notNull(),
+  sharedAt: timestamp("shared_at").defaultNow().notNull(),
+});
+
+export type MaterialClassShare = typeof materialClassShare.$inferSelect;
+export type InsertMaterialClassShare = typeof materialClassShare.$inferInsert;
+
+// Material sharing by individual student
+export const materialStudentShare = mysqlTable("material_student_share", {
+  id: int("id").autoincrement().primaryKey(),
+  materialId: int("material_id").notNull().references(() => exclusiveMaterials.id),
+  studentId: int("student_id").notNull().references(() => users.id),
+  sharedAt: timestamp("shared_at").defaultNow().notNull(),
+  accessedAt: timestamp("accessed_at"),
+});
+
+export type MaterialStudentShare = typeof materialStudentShare.$inferSelect;
+export type InsertMaterialStudentShare = typeof materialStudentShare.$inferInsert;

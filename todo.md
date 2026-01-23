@@ -409,3 +409,56 @@
 - [x] Enviar transcrição como resposta
 - [x] Adicionar visualização de áudio animada
 - [x] Implementar preview e playback do áudio gravado
+
+
+## Fase 42: Sistema de Links Personalizados (7 meses)
+- [ ] Criar tabela de links personalizados no banco de dados
+- [ ] Implementar gerador de links únicos com hash
+- [ ] Adicionar validação de expiração (7 meses)
+- [ ] Criar router tRPC para gerenciar links
+- [ ] Implementar dashboard de criação de links
+- [ ] Adicionar página de acesso via link personalizado
+- [ ] Testar geração e validação de links
+
+## Fase 43: Painel do Tutor com Dados do Aluno
+- [ ] Conectar com API do Sponte para dados do aluno
+- [ ] Exibir compromissos/aulas do aluno
+- [ ] Mostrar faltas e presença
+- [ ] Exibir avaliações e notas
+- [ ] Criar visualização de progresso
+- [ ] Adicionar filtros por período
+- [ ] Sincronizar dados em tempo real
+
+## Fase 44: Área de Materiais Exclusivos
+- [ ] Criar tabela de materiais no banco
+- [ ] Implementar upload de materiais (S3)
+- [ ] Adicionar compartilhamento por turma
+- [ ] Adicionar compartilhamento individual
+- [ ] Criar interface de download
+- [ ] Implementar histórico de acesso
+- [ ] Testar upload e download
+
+## Fase 45: Teste com Aluno Fabio
+- [ ] Sincronizar dados do Fabio do Sponte
+- [ ] Gerar link personalizado para Fabio
+- [ ] Testar acesso via link
+- [ ] Verificar dados do aluno no painel
+- [ ] Testar upload de materiais
+- [ ] Validar fluxo completo
+- [ ] Documentar processo
+
+
+## Fase 44: Sistema de Links Personalizados para Alunos
+- [x] Criar tabelas de banco de dados (personalized_links, exclusive_materials, material_class_share, material_student_share)
+- [x] Implementar helpers para gerenciar links (createPersonalizedLink, validatePersonalizedLink, deactivatePersonalizedLink)
+- [x] Criar router tRPC com procedures para links e materiais
+- [x] Implementar página de acesso via link (AccessViaLink.tsx)
+- [x] Criar página de gerenciamento de links para admin (PersonalizedLinksManager.tsx)
+- [x] Adicionar rotas no App.tsx para acesso via link e gerenciador
+- [x] Criar testes para sistema de links (6 testes passando)
+- [ ] Gerar link para Fabio (fabio_hk@hotmail.com)
+- [ ] Testar acesso via link com Fabio
+- [ ] Adicionar dados do Sponte ao dashboard do aluno (attendance, absences, evaluations)
+- [ ] Criar seção de Materiais Exclusivos no dashboard
+- [ ] Implementar upload de materiais para compartilhamento
+- [ ] Testar fluxo completo com Fabio

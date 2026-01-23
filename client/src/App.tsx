@@ -16,6 +16,8 @@ import AdminNotifications from "./pages/AdminNotifications";
 import VoiceChatPage from "./pages/VoiceChatPage";
 import BlogTips from "./pages/BlogTips";
 import SituationSimulator from "./pages/SituationSimulator";
+import { AccessViaLink } from "./pages/AccessViaLink";
+import { PersonalizedLinksManager } from "./pages/PersonalizedLinksManager";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -42,6 +44,8 @@ function Router() {
       <Route path="/demo/voice-chat" component={VoiceChatPage} />
       <Route path="/demo/blog-tips" component={BlogTips} />
       <Route path="/demo/simulator" component={SituationSimulator} />
+      {/* Rotas de acesso via link personalizado */}
+      <Route path="/access/:linkHash" component={AccessViaLink} />
       {/* Rotas autenticadas */}
       <Route path="/student/dashboard" component={StudentDashboard} />
       <Route path="/student/profile" component={StudentProfile} />
@@ -54,11 +58,13 @@ function Router() {
         <>
           <Route path="/admin/dashboard" component={AdminDashboard} />
           <Route path="/admin/notifications" component={AdminNotifications} />
+          <Route path="/admin/personalized-links" component={PersonalizedLinksManager} />
         </>
       )}
       {/* Rotas de demonstração admin */}
       <Route path="/admin" component={AdminDashboard} />
       <Route path="/admin/notifications" component={AdminNotifications} />
+      <Route path="/admin/personalized-links" component={PersonalizedLinksManager} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

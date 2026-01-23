@@ -36,6 +36,13 @@
       "when": 1768834593432,
       "tag": "0004_puzzling_rockslide",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1769169716677,
+      "tag": "0005_supreme_killer_shrike",
+      "breakpoints": true
     }
   ]
 }

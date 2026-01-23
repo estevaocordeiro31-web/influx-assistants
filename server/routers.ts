@@ -11,6 +11,7 @@ import { blogTipsRouter } from "./routers/blog-tips";
 import { schedulerRouter } from "./routers/scheduler";
 import { blogEngagementRouter } from "./routers/blog-engagement";
 import { reportsRouter } from "./routers/reports";
+import { personalizedLinksRouter } from "./routers/personalized-links";
 
 export const appRouter = router({
   system: systemRouter,
@@ -34,6 +35,7 @@ export const appRouter = router({
   scheduler: schedulerRouter,
   blogEngagement: blogEngagementRouter,
   reports: reportsRouter,
+  personalizedLinks: personalizedLinksRouter,
 });
 
 export type AppRouter = typeof appRouter;
