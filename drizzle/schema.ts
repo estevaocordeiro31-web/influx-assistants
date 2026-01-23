@@ -36,6 +36,16 @@ export const studentProfiles = mysqlTable("student_profiles", {
   totalHoursLearned: int("total_hours_learned").default(0).notNull(),
   streakDays: int("streak_days").default(0).notNull(),
   lastActivityAt: timestamp("last_activity_at"),
+  
+  // Detailed profile information
+  studyDurationYears: decimal("study_duration_years", { precision: 3, scale: 1 }),
+  studyDurationMonths: int("study_duration_months"),
+  specificGoals: text("specific_goals"),
+  discomfortAreas: text("discomfort_areas"),
+  comfortAreas: text("comfort_areas"),
+  englishConsumptionSources: json("english_consumption_sources"),
+  improvementAreas: text("improvement_areas"),
+  
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
 });

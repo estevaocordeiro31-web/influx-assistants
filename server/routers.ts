@@ -14,6 +14,8 @@ import { reportsRouter } from "./routers/reports";
 import { personalizedLinksRouter } from "./routers/personalized-links";
 import { sponteDataRouter } from "./routers/sponte-data";
 import { materialUploadRouter } from "./routers/material-upload";
+import { adminStudentsRouter } from "./routers/admin-students";
+import { studentProfileRouter } from "./routers/student-profile";
 
 export const appRouter = router({
   system: systemRouter,
@@ -30,7 +32,7 @@ export const appRouter = router({
 
   chat: chatRouter,
   pronunciation: pronunciationRouter,
-  student: studentRouter,
+  student: studentProfileRouter,
   notifications: notificationsRouter,
   sponteSync: sponteSyncRouter,
   blogTips: blogTipsRouter,
@@ -40,6 +42,7 @@ export const appRouter = router({
   personalizedLinks: personalizedLinksRouter,
   sponteData: sponteDataRouter,
   materialUpload: materialUploadRouter,
+  adminStudents: adminStudentsRouter,
 });
 
 export type AppRouter = typeof appRouter;

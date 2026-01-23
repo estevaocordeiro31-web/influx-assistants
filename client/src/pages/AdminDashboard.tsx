@@ -2,9 +2,10 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Users, AlertCircle, LogOut, Search, Bell } from "lucide-react";
+import { Users, AlertCircle, LogOut, Search, Bell, Loader2 } from "lucide-react";
 import { useLocation } from "wouter";
 import { useState } from "react";
+import { trpc } from "@/lib/trpc";
 
 interface StudentData {
   id: number;
@@ -13,46 +14,10 @@ interface StudentData {
   level: string;
   objective: string;
   hoursLearned: number;
-  chunksLearned: number;
+  streakDays: number;
   lastActivity: string;
   status: "active" | "inactive" | "at_risk";
 }
-
-const SAMPLE_STUDENTS: StudentData[] = [
-  {
-    id: 1,
-    name: "João Silva",
-    email: "joao@example.com",
-    level: "Intermediário",
-    objective: "Carreira",
-    hoursLearned: 24,
-    chunksLearned: 18,
-    lastActivity: "Hoje",
-    status: "active",
-  },
-  {
-    id: 2,
-    name: "Maria Santos",
-    email: "maria@example.com",
-    level: "Iniciante",
-    objective: "Viagens",
-    hoursLearned: 8,
-    chunksLearned: 5,
-    lastActivity: "3 dias atrás",
-    status: "inactive",
-  },
-  {
-    id: 3,
-    name: "Pedro Costa",
-    email: "pedro@example.com",
-    level: "Elementar",
-    objective: "Estudos",
-    hoursLearned: 12,
-    chunksLearned: 8,
-    lastActivity: "5 dias atrás",
-    status: "at_risk",
-  },
-];
 
 export default function AdminDashboard() {
   const { user, logout } = useAuth();
@@ -60,20 +25,46 @@ export default function AdminDashboard() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStudent, setSelectedStudent] = useState<StudentData | null>(null);
 
+  // Buscar alunos do banco de dados
+  const { data: studentsData, isLoading } = trpc.adminStudents.getStudents.useQuery({
+    search: searchTerm || undefined,
+    limit: 50,
+  });
+
+  const students = studentsData?.students || [];
+
   const handleLogout = async () => {
     await logout();
     setLocation("/");
   };
 
-  const filteredStudents = SAMPLE_STUDENTS.filter(
+  const filteredStudents = students.filter(
     (student) =>
       student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       student.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const activeStudents = SAMPLE_STUDENTS.filter((s) => s.status === "active").length;
-  const atRiskStudents = SAMPLE_STUDENTS.filter((s) => s.status === "at_risk").length;
-  const totalHours = SAMPLE_STUDENTS.reduce((sum, s) => sum + s.hoursLearned, 0);
+  const activeStudents = students.filter((s) => s.status === "active").length;
+  const atRiskStudents = students.filter((s) => s.status === "at_risk").length;
+  const totalHours = students.reduce((sum, s) => sum + s.hoursLearned, 0);
+
+  // Mapeamento de níveis
+  const levelMap: Record<string, string> = {
+    beginner: "Iniciante",
+    elementary: "Elementar",
+    intermediate: "Intermediário",
+    upper_intermediate: "Intermediário Superior",
+    advanced: "Avançado",
+    proficient: "Proficiente",
+  };
+
+  // Mapeamento de objetivos
+  const objectiveMap: Record<string, string> = {
+    career: "Carreira",
+    travel: "Viagens",
+    studies: "Estudos",
+    other: "Outro",
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -103,22 +94,21 @@ export default function AdminDashboard() {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 py-8">
+        {/* Métricas */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
           <Card>
-            <CardHeader className="pb-3">
+            <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 Total de Alunos
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-foreground">
-                {SAMPLE_STUDENTS.length}
-              </div>
+              <div className="text-3xl font-bold">{students.length}</div>
             </CardContent>
           </Card>
 
           <Card>
-            <CardHeader className="pb-3">
+            <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 Alunos Ativos
               </CardTitle>
@@ -129,7 +119,7 @@ export default function AdminDashboard() {
           </Card>
 
           <Card>
-            <CardHeader className="pb-3">
+            <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 Em Risco
               </CardTitle>
@@ -140,135 +130,161 @@ export default function AdminDashboard() {
           </Card>
 
           <Card>
-            <CardHeader className="pb-3">
+            <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 Total de Horas
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-primary">{totalHours}h</div>
+              <div className="text-3xl font-bold text-blue-600">{totalHours}h</div>
             </CardContent>
           </Card>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2">
-            <Card>
-              <CardHeader>
+        {/* Lista de Alunos */}
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div>
                 <CardTitle>Alunos</CardTitle>
                 <CardDescription>
                   Visualize e gerencie todos os alunos da plataforma
                 </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="mb-4">
-                  <div className="relative">
-                    <Search className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
-                    <Input
-                      placeholder="Buscar por nome ou email..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10"
-                    />
-                  </div>
-                </div>
+              </div>
+              <div className="flex gap-2">
+                <Button 
+                  variant="outline"
+                  onClick={() => setLocation("/admin/personalized-links")}
+                >
+                  Gerar Links
+                </Button>
+                <Button 
+                  variant="outline"
+                  onClick={() => setLocation("/admin/upload-materials")}
+                >
+                  Compartilhar Materiais
+                </Button>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            {/* Barra de Busca */}
+            <div className="mb-6">
+              <div className="relative">
+                <Search className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
+                <Input
+                  placeholder="Buscar por nome ou email..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+            </div>
 
-                <div className="space-y-2">
-                  {filteredStudents.map((student) => (
-                    <button
-                      key={student.id}
-                      onClick={() => setSelectedStudent(student)}
-                      className={`w-full p-4 text-left rounded-lg border transition-all ${
-                        selectedStudent?.id === student.id
-                          ? "border-primary bg-blue-50"
-                          : "border-border hover:border-primary hover:bg-muted"
-                      }`}
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex-1">
-                          <p className="font-semibold text-foreground">{student.name}</p>
-                          <p className="text-sm text-muted-foreground">{student.email}</p>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-sm font-medium text-foreground">
-                            {student.level}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {student.hoursLearned}h aprendidas
-                          </p>
-                        </div>
-                        {student.status === "at_risk" && (
-                          <AlertCircle className="w-5 h-5 text-red-600 ml-2" />
-                        )}
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div>
-            {selectedStudent ? (
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">{selectedStudent.name}</CardTitle>
-                  <CardDescription>{selectedStudent.email}</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <p className="text-sm text-muted-foreground">Nível</p>
-                    <p className="font-semibold text-foreground">{selectedStudent.level}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">Objetivo</p>
-                    <p className="font-semibold text-foreground">{selectedStudent.objective}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">Horas Aprendidas</p>
-                    <p className="font-semibold text-foreground">{selectedStudent.hoursLearned}h</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">Chunks Aprendidos</p>
-                    <p className="font-semibold text-foreground">{selectedStudent.chunksLearned}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">Última Atividade</p>
-                    <p className="font-semibold text-foreground">{selectedStudent.lastActivity}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">Status</p>
-                    <p
-                      className={`font-semibold ${
-                        selectedStudent.status === "active"
-                          ? "text-green-600"
-                          : selectedStudent.status === "inactive"
-                          ? "text-yellow-600"
-                          : "text-red-600"
-                      }`}
-                    >
-                      {selectedStudent.status === "active"
-                        ? "Ativo"
-                        : selectedStudent.status === "inactive"
-                        ? "Inativo"
-                        : "Em Risco"}
-                    </p>
-                  </div>
-                  <Button className="w-full bg-primary hover:bg-primary/90">
-                    Ver Detalhes Completos
-                  </Button>
-                </CardContent>
-              </Card>
+            {/* Tabela de Alunos */}
+            {isLoading ? (
+              <div className="flex items-center justify-center py-12">
+                <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+              </div>
+            ) : filteredStudents.length === 0 ? (
+              <div className="text-center py-12">
+                <Users className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                <p className="text-muted-foreground">Nenhum aluno encontrado</p>
+              </div>
             ) : (
-              <Card className="flex items-center justify-center h-full">
-                <CardContent className="text-center text-muted-foreground">
-                  <Users className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                  <p>Selecione um aluno para ver detalhes</p>
-                </CardContent>
-              </Card>
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b border-border">
+                      <th className="text-left py-3 px-4 font-semibold text-sm">Nome</th>
+                      <th className="text-left py-3 px-4 font-semibold text-sm">Email</th>
+                      <th className="text-left py-3 px-4 font-semibold text-sm">Nível</th>
+                      <th className="text-left py-3 px-4 font-semibold text-sm">Objetivo</th>
+                      <th className="text-left py-3 px-4 font-semibold text-sm">Horas</th>
+                      <th className="text-left py-3 px-4 font-semibold text-sm">Streak</th>
+                      <th className="text-left py-3 px-4 font-semibold text-sm">Última Atividade</th>
+                      <th className="text-left py-3 px-4 font-semibold text-sm">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredStudents.map((student) => (
+                      <tr
+                        key={student.id}
+                        className="border-b border-border hover:bg-muted/50 cursor-pointer"
+                        onClick={() => setSelectedStudent(student as StudentData)}
+                      >
+                        <td className="py-3 px-4 text-sm font-medium">{student.name}</td>
+                        <td className="py-3 px-4 text-sm text-muted-foreground">{student.email}</td>
+                        <td className="py-3 px-4 text-sm">{levelMap[student.level] || student.level}</td>
+                        <td className="py-3 px-4 text-sm">{objectiveMap[student.objective] || student.objective}</td>
+                        <td className="py-3 px-4 text-sm">{student.hoursLearned}h</td>
+                        <td className="py-3 px-4 text-sm">{student.streakDays}d</td>
+                        <td className="py-3 px-4 text-sm text-muted-foreground">{student.lastActivity}</td>
+                        <td className="py-3 px-4 text-sm">
+                          <span
+                            className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                              student.status === "active"
+                                ? "bg-green-100 text-green-800"
+                                : student.status === "inactive"
+                                ? "bg-gray-100 text-gray-800"
+                                : "bg-red-100 text-red-800"
+                            }`}
+                          >
+                            {student.status === "active"
+                              ? "Ativo"
+                              : student.status === "inactive"
+                              ? "Inativo"
+                              : "Em Risco"}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             )}
-          </div>
-        </div>
+          </CardContent>
+        </Card>
+
+        {/* Detalhes do Aluno Selecionado */}
+        {selectedStudent && (
+          <Card className="mt-8">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle>{selectedStudent.name}</CardTitle>
+                  <CardDescription>{selectedStudent.email}</CardDescription>
+                </div>
+                <Button
+                  variant="ghost"
+                  onClick={() => setSelectedStudent(null)}
+                >
+                  ✕
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div>
+                  <p className="text-sm text-muted-foreground">Nível</p>
+                  <p className="font-semibold">{levelMap[selectedStudent.level]}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Objetivo</p>
+                  <p className="font-semibold">{objectiveMap[selectedStudent.objective]}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Horas Aprendidas</p>
+                  <p className="font-semibold">{selectedStudent.hoursLearned}h</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Streak</p>
+                  <p className="font-semibold">{selectedStudent.streakDays} dias</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </main>
     </div>
   );

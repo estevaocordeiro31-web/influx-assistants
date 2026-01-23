@@ -476,3 +476,14 @@
 - [x] Adicionar rota de upload no App.tsx
 - [ ] Testar fluxo completo de upload e visualização
 - [ ] Integrar compartilhamento de materiais com alunos específicos
+
+## Fase 46: Sistema de Perfil Detalhado do Aluno
+- [x] Expandir schema de studentProfiles com 7 novos campos
+- [x] Criar router tRPC para salvar e recuperar perfil detalhado
+- [x] Criar formulário React de coleta de informações (StudentProfileForm.tsx)
+- [x] Criar página de edição de perfil (/admin/student/:studentId/edit)
+- [x] Criar testes para router de perfil (3 testes passando)
+- [ ] Adicionar botão "Editar Perfil" no AdminDashboard
+- [ ] Integrar dados reais do Sponte (frequência, notas, progresso)
+- [ ] Criar dashboard de análise do perfil do aluno
+- [ ] Adicionar visualização de perfil completo no StudentDashboard

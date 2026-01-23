@@ -43,6 +43,13 @@
       "when": 1769169716677,
       "tag": "0005_supreme_killer_shrike",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1769181976891,
+      "tag": "0006_red_sentinel",
+      "breakpoints": true
     }
   ]
 }

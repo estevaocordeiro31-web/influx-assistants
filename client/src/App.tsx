@@ -20,6 +20,8 @@ import { AccessViaLink } from "./pages/AccessViaLink";
 import { PersonalizedLinksManager } from "./pages/PersonalizedLinksManager";
 import { MaterialUploadForm } from "./components/MaterialUploadForm";
 import MaterialUploadPage from "./pages/MaterialUploadPage";
+import TestLogin from "./pages/TestLogin";
+import StudentProfileEditPage from "./pages/StudentProfileEditPage";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -69,6 +71,8 @@ function Router() {
       <Route path="/admin/notifications" component={AdminNotifications} />
       <Route path="/admin/personalized-links" component={PersonalizedLinksManager} />
       <Route path="/admin/upload-materials" component={MaterialUploadPage} />
+      <Route path="/test-login" component={TestLogin} />
+      <Route path="/admin/student/:studentId/edit" component={StudentProfileEditPage} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
