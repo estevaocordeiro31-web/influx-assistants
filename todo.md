@@ -487,3 +487,13 @@
 - [ ] Integrar dados reais do Sponte (frequência, notas, progresso)
 - [ ] Criar dashboard de análise do perfil do aluno
 - [ ] Adicionar visualização de perfil completo no StudentDashboard
+
+## Fase 47: Integração de Dados do Sponte e Dashboard de Análise
+- [x] Criar helper de integração do Sponte (sponte-profile-integration.ts)
+- [x] Criar componente StudentProfileDetails para exibir dados do Sponte
+- [x] Criar página StudentProfileViewPage para visualizar perfil completo
+- [x] Integrar dados do Sponte (frequência, notas, ausências)
+- [x] Criar análise de insights (fatores de risco, pontos fortes, recomendações)
+- [ ] Criar dashboard de análise agregada (padrões entre alunos)
+- [ ] Implementar filtros e busca avançada de alunos
+- [ ] Adicionar exportação de relatórios em PDF

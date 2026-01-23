@@ -19,7 +19,7 @@ export default function StudentProfileEditPage({ params }: any) {
     }
   }, [studentId]);
 
-  const { data: profileData, isLoading } = trpc.student.getDetailedProfile.useQuery(
+  const { data: profileData, isLoading } = trpc.studentProfile.getDetailedProfile.useQuery(
     { studentId: parsedStudentId || 0 },
     { enabled: !!parsedStudentId }
   );

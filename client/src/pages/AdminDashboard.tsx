@@ -2,7 +2,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Users, AlertCircle, LogOut, Search, Bell, Loader2 } from "lucide-react";
+import { Users, AlertCircle, LogOut, Search, Bell, Loader2, Edit } from "lucide-react";
 import { useLocation } from "wouter";
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
@@ -204,6 +204,7 @@ export default function AdminDashboard() {
                       <th className="text-left py-3 px-4 font-semibold text-sm">Streak</th>
                       <th className="text-left py-3 px-4 font-semibold text-sm">Última Atividade</th>
                       <th className="text-left py-3 px-4 font-semibold text-sm">Status</th>
+                      <th className="text-left py-3 px-4 font-semibold text-sm">Ações</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -237,6 +238,20 @@ export default function AdminDashboard() {
                               : "Em Risco"}
                           </span>
                         </td>
+                        <td className="py-3 px-4 text-sm">
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setLocation(`/admin/student/${student.id}/edit`);
+                            }}
+                            className="text-blue-600 hover:text-blue-800 hover:bg-blue-50"
+                          >
+                            <Edit className="w-4 h-4 mr-1" />
+                            Editar
+                          </Button>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -264,7 +279,7 @@ export default function AdminDashboard() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                 <div>
                   <p className="text-sm text-muted-foreground">Nível</p>
                   <p className="font-semibold">{levelMap[selectedStudent.level]}</p>
@@ -281,6 +296,15 @@ export default function AdminDashboard() {
                   <p className="text-sm text-muted-foreground">Streak</p>
                   <p className="font-semibold">{selectedStudent.streakDays} dias</p>
                 </div>
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  onClick={() => setLocation(`/admin/student/${selectedStudent.id}/edit`)}
+                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                >
+                  <Edit className="w-4 h-4 mr-2" />
+                  Editar Perfil Detalhado
+                </Button>
               </div>
             </CardContent>
           </Card>

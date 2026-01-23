@@ -36,7 +36,7 @@ export function StudentProfileForm({ studentId, onSuccess }: StudentProfileFormP
     improvementAreas: '',
   });
 
-  const updateProfileMutation = trpc.student.updateDetailedProfile.useMutation({
+  const updateProfileMutation = trpc.studentProfile.updateDetailedProfile.useMutation({
     onSuccess: () => {
       toast.success('Perfil atualizado com sucesso!');
       setSubmitted(true);

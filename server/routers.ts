@@ -32,7 +32,8 @@ export const appRouter = router({
 
   chat: chatRouter,
   pronunciation: pronunciationRouter,
-  student: studentProfileRouter,
+  student: studentRouter,
+  studentProfile: studentProfileRouter,
   notifications: notificationsRouter,
   sponteSync: sponteSyncRouter,
   blogTips: blogTipsRouter,
