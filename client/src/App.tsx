@@ -15,6 +15,7 @@ import Login from "./pages/Login";
 import AdminNotifications from "./pages/AdminNotifications";
 import VoiceChatPage from "./pages/VoiceChatPage";
 import BlogTips from "./pages/BlogTips";
+import SituationSimulator from "./pages/SituationSimulator";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -40,6 +41,7 @@ function Router() {
       <Route path="/demo/exercises" component={Exercises} />
       <Route path="/demo/voice-chat" component={VoiceChatPage} />
       <Route path="/demo/blog-tips" component={BlogTips} />
+      <Route path="/demo/simulator" component={SituationSimulator} />
       {/* Rotas autenticadas */}
       <Route path="/student/dashboard" component={StudentDashboard} />
       <Route path="/student/profile" component={StudentProfile} />
@@ -47,6 +49,7 @@ function Router() {
       <Route path="/student/exercises" component={Exercises} />
       <Route path="/student/voice-chat" component={VoiceChatPage} />
       <Route path="/student/blog-tips" component={BlogTips} />
+      <Route path="/student/simulator" component={SituationSimulator} />
       {isAuthenticated && user?.role === "admin" && (
         <>
           <Route path="/admin/dashboard" component={AdminDashboard} />

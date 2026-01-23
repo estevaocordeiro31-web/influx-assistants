@@ -488,7 +488,10 @@ export default function StudentDashboard() {
                   <div className="p-4 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl border border-purple-500/30">
                     <h3 className="text-white font-bold mb-2">Simulador de Situações</h3>
                     <p className="text-slate-400 text-sm mb-3">Pratique em contextos reais</p>
-                    <Button className="w-full bg-purple-500 hover:bg-purple-600 text-white">
+                    <Button 
+                      onClick={() => setLocation("/student/simulator")}
+                      className="w-full bg-purple-500 hover:bg-purple-600 text-white"
+                    >
                       Iniciar
                     </Button>
                   </div>

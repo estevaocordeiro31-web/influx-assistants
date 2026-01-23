@@ -366,3 +366,19 @@
 - [x] Criar efeitos de glow e float
 - [x] Implementar animações de entrada/saída
 - [ ] Testar em diferentes dispositivos
+
+
+## Fase 38: Corrigir Simulador de Situações
+- [x] Verificar código existente do simulador
+- [x] Identificar e corrigir bugs
+- [x] Criar banco de situações reais (30+ situações em 8 categorias)
+- [x] Implementar situações com chunks e equivalência
+- [x] Adicionar níveis de dificuldade por livro
+- [x] Testar simulador completo
+- [x] Criar página SituationSimulator.tsx
+- [x] Criar shared/situations.ts com banco de situações
+- [x] Adicionar rotas /demo/simulator e /student/simulator
+- [x] Integrar botão no StudentDashboard
+- [x] Implementar sugestões de resposta clicáveis
+- [x] Implementar text-to-speech para NPC
+- [x] Sistema de pontuação (+10 pts por chunk usado)
