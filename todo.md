@@ -585,3 +585,16 @@
 - [ ] Criar gráficos de desempenho da turma
 - [ ] Exportar relatórios em PDF
 
+
+
+## Fase 50: Tutor de IA com Inglês Real - COMPLETO
+- [x] Criar componente AITutor com interface de chat
+- [x] Implementar módulo de Connected Speech com regras por nível
+- [x] Criar sistema de feedback de pronúncia com IPA
+- [x] Adicionar banco de expressões reais (gírias, contrações)
+- [x] Integrar tutor router ao servidor tRPC
+- [x] Criar testes para tutor (21 testes passando)
+- [x] Implementar chat com IA usando LLM
+- [x] Implementar análise de áudio com transcrição
+- [x] Criar guias de pronúncia por nível (B1, B2, C1, C2)
+- [x] Adicionar exemplos de inglês real vs formal
