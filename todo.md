@@ -550,3 +550,38 @@
 - [ ] Criar perfis detalhados com turma, horário, notas, presença
 - [ ] Gerar links personalizados para ambas
 - [ ] Criar relatório com informações das alunas
+
+
+## Fase 49: Adicionar Alunas Laís e Camila - COMPLETO
+- [x] Adicionar Laís Milena Gambini (matrícula 6200, ID 390197) - Book 4
+- [x] Adicionar Camila Gonsalves da Rosa de Carvalho (matrícula 6220, ID 390198) - Book 4
+- [x] Criar perfis detalhados com turma, horário, notas, presença
+- [x] Gerar links personalizados para ambas (válidos por 7 meses)
+- [x] Criar relatório com informações das alunas (RELATORIO_ALUNAS_LAIS_CAMILA.md)
+- [x] Corrigir sistema de autenticação via link (cada aluno acessa seu próprio dashboard)
+- [x] Implementar mutation authenticateViaLink com sessão JWT
+- [x] Atualizar perfil de Camila com dados reais do Sponte
+- [x] Criar relatório atualizado de Camila (RELATORIO_CAMILA_ATUALIZADO.md)
+
+## Fase 50: Integração Sponte + Notificações + Dashboard Coordenador
+
+### 1. Integração de Dados Reais do Sponte
+- [ ] Conectar API real do Sponte para buscar frequência
+- [ ] Sincronizar notas e avaliações em tempo real
+- [ ] Criar job de sincronização automática
+- [ ] Mapear dados do Sponte para estrutura do sistema
+
+### 2. Sistema de Notificações
+- [ ] Criar tabela de notificações no banco
+- [ ] Implementar notificação quando material é compartilhado
+- [ ] Implementar notificação quando aluno ganha influxcoins
+- [ ] Criar componente de notificações no frontend
+- [ ] Adicionar badge de notificações não lidas
+
+### 3. Dashboard de Coordenador
+- [ ] Criar página de visão geral de todas as alunas
+- [ ] Implementar filtros por turma, livro, status
+- [ ] Adicionar alertas de alunos em risco
+- [ ] Criar gráficos de desempenho da turma
+- [ ] Exportar relatórios em PDF
+

@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE student_profiles \nSET \n  objective = 'travel',\n  current_level = 'intermediate',\n  specific_goals = 'Entender séries e filmes sem legendas, conversar com pessoas em viagens, fazer amizades internacionais',\n  discomfort_areas = 'Listening, pronúncia de palavras complexas, conversação espontânea',\n  comfort_areas = 'Leitura, escrita, compreensão de textos escritos',\n  english_consumption_sources = JSON_ARRAY('séries', 'filmes', 'podcasts', 'livros'),\n  improvement_areas = 'Conversação natural, pronúncia, listening compreensivo',\n  study_duration_years = 2.5,\n  study_duration_months = 6\nWHERE user_id = 390198;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T8Mwbb7L99VC4H.e93aa651f00b --database 2aNFQGA4rARocXGp2d4pqb --execute UPDATE student_profiles \nSET \n  objective = 'travel',\n  current_level = 'intermediate',\n  specific_goals = 'Entender séries e filmes sem legendas, conversar com pessoas em viagens, fazer amizades internacionais',\n  discomfort_areas = 'Listening, pronúncia de palavras complexas, conversação espontânea',\n  comfort_areas = 'Leitura, escrita, compreensão de textos escritos',\n  english_consumption_sources = JSON_ARRAY('séries', 'filmes', 'podcasts', 'livros'),\n  improvement_areas = 'Conversação natural, pronúncia, listening compreensivo',\n  study_duration_years = 2.5,\n  study_duration_months = 6\nWHERE user_id = 390198;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 101
+}

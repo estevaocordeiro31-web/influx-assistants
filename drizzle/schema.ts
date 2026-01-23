@@ -517,3 +517,4 @@ export const influxDollarTransactions = mysqlTable("influx_dollar_transactions",
 
 export type InfluxDollarTransaction = typeof influxDollarTransactions.$inferSelect;
 export type InsertInfluxDollarTransaction = typeof influxDollarTransactions.$inferInsert;
+
