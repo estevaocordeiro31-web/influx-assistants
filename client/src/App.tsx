@@ -18,6 +18,8 @@ import BlogTips from "./pages/BlogTips";
 import SituationSimulator from "./pages/SituationSimulator";
 import { AccessViaLink } from "./pages/AccessViaLink";
 import { PersonalizedLinksManager } from "./pages/PersonalizedLinksManager";
+import { MaterialUploadForm } from "./components/MaterialUploadForm";
+import MaterialUploadPage from "./pages/MaterialUploadPage";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -59,12 +61,14 @@ function Router() {
           <Route path="/admin/dashboard" component={AdminDashboard} />
           <Route path="/admin/notifications" component={AdminNotifications} />
           <Route path="/admin/personalized-links" component={PersonalizedLinksManager} />
+          <Route path="/admin/upload-materials" component={MaterialUploadPage} />
         </>
       )}
       {/* Rotas de demonstração admin */}
       <Route path="/admin" component={AdminDashboard} />
       <Route path="/admin/notifications" component={AdminNotifications} />
       <Route path="/admin/personalized-links" component={PersonalizedLinksManager} />
+      <Route path="/admin/upload-materials" component={MaterialUploadPage} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

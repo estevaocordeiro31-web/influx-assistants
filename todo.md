@@ -464,3 +464,15 @@
 - [ ] Testar acesso via link com Fabio
 - [ ] Implementar upload de materiais para compartilhamento
 - [ ] Testar fluxo completo com Fabio
+
+
+## Fase 45: Sistema de Upload de Materiais Exclusivos
+- [x] Criar procedures tRPC para upload (uploadMaterial, getMaterials, deleteMaterial)
+- [x] Implementar integração com S3 para armazenamento
+- [x] Criar interface de upload para coordenadores (MaterialUploadForm.tsx)
+- [x] Implementar validação de tipos de arquivo (PDF, áudio, vídeo)
+- [x] Criar testes para upload de materiais (9 testes passando)
+- [x] Criar página de upload para admin (MaterialUploadPage.tsx)
+- [x] Adicionar rota de upload no App.tsx
+- [ ] Testar fluxo completo de upload e visualização
+- [ ] Integrar compartilhamento de materiais com alunos específicos
