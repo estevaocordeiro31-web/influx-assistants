@@ -18,6 +18,7 @@ import BadgesDisplay from "@/components/BadgesDisplay";
 import { SponteDataSection } from "@/components/SponteDataSection";
 import { ExclusiveMaterialsSection } from "@/components/ExclusiveMaterialsSection";
 import { ReadingClubIntegrated } from "@/components/ReadingClubIntegrated";
+import { PersonalTutor } from "@/components/PersonalTutor";
 import { trpc } from "@/lib/trpc";
 
 // Dados de demonstração - Aluno avançado Book 5
@@ -186,7 +187,7 @@ export default function StudentDashboard() {
 
         {/* Abas Principais */}
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid w-full grid-cols-8 bg-slate-800/50 border border-slate-700 rounded-xl p-1">
+          <TabsList className="grid w-full grid-cols-9 bg-slate-800/50 border border-slate-700 rounded-xl p-1">
             <TabsTrigger value="overview" className="data-[state=active]:bg-green-500 data-[state=active]:text-slate-900 text-slate-300 rounded-lg">
               <BookOpen className="w-4 h-4 mr-2" />
               <span className="hidden sm:inline">Visão Geral</span>
@@ -222,6 +223,10 @@ export default function StudentDashboard() {
             <TabsTrigger value="reading-club" className="data-[state=active]:bg-green-500 data-[state=active]:text-slate-900 text-slate-300 rounded-lg">
               <Trophy className="w-4 h-4 mr-2" />
               <span className="hidden sm:inline">Reading Club</span>
+            </TabsTrigger>
+            <TabsTrigger value="tutor" className="data-[state=active]:bg-green-500 data-[state=active]:text-slate-900 text-slate-300 rounded-lg">
+              <Star className="w-4 h-4 mr-2" />
+              <span className="hidden sm:inline">Meu Tutor</span>
             </TabsTrigger>
           </TabsList>
 
@@ -644,6 +649,15 @@ export default function StudentDashboard() {
           {/* Aba: Reading Club (com Boogeyman integrado) */}
           <TabsContent value="reading-club" className="space-y-4 mt-4">
             <ReadingClubIntegrated />
+          </TabsContent>
+
+          {/* Aba: Meu Tutor Personalizado */}
+          <TabsContent value="tutor" className="space-y-4 mt-4">
+            <PersonalTutor 
+              studentId={user?.id || 0}
+              studentName={user?.name || "Aluno"}
+              studentLevel="B4"
+            />
           </TabsContent>
         </Tabs>
       </main>
