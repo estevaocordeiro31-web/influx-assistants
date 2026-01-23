@@ -1,0 +1,228 @@
+{
+  "project_info": {
+    "title": "inFlux Personal Tutor",
+    "created": 1769212144.952062,
+    "last_updated": 1769212171.0279524,
+    "total_slides": 18
+  },
+  "slides": [
+    {
+      "id": "slide_01_capa",
+      "state": "edited",
+      "pageNum": 1
+    },
+    {
+      "id": "slide_02_problema",
+      "state": "edit_pending",
+      "pageNum": 2
+    },
+    {
+      "id": "slide_03_solucao",
+      "state": "edit_pending",
+      "pageNum": 3
+    },
+    {
+      "id": "slide_04_como_funciona",
+      "state": "edit_pending",
+      "pageNum": 4
+    },
+    {
+      "id": "slide_05_plano",
+      "state": "edit_pending",
+      "pageNum": 5
+    },
+    {
+      "id": "slide_06_conversacao",
+      "state": "edit_pending",
+      "pageNum": 6
+    },
+    {
+      "id": "slide_07_pronuncia",
+      "state": "edit_pending",
+      "pageNum": 7
+    },
+    {
+      "id": "slide_08_recomendacoes",
+      "state": "edit_pending",
+      "pageNum": 8
+    },
+    {
+      "id": "slide_09_exercicios",
+      "state": "edit_pending",
+      "pageNum": 9
+    },
+    {
+      "id": "slide_10_dicas",
+      "state": "edit_pending",
+      "pageNum": 10
+    },
+    {
+      "id": "slide_11_reading",
+      "state": "edit_pending",
+      "pageNum": 11
+    },
+    {
+      "id": "slide_12_progresso",
+      "state": "edit_pending",
+      "pageNum": 12
+    },
+    {
+      "id": "slide_13_gamificacao",
+      "state": "edit_pending",
+      "pageNum": 13
+    },
+    {
+      "id": "slide_14_ciencia",
+      "state": "edit_pending",
+      "pageNum": 14
+    },
+    {
+      "id": "slide_15_depoimentos",
+      "state": "edit_pending",
+      "pageNum": 15
+    },
+    {
+      "id": "slide_16_comece",
+      "state": "edit_pending",
+      "pageNum": 16
+    },
+    {
+      "id": "slide_17_cta",
+      "state": "edit_pending",
+      "pageNum": 17
+    },
+    {
+      "id": "slide_18_contato",
+      "state": "edit_pending",
+      "pageNum": 18
+    }
+  ],
+  "outline": [
+    {
+      "id": "slide_01_capa",
+      "title": "inFlux Personal Tutor",
+      "summary": "Capa da apresentação com título principal e subtítulo motivador",
+      "image_plan": "/home/ubuntu/upload/search_images/CcSVgG1j1Qmj.jpg - Image 4 shows a child interacting with a tablet and a physical learning game, which visually represents the concept of a personal tutor and learning. The other images are either too generic or too specific (like the robot).",
+      "slide_template_key": ""
+    },
+    {
+      "id": "slide_02_problema",
+      "title": "Aprender inglês não deveria ser tão difícil",
+      "summary": "Apresenta o problema: falta de prática fora da sala de aula e limitações do ensino tradicional",
+      "image_plan": "",
+      "slide_template_key": ""
+    },
+    {
+      "id": "slide_03_solucao",
+      "title": "Apresentamos o inFlux Personal Tutor",
+      "summary": "Introduz a solução: tutor pessoal de IA disponível 24/7",
+      "image_plan": "/home/ubuntu/upload/search_images/CYtnWdb8B47S.jpg - Image 5 shows a personalized learning platform interface (Kahoot!) which aligns with the concept of an AI Personal Tutor that knows the student's progress and adapts.",
+      "slide_template_key": ""
+    },
+    {
+      "id": "slide_04_como_funciona",
+      "title": "Simples, inteligente e personalizado",
+      "summary": "Explica como o tutor funciona e se adapta ao aluno",
+      "image_plan": "/home/ubuntu/upload/search_images/iap4n2BQ1pZ1.png - Image 8 shows a complex, interconnected digital structure, representing the \"intelligent\" and adaptive technology behind the personalized tutor.",
+      "slide_template_key": ""
+    },
+    {
+      "id": "slide_05_plano",
+      "title": "Plano de estudos feito sob medida",
+      "summary": "Destaca personalização do plano de 12 semanas baseado em interesses e dificuldades",
+      "image_plan": "/home/ubuntu/upload/search_images/6vZPnoWp1o2d.png - Image 9 shows a personalized learning platform interface, directly supporting the slide's theme of a personalized study plan and personalized learning.",
+      "slide_template_key": ""
+    },
+    {
+      "id": "slide_06_conversacao",
+      "title": "Pratique conversação sem medo",
+      "summary": "Funcionalidade de chat por voz para praticar sem julgamento",
+      "image_plan": "/home/ubuntu/upload/Camera_1769205422.448498_6307E62A.png - Image 1 is an isometric illustration showing a phone/tablet with a chat bubble, representing a voice chat or conversation partner, which fits the slide's topic of practicing conversation without fear.",
+      "slide_template_key": ""
+    },
+    {
+      "id": "slide_07_pronuncia",
+      "title": "Fale inglês como um nativo",
+      "summary": "Ensino de Connected Speech com IPA e feedback em tempo real",
+      "image_plan": "/home/ubuntu/upload/search_images/a5jcVxF8ye0H.jpg - Image 10 shows a book cover about \"Language Learning with Technology,\" which is a good visual metaphor for the advanced language concepts like Connected Speech being taught via technology.",
+      "slide_template_key": ""
+    },
+    {
+      "id": "slide_08_recomendacoes",
+      "title": "Séries, músicas e livros escolhidos para você",
+      "summary": "Recomendações personalizadas baseadas em gostos e nível",
+      "image_plan": "/home/ubuntu/upload/search_images/OhzUMqTQ5lsL.jpg - Image 11 shows tech tools for language classes, which aligns with the slide's content about using series, music, and books (content) chosen via technology.",
+      "slide_template_key": ""
+    },
+    {
+      "id": "slide_09_exercicios",
+      "title": "Pratique exatamente o que você precisa",
+      "summary": "Exercícios interativos adaptados ao nível e dificuldades",
+      "image_plan": "/home/ubuntu/upload/search_images/gWpfstFxmWj0.jpg - Image 6 shows a screen with interactive cards/modules, representing interactive and directed practice, which fits the slide's focus on practice that goes beyond the textbook.",
+      "slide_template_key": ""
+    },
+    {
+      "id": "slide_10_dicas",
+      "title": "Aprenda algo novo todos os dias",
+      "summary": "Dicas diárias personalizadas do blog inFlux",
+      "image_plan": "",
+      "slide_template_key": ""
+    },
+    {
+      "id": "slide_11_reading",
+      "title": "Leia livros em inglês e ganhe badges",
+      "summary": "Reading Club com biblioteca curada e gamificação",
+      "image_plan": "/home/ubuntu/upload/search_images/wy3AeykEyf15.jpg - Image 7 shows a book cover about \"Language Learning with Technology,\" which is a good visual metaphor for the advanced language concepts like Connected Speech being taught via technology. This image is not used yet.",
+      "slide_template_key": ""
+    },
+    {
+      "id": "slide_12_progresso",
+      "title": "Veja seu crescimento em tempo real",
+      "summary": "Dashboards de progresso compartilhados com a escola",
+      "image_plan": "/home/ubuntu/upload/Camera_1769205437.516757_E27FBB59.png - Image 2 shows a teacher and students looking at a laptop, representing monitoring and tracking progress, which aligns with the slide's theme of seeing growth in real-time and sharing data with the school.",
+      "slide_template_key": ""
+    },
+    {
+      "id": "slide_13_gamificacao",
+      "title": "Transforme aprendizado em jogo",
+      "summary": "Sistema de badges, influxcoins e níveis para motivação",
+      "image_plan": "/home/ubuntu/upload/pasted_file_vWBBQ9_image.png - Image 3 shows a robot in a classroom setting, which is a strong visual for the \"Gamification\" and \"Transforme aprendizado em jogo\" theme, representing a futuristic and engaging learning environment.",
+      "slide_template_key": ""
+    },
+    {
+      "id": "slide_14_ciencia",
+      "title": "Ciência + Tecnologia + Personalização",
+      "summary": "Três pilares do sucesso: personalização, prática constante e feedback imediato",
+      "image_plan": "",
+      "slide_template_key": ""
+    },
+    {
+      "id": "slide_15_depoimentos",
+      "title": "O que nossos alunos dizem",
+      "summary": "Depoimentos de Camila, Laís e João sobre resultados",
+      "image_plan": "",
+      "slide_template_key": ""
+    },
+    {
+      "id": "slide_16_comece",
+      "title": "Comece hoje mesmo",
+      "summary": "Passo a passo simples para começar a usar o tutor",
+      "image_plan": "",
+      "slide_template_key": ""
+    },
+    {
+      "id": "slide_17_cta",
+      "title": "Seu inglês merece um tutor pessoal",
+      "summary": "Chamada para ação final motivadora",
+      "image_plan": "",
+      "slide_template_key": ""
+    },
+    {
+      "id": "slide_18_contato",
+      "title": "Estamos aqui para você",
+      "summary": "Informações de contato e suporte",
+      "image_plan": "",
+      "slide_template_key": ""
+    }
+  ]
+}
