@@ -686,3 +686,22 @@
 - [x] Remover DEMO_STUDENT hardcoded
 - [x] Testar que cada aluno vê seus próprios dados
 - [x] SUCESSO: Camila vê "Olá, Camila Gonsalves!" e seus dados
+
+
+## INTEGRAÇÃO COM BANCO CENTRALIZADO
+- [x] Receber DATABASE_URL do sistema principal (cérebro)
+- [x] Configurar connection string no projeto (CENTRAL_DATABASE_URL)
+- [x] Testar conexão com banco centralizado (TiDB Cloud)
+- [x] Analisar schema do banco centralizado (46 tabelas encontradas)
+- [x] Mapear tabelas existentes vs. necessárias (ver MAPEAMENTO_INTEGRACAO.md)
+- [x] Identificar tabelas a reutilizar: users, students, student_intelligence, tutor_interactions, tutor_blog_tips
+- [x] Criar tabelas novas: tutor_conversations, tutor_messages, tutor_chunks, tutor_student_progress, tutor_reading_club
+- [x] Criar drizzle/schema-central.ts com schema do banco centralizado
+- [x] Criar server/db-connection.ts para gerenciar conexões dual
+- [x] Criar server/db-central.ts com helpers para banco centralizado
+- [ ] Atualizar procedures do tRPC para usar banco centralizado
+- [ ] Ajustar queries do dashboard para buscar dados centralizados
+- [ ] Migrar Laís e Camila para tabela students (se necessário)
+- [ ] Criar registros em student_intelligence para ambas
+- [ ] Testar leitura/escrita em ambos os sistemas
+- [ ] Validar dados das alunas no banco centralizado
