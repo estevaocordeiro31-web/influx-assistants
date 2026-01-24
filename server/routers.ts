@@ -20,6 +20,7 @@ import { crossAnalysisRouter } from "./routers/cross-analysis";
 import { readingClubRouter } from "./routers/reading-club";
 import { tutorRouter } from "./routers/tutor";
 import { authPasswordRouter } from "./routers/auth-password";
+import { directLoginRouter } from "./routers/direct-login";
 
 export const appRouter = router({
   system: systemRouter,
@@ -34,6 +35,7 @@ export const appRouter = router({
     }),
   }),
   authPassword: authPasswordRouter,
+  directLogin: directLoginRouter,
 
   chat: chatRouter,
   pronunciation: pronunciationRouter,

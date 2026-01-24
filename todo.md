@@ -659,3 +659,12 @@
 - [x] Forçar limpeza completa de cookies antes de criar nova sessão
 - [x] Limpar cache e storage no frontend após login
 - [ ] Testar login em modo anônimo
+
+
+## SOLUÇÃO FINAL: Login Direto via URL
+- [x] Criar endpoint GET /login-direct/:token
+- [x] Gerar tokens únicos para Laís e Camila
+- [x] Criar página DirectLogin.tsx com feedback visual
+- [x] Integrar router direct-login ao backend
+- [ ] Testar autenticação automática via URL
+- [ ] Entregar links diretos funcionando

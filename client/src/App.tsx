@@ -25,6 +25,7 @@ import StudentProfileEditPage from "./pages/StudentProfileEditPage";
 import StudentCrossAnalysisPage from "./pages/StudentCrossAnalysisPage";
 import ImportStudentDataPage from "./pages/ImportStudentDataPage";
 import ForceLogout from "./pages/ForceLogout";
+import DirectLogin from "./pages/DirectLogin";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -45,6 +46,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/login" component={Login} />
       <Route path="/logout" component={ForceLogout} />
+      <Route path="/login-direct/:token" component={DirectLogin} />
       {/* Rotas de demonstração - acessíveis sem autenticação para teste */}
       <Route path="/demo" component={StudentDashboard} />
       <Route path="/demo/chat" component={Chat} />
