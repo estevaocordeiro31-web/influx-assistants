@@ -638,3 +638,15 @@
 - [x] Adicionar imagens exclusivas do Fluxie
 - [x] Gerar PDF de 2 páginas apelativo (apresentacao-venda.pdf)
 - [x] Entregar PDF final para venda
+
+
+## Fase 61: Sistema de Login Tradicional (Email + Senha)
+- [ ] Adicionar campo passwordHash na tabela users
+- [ ] Instalar bcrypt para hash de senhas
+- [ ] Criar helper para hash e validação de senhas
+- [ ] Criar endpoint tRPC de login (email + senha)
+- [ ] Criar endpoint tRPC de alteração de senha
+- [ ] Desenvolver página de login no frontend
+- [ ] Criar senhas iniciais para Laís (6200) e Camila (6220)
+- [ ] Testar login completo
+- [ ] Documentar credenciais para enviar às alunas
