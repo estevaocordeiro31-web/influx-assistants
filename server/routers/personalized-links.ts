@@ -231,13 +231,26 @@ export const personalizedLinksRouter = router({
 
         const student = studentResult[0];
 
+        // CRÍTICO: Limpar completamente o cookie de sessão anterior
+        // Isso força o navegador a descartar qualquer sessão existente (admin ou outro aluno)
+        ctx.res.setHeader('Set-Cookie', [
+          // Primeiro: Expirar o cookie antigo imediatamente
+          `${COOKIE_NAME}=deleted; Path=/; HttpOnly; SameSite=Lax; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT`,
+        ]);
+
         // Criar token de sessão para o aluno
         const sessionToken = await sdk.createSessionToken(student.openId, {
           name: student.name || 'Student',
         });
 
-        // Definir cookie de sessão
-        ctx.res.setHeader('Set-Cookie', `${COOKIE_NAME}=${sessionToken}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${7 * 24 * 60 * 60}`);
+        // Segundo: Definir novo cookie de sessão para o aluno
+        // Usar array para garantir que ambos os cookies sejam enviados
+        ctx.res.setHeader('Set-Cookie', [
+          `${COOKIE_NAME}=deleted; Path=/; HttpOnly; SameSite=Lax; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT`,
+          `${COOKIE_NAME}=${sessionToken}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${7 * 24 * 60 * 60}`,
+        ]);
+
+        console.log(`[Auth] Sessão criada para aluno: ${student.name} (ID: ${student.id})`);
 
         return {
           success: true,

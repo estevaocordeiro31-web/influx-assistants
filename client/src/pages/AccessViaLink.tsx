@@ -23,9 +23,11 @@ export function AccessViaLink() {
       {
         onSuccess: (data) => {
           setSessionToken(linkHash);
-          // Redirecionar para dashboard após 2 segundos
+          console.log('Autenticação bem-sucedida:', data);
+          // Redirecionar para dashboard após 2 segundos com reload forçado
           setTimeout(() => {
-            setLocation('/student/dashboard');
+            // Forçar reload completo da página para limpar cache e carregar nova sessão
+            window.location.href = '/student/dashboard';
           }, 2000);
         },
         onError: (error) => {
