@@ -716,3 +716,11 @@
 - [x] Atualizar perfil da Elizabeth com objetivos específicos (fluência, listening, Friends)
 - [ ] Testar logins
 - [x] Criar documento com credenciais e mensagens prontas
+
+
+## Criar Logins para Carlos Alberto e Diego Bim
+- [x] Criar registro de Carlos Alberto Pirani Júnior no banco centralizado (ID: 19, Book 3, mat: 6399)
+- [x] Criar registro de Diego Bim no banco centralizado (ID: 30010, Book 4 - teste franqueado Osasco)
+- [x] Gerar credenciais e tokens de acesso
+- [x] Criar usuários locais para ambos
+- [ ] Criar documento com credenciais
