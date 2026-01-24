@@ -31,6 +31,9 @@ const DIRECT_LOGIN_TOKENS: Record<string, string> = {
   // Estevão Cordeiro (Admin - Teste de Aluno)
   "f8e9a7b6c5d4e3f2a1b0c9d8e7f6a5b4c3d2e1f0a9b8c7d6e5f4a3b2c1d0e9f8":
     "direcaojundiairetiro@influx.com.br",
+  // Estevão Cordeiro (Teste Aluno - Book 5)
+  "6ad492015f0016276cad0278bc6aeaedbba9d0dc00bc8e91f9b569f4bf631fbb":
+    "estevao.teste.aluno@influx.com.br",
 };
 
 /**
