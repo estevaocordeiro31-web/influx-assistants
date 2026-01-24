@@ -71,6 +71,12 @@ export default function StudentDashboard() {
   const [, setLocation] = useLocation();
   const [selectedTip, setSelectedTip] = useState<any>(null);
 
+  // Buscar dados do dashboard do aluno autenticado
+  const { data: dashboardData, isLoading: dashboardLoading } = trpc.student.getDashboardData.useQuery(
+    undefined,
+    { enabled: isAuthenticated }
+  );
+
   // Buscar dica do dia
   const { data: tipOfDayData, isLoading: tipLoading } = trpc.blogTips.getTipOfDay.useQuery(
     undefined,
@@ -84,8 +90,17 @@ export default function StudentDashboard() {
       { enabled: isAuthenticated }
     );
 
-  // Usar dados de demonstração
-  const studentData = DEMO_STUDENT;
+  // Usar dados reais do backend ou fallback para DEMO_STUDENT
+  const studentData = dashboardData || DEMO_STUDENT;
+
+  // Mostrar loading enquanto carrega dados
+  if (dashboardLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex items-center justify-center">
+        <div className="text-white text-xl">Carregando seu dashboard...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">

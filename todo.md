@@ -668,3 +668,21 @@
 - [x] Integrar router direct-login ao backend
 - [ ] Testar autenticação automática via URL
 - [ ] Entregar links diretos funcionando
+
+
+## CORREÇÃO DEFINITIVA: Endpoint GET Nativo Express
+- [ ] Criar endpoint GET /api/direct-login/:token no Express
+- [ ] Implementar limpeza de cookies com res.clearCookie()
+- [ ] Criar nova sessão JWT
+- [ ] Redirecionar com res.redirect() nativo
+- [ ] Remover dependência do tRPC para login direto
+- [ ] Testar e validar que mostra dados corretos da aluna
+
+
+## CORREÇÃO: Substituir DEMO_STUDENT por Dados Reais
+- [x] Criar procedure getStudentDashboardData no backend
+- [x] Buscar dados reais do ctx.user no banco
+- [x] Atualizar StudentDashboard.tsx para usar query real
+- [x] Remover DEMO_STUDENT hardcoded
+- [x] Testar que cada aluno vê seus próprios dados
+- [x] SUCESSO: Camila vê "Olá, Camila Gonsalves!" e seus dados

@@ -5,6 +5,7 @@ import net from "net";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { registerOAuthRoutes } from "./oauth";
 import { registerTestLoginRoutes } from "./test-login";
+import { registerDirectLoginRoutes } from "./direct-login-native";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
@@ -38,6 +39,8 @@ async function startServer() {
   registerOAuthRoutes(app);
   // Test login routes (development only)
   registerTestLoginRoutes(app);
+  // Direct login routes (native Express)
+  registerDirectLoginRoutes(app);
   // tRPC API
   app.use(
     "/api/trpc",

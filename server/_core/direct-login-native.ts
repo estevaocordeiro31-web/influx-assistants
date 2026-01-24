@@ -1,0 +1,201 @@
+import { Express, Request, Response } from "express";
+import cookieParser from "cookie-parser";
+import { getDb } from "../db";
+import { users } from "../../drizzle/schema";
+import { eq } from "drizzle-orm";
+import { sdk } from "./sdk";
+
+// Cookie name para sessão
+const COOKIE_NAME = "manus_session_token";
+
+// Mapeamento de tokens para emails
+const DIRECT_LOGIN_TOKENS: Record<string, string> = {
+  // Laís Milena Gambini
+  "1b79abbadd043bef01841a07bf000c10fdb3eabcf765ebf9070c935ec31c7e2f":
+    "lais.gambini@example.com",
+  // Camila Gonsalves
+  "d80e078ddb9ce0e237a67b4e00f09fddc762cc5ee9eadb3e9938cd4b19b81d08":
+    "camiladarosa@outlook.com",
+};
+
+/**
+ * Registra rota de login direto via URL
+ * Endpoint GET nativo do Express (não usa tRPC)
+ */
+export function registerDirectLoginRoutes(app: Express) {
+  // Garantir que cookie-parser está instalado
+  app.use(cookieParser());
+
+  app.get("/api/direct-login/:token", async (req: Request, res: Response) => {
+    try {
+      const { token } = req.params;
+
+      console.log("[DirectLogin] Tentativa de login com token:", token.substring(0, 16) + "...");
+
+      // 1. Validar token
+      const userEmail = DIRECT_LOGIN_TOKENS[token];
+      if (!userEmail) {
+        console.error("[DirectLogin] Token inválido ou não encontrado");
+        return res.status(401).send(`
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <meta charset="UTF-8">
+              <title>Token Inválido</title>
+              <style>
+                body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #1a1f3a; color: white; }
+                .container { text-align: center; max-width: 400px; padding: 2rem; background: white; color: #1a1f3a; border-radius: 12px; }
+                h1 { color: #ef4444; }
+                a { color: #39ff14; text-decoration: none; font-weight: bold; }
+              </style>
+            </head>
+            <body>
+              <div class="container">
+                <h1>❌ Token Inválido</h1>
+                <p>O link de acesso fornecido é inválido ou expirou.</p>
+                <p>Por favor, entre em contato com a coordenação para obter um novo link.</p>
+                <p><a href="/login">← Voltar para Login</a></p>
+              </div>
+            </body>
+          </html>
+        `);
+      }
+
+      console.log("[DirectLogin] Token válido para email:", userEmail);
+
+      // 2. Buscar usuário no banco
+      const db = await getDb();
+      if (!db) {
+        console.error("[DirectLogin] Banco de dados não disponível");
+        throw new Error("Database not available");
+      }
+
+      const [user] = await db
+        .select()
+        .from(users)
+        .where(eq(users.email, userEmail))
+        .limit(1);
+
+      if (!user) {
+        console.error("[DirectLogin] Usuário não encontrado:", userEmail);
+        return res.status(404).send(`
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <meta charset="UTF-8">
+              <title>Usuário Não Encontrado</title>
+              <style>
+                body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #1a1f3a; color: white; }
+                .container { text-align: center; max-width: 400px; padding: 2rem; background: white; color: #1a1f3a; border-radius: 12px; }
+                h1 { color: #ef4444; }
+                a { color: #39ff14; text-decoration: none; font-weight: bold; }
+              </style>
+            </head>
+            <body>
+              <div class="container">
+                <h1>❌ Usuário Não Encontrado</h1>
+                <p>Não foi possível encontrar um usuário com este link.</p>
+                <p>Entre em contato com a coordenação.</p>
+                <p><a href="/login">← Voltar para Login</a></p>
+              </div>
+            </body>
+          </html>
+        `);
+      }
+
+      // 3. Verificar status do usuário
+      if (user.status !== "ativo") {
+        console.error("[DirectLogin] Usuário inativo:", userEmail, "Status:", user.status);
+        return res.status(403).send(`
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <meta charset="UTF-8">
+              <title>Acesso Negado</title>
+              <style>
+                body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #1a1f3a; color: white; }
+                .container { text-align: center; max-width: 400px; padding: 2rem; background: white; color: #1a1f3a; border-radius: 12px; }
+                h1 { color: #ef4444; }
+                a { color: #39ff14; text-decoration: none; font-weight: bold; }
+              </style>
+            </head>
+            <body>
+              <div class="container">
+                <h1>❌ Acesso Negado</h1>
+                <p>Sua conta está inativa. Status: <strong>${user.status}</strong></p>
+                <p>Entre em contato com a coordenação para reativar sua conta.</p>
+                <p><a href="/login">← Voltar para Login</a></p>
+              </div>
+            </body>
+          </html>
+        `);
+      }
+
+      console.log("[DirectLogin] Usuário encontrado e ativo:", user.name, "Role:", user.role);
+
+      // 4. LIMPAR COMPLETAMENTE cookies antigos
+      // Tentar deletar com todas as combinações possíveis
+      res.clearCookie(COOKIE_NAME, { path: "/" });
+      res.clearCookie(COOKIE_NAME, { path: "/", domain: undefined });
+      res.clearCookie(COOKIE_NAME);
+
+      console.log("[DirectLogin] Cookies antigos limpos");
+
+      // 5. Criar nova sessão JWT
+      const sessionToken = await sdk.createSessionToken(user.openId, {
+        name: user.name || "Student",
+      });
+
+      console.log("[DirectLogin] Nova sessão criada para:", user.name);
+
+      // 6. Definir novo cookie de sessão
+      res.cookie(COOKIE_NAME, sessionToken, {
+        httpOnly: true,
+        sameSite: "lax",
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 dias em milissegundos
+        path: "/",
+      });
+
+      console.log("[DirectLogin] Novo cookie definido");
+
+      // 7. Determinar página de redirecionamento
+      const redirectTo = user.role === "admin" ? "/admin/dashboard" : "/student/dashboard";
+
+      console.log("[DirectLogin] Redirecionando para:", redirectTo);
+
+      // 8. Redirecionar com código 302 (redirect temporário)
+      // Adicionar timestamp para forçar reload completo
+      res.redirect(302, `${redirectTo}?_login=${Date.now()}`);
+
+    } catch (error) {
+      console.error("[DirectLogin] Erro durante login:", error);
+      return res.status(500).send(`
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <meta charset="UTF-8">
+            <title>Erro no Login</title>
+            <style>
+              body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #1a1f3a; color: white; }
+              .container { text-align: center; max-width: 400px; padding: 2rem; background: white; color: #1a1f3a; border-radius: 12px; }
+              h1 { color: #ef4444; }
+              a { color: #39ff14; text-decoration: none; font-weight: bold; }
+              pre { text-align: left; background: #f3f4f6; padding: 1rem; border-radius: 4px; overflow-x: auto; }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <h1>❌ Erro no Login</h1>
+              <p>Ocorreu um erro ao processar seu login.</p>
+              <pre>${error instanceof Error ? error.message : String(error)}</pre>
+              <p>Tente novamente ou entre em contato com o suporte.</p>
+              <p><a href="/login">← Voltar para Login</a></p>
+            </div>
+          </body>
+        </html>
+      `);
+    }
+  });
+
+  console.log("[DirectLogin] Rota registrada: GET /api/direct-login/:token");
+}

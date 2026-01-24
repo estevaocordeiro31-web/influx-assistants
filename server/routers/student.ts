@@ -8,6 +8,7 @@ import { protectedProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 import { checkStudentAccess, updateStudentStatus } from "../middleware/studentAccessControl";
 import { getSponteStudent, logSponteStudentAccess } from "../sponte";
+import { getStudentDashboardData } from "../db-student-dashboard";
 import { getDb } from "../db";
 import { users } from "../../drizzle/schema";
 import { eq } from "drizzle-orm";
@@ -163,6 +164,26 @@ export const studentRouter = router({
         message: `Status do aluno atualizado para: ${input.newStatus}`,
       };
     }),
+
+  /**
+   * Obter dados completos do dashboard do aluno
+   */
+  getDashboardData: protectedProcedure.query(async ({ ctx }) => {
+    if (!ctx.user) {
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "Usuário não autenticado",
+      });
+    }
+
+    // Verifica se o aluno está ativo
+    await checkStudentAccess(ctx.user.id);
+
+    // Busca dados do dashboard
+    const dashboardData = await getStudentDashboardData(ctx.user.id);
+
+    return dashboardData;
+  }),
 
   /**
    * Verificar se aluno pode acessar a plataforma
