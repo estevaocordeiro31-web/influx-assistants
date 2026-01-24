@@ -724,3 +724,15 @@
 - [x] Gerar credenciais e tokens de acesso
 - [x] Criar usuários locais para ambos
 - [ ] Criar documento com credenciais
+
+
+## Redesign da Barra de Navegação Inferior
+- [x] Analisar código atual da barra de navegação no StudentDashboard.tsx
+- [x] Aumentar tamanho dos ícones (w-4 h-4 → w-7 h-7 / w-8 h-8)
+- [x] Adicionar labels/textos descritivos abaixo dos ícones (sempre visíveis)
+- [x] Implementar destaque visual para ícone ativo (gradientes coloridos + glow/shadow)
+- [x] Adicionar efeitos de hover/touch feedback (hover:bg-slate-800/50)
+- [x] Reorganizar hierarquia visual com cores específicas por funcionalidade
+- [x] Layout flex-col para ícones acima e texto abaixo
+- [x] Testar responsividade em mobile (funciona bem em ambos os tamanhos)
+- [x] Validar com screenshot e entregar (screenshot capturado)

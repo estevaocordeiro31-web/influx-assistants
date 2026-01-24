@@ -202,46 +202,76 @@ export default function StudentDashboard() {
 
         {/* Abas Principais */}
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid w-full grid-cols-9 bg-slate-800/50 border border-slate-700 rounded-xl p-1">
-            <TabsTrigger value="overview" className="data-[state=active]:bg-green-500 data-[state=active]:text-slate-900 text-slate-300 rounded-lg">
-              <BookOpen className="w-4 h-4 mr-2" />
-              <span className="hidden sm:inline">Visão Geral</span>
+          <TabsList className="grid w-full grid-cols-9 bg-slate-900/80 backdrop-blur-sm border-2 border-slate-700/50 rounded-2xl p-2 gap-1 shadow-lg">
+            <TabsTrigger 
+              value="overview" 
+              className="flex flex-col items-center justify-center gap-1.5 py-3 px-2 data-[state=active]:bg-gradient-to-br data-[state=active]:from-green-400 data-[state=active]:to-green-500 data-[state=active]:text-slate-900 data-[state=active]:shadow-lg data-[state=active]:shadow-green-500/50 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-xl transition-all duration-200"
+            >
+              <BookOpen className="w-7 h-7 sm:w-8 sm:h-8" />
+              <span className="text-[10px] sm:text-xs font-semibold">Visão Geral</span>
             </TabsTrigger>
-            <TabsTrigger value="books" className="data-[state=active]:bg-green-500 data-[state=active]:text-slate-900 text-slate-300 rounded-lg">
-              <TrendingUp className="w-4 h-4 mr-2" />
-              <span className="hidden sm:inline">Meus Livros</span>
+            <TabsTrigger 
+              value="books" 
+              className="flex flex-col items-center justify-center gap-1.5 py-3 px-2 data-[state=active]:bg-gradient-to-br data-[state=active]:from-green-400 data-[state=active]:to-green-500 data-[state=active]:text-slate-900 data-[state=active]:shadow-lg data-[state=active]:shadow-green-500/50 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-xl transition-all duration-200"
+            >
+              <TrendingUp className="w-7 h-7 sm:w-8 sm:h-8" />
+              <span className="text-[10px] sm:text-xs font-semibold">Meus Livros</span>
             </TabsTrigger>
-            <TabsTrigger value="review" className="data-[state=active]:bg-green-500 data-[state=active]:text-slate-900 text-slate-300 rounded-lg">
-              <RotateCcw className="w-4 h-4 mr-2" />
-              <span className="hidden sm:inline">Revisão</span>
+            <TabsTrigger 
+              value="review" 
+              className="flex flex-col items-center justify-center gap-1.5 py-3 px-2 data-[state=active]:bg-gradient-to-br data-[state=active]:from-green-400 data-[state=active]:to-green-500 data-[state=active]:text-slate-900 data-[state=active]:shadow-lg data-[state=active]:shadow-green-500/50 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-xl transition-all duration-200"
+            >
+              <RotateCcw className="w-7 h-7 sm:w-8 sm:h-8" />
+              <span className="text-[10px] sm:text-xs font-semibold">Revisão</span>
             </TabsTrigger>
-            <TabsTrigger value="chat" className="data-[state=active]:bg-green-500 data-[state=active]:text-slate-900 text-slate-300 rounded-lg">
-              <MessageCircle className="w-4 h-4 mr-2" />
-              <span className="hidden sm:inline">Chat IA</span>
+            <TabsTrigger 
+              value="chat" 
+              className="flex flex-col items-center justify-center gap-1.5 py-3 px-2 data-[state=active]:bg-gradient-to-br data-[state=active]:from-blue-400 data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-blue-500/50 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-xl transition-all duration-200"
+            >
+              <MessageCircle className="w-7 h-7 sm:w-8 sm:h-8" />
+              <span className="text-[10px] sm:text-xs font-semibold">Chat IA</span>
             </TabsTrigger>
-            <TabsTrigger value="exercises" className="data-[state=active]:bg-green-500 data-[state=active]:text-slate-900 text-slate-300 rounded-lg">
-              <Zap className="w-4 h-4 mr-2" />
-              <span className="hidden sm:inline">Exercicios</span>
+            <TabsTrigger 
+              value="exercises" 
+              className="flex flex-col items-center justify-center gap-1.5 py-3 px-2 data-[state=active]:bg-gradient-to-br data-[state=active]:from-yellow-400 data-[state=active]:to-yellow-500 data-[state=active]:text-slate-900 data-[state=active]:shadow-lg data-[state=active]:shadow-yellow-500/50 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-xl transition-all duration-200"
+            >
+              <Zap className="w-7 h-7 sm:w-8 sm:h-8" />
+              <span className="text-[10px] sm:text-xs font-semibold">Exercícios</span>
             </TabsTrigger>
-            <TabsTrigger value="blog" className="data-[state=active]:bg-green-500 data-[state=active]:text-slate-900 text-slate-300 rounded-lg">
-              <BookOpen className="w-4 h-4 mr-2" />
-              <span className="hidden sm:inline">Blog</span>
+            <TabsTrigger 
+              value="blog" 
+              className="flex flex-col items-center justify-center gap-1.5 py-3 px-2 data-[state=active]:bg-gradient-to-br data-[state=active]:from-purple-400 data-[state=active]:to-purple-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-purple-500/50 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-xl transition-all duration-200"
+            >
+              <BookOpen className="w-7 h-7 sm:w-8 sm:h-8" />
+              <span className="text-[10px] sm:text-xs font-semibold">Blog</span>
             </TabsTrigger>
-            <TabsTrigger value="sponte" className="data-[state=active]:bg-green-500 data-[state=active]:text-slate-900 text-slate-300 rounded-lg">
-              <TrendingUp className="w-4 h-4 mr-2" />
-              <span className="hidden sm:inline">Dados</span>
+            <TabsTrigger 
+              value="sponte" 
+              className="flex flex-col items-center justify-center gap-1.5 py-3 px-2 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:to-cyan-500 data-[state=active]:text-slate-900 data-[state=active]:shadow-lg data-[state=active]:shadow-cyan-500/50 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-xl transition-all duration-200"
+            >
+              <TrendingUp className="w-7 h-7 sm:w-8 sm:h-8" />
+              <span className="text-[10px] sm:text-xs font-semibold">Dados</span>
             </TabsTrigger>
-            <TabsTrigger value="materials" className="data-[state=active]:bg-green-500 data-[state=active]:text-slate-900 text-slate-300 rounded-lg">
-              <BookOpen className="w-4 h-4 mr-2" />
-              <span className="hidden sm:inline">Materiais</span>
+            <TabsTrigger 
+              value="materials" 
+              className="flex flex-col items-center justify-center gap-1.5 py-3 px-2 data-[state=active]:bg-gradient-to-br data-[state=active]:from-pink-400 data-[state=active]:to-pink-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-pink-500/50 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-xl transition-all duration-200"
+            >
+              <BookOpen className="w-7 h-7 sm:w-8 sm:h-8" />
+              <span className="text-[10px] sm:text-xs font-semibold">Materiais</span>
             </TabsTrigger>
-            <TabsTrigger value="reading-club" className="data-[state=active]:bg-green-500 data-[state=active]:text-slate-900 text-slate-300 rounded-lg">
-              <Trophy className="w-4 h-4 mr-2" />
-              <span className="hidden sm:inline">Reading Club</span>
+            <TabsTrigger 
+              value="reading-club" 
+              className="flex flex-col items-center justify-center gap-1.5 py-3 px-2 data-[state=active]:bg-gradient-to-br data-[state=active]:from-orange-400 data-[state=active]:to-orange-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-orange-500/50 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-xl transition-all duration-200"
+            >
+              <Trophy className="w-7 h-7 sm:w-8 sm:h-8" />
+              <span className="text-[10px] sm:text-xs font-semibold">Reading Club</span>
             </TabsTrigger>
-            <TabsTrigger value="tutor" className="data-[state=active]:bg-green-500 data-[state=active]:text-slate-900 text-slate-300 rounded-lg">
-              <Star className="w-4 h-4 mr-2" />
-              <span className="hidden sm:inline">Meu Tutor</span>
+            <TabsTrigger 
+              value="tutor" 
+              className="flex flex-col items-center justify-center gap-1.5 py-3 px-2 data-[state=active]:bg-gradient-to-br data-[state=active]:from-amber-400 data-[state=active]:to-amber-500 data-[state=active]:text-slate-900 data-[state=active]:shadow-lg data-[state=active]:shadow-amber-500/50 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-xl transition-all duration-200"
+            >
+              <Star className="w-7 h-7 sm:w-8 sm:h-8" />
+              <span className="text-[10px] sm:text-xs font-semibold">Meu Tutor</span>
             </TabsTrigger>
           </TabsList>
 
