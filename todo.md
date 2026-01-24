@@ -701,7 +701,18 @@
 - [x] Criar server/db-central.ts com helpers para banco centralizado
 - [ ] Atualizar procedures do tRPC para usar banco centralizado
 - [ ] Ajustar queries do dashboard para buscar dados centralizados
-- [ ] Migrar Laís e Camila para tabela students (se necessário)
-- [ ] Criar registros em student_intelligence para ambas
+- [x] Migrar Laís e Camila para tabela students (ID: 30001 e 30002)
+- [x] Criar registros em student_intelligence para ambas
+- [x] Adicionar coluna student_id na tabela users com foreign key
 - [ ] Testar leitura/escrita em ambos os sistemas
 - [ ] Validar dados das alunas no banco centralizado
+
+
+## Criar Logins para Andressa e Elizabeth
+- [x] Criar registro de Andressa Amorim no banco centralizado (ID: 30004)
+- [x] Criar registro de Elizabeth Souza no banco centralizado (ID: 30005)
+- [x] Criar usuários com senhas para ambas
+- [x] Gerar tokens de acesso direto
+- [x] Atualizar perfil da Elizabeth com objetivos específicos (fluência, listening, Friends)
+- [ ] Testar logins
+- [x] Criar documento com credenciais e mensagens prontas
