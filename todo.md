@@ -650,3 +650,12 @@
 - [ ] Criar senhas iniciais para Laís (6200) e Camila (6220)
 - [ ] Testar login completo
 - [ ] Documentar credenciais para enviar às alunas
+
+
+## CORREÇÃO URGENTE: Criar Alunas no Banco
+- [x] Criar registro da Laís Milena Gambini no banco
+- [x] Criar registro da Camila Gonsalves no banco
+- [x] Definir senhas para ambas
+- [x] Forçar limpeza completa de cookies antes de criar nova sessão
+- [x] Limpar cache e storage no frontend após login
+- [ ] Testar login em modo anônimo

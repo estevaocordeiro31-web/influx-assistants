@@ -71,16 +71,27 @@ export const authPasswordRouter = router({
         });
       }
 
-      // Criar token de sessão
+      // LIMPAR COMPLETAMENTE qualquer sessão anterior
+      ctx.res.setHeader(
+        'Set-Cookie',
+        `${COOKIE_NAME}=deleted; Path=/; HttpOnly; SameSite=Lax; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT`
+      );
+
+      // Criar token de sessão NOVO
       const sessionToken = await sdk.createSessionToken(user.openId, {
         name: user.name || 'Student',
       });
 
-      // Definir cookie de sessão
+      // Definir cookie de sessão NOVA
       const cookieOptions = getSessionCookieOptions(ctx.req);
       ctx.res.setHeader(
         'Set-Cookie',
-        `${COOKIE_NAME}=${sessionToken}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${7 * 24 * 60 * 60}`
+        [
+          // Primeiro: deletar cookie antigo
+          `${COOKIE_NAME}=deleted; Path=/; HttpOnly; SameSite=Lax; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT`,
+          // Segundo: criar cookie novo
+          `${COOKIE_NAME}=${sessionToken}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${7 * 24 * 60 * 60}`
+        ]
       );
 
       console.log(`[Auth] Login bem-sucedido: ${user.name} (${user.email})`);

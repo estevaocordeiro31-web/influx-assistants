@@ -31,11 +31,16 @@ export default function Login() {
       {
         onSuccess: (data) => {
           console.log('Login bem-sucedido:', data);
-          // Redirecionar baseado no role
+          
+          // LIMPAR CACHE E STORAGE
+          sessionStorage.clear();
+          localStorage.clear();
+          
+          // Redirecionar baseado no role COM RELOAD FORÇADO
           if (data.user.role === 'admin') {
-            window.location.href = '/admin/dashboard';
+            window.location.replace('/admin/dashboard');
           } else {
-            window.location.href = '/student/dashboard';
+            window.location.replace('/student/dashboard');
           }
         },
         onError: (error) => {
