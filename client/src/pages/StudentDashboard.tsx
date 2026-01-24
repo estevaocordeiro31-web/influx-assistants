@@ -20,6 +20,9 @@ import { ExclusiveMaterialsSection } from "@/components/ExclusiveMaterialsSectio
 import { ReadingClubIntegrated } from "@/components/ReadingClubIntegrated";
 import { PersonalTutor } from "@/components/PersonalTutor";
 import { trpc } from "@/lib/trpc";
+import { NotificationBadge } from "@/components/NotificationBadge";
+import { useNotifications } from "@/hooks/useNotifications";
+import { OnboardingTutorial } from "@/components/OnboardingTutorial";
 
 // Dados de demonstração - Aluno avançado Book 5
 const DEMO_STUDENT = {
@@ -70,6 +73,25 @@ export default function StudentDashboard() {
   const { user, isAuthenticated } = useAuth();
   const [, setLocation] = useLocation();
   const [selectedTip, setSelectedTip] = useState<any>(null);
+  const { notifications, clearNotification } = useNotifications();
+  const [showOnboarding, setShowOnboarding] = useState(false);
+
+  // Verificar se é o primeiro acesso do usuário
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      const hasSeenOnboarding = localStorage.getItem(`onboarding_completed_${user.id}`);
+      if (!hasSeenOnboarding) {
+        setShowOnboarding(true);
+      }
+    }
+  }, [isAuthenticated, user]);
+
+  const handleOnboardingComplete = () => {
+    if (user) {
+      localStorage.setItem(`onboarding_completed_${user.id}`, 'true');
+    }
+    setShowOnboarding(false);
+  };
 
   // Buscar dados do dashboard do aluno autenticado
   const { data: dashboardData, isLoading: dashboardLoading } = trpc.student.getDashboardData.useQuery(
@@ -104,7 +126,11 @@ export default function StudentDashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
-      <InfluxHeader />
+      {/* Tutorial de Primeiro Acesso */}
+      {showOnboarding && (
+        <OnboardingTutorial onComplete={handleOnboardingComplete} />
+      )}
+      <InfluxHeader onOpenTutorial={() => setShowOnboarding(true)} />
 
       <main className="max-w-7xl mx-auto px-4 py-6">
         {/* Hero Section com Fluxie */}
@@ -226,24 +252,30 @@ export default function StudentDashboard() {
             </TabsTrigger>
             <TabsTrigger 
               value="chat" 
-              className="flex flex-col items-center justify-center gap-1.5 py-3 px-2 data-[state=active]:bg-gradient-to-br data-[state=active]:from-blue-400 data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-blue-500/50 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-xl transition-all duration-200"
+              className="flex flex-col items-center justify-center gap-1.5 py-3 px-2 data-[state=active]:bg-gradient-to-br data-[state=active]:from-blue-400 data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-blue-500/50 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-xl transition-all duration-200 relative"
+              onClick={() => clearNotification('chat')}
             >
               <MessageCircle className="w-7 h-7 sm:w-8 sm:h-8" />
               <span className="text-[10px] sm:text-xs font-semibold">Chat IA</span>
+              <NotificationBadge count={notifications.chat} />
             </TabsTrigger>
             <TabsTrigger 
               value="exercises" 
-              className="flex flex-col items-center justify-center gap-1.5 py-3 px-2 data-[state=active]:bg-gradient-to-br data-[state=active]:from-yellow-400 data-[state=active]:to-yellow-500 data-[state=active]:text-slate-900 data-[state=active]:shadow-lg data-[state=active]:shadow-yellow-500/50 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-xl transition-all duration-200"
+              className="flex flex-col items-center justify-center gap-1.5 py-3 px-2 data-[state=active]:bg-gradient-to-br data-[state=active]:from-yellow-400 data-[state=active]:to-yellow-500 data-[state=active]:text-slate-900 data-[state=active]:shadow-lg data-[state=active]:shadow-yellow-500/50 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-xl transition-all duration-200 relative"
+              onClick={() => clearNotification('exercises')}
             >
               <Zap className="w-7 h-7 sm:w-8 sm:h-8" />
               <span className="text-[10px] sm:text-xs font-semibold">Exercícios</span>
+              <NotificationBadge count={notifications.exercises} />
             </TabsTrigger>
             <TabsTrigger 
               value="blog" 
-              className="flex flex-col items-center justify-center gap-1.5 py-3 px-2 data-[state=active]:bg-gradient-to-br data-[state=active]:from-purple-400 data-[state=active]:to-purple-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-purple-500/50 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-xl transition-all duration-200"
+              className="flex flex-col items-center justify-center gap-1.5 py-3 px-2 data-[state=active]:bg-gradient-to-br data-[state=active]:from-purple-400 data-[state=active]:to-purple-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-purple-500/50 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-xl transition-all duration-200 relative"
+              onClick={() => clearNotification('blog')}
             >
               <BookOpen className="w-7 h-7 sm:w-8 sm:h-8" />
               <span className="text-[10px] sm:text-xs font-semibold">Blog</span>
+              <NotificationBadge count={notifications.blog} />
             </TabsTrigger>
             <TabsTrigger 
               value="sponte" 
@@ -254,17 +286,21 @@ export default function StudentDashboard() {
             </TabsTrigger>
             <TabsTrigger 
               value="materials" 
-              className="flex flex-col items-center justify-center gap-1.5 py-3 px-2 data-[state=active]:bg-gradient-to-br data-[state=active]:from-pink-400 data-[state=active]:to-pink-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-pink-500/50 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-xl transition-all duration-200"
+              className="flex flex-col items-center justify-center gap-1.5 py-3 px-2 data-[state=active]:bg-gradient-to-br data-[state=active]:from-pink-400 data-[state=active]:to-pink-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-pink-500/50 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-xl transition-all duration-200 relative"
+              onClick={() => clearNotification('materials')}
             >
               <BookOpen className="w-7 h-7 sm:w-8 sm:h-8" />
               <span className="text-[10px] sm:text-xs font-semibold">Materiais</span>
+              <NotificationBadge count={notifications.materials} />
             </TabsTrigger>
             <TabsTrigger 
               value="reading-club" 
-              className="flex flex-col items-center justify-center gap-1.5 py-3 px-2 data-[state=active]:bg-gradient-to-br data-[state=active]:from-orange-400 data-[state=active]:to-orange-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-orange-500/50 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-xl transition-all duration-200"
+              className="flex flex-col items-center justify-center gap-1.5 py-3 px-2 data-[state=active]:bg-gradient-to-br data-[state=active]:from-orange-400 data-[state=active]:to-orange-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-orange-500/50 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-xl transition-all duration-200 relative"
+              onClick={() => clearNotification('readingClub')}
             >
-              <Trophy className="w-7 h-7 sm:w-8 sm:h-8" />
+              <BookOpen className="w-7 h-7 sm:w-8 sm:h-8" />
               <span className="text-[10px] sm:text-xs font-semibold">Reading Club</span>
+              <NotificationBadge count={notifications.readingClub} />
             </TabsTrigger>
             <TabsTrigger 
               value="tutor" 

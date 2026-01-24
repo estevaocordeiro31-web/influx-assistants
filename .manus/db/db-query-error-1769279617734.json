@@ -1,0 +1,8 @@
+{
+  "query": "\nINSERT INTO users (name, email, passwordHash, role, status, student_id, access_token, createdAt, updatedAt)\nVALUES (\n  'Estevão Cordeiro',\n  'direcaojundiairetiro@influx.com.br',\n  '$2b$10$iBcBJt.VPw/i1REV0yhVEOyfcJrLLybbxz5KbG3AJA1bh1QmF8iiW',\n  'user',\n  'Ativo',\n  60002,\n  'f8e9a7b6c5d4e3f2a1b0c9d8e7f6a5b4c3d2e1f0a9b8c7d6e5f4a3b2c1d0e9f8',\n  NOW(),\n  NOW()\n)\nON DUPLICATE KEY UPDATE \n  student_id = 60002,\n  passwordHash = '$2b$10$iBcBJt.VPw/i1REV0yhVEOyfcJrLLybbxz5KbG3AJA1bh1QmF8iiW',\n  access_token = 'f8e9a7b6c5d4e3f2a1b0c9d8e7f6a5b4c3d2e1f0a9b8c7d6e5f4a3b2c1d0e9f8',\n  updatedAt = NOW();\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T8Mwbb7L99VC4H.e93aa651f00b --database 2aNFQGA4rARocXGp2d4pqb --execute \nINSERT INTO users (name, email, passwordHash, role, status, student_id, access_token, createdAt, updatedAt)\nVALUES (\n  'Estevão Cordeiro',\n  'direcaojundiairetiro@influx.com.br',\n  '$2b$10$iBcBJt.VPw/i1REV0yhVEOyfcJrLLybbxz5KbG3AJA1bh1QmF8iiW',\n  'user',\n  'Ativo',\n  60002,\n  'f8e9a7b6c5d4e3f2a1b0c9d8e7f6a5b4c3d2e1f0a9b8c7d6e5f4a3b2c1d0e9f8',\n  NOW(),\n  NOW()\n)\nON DUPLICATE KEY UPDATE \n  student_id = 60002,\n  passwordHash = '$2b$10$iBcBJt.VPw/i1REV0yhVEOyfcJrLLybbxz5KbG3AJA1bh1QmF8iiW',\n  access_token = 'f8e9a7b6c5d4e3f2a1b0c9d8e7f6a5b4c3d2e1f0a9b8c7d6e5f4a3b2c1d0e9f8',\n  updatedAt = NOW();\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 2: Unknown column 'access_token' in 'field list'"
+  ]
+}

@@ -16,6 +16,21 @@ const DIRECT_LOGIN_TOKENS: Record<string, string> = {
   // Camila Gonsalves
   "d80e078ddb9ce0e237a67b4e00f09fddc762cc5ee9eadb3e9938cd4b19b81d08":
     "camiladarosa@outlook.com",
+  // Andressa Amorim de Araújo
+  "711b17885385ec86441dbf8da9980df3e5f627d7be9f6272bed35525e34f2c2f":
+    "andressaamorimdearaujo03@gmail.com",
+  // Elizabeth Rodrigues de Souza
+  "958261bbf38afd1ec8d83b83e5e40f363c97d1b673f51e3dada43b0e369bbe6f":
+    "elizabeth.engenhariaeletrica@gmail.com",
+  // Carlos Alberto Pirani Júnior
+  "439e0189686a35da5cb61447eab54a27a67e424a18c8582d2352b316333f9989":
+    "carlos_junior_707@hotmail.com",
+  // Diego Bim (Franqueado Osasco)
+  "564ecec8776ab92eda92512735ff8b46c11ececd920886505742769e57514265":
+    "direcaoosasco@influx.com.br",
+  // Estevão Cordeiro (Admin - Teste de Aluno)
+  "f8e9a7b6c5d4e3f2a1b0c9d8e7f6a5b4c3d2e1f0a9b8c7d6e5f4a3b2c1d0e9f8":
+    "direcaojundiairetiro@influx.com.br",
 };
 
 /**

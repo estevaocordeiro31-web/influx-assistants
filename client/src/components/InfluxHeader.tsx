@@ -2,7 +2,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useLocation } from "wouter";
-import { LogOut, Menu, X, Flame, Trophy } from "lucide-react";
+import { LogOut, Menu, X, Flame, Trophy, HelpCircle } from "lucide-react";
 import { useState } from "react";
 
 // Dados de demonstração
@@ -12,7 +12,11 @@ const DEMO_USER = {
   streakDays: 45,
 };
 
-export default function InfluxHeader() {
+interface InfluxHeaderProps {
+  onOpenTutorial?: () => void;
+}
+
+export default function InfluxHeader({ onOpenTutorial }: InfluxHeaderProps = {}) {
   const { user, logout } = useAuth();
   const [, setLocation] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -66,6 +70,17 @@ export default function InfluxHeader() {
               <p className="text-xs text-slate-400">Book 5 - Unit 8</p>
             </div>
           </div>
+          {onOpenTutorial && (
+            <Button
+              onClick={onOpenTutorial}
+              variant="ghost"
+              size="sm"
+              className="text-slate-400 hover:text-green-400 hover:bg-slate-800"
+              title="Ver tutorial novamente"
+            >
+              <HelpCircle className="w-4 h-4" />
+            </Button>
+          )}
           <Button
             onClick={handleLogout}
             variant="ghost"

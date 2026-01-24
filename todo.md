@@ -736,3 +736,29 @@
 - [x] Layout flex-col para ícones acima e texto abaixo
 - [x] Testar responsividade em mobile (funciona bem em ambos os tamanhos)
 - [x] Validar com screenshot e entregar (screenshot capturado)
+
+
+## Atualizar Links de Acesso para Produção
+- [ ] Gerar novos links de acesso direto com URL de produção (https://influxassist-2anfqga4.manus.space)
+- [ ] Criar documento com credenciais atualizadas para as 6 usuárias
+- [ ] Testar links de produção
+
+## Implementar Badges de Notificação
+- [ ] Criar sistema de contagem de notificações por aba
+- [ ] Adicionar badges visuais (círculos vermelhos com números) na barra de navegação
+- [ ] Implementar lógica para atualizar contadores em tempo real
+- [ ] Testar badges em diferentes abas
+
+## Criar Tutorial de Primeiro Acesso
+- [ ] Desenvolver componente de onboarding interativo
+- [ ] Criar tour guiado explicando cada funcionalidade da barra
+- [ ] Implementar sistema de "não mostrar novamente"
+- [ ] Salvar progresso do tutorial no banco de dados
+- [ ] Testar fluxo completo de primeiro acesso
+
+
+## Criar Acesso de Aluno para Estevão (Testes)
+- [x] Criar registro de Estevão Cordeiro como aluno no banco centralizado (ID: 60002, Book 5)
+- [x] Criar usuário local com senha (Estevao@2026)
+- [x] Gerar token de acesso direto (f8e9a7b6c5d4e3f2a1b0c9d8e7f6a5b4c3d2e1f0a9b8c7d6e5f4a3b2c1d0e9f8)
+- [ ] Criar documento com credenciais de todas as 7 usuárias
