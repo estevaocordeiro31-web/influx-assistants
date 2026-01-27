@@ -34,6 +34,9 @@ const DIRECT_LOGIN_TOKENS: Record<string, string> = {
   // Estevão Cordeiro (Teste Aluno - Book 5)
   "6ad492015f0016276cad0278bc6aeaedbba9d0dc00bc8e91f9b569f4bf631fbb":
     "estevao.teste.aluno@influx.com.br",
+  // Fábio Hideki Kiyohashi (Conversação Avançada)
+  "81a58e1f73ecdeb88e4d69dbc7ca26e9dc5246f501cd684095e33cc07a713682":
+    "fabio_hkl@hotmail.com",
 };
 
 /**
