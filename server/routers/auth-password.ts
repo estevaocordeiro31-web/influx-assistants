@@ -8,6 +8,8 @@ import { hashPassword, verifyPassword } from '../auth-password';
 import { sdk } from '../_core/sdk';
 import { COOKIE_NAME } from '@shared/const';
 import { getSessionCookieOptions } from '../_core/cookies';
+import mysql from 'mysql2/promise';
+import { drizzle } from 'drizzle-orm/mysql2';
 
 export const authPasswordRouter = router({
   /**
@@ -21,82 +23,82 @@ export const authPasswordRouter = router({
       })
     )
     .mutation(async ({ input, ctx }) => {
-      const db = await getDb();
-      if (!db) {
-        throw new TRPCError({
-          code: 'INTERNAL_SERVER_ERROR',
-          message: 'Database not available',
+      // Conectar ao banco centralizado
+      const connection = await mysql.createConnection(process.env.CENTRAL_DATABASE_URL!);
+      const db = drizzle(connection);
+
+      try {
+        // Buscar usuário por email
+        const userResult = await db
+          .select()
+          .from(users)
+          .where(eq(users.email, input.email))
+          .limit(1);
+
+        if (!userResult || userResult.length === 0) {
+          throw new TRPCError({
+            code: 'UNAUTHORIZED',
+            message: 'Email ou senha incorretos',
+          });
+        }
+
+        const user = userResult[0];
+
+        // Verificar se usuário tem senha cadastrada
+        if (!user.passwordHash) {
+          throw new TRPCError({
+            code: 'UNAUTHORIZED',
+            message: 'Usuário não possui senha cadastrada. Entre em contato com o coordenador.',
+          });
+        }
+
+        // Verificar senha
+        const isPasswordValid = await verifyPassword(input.password, user.passwordHash);
+        
+        if (!isPasswordValid) {
+          throw new TRPCError({
+            code: 'UNAUTHORIZED',
+            message: 'Email ou senha incorretos',
+          });
+        }
+
+        // LIMPAR COMPLETAMENTE qualquer sessão anterior
+        ctx.res.setHeader(
+          'Set-Cookie',
+          `${COOKIE_NAME}=deleted; Path=/; HttpOnly; SameSite=Lax; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT`
+        );
+
+        // Criar token de sessão NOVO
+        const sessionToken = await sdk.createSessionToken(user.openId, {
+          name: user.name || 'Student',
         });
+
+        // Definir cookie de sessão NOVA
+        const cookieOptions = getSessionCookieOptions(ctx.req);
+        ctx.res.setHeader(
+          'Set-Cookie',
+          [
+            // Primeiro: deletar cookie antigo
+            `${COOKIE_NAME}=deleted; Path=/; HttpOnly; SameSite=Lax; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT`,
+            // Segundo: criar cookie novo
+            `${COOKIE_NAME}=${sessionToken}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${7 * 24 * 60 * 60}`
+          ]
+        );
+
+        console.log(`[Auth] Login bem-sucedido: ${user.name} (${user.email})`);
+
+        return {
+          success: true,
+          user: {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+          },
+        };
+      } finally {
+        await connection.end();
       }
-
-      // Buscar usuário por email
-      const userResult = await db
-        .select()
-        .from(users)
-        .where(eq(users.email, input.email))
-        .limit(1);
-
-      if (!userResult || userResult.length === 0) {
-        throw new TRPCError({
-          code: 'UNAUTHORIZED',
-          message: 'Email ou senha incorretos',
-        });
-      }
-
-      const user = userResult[0];
-
-      // Verificar se usuário tem senha cadastrada
-      if (!user.passwordHash) {
-        throw new TRPCError({
-          code: 'UNAUTHORIZED',
-          message: 'Usuário não possui senha cadastrada. Entre em contato com o coordenador.',
-        });
-      }
-
-      // Verificar senha
-      const isPasswordValid = await verifyPassword(input.password, user.passwordHash);
-      
-      if (!isPasswordValid) {
-        throw new TRPCError({
-          code: 'UNAUTHORIZED',
-          message: 'Email ou senha incorretos',
-        });
-      }
-
-      // LIMPAR COMPLETAMENTE qualquer sessão anterior
-      ctx.res.setHeader(
-        'Set-Cookie',
-        `${COOKIE_NAME}=deleted; Path=/; HttpOnly; SameSite=Lax; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT`
-      );
-
-      // Criar token de sessão NOVO
-      const sessionToken = await sdk.createSessionToken(user.openId, {
-        name: user.name || 'Student',
-      });
-
-      // Definir cookie de sessão NOVA
-      const cookieOptions = getSessionCookieOptions(ctx.req);
-      ctx.res.setHeader(
-        'Set-Cookie',
-        [
-          // Primeiro: deletar cookie antigo
-          `${COOKIE_NAME}=deleted; Path=/; HttpOnly; SameSite=Lax; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT`,
-          // Segundo: criar cookie novo
-          `${COOKIE_NAME}=${sessionToken}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${7 * 24 * 60 * 60}`
-        ]
-      );
-
-      console.log(`[Auth] Login bem-sucedido: ${user.name} (${user.email})`);
-
-      return {
-        success: true,
-        user: {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          role: user.role,
-        },
-      };
     }),
 
   /**
