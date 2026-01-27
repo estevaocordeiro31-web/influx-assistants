@@ -63,14 +63,6 @@ export const authPasswordRouter = router({
         });
       }
 
-      // Verificar status do aluno
-      if (user.status !== 'ativo') {
-        throw new TRPCError({
-          code: 'FORBIDDEN',
-          message: `Acesso negado. Status: ${user.status}. Entre em contato com a coordenação.`,
-        });
-      }
-
       // LIMPAR COMPLETAMENTE qualquer sessão anterior
       ctx.res.setHeader(
         'Set-Cookie',
