@@ -21,6 +21,9 @@ import { readingClubRouter } from "./routers/reading-club";
 import { tutorRouter } from "./routers/tutor";
 import { authPasswordRouter } from "./routers/auth-password";
 import { directLoginRouter } from "./routers/direct-login";
+import { welcomeEmailsRouter } from "./routers/welcome-emails";
+import { bulkConfigRouter } from "./routers/bulk-config";
+import { dailySyncRouter } from "./routers/daily-sync";
 
 export const appRouter = router({
   system: systemRouter,
@@ -36,6 +39,9 @@ export const appRouter = router({
   }),
   authPassword: authPasswordRouter,
   directLogin: directLoginRouter,
+  welcomeEmails: welcomeEmailsRouter,
+  bulkConfig: bulkConfigRouter,
+  dailySync: dailySyncRouter,
 
   chat: chatRouter,
   pronunciation: pronunciationRouter,
