@@ -7,6 +7,101 @@ import { eq } from 'drizzle-orm';
 
 export const studentProfileRouter = router({
   /**
+   * Obter perfil editável do aluno logado
+   */
+  getProfile: protectedProcedure.query(async ({ ctx }) => {
+    const database = await getDb();
+    if (!database) {
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: 'Banco de dados não disponível',
+      });
+    }
+
+    const [profile] = await database
+      .select()
+      .from(studentProfiles)
+      .where(eq(studentProfiles.userId, ctx.user.id));
+
+    if (!profile) {
+      // Criar perfil padrão se não existir
+      await database.insert(studentProfiles).values({
+        userId: ctx.user.id,
+        objective: 'other',
+        englishConsumptionSources: JSON.stringify([]),
+      });
+
+      return {
+        id: 0,
+        user_id: ctx.user.id,
+        photo_url: null,
+        learning_goal: null,
+        notification_preferences: { daily: true, badges: true, tips: true },
+      };
+    }
+
+    return {
+      id: profile.id,
+      user_id: profile.userId,
+      photo_url: null, // TODO: adicionar campo photo_url na tabela
+      learning_goal: profile.specificGoals,
+      notification_preferences: { daily: true, badges: true, tips: true }, // TODO: adicionar campo
+    };
+  }),
+
+  /**
+   * Atualizar perfil editável do aluno logado
+   */
+  updateProfile: protectedProcedure
+    .input(
+      z.object({
+        photo_url: z.string().optional(),
+        learning_goal: z.string().optional(),
+        notification_preferences: z.object({
+          daily: z.boolean(),
+          badges: z.boolean(),
+          tips: z.boolean(),
+        }).optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const database = await getDb();
+      if (!database) {
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'Banco de dados não disponível',
+        });
+      }
+
+      // Verificar se perfil existe
+      const [profile] = await database
+        .select()
+        .from(studentProfiles)
+        .where(eq(studentProfiles.userId, ctx.user.id));
+
+      if (!profile) {
+        // Criar novo perfil
+        await database.insert(studentProfiles).values({
+          userId: ctx.user.id,
+          objective: 'other',
+          specificGoals: input.learning_goal,
+          englishConsumptionSources: JSON.stringify([]),
+        });
+      } else {
+        // Atualizar perfil existente
+        await database
+          .update(studentProfiles)
+          .set({
+            specificGoals: input.learning_goal,
+            updatedAt: new Date(),
+          })
+          .where(eq(studentProfiles.userId, ctx.user.id));
+      }
+
+      return { success: true };
+    }),
+
+  /**
    * Atualizar perfil detalhado do aluno
    */
   updateDetailedProfile: protectedProcedure

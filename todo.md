@@ -823,3 +823,15 @@
 - [x] Verificar se token está registrado corretamente no backend
 - [x] Corrigir problema de autenticação identificado
 - [ ] Testar login com email/senha e link direto
+
+## Fase 44: Perfil Editável, Histórico e Conquistas
+- [x] Criar tabela student_profiles para armazenar preferências do aluno
+- [x] Criar página de perfil editável com upload de foto
+- [x] Implementar formulário de objetivos e preferências de notificação
+- [ ] Criar tabela conversation_history para armazenar conversas com Fluxie
+- [ ] Implementar aba "Minhas Conversas" com lista de diálogos
+- [ ] Adicionar funcionalidade de marcar favoritos e exportar transcrições
+- [ ] Criar tabela achievements para badges e conquistas
+- [ ] Desenvolver galeria de badges com animações
+- [ ] Implementar sistema de progresso até próximo badge
+- [ ] Testar todas as funcionalidades integradas

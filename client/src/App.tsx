@@ -29,6 +29,7 @@ import DirectLogin from "./pages/DirectLogin";
 import GeminiSuggestions from "./pages/GeminiSuggestions";
 import GeminiStrategicAnalysis from "./pages/GeminiStrategicAnalysis";
 import GeminiChat from "./pages/GeminiChat";
+import EditProfile from "./pages/EditProfile";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -62,6 +63,7 @@ function Router() {
       {/* Rotas autenticadas */}
       <Route path="/student/dashboard" component={StudentDashboard} />
       <Route path="/student/profile" component={StudentProfile} />
+      <Route path="/student/edit-profile" component={EditProfile} />
       <Route path="/student/chat" component={Chat} />
       <Route path="/student/exercises" component={Exercises} />
       <Route path="/student/voice-chat" component={VoiceChatPage} />
