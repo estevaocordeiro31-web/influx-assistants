@@ -10,4 +10,5 @@ export const ENV = {
   sponteLogin: process.env.SPONTE_LOGIN ?? "",
   spontePassword: process.env.SPONTE_PASSWORD ?? "",
   geminiApiKey: process.env.GEMINI_API_KEY ?? "",
+  centralDatabaseUrl: process.env.CENTRAL_DATABASE_URL ?? "",
 };

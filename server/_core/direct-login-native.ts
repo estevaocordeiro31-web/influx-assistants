@@ -1,6 +1,9 @@
 import { Express, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import { getDb } from "../db";
+import mysql from "mysql2/promise";
+import { drizzle } from "drizzle-orm/mysql2";
+import { ENV } from "./env";
 import { users } from "../../drizzle/schema";
 import { eq } from "drizzle-orm";
 import { sdk } from "./sdk";
@@ -84,18 +87,17 @@ export function registerDirectLoginRoutes(app: Express) {
 
       console.log("[DirectLogin] Token válido para email:", userEmail);
 
-      // 2. Buscar usuário no banco
-      const db = await getDb();
-      if (!db) {
-        console.error("[DirectLogin] Banco de dados não disponível");
-        throw new Error("Database not available");
-      }
+      // 2. Buscar usuário no banco CENTRALIZADO
+      const connection = await mysql.createConnection(ENV.centralDatabaseUrl);
+      const db = drizzle(connection);
 
       const [user] = await db
         .select()
         .from(users)
         .where(eq(users.email, userEmail))
         .limit(1);
+
+      await connection.end();
 
       if (!user) {
         console.error("[DirectLogin] Usuário não encontrado:", userEmail);
@@ -124,35 +126,7 @@ export function registerDirectLoginRoutes(app: Express) {
         `);
       }
 
-      // 3. Verificar status do usuário
-      if (user.status !== "ativo") {
-        console.error("[DirectLogin] Usuário inativo:", userEmail, "Status:", user.status);
-        return res.status(403).send(`
-          <!DOCTYPE html>
-          <html>
-            <head>
-              <meta charset="UTF-8">
-              <title>Acesso Negado</title>
-              <style>
-                body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #1a1f3a; color: white; }
-                .container { text-align: center; max-width: 400px; padding: 2rem; background: white; color: #1a1f3a; border-radius: 12px; }
-                h1 { color: #ef4444; }
-                a { color: #39ff14; text-decoration: none; font-weight: bold; }
-              </style>
-            </head>
-            <body>
-              <div class="container">
-                <h1>❌ Acesso Negado</h1>
-                <p>Sua conta está inativa. Status: <strong>${user.status}</strong></p>
-                <p>Entre em contato com a coordenação para reativar sua conta.</p>
-                <p><a href="/login">← Voltar para Login</a></p>
-              </div>
-            </body>
-          </html>
-        `);
-      }
-
-      console.log("[DirectLogin] Usuário encontrado e ativo:", user.name, "Role:", user.role);
+      console.log("[DirectLogin] Usuário encontrado:", user.name, "Role:", user.role);
 
       // 4. LIMPAR COMPLETAMENTE cookies antigos
       // Tentar deletar com todas as combinações possíveis

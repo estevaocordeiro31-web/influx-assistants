@@ -817,3 +817,9 @@
 - [x] Criar micro-interações visuais com Framer Motion
 - [x] Sincronizar animações com reprodução de áudio
 - [ ] Testar feedback sensorial completo
+
+## Fase 43: Correção de Login do Usuário de Teste
+- [x] Verificar se usuário de teste Estevão existe no banco centralizado
+- [x] Verificar se token está registrado corretamente no backend
+- [x] Corrigir problema de autenticação identificado
+- [ ] Testar login com email/senha e link direto
