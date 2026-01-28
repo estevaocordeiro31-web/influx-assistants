@@ -24,6 +24,7 @@ import { directLoginRouter } from "./routers/direct-login";
 import { welcomeEmailsRouter } from "./routers/welcome-emails";
 import { bulkConfigRouter } from "./routers/bulk-config";
 import { dailySyncRouter } from "./routers/daily-sync";
+import { geminiRouter } from "./routers/gemini";
 
 export const appRouter = router({
   system: systemRouter,
@@ -42,6 +43,7 @@ export const appRouter = router({
   welcomeEmails: welcomeEmailsRouter,
   bulkConfig: bulkConfigRouter,
   dailySync: dailySyncRouter,
+  gemini: geminiRouter,
 
   chat: chatRouter,
   pronunciation: pronunciationRouter,

@@ -26,6 +26,7 @@ import StudentCrossAnalysisPage from "./pages/StudentCrossAnalysisPage";
 import ImportStudentDataPage from "./pages/ImportStudentDataPage";
 import ForceLogout from "./pages/ForceLogout";
 import DirectLogin from "./pages/DirectLogin";
+import GeminiSuggestions from "./pages/GeminiSuggestions";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -70,6 +71,7 @@ function Router() {
           <Route path="/admin/notifications" component={AdminNotifications} />
           <Route path="/admin/personalized-links" component={PersonalizedLinksManager} />
           <Route path="/admin/upload-materials" component={MaterialUploadPage} />
+          <Route path="/admin/gemini-suggestions" component={GeminiSuggestions} />
         </>
       )}
       {/* Rotas de demonstração admin */}

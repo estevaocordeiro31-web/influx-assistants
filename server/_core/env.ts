@@ -9,4 +9,5 @@ export const ENV = {
   forgeApiKey: process.env.BUILT_IN_FORGE_API_KEY ?? "",
   sponteLogin: process.env.SPONTE_LOGIN ?? "",
   spontePassword: process.env.SPONTE_PASSWORD ?? "",
+  geminiApiKey: process.env.GEMINI_API_KEY ?? "",
 };

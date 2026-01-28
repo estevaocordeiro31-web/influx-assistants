@@ -767,3 +767,30 @@
 - [ ] Criar sistema de email de boas-vindas com credenciais
 - [ ] Desenvolver dashboard de configuração em massa via planilha
 - [ ] Implementar job de sincronização diária às 18h
+
+## Fase 38: Arquitetura Anti-Travamento e Experiência Sensorial (Master Prompt Gemini)
+- [ ] Implementar streaming de respostas com Vercel AI SDK
+- [ ] Configurar rotas para Edge Runtime
+- [ ] Instalar e configurar TanStack Query
+- [ ] Implementar Optimistic Updates para mensagens instantâneas
+- [ ] Adicionar micro-interações com Framer Motion
+- [ ] Criar ondas sonoras reativas para microfone ativo
+- [ ] Implementar Skeleton Screens para estados de carregamento
+- [ ] Integrar Howler.js como motor de áudio
+- [ ] Criar Success SFX para validação de chunks
+- [ ] Criar Notification SFX para respostas do Fluxie
+- [ ] Criar Theme Music para conquista de badges
+- [ ] Implementar webhook para eventos de áudio e badges
+- [ ] Testar performance e fluidez da interface
+
+## Fase 39: Integração Manus-Gemini (API Bidirecional + Webhooks)
+- [x] Criar helper para enviar atualizações ao Gemini via API
+- [ ] Implementar webhook endpoint para receber sugestões do Gemini
+- [x] Criar tabela gemini_suggestions no banco de dados
+- [ ] Desenvolver dashboard admin para visualizar sugestões
+- [ ] Implementar sistema de aprovação/rejeição de sugestões
+- [ ] Configurar eventos que acionam sincronização (checkpoint, nova funcionalidade)
+- [ ] Criar sistema de autenticação segura para webhooks
+- [ ] Implementar logs de comunicação Manus-Gemini
+- [ ] Testar integração bidirecional completa
+- [ ] Documentar API e fluxo de integração
