@@ -11,7 +11,7 @@ export default function Home() {
   const [, setLocation] = useLocation();
 
   if (isAuthenticated && user) {
-    if (user.role === "student") {
+    if (user.role === "user") {
       setLocation("/student/dashboard");
       return null;
     } else if (user.role === "admin") {

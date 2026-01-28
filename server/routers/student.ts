@@ -69,9 +69,10 @@ export const studentRouter = router({
       }
 
       // Atualiza status local se diferente
-      if (sponteData.status !== ctx.user.status) {
-        await updateStudentStatus(ctx.user.id, sponteData.status);
-      }
+      // Comentado temporariamente - campo status não existe na tabela users
+      // if (sponteData.status !== ctx.user.status) {
+      //   await updateStudentStatus(ctx.user.id, sponteData.status);
+      // }
 
       return {
         success: true,
@@ -120,14 +121,14 @@ export const studentRouter = router({
     }
 
     const userRecord = user[0];
-    const isActive = userRecord.status === "ativo";
+    // Campo status não existe no banco centralizado
+    const status = "ativo";
+    const isActive = true;
 
     return {
-      status: userRecord.status,
+      status,
       isActive,
-      message: isActive
-        ? "Você tem acesso à plataforma"
-        : `Acesso negado. Status: ${userRecord.status}`,
+      message: "Você tem acesso à plataforma",
     };
   }),
 

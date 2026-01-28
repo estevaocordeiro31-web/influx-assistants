@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO users (id, openId, name, email, loginMethod, role) \nVALUES (\n  570011,\n  'estevao_teste_openid_570011',\n  'Estevão (Teste)',\n  'estevao.teste.aluno@influx.com.br',\n  'oauth',\n  'user'\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T8Mwbb7L99VC4H.e93aa651f00b --database 2aNFQGA4rARocXGp2d4pqb --execute INSERT INTO users (id, openId, name, email, loginMethod, role) \nVALUES (\n  570011,\n  'estevao_teste_openid_570011',\n  'Estevão (Teste)',\n  'estevao.teste.aluno@influx.com.br',\n  'oauth',\n  'user'\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 56
+}

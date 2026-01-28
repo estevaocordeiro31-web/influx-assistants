@@ -16,11 +16,12 @@ export const users = mysqlTable("users", {
   name: text("name"),
   email: varchar("email", { length: 320 }),
   /** Hashed password for traditional login (bcrypt) */
-  passwordHash: varchar("passwordHash", { length: 255 }),
+  passwordHash: varchar("password_hash", { length: 255 }),
   loginMethod: varchar("loginMethod", { length: 64 }),
-  role: mysqlEnum("role", ["user", "admin", "student"]).default("user").notNull(),
-  status: mysqlEnum("status", ["ativo", "inativo", "desistente", "trancado"]).default("ativo").notNull(),
-  sponteId: varchar("sponteId", { length: 64 }).unique(),
+  role: mysqlEnum("role", ["user", "admin", "owner"]).default("user").notNull(),
+  // Campo status não existe no banco centralizado, mas é usado no código
+  // Adicionado como opcional para compatibilidade
+  status: mysqlEnum("status", ["ativo", "inativo", "desistente", "trancado"]),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),

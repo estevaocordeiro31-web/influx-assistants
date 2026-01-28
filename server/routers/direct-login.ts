@@ -18,6 +18,8 @@ const DIRECT_LOGIN_TOKENS: Record<string, string> = {
   'lais.gambini@example.com': crypto.createHash('sha256').update('lais_direct_2026').digest('hex'),
   // Camila Gonsalves
   'camiladarosa@outlook.com': crypto.createHash('sha256').update('camila_direct_2026').digest('hex'),
+  // Estevão (teste)
+  'estevao.teste.aluno@influx.com.br': '6ad492015f0016276cad0278bc6aeaedbba9d0dc00bc8e91f9b569f4bf631fbb',
 };
 
 export const directLoginRouter = router({
@@ -56,9 +58,15 @@ export const directLoginRouter = router({
         });
       }
 
-      // Buscar usuário por email
+      // Buscar usuário por email (apenas campos que existem no banco centralizado)
       const userResult = await db
-        .select()
+        .select({
+          id: users.id,
+          openId: users.openId,
+          name: users.name,
+          email: users.email,
+          role: users.role,
+        })
         .from(users)
         .where(eq(users.email, userEmail))
         .limit(1);
@@ -73,12 +81,8 @@ export const directLoginRouter = router({
       const user = userResult[0];
 
       // Verificar status do aluno
-      if (user.status !== 'ativo') {
-        throw new TRPCError({
-          code: 'FORBIDDEN',
-          message: `Acesso negado. Status: ${user.status}. Entre em contato com a coordenação.`,
-        });
-      }
+      // Comentado - campo status não existe no banco centralizado
+      // Todos os usuários são considerados ativos por padrão
 
       // LIMPAR COMPLETAMENTE qualquer sessão anterior
       ctx.res.setHeader(

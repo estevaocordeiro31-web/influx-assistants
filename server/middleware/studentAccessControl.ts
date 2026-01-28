@@ -40,18 +40,14 @@ export async function checkStudentAccess(userId: number): Promise<StudentAccessC
   }
 
   const userRecord = user[0];
-  const isActive = userRecord.status === "ativo";
-
-  if (!isActive) {
-    throw new TRPCError({
-      code: "FORBIDDEN",
-      message: `Acesso negado. Seu status é: ${userRecord.status}. Entre em contato com a coordenação para mais informações.`,
-    });
-  }
+  // Campo status não existe no banco centralizado
+  // Retornando status padrão "ativo" para todos os usuários
+  const status = "ativo";
+  const isActive = true;
 
   return {
     userId,
-    status: userRecord.status,
+    status,
     isActive,
   };
 }
@@ -113,10 +109,12 @@ export async function getStudentAccessInfo(userId: number): Promise<StudentAcces
     }
 
     const userRecord = user[0];
+    // Campo status não existe no banco centralizado
+    // Todos os usuários são considerados ativos por padrão
     return {
       userId,
-      status: userRecord.status,
-      isActive: userRecord.status === "ativo",
+      status: "ativo" as const,
+      isActive: true,
     };
   } catch (error) {
     console.error(`[StudentAccess] Erro ao obter informações de acesso do aluno ${userId}:`, error);

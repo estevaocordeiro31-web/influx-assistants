@@ -27,18 +27,17 @@ export const adminStudentsRouter = router({
           });
         }
 
-        // Buscar alunos com role 'student'
+        // Buscar todos os usuários com role 'user' (alunos)
         let query = database
           .select({
             id: users.id,
             name: users.name,
             email: users.email,
-            status: users.status,
             createdAt: users.createdAt,
             lastSignedIn: users.lastSignedIn,
           })
           .from(users)
-          .where(eq(users.role, 'student'));
+          .where(eq(users.role, 'user'));
 
         // Aplicar filtro de busca se fornecido
         if (input.search) {
@@ -82,7 +81,7 @@ export const adminStudentsRouter = router({
               lastActivity: student.lastSignedIn
                 ? new Date(student.lastSignedIn).toLocaleDateString('pt-BR')
                 : 'Nunca',
-              status: student.status === 'ativo' ? 'active' : 'inactive',
+              status: 'active', // Todos os usuários são considerados ativos por padrão
               createdAt: student.createdAt,
             };
           })
@@ -141,7 +140,7 @@ export const adminStudentsRouter = router({
             id: student.id,
             name: student.name,
             email: student.email,
-            status: student.status,
+            // status removido - campo não existe no banco centralizado
             createdAt: student.createdAt,
             lastSignedIn: student.lastSignedIn,
             profile: profile || null,
