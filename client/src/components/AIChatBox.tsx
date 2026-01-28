@@ -4,6 +4,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { Loader2, Send, User, Sparkles } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
+import { useFluxieReplySound } from "@/hooks/useSound";
 import { Streamdown } from "streamdown";
 
 /**
@@ -121,6 +122,7 @@ export function AIChatBox({
   suggestedPrompts,
 }: AIChatBoxProps) {
   const [input, setInput] = useState("");
+  const playFluxieReply = useFluxieReplySound();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputAreaRef = useRef<HTMLFormElement>(null);
@@ -128,6 +130,14 @@ export function AIChatBox({
 
   // Filter out system messages
   const displayMessages = messages.filter((msg) => msg.role !== "system");
+
+  // Play sound when assistant responds
+  useEffect(() => {
+    const lastMessage = displayMessages[displayMessages.length - 1];
+    if (lastMessage && lastMessage.role === 'assistant' && displayMessages.length > 1) {
+      playFluxieReply();
+    }
+  }, [displayMessages.length, playFluxieReply]);
 
   // Calculate min-height for last assistant message to push user message to top
   const [minHeightForLastMessage, setMinHeightForLastMessage] = useState(0);

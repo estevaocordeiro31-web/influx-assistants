@@ -808,3 +808,12 @@
 - [x] Instalar dependências: howler, framer-motion, lucide-react
 - [x] Verificar e baixar assets da Aiko se necessário
 - [x] Atualizar dashboard de status para 85% concluído
+
+## Fase 42: AudioManager e Micro-Interações
+- [x] Criar componente AudioManager com hooks personalizados
+- [x] Implementar hook useSound para reprodução de efeitos sonoros
+- [x] Adicionar controles de volume e mute global
+- [x] Integrar sons nos eventos: chunk validado, resposta Fluxie, badge conquistado
+- [x] Criar micro-interações visuais com Framer Motion
+- [x] Sincronizar animações com reprodução de áudio
+- [ ] Testar feedback sensorial completo
