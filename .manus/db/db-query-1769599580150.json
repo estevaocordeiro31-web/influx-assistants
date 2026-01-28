@@ -1,0 +1,16 @@
+{
+  "query": "SELECT id, name, email, password_hash FROM users WHERE email = 'estevao.teste.aluno@influx.com.br';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T8Mwbb7L99VC4H.e93aa651f00b --database 2aNFQGA4rARocXGp2d4pqb --execute SELECT id, name, email, password_hash FROM users WHERE email = 'estevao.teste.aluno@influx.com.br';",
+  "rows": [
+    {
+      "id": "570011",
+      "name": "Estevão (Teste)",
+      "email": "estevao.teste.aluno@influx.com.br",
+      "password_hash": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\temail\tpassword_hash\n570011\tEstevão (Teste)\testevao.teste.aluno@influx.com.br\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 58
+}

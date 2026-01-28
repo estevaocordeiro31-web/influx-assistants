@@ -1,0 +1,75 @@
+{
+  "query": "SELECT id, name, email FROM users WHERE role = 'user' ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T8Mwbb7L99VC4H.e93aa651f00b --database 2aNFQGA4rARocXGp2d4pqb --execute SELECT id, name, email FROM users WHERE role = 'user' ORDER BY id;",
+  "rows": [
+    {
+      "id": "390047",
+      "name": "direcaojundiairetiro",
+      "email": "direcaojundiairetiro@influx.com.br"
+    },
+    {
+      "id": "390067",
+      "name": "direcaojundiairetiro",
+      "email": "direcaojundiairetiro@influx.com.br"
+    },
+    {
+      "id": "390195",
+      "name": "Laís Milena Gambini",
+      "email": "lais.gambini@example.com"
+    },
+    {
+      "id": "390196",
+      "name": "Camila Gonsalves da Rosa de Carvalho",
+      "email": "camila.gonsalves@example.com"
+    },
+    {
+      "id": "390197",
+      "name": "Laís Milena Gambini",
+      "email": "lais.gambini@example.com"
+    },
+    {
+      "id": "390198",
+      "name": "Camila Gonsalves da Rosa de Carvalho",
+      "email": "camila.gonsalves@example.com"
+    },
+    {
+      "id": "570011",
+      "name": "Estevão (Teste)",
+      "email": "estevao.teste.aluno@influx.com.br"
+    },
+    {
+      "id": "630041",
+      "name": "Andressa Amorim de Araújo",
+      "email": "andressaamorimdearaujo03@gmail.com"
+    },
+    {
+      "id": "630042",
+      "name": "Elizabeth Rodrigues De Souza",
+      "email": "elizabeth.engenhariaeletrica@gmail.com"
+    },
+    {
+      "id": "630088",
+      "name": "Carlos Alberto Pirani Júnior",
+      "email": "carlos_junior_707@hotmail.com"
+    },
+    {
+      "id": "630089",
+      "name": "Carlos Alberto Pirani Júnior",
+      "email": "carlos_junior_707@hotmail.com"
+    },
+    {
+      "id": "630090",
+      "name": "Diego Bim",
+      "email": "direcaoosasco@influx.com.br"
+    },
+    {
+      "id": "660028",
+      "name": "Estevão Cordeiro",
+      "email": "direcaojundiairetiro@influx.com.br"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\temail\n390047\tdirecaojundiairetiro\tdirecaojundiairetiro@influx.com.br\n390067\tdirecaojundiairetiro\tdirecaojundiairetiro@influx.com.br\n390195\tLaís Milena Gambini\tlais.gambini@example.com\n390196\tCamila Gonsalves da Rosa de Carvalho\tcamila.gonsalves@example.com\n390197\tLaís Milena Gambini\tlais.gambini@example.com\n390198\tCamila Gonsalves da Rosa de Carvalho\tcamila.gonsalves@example.com\n570011\tEstevão (Teste)\testevao.teste.aluno@influx.com.br\n630041\tAndressa Amorim de Araújo\tandressaamorimdearaujo03@gmail.com\n630042\tElizabeth Rodrigues De Souza\telizabeth.engenhariaeletrica@gmail.com\n630088\tCarlos Alberto Pirani Júnior\tcarlos_junior_707@hotmail.com\n630089\tCarlos Alberto Pirani Júnior\tcarlos_junior_707@hotmail.com\n630090\tDiego Bim\tdirecaoosasco@influx.com.br\n660028\tEstevão Cordeiro\tdirecaojundiairetiro@influx.com.br\n",
+  "stderr": "",
+  "execution_time_ms": 57
+}

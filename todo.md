@@ -835,3 +835,10 @@
 - [ ] Desenvolver galeria de badges com animações
 - [ ] Implementar sistema de progresso até próximo badge
 - [ ] Testar todas as funcionalidades integradas
+
+
+## Fase 45: Habilitar Login com Email/Senha para Todos os Alunos - COMPLETO
+- [x] Adicionar coluna password_hash ao banco centralizado
+- [x] Atualizar código de autenticação para usar a nova coluna
+- [x] Gerar e inserir hashes de senha para todos os 99+ usuários existentes
+- [x] Testar login com email/senha

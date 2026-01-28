@@ -28,9 +28,16 @@ export const authPasswordRouter = router({
       const db = drizzle(connection);
 
       try {
-        // Buscar usuário por email
+        // Buscar usuário por email - apenas campos que existem no banco centralizado
         const userResult = await db
-          .select()
+          .select({
+            id: users.id,
+            openId: users.openId,
+            name: users.name,
+            email: users.email,
+            passwordHash: users.passwordHash,
+            role: users.role,
+          })
           .from(users)
           .where(eq(users.email, input.email))
           .limit(1);
