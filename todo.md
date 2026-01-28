@@ -794,3 +794,10 @@
 - [ ] Implementar logs de comunicação Manus-Gemini
 - [ ] Testar integração bidirecional completa
 - [ ] Documentar API e fluxo de integração
+
+## Fase 40: Automação e Chat com Gemini
+- [x] Criar webhook automático que envia contexto ao Gemini a cada checkpoint
+- [x] Desenvolver painel de análise estratégica com métricas de engajamento
+- [x] Implementar chat direto com Gemini para perguntas contextualizadas
+- [ ] Adicionar histórico de conversas com Gemini
+- [ ] Testar integração completa
