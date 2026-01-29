@@ -908,3 +908,26 @@
 - [ ] Melhorar responsividade mobile da navegação
 - [ ] Testar todas as funcionalidades
 - [ ] Salvar checkpoint final
+
+
+## Fase 54: Correção do Sistema de Vozes TTS
+- [ ] Investigar erro 404 no endpoint TTS
+- [ ] Verificar configuração da API de geração de áudio
+- [ ] Corrigir endpoint de TTS
+- [ ] Testar geração de áudio com Lucas (americano)
+- [ ] Testar geração de áudio com Emily (britânico)
+- [ ] Testar geração de áudio com Aiko (australiano)
+- [ ] Validar sotaques e entonação
+
+
+## Fase 55: Sistema TTS Multi-Provedor
+- [ ] Solicitar chave API OpenAI
+- [ ] Solicitar chave API Google Cloud TTS
+- [ ] Solicitar chave API ElevenLabs
+- [ ] Implementar módulo TTS com suporte às 3 APIs
+- [ ] Implementar fallback automático entre provedores
+- [ ] Configurar vozes específicas para cada personagem em cada provedor
+- [ ] Testar geração de áudio com Lucas (americano)
+- [ ] Testar geração de áudio com Emily (britânico)
+- [ ] Testar geração de áudio com Aiko (australiano)
+- [ ] Validar sotaques e entonação

@@ -10,16 +10,49 @@ import {
   generateDialogue, 
   getCharacterVoiceInfo, 
   getAllCharacters,
+  getAvailableProviders,
+  testProvider,
   CHARACTER_VOICES,
-  type CharacterVoice 
+  type CharacterVoice,
+  type TTSProvider
 } from "../_core/textToSpeech";
 import { storagePut } from "../storage";
 import { TRPCError } from "@trpc/server";
 
 const characterSchema = z.enum(["lucas", "emily", "aiko"]);
 const situationSchema = z.enum(["greeting", "explaining", "excited", "casual", "formal"]).optional();
+const providerSchema = z.enum(["openai", "elevenlabs", "google"]).optional();
 
 export const ttsRouter = router({
+  /**
+   * Retorna os provedores de TTS disponíveis
+   */
+  getProviders: publicProcedure
+    .query(() => {
+      return {
+        available: getAvailableProviders(),
+        order: ["openai", "elevenlabs", "google"],
+      };
+    }),
+
+  /**
+   * Testa um provedor específico de TTS
+   */
+  testProvider: protectedProcedure
+    .input(z.object({
+      provider: z.enum(["openai", "elevenlabs", "google"]),
+    }))
+    .mutation(async ({ input }) => {
+      const success = await testProvider(input.provider as TTSProvider);
+      return {
+        provider: input.provider,
+        success,
+        message: success 
+          ? `Provedor ${input.provider} está funcionando!`
+          : `Provedor ${input.provider} falhou no teste.`,
+      };
+    }),
+
   /**
    * Gera audio de fala para um personagem especifico
    */
@@ -28,12 +61,14 @@ export const ttsRouter = router({
       text: z.string().min(1).max(5000),
       character: characterSchema,
       situation: situationSchema,
+      preferredProvider: providerSchema,
     }))
     .mutation(async ({ input }) => {
       const result = await generateSpeech({
         text: input.text,
         character: input.character,
         situation: input.situation,
+        preferredProvider: input.preferredProvider as TTSProvider | undefined,
       });
 
       if ('error' in result) {

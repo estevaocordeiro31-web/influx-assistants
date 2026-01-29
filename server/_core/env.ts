@@ -11,4 +11,7 @@ export const ENV = {
   spontePassword: process.env.SPONTE_PASSWORD ?? "",
   geminiApiKey: process.env.GEMINI_API_KEY ?? "",
   centralDatabaseUrl: process.env.CENTRAL_DATABASE_URL ?? "",
+  openaiApiKey: process.env.OPENAI_API_KEY ?? "",
+  elevenlabsApiKey: process.env.ELEVENLABS_API_KEY ?? "",
+  googleCloudTtsApiKey: process.env.GOOGLE_CLOUD_TTS_API_KEY ?? "",
 };

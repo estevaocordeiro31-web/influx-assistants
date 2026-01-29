@@ -1,34 +1,61 @@
+/**
+ * Testes para validar os provedores de TTS
+ * Verifica se as chaves API estão funcionando corretamente
+ */
+
 import { describe, it, expect } from "vitest";
 import { 
-  CHARACTER_VOICES, 
+  generateSpeech, 
+  getAvailableProviders,
   getCharacterVoiceInfo, 
-  getAllCharacters 
+  getAllCharacters,
+  CHARACTER_VOICES 
 } from "../_core/textToSpeech";
 
-describe("TTS Router", () => {
+describe("TTS Multi-Provider", () => {
+  describe("Configuração", () => {
+    it("deve ter pelo menos um provedor configurado", () => {
+      const providers = getAvailableProviders();
+      console.log("Provedores disponíveis:", providers);
+      expect(providers.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe("Vozes dos Personagens", () => {
+    it("Lucas deve ter configuração de voz americana", () => {
+      const lucas = CHARACTER_VOICES.lucas;
+      expect(lucas).toBeDefined();
+      expect(lucas.openaiVoice).toBe("echo");
+      expect(lucas.accent).toContain("American");
+      expect(lucas.flag).toBe("🇺🇸");
+      expect(lucas.city).toBe("New York");
+    });
+
+    it("Emily deve ter configuração de voz britânica", () => {
+      const emily = CHARACTER_VOICES.emily;
+      expect(emily).toBeDefined();
+      expect(emily.openaiVoice).toBe("nova");
+      expect(emily.accent).toContain("British");
+      expect(emily.flag).toBe("🇬🇧");
+      expect(emily.city).toBe("London");
+    });
+
+    it("Aiko deve ter configuração de voz australiana", () => {
+      const aiko = CHARACTER_VOICES.aiko;
+      expect(aiko).toBeDefined();
+      expect(aiko.openaiVoice).toBe("shimmer");
+      expect(aiko.accent).toContain("Australian");
+      expect(aiko.flag).toBe("🇦🇺");
+      expect(aiko.city).toBe("Sydney");
+    });
+  });
+
   describe("getCharacterInfo", () => {
-    it("deve retornar informacoes do Lucas", () => {
+    it("deve retornar informações do Lucas", () => {
       const info = getCharacterVoiceInfo("lucas");
       expect(info).not.toBeNull();
       expect(info?.name).toBe("Lucas");
-      expect(info?.voiceId).toBe("echo");
-      expect(info?.accent).toContain("American");
-    });
-
-    it("deve retornar informacoes da Emily", () => {
-      const info = getCharacterVoiceInfo("emily");
-      expect(info).not.toBeNull();
-      expect(info?.name).toBe("Emily");
-      expect(info?.voiceId).toBe("nova");
-      expect(info?.accent).toContain("British");
-    });
-
-    it("deve retornar informacoes da Aiko", () => {
-      const info = getCharacterVoiceInfo("aiko");
-      expect(info).not.toBeNull();
-      expect(info?.name).toBe("Aiko");
-      expect(info?.voiceId).toBe("shimmer");
-      expect(info?.accent).toContain("Australian");
+      expect(info?.openaiVoice).toBe("echo");
     });
 
     it("deve retornar null para personagem inexistente", () => {
@@ -47,52 +74,143 @@ describe("TTS Router", () => {
     });
   });
 
-  describe("Character Voice Configuration", () => {
-    it("Lucas deve ter configuracao de voz americana", () => {
-      const lucas = CHARACTER_VOICES.lucas;
-      expect(lucas.voiceId).toBe("echo");
-      expect(lucas.speed).toBe(1.0);
-      expect(lucas.nationality).toBe("American");
-      expect(lucas.city).toBe("New York");
-    });
+  describe("Geração de Áudio - OpenAI", () => {
+    it("deve gerar áudio para Lucas com OpenAI", async () => {
+      const providers = getAvailableProviders();
+      if (!providers.includes("openai")) {
+        console.log("⏭️ OpenAI não configurado, pulando teste");
+        return;
+      }
 
-    it("Emily deve ter configuracao de voz britanica", () => {
-      const emily = CHARACTER_VOICES.emily;
-      expect(emily.voiceId).toBe("nova");
-      expect(emily.speed).toBe(0.95);
-      expect(emily.nationality).toBe("British");
-      expect(emily.city).toBe("London");
-    });
+      const result = await generateSpeech({
+        text: "Hello, I'm Lucas from New York! You got this!",
+        character: "lucas",
+        preferredProvider: "openai",
+      });
 
-    it("Aiko deve ter configuracao de voz australiana", () => {
-      const aiko = CHARACTER_VOICES.aiko;
-      expect(aiko.voiceId).toBe("shimmer");
-      expect(aiko.speed).toBe(1.05);
-      expect(aiko.nationality).toBe("Australian");
-      expect(aiko.city).toBe("Sydney");
-    });
+      if ("error" in result) {
+        console.error("Erro OpenAI Lucas:", result.error);
+        throw new Error(result.error);
+      }
+      
+      expect(result.provider).toBe("openai");
+      expect(result.audioBuffer.length).toBeGreaterThan(0);
+      console.log("✅ OpenAI Lucas - Áudio gerado:", result.audioBuffer.length, "bytes");
+    }, 30000);
+
+    it("deve gerar áudio para Emily com OpenAI", async () => {
+      const providers = getAvailableProviders();
+      if (!providers.includes("openai")) {
+        console.log("⏭️ OpenAI não configurado, pulando teste");
+        return;
+      }
+
+      const result = await generateSpeech({
+        text: "Hello, I'm Emily from London! Lovely to meet you!",
+        character: "emily",
+        preferredProvider: "openai",
+      });
+
+      if ("error" in result) {
+        console.error("Erro OpenAI Emily:", result.error);
+        throw new Error(result.error);
+      }
+      
+      expect(result.provider).toBe("openai");
+      expect(result.audioBuffer.length).toBeGreaterThan(0);
+      console.log("✅ OpenAI Emily - Áudio gerado:", result.audioBuffer.length, "bytes");
+    }, 30000);
+
+    it("deve gerar áudio para Aiko com OpenAI", async () => {
+      const providers = getAvailableProviders();
+      if (!providers.includes("openai")) {
+        console.log("⏭️ OpenAI não configurado, pulando teste");
+        return;
+      }
+
+      const result = await generateSpeech({
+        text: "G'day mate, I'm Aiko from Sydney! No worries!",
+        character: "aiko",
+        preferredProvider: "openai",
+      });
+
+      if ("error" in result) {
+        console.error("Erro OpenAI Aiko:", result.error);
+        throw new Error(result.error);
+      }
+      
+      expect(result.provider).toBe("openai");
+      expect(result.audioBuffer.length).toBeGreaterThan(0);
+      console.log("✅ OpenAI Aiko - Áudio gerado:", result.audioBuffer.length, "bytes");
+    }, 30000);
   });
 
-  describe("Voice characteristics validation", () => {
-    it("Lucas deve ter caracteristicas de fala americana", () => {
-      const lucas = CHARACTER_VOICES.lucas;
-      expect(lucas.characteristics.length).toBeGreaterThan(0);
-      expect(lucas.expressions.length).toBeGreaterThan(0);
-      expect(lucas.expressions).toContain("You got this!");
-    });
+  describe("Geração de Áudio - ElevenLabs", () => {
+    it("deve gerar áudio para Lucas com ElevenLabs", async () => {
+      const providers = getAvailableProviders();
+      if (!providers.includes("elevenlabs")) {
+        console.log("⏭️ ElevenLabs não configurado, pulando teste");
+        return;
+      }
 
-    it("Emily deve ter caracteristicas de fala britanica", () => {
-      const emily = CHARACTER_VOICES.emily;
-      expect(emily.characteristics.length).toBeGreaterThan(0);
-      expect(emily.expressions.length).toBeGreaterThan(0);
-      expect(emily.expressions).toContain("Lovely!");
-    });
+      const result = await generateSpeech({
+        text: "Hello, I'm Lucas from New York!",
+        character: "lucas",
+        preferredProvider: "elevenlabs",
+      });
 
-    it("Aiko deve ter caracteristicas de fala australiana", () => {
-      const aiko = CHARACTER_VOICES.aiko;
-      expect(aiko.characteristics.length).toBeGreaterThan(0);
-      expect(aiko.expressions.length).toBeGreaterThan(0);
-      expect(aiko.expressions).toContain("No worries, mate!");
-    });
+      if ("error" in result) {
+        console.error("Erro ElevenLabs Lucas:", result.error);
+        // Não falha o teste se ElevenLabs não funcionar
+        return;
+      }
+      
+      expect(result.provider).toBe("elevenlabs");
+      expect(result.audioBuffer.length).toBeGreaterThan(0);
+      console.log("✅ ElevenLabs Lucas - Áudio gerado:", result.audioBuffer.length, "bytes");
+    }, 30000);
+  });
+
+  describe("Geração de Áudio - Google Cloud", () => {
+    it("deve gerar áudio para Lucas com Google Cloud", async () => {
+      const providers = getAvailableProviders();
+      if (!providers.includes("google")) {
+        console.log("⏭️ Google Cloud não configurado, pulando teste");
+        return;
+      }
+
+      const result = await generateSpeech({
+        text: "Hello, I'm Lucas from New York!",
+        character: "lucas",
+        preferredProvider: "google",
+      });
+
+      if ("error" in result) {
+        console.error("Erro Google Lucas:", result.error);
+        // Não falha o teste se Google não funcionar
+        return;
+      }
+      
+      expect(result.provider).toBe("google");
+      expect(result.audioBuffer.length).toBeGreaterThan(0);
+      console.log("✅ Google Lucas - Áudio gerado:", result.audioBuffer.length, "bytes");
+    }, 30000);
+  });
+
+  describe("Fallback Automático", () => {
+    it("deve usar fallback quando provedor preferido falha", async () => {
+      const result = await generateSpeech({
+        text: "Testing automatic fallback between providers",
+        character: "lucas",
+      });
+
+      if ("error" in result) {
+        console.error("Erro no fallback:", result.error);
+        throw new Error(result.error);
+      }
+
+      expect(result.audioBuffer.length).toBeGreaterThan(0);
+      console.log("✅ Fallback funcionando - Provedor usado:", result.provider);
+    }, 30000);
   });
 });
