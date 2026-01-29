@@ -238,6 +238,81 @@ export const vacationPlus2Router = router({
       return { success: true };
     }),
 
+  // Save quiz result
+  saveQuizResult: protectedProcedure
+    .input(z.object({
+      lessonNumber: z.number().min(1).max(8),
+      score: z.number().min(0),
+      totalQuestions: z.number().min(1),
+      passed: z.boolean(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return { success: false };
+      
+      const [existing] = await db
+        .select()
+        .from(vacationPlus2Progress)
+        .where(
+          and(
+            eq(vacationPlus2Progress.studentId, ctx.user.id),
+            eq(vacationPlus2Progress.lessonNumber, input.lessonNumber)
+          )
+        );
+      
+      const percentage = Math.round((input.score / input.totalQuestions) * 100);
+      
+      if (existing) {
+        await db
+          .update(vacationPlus2Progress)
+          .set({
+            quizScore: input.score,
+            quizTotal: input.totalQuestions,
+            quizPassed: input.passed,
+            progressPercentage: input.passed ? "100" : String(percentage),
+            completedAt: input.passed ? new Date() : null,
+            lastActivityAt: new Date(),
+          })
+          .where(eq(vacationPlus2Progress.id, existing.id));
+      } else {
+        await db.insert(vacationPlus2Progress).values({
+          studentId: ctx.user.id,
+          lessonNumber: input.lessonNumber,
+          quizScore: input.score,
+          quizTotal: input.totalQuestions,
+          quizPassed: input.passed,
+          progressPercentage: input.passed ? "100" : String(percentage),
+          completedAt: input.passed ? new Date() : null,
+        });
+      }
+      
+      return { success: true, passed: input.passed, percentage };
+    }),
+
+  // Get all quiz results
+  getQuizResults: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) return {};
+    
+    const progress = await db
+      .select()
+      .from(vacationPlus2Progress)
+      .where(eq(vacationPlus2Progress.studentId, ctx.user.id));
+    
+    const results: Record<number, { score: number; total: number; passed: boolean }> = {};
+    progress.forEach((p: typeof progress[0]) => {
+      if (p.quizScore !== null && p.quizTotal !== null) {
+        results[p.lessonNumber] = {
+          score: p.quizScore,
+          total: p.quizTotal,
+          passed: p.quizPassed ?? false,
+        };
+      }
+    });
+    
+    return results;
+  }),
+
   // Complete a lesson
   completeLesson: protectedProcedure
     .input(z.object({ lessonNumber: z.number().min(1).max(8) }))

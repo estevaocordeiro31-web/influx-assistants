@@ -867,3 +867,44 @@
 - [x] Criar schema de progresso no banco de dados
 - [x] Implementar endpoints tRPC para salvar/carregar progresso
 - [x] Integrar progresso com componente VacationPlus2Content
+
+
+## Fase 51: Verificação e Validação do Sistema de Vozes TTS
+- [ ] Verificar configuração das vozes no módulo textToSpeech.ts
+- [ ] Verificar integração do TTS no router tRPC
+- [ ] Verificar integração no componente VacationPlus2Content
+- [ ] Testar geração de áudio com Lucas (voz echo, sotaque americano)
+- [ ] Testar geração de áudio com Emily (voz nova, sotaque britânico)
+- [ ] Testar geração de áudio com Aiko (voz shimmer, sotaque australiano)
+- [ ] Validar sotaques e entonação dos áudios gerados
+- [ ] Documentar resultados e corrigir problemas encontrados
+
+
+## Fase 52: Melhorias Vacation Plus 2
+
+### Versões Adultas dos Personagens
+- [ ] Gerar versão adulta do Lucas (estilo Disney/Pixar)
+- [ ] Gerar versão adulta da Emily (estilo Disney/Pixar)
+- [ ] Gerar versão adulta da Aiko (estilo Disney/Pixar)
+- [ ] Atualizar imagens no componente VacationPlus2Content
+
+### Quiz Interativo
+- [ ] Criar schema de quiz no banco de dados
+- [ ] Implementar componente QuizComponent
+- [ ] Adicionar quiz ao final de cada lição
+- [ ] Implementar sistema de pontuação
+
+### Sistema de Certificado
+- [ ] Criar design do certificado
+- [ ] Implementar lógica de conclusão das 8 lições
+- [ ] Gerar certificado em PDF
+- [ ] Adicionar botão de download do certificado
+
+
+## Fase 53: Integração Progresso com Banco de Dados
+- [ ] Integrar progresso do quiz com banco de dados para persistência
+- [ ] Carregar progresso salvo ao abrir a página
+- [ ] Salvar progresso automaticamente após cada quiz
+- [ ] Melhorar responsividade mobile da navegação
+- [ ] Testar todas as funcionalidades
+- [ ] Salvar checkpoint final

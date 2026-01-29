@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -9,8 +9,10 @@ import { trpc } from "@/lib/trpc";
 import { 
   Plane, Utensils, MapPin, Users, ShoppingBag, Lightbulb, 
   Gamepad2, Rocket, Play, BookOpen, Globe, Volume2,
-  Lock, CheckCircle2, Loader2, Pause
+  Lock, CheckCircle2, Loader2, Pause, Trophy, GraduationCap
 } from "lucide-react";
+import { VacationQuiz } from "./VacationQuiz";
+import { VacationCertificate } from "./VacationCertificate";
 import { toast } from "sonner";
 
 // Dados das licoes do Vacation Plus 2
@@ -238,7 +240,38 @@ export function VacationPlus2Content() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [playingAudio, setPlayingAudio] = useState<string | null>(null);
   const [loadingAudio, setLoadingAudio] = useState<string | null>(null);
+  const [showQuiz, setShowQuiz] = useState(false);
+  const [showCertificate, setShowCertificate] = useState(false);
+  const [quizScores, setQuizScores] = useState<Record<number, { score: number; total: number }>>({});
+  const [completedLessons, setCompletedLessons] = useState<number[]>([]);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Carregar progresso salvo do banco de dados
+  const { data: savedProgress } = trpc.vacationPlus2.getProgress.useQuery();
+  const { data: savedQuizResults } = trpc.vacationPlus2.getQuizResults.useQuery();
+  
+  // Mutation para salvar resultado do quiz
+  const saveQuizMutation = trpc.vacationPlus2.saveQuizResult.useMutation({
+    onSuccess: (data) => {
+      if (data.passed) {
+        toast.success("Progresso salvo! Licao concluida!");
+      }
+    },
+    onError: (error) => {
+      console.error("Erro ao salvar progresso:", error);
+    },
+  });
+
+  // Carregar progresso salvo ao iniciar
+  useEffect(() => {
+    if (savedQuizResults) {
+      setQuizScores(savedQuizResults);
+      const completed = Object.entries(savedQuizResults)
+        .filter(([_, result]) => result.passed)
+        .map(([lessonId]) => parseInt(lessonId));
+      setCompletedLessons(completed);
+    }
+  }, [savedQuizResults]);
 
   const speakMutation = trpc.tts.speak.useMutation({
     onError: (error) => {
@@ -598,9 +631,12 @@ export function VacationPlus2Content() {
                   </div>
 
                   <div className="flex gap-3">
-                    <Button className={"flex-1 bg-gradient-to-r " + selectedLesson.color + " hover:opacity-90"}>
-                      <Play className="w-4 h-4 mr-2" />
-                      Comecar Licao
+                    <Button 
+                      className={"flex-1 bg-gradient-to-r " + selectedLesson.color + " hover:opacity-90"}
+                      onClick={() => setShowQuiz(true)}
+                    >
+                      <GraduationCap className="w-4 h-4 mr-2" />
+                      Fazer Quiz
                     </Button>
                     <Button 
                       variant="outline" 
@@ -747,6 +783,71 @@ export function VacationPlus2Content() {
           )}
         </DialogContent>
       </Dialog>
+
+      {/* Quiz Modal */}
+      {showQuiz && selectedLesson && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <VacationQuiz
+            lessonId={selectedLesson.id}
+            lessonTitle={selectedLesson.title}
+            onComplete={(score, total) => {
+              const passed = score / total >= 0.6;
+              setQuizScores(prev => ({ ...prev, [selectedLesson.id]: { score, total } }));
+              
+              // Salvar resultado no banco de dados
+              saveQuizMutation.mutate({
+                lessonNumber: selectedLesson.id,
+                score,
+                totalQuestions: total,
+                passed,
+              });
+              
+              if (passed && !completedLessons.includes(selectedLesson.id)) {
+                setCompletedLessons(prev => [...prev, selectedLesson.id]);
+                toast.success(`Licao ${selectedLesson.id} concluida!`);
+                
+                // Check if all lessons completed
+                if (completedLessons.length + 1 >= 8) {
+                  setTimeout(() => {
+                    setShowCertificate(true);
+                  }, 2000);
+                }
+              }
+            }}
+            onClose={() => {
+              setShowQuiz(false);
+            }}
+          />
+        </div>
+      )}
+
+      {/* Certificate Modal */}
+      {showCertificate && (
+        <VacationCertificate
+          studentName="Estevao Cordeiro"
+          completionDate={new Date()}
+          lessonsCompleted={completedLessons.length}
+          totalLessons={8}
+          averageScore={Math.round(
+            Object.values(quizScores).reduce((acc, s) => acc + (s.score / s.total) * 100, 0) / 
+            Math.max(Object.keys(quizScores).length, 1)
+          )}
+          onClose={() => setShowCertificate(false)}
+        />
+      )}
+
+      {/* Certificate Button - Show when all lessons completed */}
+      {completedLessons.length >= 8 && (
+        <div className="fixed bottom-4 right-4 z-40">
+          <Button
+            className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 shadow-lg shadow-yellow-500/30"
+            onClick={() => setShowCertificate(true)}
+          >
+            <Trophy className="w-5 h-5 mr-2" />
+            Ver Certificado
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

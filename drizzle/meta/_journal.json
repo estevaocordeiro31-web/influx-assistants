@@ -71,6 +71,13 @@
       "when": 1769697911049,
       "tag": "0009_vengeful_talisman",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1769701619078,
+      "tag": "0010_burly_whiplash",
+      "breakpoints": true
     }
   ]
 }
