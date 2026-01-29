@@ -25,6 +25,7 @@ import { welcomeEmailsRouter } from "./routers/welcome-emails";
 import { bulkConfigRouter } from "./routers/bulk-config";
 import { dailySyncRouter } from "./routers/daily-sync";
 import { geminiRouter } from "./routers/gemini";
+import { ttsRouter } from "./routers/tts";
 
 export const appRouter = router({
   system: systemRouter,
@@ -62,6 +63,7 @@ export const appRouter = router({
   crossAnalysis: crossAnalysisRouter,
   readingClub: readingClubRouter,
   tutor: tutorRouter,
+  tts: ttsRouter,
 });
 
 export type AppRouter = typeof appRouter;

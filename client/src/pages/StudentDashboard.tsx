@@ -7,7 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { 
   BookOpen, MessageCircle, Zap, TrendingUp, Award, RotateCcw, 
-  Trophy, Star, Target, Clock, CheckCircle2, Flame, Medal, Mic
+  Trophy, Star, Target, Clock, CheckCircle2, Flame, Medal, Mic, Plane
 } from "lucide-react";
 import { useLocation } from "wouter";
 import { useEffect, useState } from "react";
@@ -19,6 +19,7 @@ import { SponteDataSection } from "@/components/SponteDataSection";
 import { ExclusiveMaterialsSection } from "@/components/ExclusiveMaterialsSection";
 import { ReadingClubIntegrated } from "@/components/ReadingClubIntegrated";
 import { PersonalTutor } from "@/components/PersonalTutor";
+import { VacationPlus2Content } from "@/components/VacationPlus2Content";
 import { trpc } from "@/lib/trpc";
 import { NotificationBadge } from "@/components/NotificationBadge";
 import { useNotifications } from "@/hooks/useNotifications";
@@ -228,7 +229,7 @@ export default function StudentDashboard() {
 
         {/* Abas Principais */}
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid w-full grid-cols-9 bg-slate-900/80 backdrop-blur-sm border-2 border-slate-700/50 rounded-2xl p-2 gap-1 shadow-lg">
+          <TabsList className="grid w-full grid-cols-10 bg-slate-900/80 backdrop-blur-sm border-2 border-slate-700/50 rounded-2xl p-2 gap-1 shadow-lg">
             <TabsTrigger 
               value="overview" 
               className="flex flex-col items-center justify-center gap-1.5 py-3 px-2 data-[state=active]:bg-gradient-to-br data-[state=active]:from-green-400 data-[state=active]:to-green-500 data-[state=active]:text-slate-900 data-[state=active]:shadow-lg data-[state=active]:shadow-green-500/50 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-xl transition-all duration-200"
@@ -308,6 +309,14 @@ export default function StudentDashboard() {
             >
               <Star className="w-7 h-7 sm:w-8 sm:h-8" />
               <span className="text-[10px] sm:text-xs font-semibold">Meu Tutor</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="vacation2" 
+              className="relative flex flex-col items-center justify-center gap-1.5 py-3 px-2 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:via-green-400 data-[state=active]:to-purple-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-cyan-500/50 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-xl transition-all duration-200 overflow-hidden group"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 via-green-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <Plane className="w-7 h-7 sm:w-8 sm:h-8 relative z-10 group-data-[state=active]:animate-pulse" />
+              <span className="text-[10px] sm:text-xs font-bold relative z-10" style={{ textShadow: '0 0 8px rgba(0,255,136,0.5)' }}>Vacation 2</span>
             </TabsTrigger>
           </TabsList>
 
@@ -739,6 +748,11 @@ export default function StudentDashboard() {
               studentName={user?.name || "Aluno"}
               studentLevel="B4"
             />
+          </TabsContent>
+
+          {/* Aba: Vacation Plus 2 - Material Expandido */}
+          <TabsContent value="vacation2" className="space-y-4 mt-4">
+            <VacationPlus2Content />
           </TabsContent>
         </Tabs>
       </main>
