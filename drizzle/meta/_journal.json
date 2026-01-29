@@ -64,6 +64,13 @@
       "when": 1769186721980,
       "tag": "0008_faithful_raider",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1769697911049,
+      "tag": "0009_vengeful_talisman",
+      "breakpoints": true
     }
   ]
 }

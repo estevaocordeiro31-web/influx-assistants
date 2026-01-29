@@ -1,0 +1,274 @@
+import { useState } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { 
+  BookOpen, TrendingUp, RotateCcw, Star, Flame, 
+  Plane, FileText, CheckCircle2, Clock, Award, Zap
+} from "lucide-react";
+import { useLocation } from "wouter";
+import TipOfDayWidget from "@/components/TipOfDayWidget";
+import RecommendedTipsSection from "@/components/RecommendedTipsSection";
+import MyFavoriteTips from "@/components/MyFavoriteTips";
+import BadgesDisplay from "@/components/BadgesDisplay";
+import { ExclusiveMaterialsSection } from "@/components/ExclusiveMaterialsSection";
+import { VacationPlus2Content } from "@/components/VacationPlus2Content";
+import { trpc } from "@/lib/trpc";
+
+interface MeuTutorTabProps {
+  studentData: {
+    currentBook: string;
+    currentUnit: number;
+    totalUnits: number;
+    progressPercentage: number;
+    totalChunksLearned: number;
+    completedBooks: Array<{
+      id: number;
+      name: string;
+      level: string;
+      completedAt: string | null;
+      hoursSpent: number;
+      chunksLearned: number;
+      progress: number;
+    }>;
+    recentChunks: Array<{
+      text: string;
+      meaning: string;
+      context: string;
+    }>;
+  };
+}
+
+export function MeuTutorTab({ studentData }: MeuTutorTabProps) {
+  const [, setLocation] = useLocation();
+  const [selectedTip, setSelectedTip] = useState<any>(null);
+  const [activeSubTab, setActiveSubTab] = useState("books");
+
+  // Buscar dicas do blog
+  const { data: tipOfDayData, isLoading: tipLoading } = trpc.blogTips.getTipOfDay.useQuery();
+  const { data: recommendedTipsData, isLoading: recommendedLoading } = trpc.blogTips.getRecommendedTips.useQuery({});
+
+  const subTabs = [
+    { id: "books", label: "Meus Livros", icon: TrendingUp, color: "green" },
+    { id: "vacation2", label: "Vacation 2", icon: Plane, color: "cyan" },
+    { id: "review", label: "Revisão", icon: RotateCcw, color: "purple" },
+    { id: "blog", label: "Blog", icon: BookOpen, color: "orange" },
+    { id: "materials", label: "Materiais", icon: FileText, color: "pink" },
+  ];
+
+  return (
+    <div className="space-y-4">
+      {/* Sub-navegação horizontal com scroll em mobile */}
+      <div className="overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
+        <div className="flex gap-2 min-w-max sm:min-w-0 sm:flex-wrap">
+          {subTabs.map((tab) => {
+            const Icon = tab.icon;
+            const isActive = activeSubTab === tab.id;
+            const colorClasses: Record<string, string> = {
+              green: isActive ? "bg-green-500 text-white shadow-green-500/50" : "bg-slate-700/50 text-slate-300 hover:bg-slate-700",
+              cyan: isActive ? "bg-gradient-to-r from-cyan-500 via-green-500 to-purple-500 text-white shadow-cyan-500/50" : "bg-slate-700/50 text-slate-300 hover:bg-slate-700",
+              purple: isActive ? "bg-purple-500 text-white shadow-purple-500/50" : "bg-slate-700/50 text-slate-300 hover:bg-slate-700",
+              orange: isActive ? "bg-orange-500 text-white shadow-orange-500/50" : "bg-slate-700/50 text-slate-300 hover:bg-slate-700",
+              pink: isActive ? "bg-pink-500 text-white shadow-pink-500/50" : "bg-slate-700/50 text-slate-300 hover:bg-slate-700",
+            };
+            
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveSubTab(tab.id)}
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 whitespace-nowrap ${colorClasses[tab.color]} ${isActive ? 'shadow-lg' : ''}`}
+              >
+                <Icon className="w-4 h-4" />
+                {tab.label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Conteúdo das sub-abas */}
+      {activeSubTab === "books" && (
+        <div className="space-y-4">
+          {/* Progresso Atual */}
+          <Card className="bg-slate-800/50 border-slate-700">
+            <CardHeader>
+              <CardTitle className="text-white flex items-center gap-2">
+                <BookOpen className="w-5 h-5 text-green-400" />
+                {studentData.currentBook} - Progresso Atual
+              </CardTitle>
+              <CardDescription className="text-slate-400">
+                Unit {studentData.currentUnit} de {studentData.totalUnits}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <div className="flex justify-between mb-2">
+                  <span className="text-sm text-slate-300">Progresso do Livro</span>
+                  <span className="text-sm font-bold text-green-400">{studentData.progressPercentage}%</span>
+                </div>
+                <Progress value={studentData.progressPercentage} className="h-3 bg-slate-700" />
+              </div>
+              <Button className="w-full bg-green-500 hover:bg-green-600 text-slate-900 font-bold">
+                <Zap className="w-4 h-4 mr-2" />
+                Continuar Estudando
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Histórico de Livros */}
+          <Card className="bg-slate-800/50 border-slate-700">
+            <CardHeader>
+              <CardTitle className="text-white flex items-center gap-2">
+                <TrendingUp className="w-5 h-5 text-blue-400" />
+                Histórico de Livros
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {studentData.completedBooks.map((book) => (
+                  <div 
+                    key={book.id}
+                    className={`p-3 rounded-lg border ${
+                      book.progress === 100 
+                        ? 'bg-green-500/10 border-green-500/30' 
+                        : 'bg-blue-500/10 border-blue-500/30'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        {book.progress === 100 ? (
+                          <CheckCircle2 className="w-5 h-5 text-green-400" />
+                        ) : (
+                          <Clock className="w-5 h-5 text-blue-400" />
+                        )}
+                        <span className="font-bold text-white">{book.name}</span>
+                        <Badge variant="outline" className="text-xs">
+                          {book.level}
+                        </Badge>
+                      </div>
+                      <span className="text-sm text-slate-400">{book.progress}%</span>
+                    </div>
+                    <Progress value={book.progress} className="h-2 bg-slate-700" />
+                    <div className="flex gap-4 mt-2 text-xs text-slate-400">
+                      <span>{book.hoursSpent}h estudadas</span>
+                      <span>{book.chunksLearned} chunks</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {activeSubTab === "vacation2" && (
+        <VacationPlus2Content />
+      )}
+
+      {activeSubTab === "review" && (
+        <Card className="bg-slate-800/50 border-slate-700">
+          <CardHeader>
+            <CardTitle className="text-white flex items-center gap-2">
+              <RotateCcw className="w-5 h-5 text-purple-400" />
+              Chunks para Revisão
+            </CardTitle>
+            <CardDescription className="text-slate-400">
+              Expressões que você precisa praticar novamente
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {studentData.recentChunks.map((chunk, index) => (
+                <div key={index} className="p-3 bg-slate-700/50 rounded-lg border border-slate-600">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <p className="text-white font-bold">{chunk.text}</p>
+                      <p className="text-green-400 text-sm">{chunk.meaning}</p>
+                      <p className="text-slate-400 text-xs mt-1 italic">"{chunk.context}"</p>
+                    </div>
+                    <Button size="sm" variant="outline" className="text-purple-400 border-purple-400">
+                      Revisar
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <Button className="w-full mt-4 bg-purple-500 hover:bg-purple-600 text-white font-bold">
+              <RotateCcw className="w-4 h-4 mr-2" />
+              Ver Todos os Chunks para Revisão
+            </Button>
+          </CardContent>
+        </Card>
+      )}
+
+      {activeSubTab === "blog" && (
+        <div className="space-y-4">
+          {/* Dica do Dia */}
+          <div>
+            <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+              <Flame className="w-5 h-5 text-orange-400" />
+              Dica do Dia
+            </h3>
+            <TipOfDayWidget 
+              tip={tipOfDayData?.tip || undefined} 
+              isLoading={tipLoading}
+              onViewMore={setSelectedTip}
+            />
+          </div>
+
+          {/* Dicas Recomendadas */}
+          <div>
+            <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+              <Star className="w-5 h-5 text-yellow-400" />
+              Dicas Recomendadas para Você
+            </h3>
+            <RecommendedTipsSection 
+              tips={recommendedTipsData?.tips || []} 
+              isLoading={recommendedLoading}
+              onViewMore={setSelectedTip}
+            />
+          </div>
+
+          {/* Meus Favoritos */}
+          <MyFavoriteTips />
+
+          {/* Minhas Conquistas */}
+          <BadgesDisplay />
+
+          {/* Link para Blog */}
+          <Card className="bg-slate-800/50 border-slate-700">
+            <CardContent className="py-6">
+              <div className="text-center">
+                <img src="/fluxie-learning.png" alt="Fluxie" className="w-20 h-20 mx-auto mb-3" />
+                <p className="text-slate-300 mb-4">Explore mais dicas do blog para complementar seus estudos</p>
+                <Button className="bg-orange-500 hover:bg-orange-600 text-white font-bold">
+                  <BookOpen className="w-4 h-4 mr-2" />
+                  Visitar Blog inFlux
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {activeSubTab === "materials" && (
+        <Card className="bg-slate-800/50 border-slate-700">
+          <CardHeader>
+            <CardTitle className="text-white flex items-center gap-2">
+              <FileText className="w-5 h-5 text-pink-400" />
+              Materiais Exclusivos
+            </CardTitle>
+            <CardDescription className="text-slate-400">
+              Materiais compartilhados especialmente para você
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ExclusiveMaterialsSection />
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  );
+}

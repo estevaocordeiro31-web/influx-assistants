@@ -26,6 +26,7 @@ import { bulkConfigRouter } from "./routers/bulk-config";
 import { dailySyncRouter } from "./routers/daily-sync";
 import { geminiRouter } from "./routers/gemini";
 import { ttsRouter } from "./routers/tts";
+import { vacationPlus2Router } from "./routers/vacation-plus-2";
 
 export const appRouter = router({
   system: systemRouter,
@@ -64,6 +65,7 @@ export const appRouter = router({
   readingClub: readingClubRouter,
   tutor: tutorRouter,
   tts: ttsRouter,
+  vacationPlus2: vacationPlus2Router,
 });
 
 export type AppRouter = typeof appRouter;

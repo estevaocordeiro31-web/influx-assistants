@@ -521,3 +521,64 @@ export const influxDollarTransactions = mysqlTable("influx_dollar_transactions",
 export type InfluxDollarTransaction = typeof influxDollarTransactions.$inferSelect;
 export type InsertInfluxDollarTransaction = typeof influxDollarTransactions.$inferInsert;
 
+
+// ==================== VACATION PLUS 2 PROGRESS ====================
+// Student progress on Vacation Plus 2 lessons
+export const vacationPlus2Progress = mysqlTable("vacation_plus_2_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("student_id").notNull().references(() => users.id),
+  lessonNumber: int("lesson_number").notNull(), // 1-8
+  sectionCompleted: mysqlEnum("section_completed", [
+    "overview",
+    "vocabulary",
+    "dialogues",
+    "cultural_tips",
+    "exercises"
+  ]),
+  progressPercentage: decimal("progress_percentage", { precision: 5, scale: 2 }).default("0").notNull(),
+  vocabularyCompleted: int("vocabulary_completed").default(0).notNull(),
+  dialoguesListened: int("dialogues_listened").default(0).notNull(),
+  exercisesCompleted: int("exercises_completed").default(0).notNull(),
+  culturalTipsViewed: int("cultural_tips_viewed").default(0).notNull(),
+  lastActivityAt: timestamp("last_activity_at"),
+  startedAt: timestamp("started_at").defaultNow().notNull(),
+  completedAt: timestamp("completed_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type VacationPlus2Progress = typeof vacationPlus2Progress.$inferSelect;
+export type InsertVacationPlus2Progress = typeof vacationPlus2Progress.$inferInsert;
+
+// Vacation Plus 2 vocabulary progress (individual words/chunks)
+export const vacationPlus2VocabularyProgress = mysqlTable("vacation_plus_2_vocabulary_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("student_id").notNull().references(() => users.id),
+  lessonNumber: int("lesson_number").notNull(),
+  vocabularyItem: varchar("vocabulary_item", { length: 255 }).notNull(),
+  character: mysqlEnum("character", ["lucas", "emily", "aiko"]).notNull(),
+  audioListened: boolean("audio_listened").default(false).notNull(),
+  markedAsLearned: boolean("marked_as_learned").default(false).notNull(),
+  practiceCount: int("practice_count").default(0).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type VacationPlus2VocabularyProgress = typeof vacationPlus2VocabularyProgress.$inferSelect;
+export type InsertVacationPlus2VocabularyProgress = typeof vacationPlus2VocabularyProgress.$inferInsert;
+
+// Vacation Plus 2 dialogue progress
+export const vacationPlus2DialogueProgress = mysqlTable("vacation_plus_2_dialogue_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("student_id").notNull().references(() => users.id),
+  lessonNumber: int("lesson_number").notNull(),
+  dialogueId: varchar("dialogue_id", { length: 100 }).notNull(),
+  character: mysqlEnum("character", ["lucas", "emily", "aiko"]).notNull(),
+  listenedCount: int("listened_count").default(0).notNull(),
+  lastListenedAt: timestamp("last_listened_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type VacationPlus2DialogueProgress = typeof vacationPlus2DialogueProgress.$inferSelect;
+export type InsertVacationPlus2DialogueProgress = typeof vacationPlus2DialogueProgress.$inferInsert;
+

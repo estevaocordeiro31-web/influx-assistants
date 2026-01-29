@@ -733,8 +733,7 @@
 - [x] Implementar destaque visual para ícone ativo (gradientes coloridos + glow/shadow)
 - [x] Adicionar efeitos de hover/touch feedback (hover:bg-slate-800/50)
 - [x] Reorganizar hierarquia visual com cores específicas por funcionalidade
-- [x] Layout flex-col para ícones acima e texto abaixo
-- [x] Testar responsividade em mobile (funciona bem em ambos os tamanhos)
+- [x] Layout flex-col para ícones acima e texto abaix- [x] Testar responsividade em mobile (3 colunas) bem em ambos os tamanhos)
 - [x] Validar com screenshot e entregar (screenshot capturado)
 
 
@@ -842,3 +841,29 @@
 - [x] Atualizar código de autenticação para usar a nova coluna
 - [x] Gerar e inserir hashes de senha para todos os 99+ usuários existentes
 - [x] Testar login com email/senha
+
+
+## Fase 50: Imagens Temáticas, Reorganização Mobile e Sistema de Progresso
+
+### Imagens e Personagens
+- [x] Copiar logo inFlux para o projeto
+- [x] Gerar versões adultas do Lucas (estilo Disney/Pixar)
+- [x] Gerar versões adultas da Emily (estilo Disney/Pixar)
+- [x] Gerar versões adultas da Aiko (estilo Disney/Pixar)
+- [x] Gerar imagem temática Lesson 01 - Going on Vacation (com logo inFlux)
+- [x] Gerar imagem temática Lesson 02 - Eating Out (com logo inFlux)
+- [x] Gerar imagem temática Lesson 03 - Around Town (com logo inFlux)
+- [x] Gerar imagem temática Lesson 04 - Talking About Others (com logo inFlux)
+- [x] Gerar imagem temática Lesson 05 - Spending Money (com logo inFlux)
+- [x] Gerar imagem temática Lesson 06 - A Piece of Advice (com logo inFlux)
+- [x] Gerar imagem temática Lesson 07 - Free Time (com logo inFlux)
+- [x] Gerar imagem temática Lesson 08 - Plans For The Future (com logo inFlux)
+
+### Reorganização da Navegação Mobile
+- [x] Reorganizar abas: Visão Geral, Meu Tutor, Reading Club, Chat IA
+- [x] Meu Tutor absorve: Meus Livros, Vacation Plus, Revisão, Blog, Materiais- [x] Garantir que nenhuma função seja perdida na reorganizaçãosponsividade em mobile
+
+### Sistema de Progresso
+- [x] Criar schema de progresso no banco de dados
+- [x] Implementar endpoints tRPC para salvar/carregar progresso
+- [x] Integrar progresso com componente VacationPlus2Content
