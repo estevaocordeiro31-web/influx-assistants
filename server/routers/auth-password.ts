@@ -69,6 +69,56 @@ export const authPasswordRouter = router({
           });
         }
 
+        // Sincronizar usuário no banco local (garantir que o openId está correto)
+        const localDb = await getDb();
+        if (localDb) {
+          try {
+            // Verificar se usuário já existe no banco local
+            const existingUser = await localDb
+              .select()
+              .from(users)
+              .where(eq(users.email, input.email))
+              .limit(1);
+
+            if (existingUser.length > 0) {
+              // Atualizar openId se diferente
+              if (existingUser[0].openId !== user.openId) {
+                await localDb
+                  .update(users)
+                  .set({ 
+                    openId: user.openId,
+                    name: user.name,
+                    role: user.role,
+                    lastSignedIn: new Date()
+                  })
+                  .where(eq(users.email, input.email));
+                console.log(`[Auth] OpenId sincronizado para: ${user.email}`);
+              } else {
+                // Apenas atualizar lastSignedIn
+                await localDb
+                  .update(users)
+                  .set({ lastSignedIn: new Date() })
+                  .where(eq(users.email, input.email));
+              }
+            } else {
+              // Criar usuário no banco local
+              await localDb.insert(users).values({
+                id: user.id,
+                openId: user.openId,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                loginMethod: 'password',
+                lastSignedIn: new Date()
+              });
+              console.log(`[Auth] Usuário criado no banco local: ${user.email}`);
+            }
+          } catch (syncError) {
+            console.error('[Auth] Erro ao sincronizar usuário local:', syncError);
+            // Não falhar o login se a sincronização falhar
+          }
+        }
+
         // LIMPAR COMPLETAMENTE qualquer sessão anterior
         ctx.res.setHeader(
           'Set-Cookie',

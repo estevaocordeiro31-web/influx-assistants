@@ -942,3 +942,12 @@
 - [x] Implementar sistema de cache de áudio para economizar caracteres ElevenLabs
 - [x] Testar reprodução de áudio em todos os personagens
 - [x] Salvar checkpoint com correções
+
+
+## Correção: Sincronização de OpenId para Login com Senha (30/01/2026)
+- [x] Diagnosticar problema de redirecionamento para login OAuth ao clicar em áudios TTS
+- [x] Identificar que o openId do banco centralizado era diferente do banco local
+- [x] Implementar sincronização automática de openId durante login com senha
+- [x] Atualizar auth-password.ts para sincronizar usuário no banco local
+- [x] Criar teste auth-password-sync.test.ts para validar a correção
+- [x] Testar fluxo completo de login e acesso ao Vacation Plus 2
