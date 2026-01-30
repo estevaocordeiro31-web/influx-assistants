@@ -959,3 +959,11 @@
 - [x] Testar áudio da Aiko (Australian English) - ElevenLabs funcionando
 - [x] Confirmar que todos os três personagens geram áudio corretamente
 - [x] Validar que a correção de sincronização de openId está funcionando
+
+
+## Correção: Sistema TTS com Retry Automático (30/01/2026)
+- [x] Identificar problema de timeout intermitente no ElevenLabs
+- [x] Implementar sistema de retry com backoff exponencial
+- [x] Adicionar timeout de 20 segundos para requisições
+- [x] Testar todos os personagens (Lucas, Emily, Aiko)
+- [x] Validar funcionamento completo do TTS no preview

@@ -1,0 +1,208 @@
+{
+  "query": "SELECT id, openId, name, email, role, status, createdAt FROM users ORDER BY createdAt DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T8Mwbb7L99VC4H.e93aa651f00b --database 2aNFQGA4rARocXGp2d4pqb --execute SELECT id, openId, name, email, role, status, createdAt FROM users ORDER BY createdAt DESC;",
+  "rows": [
+    {
+      "id": "570011",
+      "openId": "4ee5498bc5d5923a6f9bdff44507765105f40e6591beeedfa77eaf66dd8e2d66",
+      "name": "Estevão (Teste)",
+      "email": "estevao.teste.aluno@influx.com.br",
+      "role": "user",
+      "status": "ativo",
+      "createdAt": "2026-01-28 11:19:40"
+    },
+    {
+      "id": "660028",
+      "openId": "student_60002",
+      "name": "Estevão Cordeiro",
+      "email": "direcaojundiairetiro@influx.com.br",
+      "role": "user",
+      "status": "ativo",
+      "createdAt": "2026-01-24 18:33:50"
+    },
+    {
+      "id": "630090",
+      "openId": "f5ee6e548ab2464bf2e2ab9fea530496b2b342278b9ca512ce2123d2fab8b7e9",
+      "name": "Diego Bim",
+      "email": "direcaoosasco@influx.com.br",
+      "role": "user",
+      "status": "ativo",
+      "createdAt": "2026-01-24 14:56:09"
+    },
+    {
+      "id": "630089",
+      "openId": "3b2455dfa9d4f8cdda76367d6c36f73d8d74d8903b816cb21f720f74a99626a6",
+      "name": "Carlos Alberto Pirani Júnior",
+      "email": "carlos_junior_707@hotmail.com",
+      "role": "user",
+      "status": "ativo",
+      "createdAt": "2026-01-24 14:56:09"
+    },
+    {
+      "id": "630088",
+      "openId": "868afe301e35cde372ab7ba7792bd36dcdba534f73a4a1eadff0504b122107b8",
+      "name": "Carlos Alberto Pirani Júnior",
+      "email": "carlos_junior_707@hotmail.com",
+      "role": "user",
+      "status": "ativo",
+      "createdAt": "2026-01-24 14:55:13"
+    },
+    {
+      "id": "630042",
+      "openId": "bb6edcac705bb3957327686327632d173effd4188c6a03f992be1e69e4a12882",
+      "name": "Elizabeth Rodrigues De Souza",
+      "email": "elizabeth.engenhariaeletrica@gmail.com",
+      "role": "user",
+      "status": "ativo",
+      "createdAt": "2026-01-24 13:33:29"
+    },
+    {
+      "id": "630041",
+      "openId": "5ba9078a64a7b6baba3c992097d83e391fd87e93e25491ca39e1a48f31041594",
+      "name": "Andressa Amorim de Araújo",
+      "email": "andressaamorimdearaujo03@gmail.com",
+      "role": "user",
+      "status": "ativo",
+      "createdAt": "2026-01-24 13:33:29"
+    },
+    {
+      "id": "570007",
+      "openId": "camila_openid_unique_002",
+      "name": "Camila Gonsalves",
+      "email": "camiladarosa@outlook.com",
+      "role": "student",
+      "status": "ativo",
+      "createdAt": "2026-01-24 10:15:57"
+    },
+    {
+      "id": "570006",
+      "openId": "lais_openid_unique_001",
+      "name": "Laís Milena Gambini",
+      "email": "lais.gambini@example.com",
+      "role": "student",
+      "status": "ativo",
+      "createdAt": "2026-01-24 10:15:50"
+    },
+    {
+      "id": "390197",
+      "openId": "sponte-6200-1769202158710",
+      "name": "Laís Milena Gambini",
+      "email": "lais.gambini@example.com",
+      "role": "user",
+      "status": "ativo",
+      "createdAt": "2026-01-23 21:02:38"
+    },
+    {
+      "id": "390198",
+      "openId": "sponte-6220-1769202158727",
+      "name": "Camila Gonsalves da Rosa de Carvalho",
+      "email": "camila.gonsalves@example.com",
+      "role": "user",
+      "status": "ativo",
+      "createdAt": "2026-01-23 21:02:38"
+    },
+    {
+      "id": "390196",
+      "openId": "sponte-6220-1769202142238",
+      "name": "Camila Gonsalves da Rosa de Carvalho",
+      "email": "camila.gonsalves@example.com",
+      "role": "user",
+      "status": "ativo",
+      "createdAt": "2026-01-23 21:02:22"
+    },
+    {
+      "id": "390195",
+      "openId": "sponte-6200-1769202142222",
+      "name": "Laís Milena Gambini",
+      "email": "lais.gambini@example.com",
+      "role": "user",
+      "status": "ativo",
+      "createdAt": "2026-01-23 21:02:22"
+    },
+    {
+      "id": "390077",
+      "openId": "student-fabio_hk@hotmail.com-1769181342860",
+      "name": "Fabio Hk",
+      "email": "fabio_hk@hotmail.com",
+      "role": "student",
+      "status": "ativo",
+      "createdAt": "2026-01-23 15:15:42"
+    },
+    {
+      "id": "390076",
+      "openId": "student-pedro@example.com-1769181342841",
+      "name": "Pedro Costa",
+      "email": "pedro@example.com",
+      "role": "student",
+      "status": "ativo",
+      "createdAt": "2026-01-23 15:15:42"
+    },
+    {
+      "id": "390075",
+      "openId": "student-maria@example.com-1769181342822",
+      "name": "Maria Santos",
+      "email": "maria@example.com",
+      "role": "student",
+      "status": "ativo",
+      "createdAt": "2026-01-23 15:15:42"
+    },
+    {
+      "id": "390074",
+      "openId": "student-joao@example.com-1769181342791",
+      "name": "João Silva",
+      "email": "joao@example.com",
+      "role": "student",
+      "status": "ativo",
+      "createdAt": "2026-01-23 15:15:42"
+    },
+    {
+      "id": "390067",
+      "openId": "test-direcaojundiairetiro@influx.com.br-1769181244535",
+      "name": "direcaojundiairetiro",
+      "email": "direcaojundiairetiro@influx.com.br",
+      "role": "user",
+      "status": "ativo",
+      "createdAt": "2026-01-23 15:14:04"
+    },
+    {
+      "id": "390047",
+      "openId": "SoLKqA8jgTrWfdmXv3UMA7",
+      "name": "direcaojundiairetiro",
+      "email": "direcaojundiairetiro@influx.com.br",
+      "role": "user",
+      "status": "ativo",
+      "createdAt": "2026-01-23 14:56:44"
+    },
+    {
+      "id": "390046",
+      "openId": "admin-1769179893124",
+      "name": "Adm inFlux",
+      "email": "direcaojundiairetiro@influx.com.br",
+      "role": "admin",
+      "status": "ativo",
+      "createdAt": "2026-01-23 14:51:33"
+    },
+    {
+      "id": "390029",
+      "openId": "fabio_1769170626098",
+      "name": "Fabio",
+      "email": "fabio_hk@hotmail.com",
+      "role": "student",
+      "status": "ativo",
+      "createdAt": "2026-01-23 12:17:06"
+    },
+    {
+      "id": "1",
+      "openId": "6JPVb8Wrdbxv9F83Z6vWs4",
+      "name": "Estevao Cordeiro",
+      "email": "estevaocordeiro31@gmail.com",
+      "role": "admin",
+      "status": "ativo",
+      "createdAt": "2026-01-16 03:09:59"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\topenId\tname\temail\trole\tstatus\tcreatedAt\n570011\t4ee5498bc5d5923a6f9bdff44507765105f40e6591beeedfa77eaf66dd8e2d66\tEstevão (Teste)\testevao.teste.aluno@influx.com.br\tuser\tativo\t2026-01-28 11:19:40\n660028\tstudent_60002\tEstevão Cordeiro\tdirecaojundiairetiro@influx.com.br\tuser\tativo\t2026-01-24 18:33:50\n630090\tf5ee6e548ab2464bf2e2ab9fea530496b2b342278b9ca512ce2123d2fab8b7e9\tDiego Bim\tdirecaoosasco@influx.com.br\tuser\tativo\t2026-01-24 14:56:09\n630089\t3b2455dfa9d4f8cdda76367d6c36f73d8d74d8903b816cb21f720f74a99626a6\tCarlos Alberto Pirani Júnior\tcarlos_junior_707@hotmail.com\tuser\tativo\t2026-01-24 14:56:09\n630088\t868afe301e35cde372ab7ba7792bd36dcdba534f73a4a1eadff0504b122107b8\tCarlos Alberto Pirani Júnior\tcarlos_junior_707@hotmail.com\tuser\tativo\t2026-01-24 14:55:13\n630042\tbb6edcac705bb3957327686327632d173effd4188c6a03f992be1e69e4a12882\tElizabeth Rodrigues De Souza\telizabeth.engenhariaeletrica@gmail.com\tuser\tativo\t2026-01-24 13:33:29\n630041\t5ba9078a64a7b6baba3c992097d83e391fd87e93e25491ca39e1a48f31041594\tAndressa Amorim de Araújo\tandressaamorimdearaujo03@gmail.com\tuser\tativo\t2026-01-24 13:33:29\n570007\tcamila_openid_unique_002\tCamila Gonsalves\tcamiladarosa@outlook.com\tstudent\tativo\t2026-01-24 10:15:57\n570006\tlais_openid_unique_001\tLaís Milena Gambini\tlais.gambini@example.com\tstudent\tativo\t2026-01-24 10:15:50\n390197\tsponte-6200-1769202158710\tLaís Milena Gambini\tlais.gambini@example.com\tuser\tativo\t2026-01-23 21:02:38\n390198\tsponte-6220-1769202158727\tCamila Gonsalves da Rosa de Carvalho\tcamila.gonsalves@example.com\tuser\tativo\t2026-01-23 21:02:38\n390196\tsponte-6220-1769202142238\tCamila Gonsalves da Rosa de Carvalho\tcamila.gonsalves@example.com\tuser\tativo\t2026-01-23 21:02:22\n390195\tsponte-6200-1769202142222\tLaís Milena Gambini\tlais.gambini@example.com\tuser\tativo\t2026-01-23 21:02:22\n390077\tstudent-fabio_hk@hotmail.com-1769181342860\tFabio Hk\tfabio_hk@hotmail.com\tstudent\tativo\t2026-01-23 15:15:42\n390076\tstudent-pedro@example.com-1769181342841\tPedro Costa\tpedro@example.com\tstudent\tativo\t2026-01-23 15:15:42\n390075\tstudent-maria@example.com-1769181342822\tMaria Santos\tmaria@example.com\tstudent\tativo\t2026-01-23 15:15:42\n390074\tstudent-joao@example.com-1769181342791\tJoão Silva\tjoao@example.com\tstudent\tativo\t2026-01-23 15:15:42\n390067\ttest-direcaojundiairetiro@influx.com.br-1769181244535\tdirecaojundiairetiro\tdirecaojundiairetiro@influx.com.br\tuser\tativo\t2026-01-23 15:14:04\n390047\tSoLKqA8jgTrWfdmXv3UMA7\tdirecaojundiairetiro\tdirecaojundiairetiro@influx.com.br\tuser\tativo\t2026-01-23 14:56:44\n390046\tadmin-1769179893124\tAdm inFlux\tdirecaojundiairetiro@influx.com.br\tadmin\tativo\t2026-01-23 14:51:33\n390029\tfabio_1769170626098\tFabio\tfabio_hk@hotmail.com\tstudent\tativo\t2026-01-23 12:17:06\n1\t6JPVb8Wrdbxv9F83Z6vWs4\tEstevao Cordeiro\testevaocordeiro31@gmail.com\tadmin\tativo\t2026-01-16 03:09:59\n",
+  "stderr": "",
+  "execution_time_ms": 63
+}

@@ -204,6 +204,50 @@ async function generateWithOpenAI(
 // ============================================
 // ELEVENLABS TTS
 // ============================================
+// Helper function para fetch com timeout
+async function fetchWithTimeout(url: string, options: RequestInit, timeoutMs: number = 15000): Promise<Response> {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+  
+  try {
+    const response = await fetch(url, {
+      ...options,
+      signal: controller.signal,
+    });
+    clearTimeout(timeoutId);
+    return response;
+  } catch (error) {
+    clearTimeout(timeoutId);
+    throw error;
+  }
+}
+
+// Helper function para retry com backoff exponencial
+async function retryWithBackoff<T>(
+  fn: () => Promise<T>,
+  maxRetries: number = 3,
+  initialDelayMs: number = 1000
+): Promise<T> {
+  let lastError: Error | null = null;
+  
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      return await fn();
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error(String(error));
+      console.log(`[TTS] Tentativa ${attempt + 1}/${maxRetries} falhou: ${lastError.message}`);
+      
+      if (attempt < maxRetries - 1) {
+        const delay = initialDelayMs * Math.pow(2, attempt);
+        console.log(`[TTS] Aguardando ${delay}ms antes de tentar novamente...`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+    }
+  }
+  
+  throw lastError;
+}
+
 async function generateWithElevenLabs(
   text: string,
   voice: CharacterVoice,
@@ -221,24 +265,28 @@ async function generateWithElevenLabs(
     const stability = speed < 1 ? 0.7 : 0.5; // Mais lento = mais estável
     const similarityBoost = 0.75;
 
-    const response = await fetch(
-      `https://api.elevenlabs.io/v1/text-to-speech/${voice.elevenlabsVoice}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "xi-api-key": ENV.elevenlabsApiKey,
-        },
-        body: JSON.stringify({
-          text: text,
-          model_id: "eleven_monolingual_v1",
-          voice_settings: {
-            stability: stability,
-            similarity_boost: similarityBoost,
+    // Usar retry com backoff para lidar com timeouts intermitentes
+    const response = await retryWithBackoff(async () => {
+      return await fetchWithTimeout(
+        `https://api.elevenlabs.io/v1/text-to-speech/${voice.elevenlabsVoice}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "xi-api-key": ENV.elevenlabsApiKey!,
           },
-        }),
-      }
-    );
+          body: JSON.stringify({
+            text: text,
+            model_id: "eleven_monolingual_v1",
+            voice_settings: {
+              stability: stability,
+              similarity_boost: similarityBoost,
+            },
+          }),
+        },
+        20000 // 20 segundos de timeout
+      );
+    }, 3, 1000); // 3 tentativas, começando com 1 segundo de delay
 
     if (!response.ok) {
       const errorText = await response.text();
