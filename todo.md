@@ -951,3 +951,11 @@
 - [x] Atualizar auth-password.ts para sincronizar usuário no banco local
 - [x] Criar teste auth-password-sync.test.ts para validar a correção
 - [x] Testar fluxo completo de login e acesso ao Vacation Plus 2
+
+
+## Correção: Teste de Áudios TTS para Apresentação (30/01/2026)
+- [x] Testar áudio do Lucas (American English) - ElevenLabs funcionando
+- [x] Testar áudio da Emily (British English) - ElevenLabs funcionando
+- [x] Testar áudio da Aiko (Australian English) - ElevenLabs funcionando
+- [x] Confirmar que todos os três personagens geram áudio corretamente
+- [x] Validar que a correção de sincronização de openId está funcionando
