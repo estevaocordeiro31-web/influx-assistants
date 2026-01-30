@@ -195,7 +195,7 @@ const LESSONS = [
   },
 ];
 
-// Dados dos personagens
+// Dados dos personagens - Interface Cinematográfica
 const CHARACTERS = [
   {
     id: "lucas" as const,
@@ -204,10 +204,12 @@ const CHARACTERS = [
     city: "Nova York",
     flag: "US",
     flagEmoji: "\uD83C\uDDFA\uD83C\uDDF8",
-    color: "from-blue-500 to-red-500",
-    avatar: "/characters/lucas-usa.png",
-    style: "Direto e pratico",
-    expression: "You got this!",
+    color: "from-blue-600 to-purple-600",
+    avatar: "/images/characters/lucas-adult.png",
+    avatarFront: "/images/characters/lucas-front.png",
+    style: "American English",
+    expression: "What's up?",
+    voiceId: "pNinz6obpgDQGcFmaJgB", // Adam - ElevenLabs
   },
   {
     id: "emily" as const,
@@ -216,10 +218,12 @@ const CHARACTERS = [
     city: "Londres",
     flag: "GB",
     flagEmoji: "\uD83C\uDDEC\uD83C\uDDE7",
-    color: "from-red-500 to-blue-800",
-    avatar: "/characters/emily-uk.jpg",
-    style: "Educada e formal",
+    color: "from-amber-500 to-red-600",
+    avatar: "/images/characters/emily-london.jpg",
+    avatarFront: "/images/characters/emily-front.jpg",
+    style: "British English",
     expression: "Lovely!",
+    voiceId: "XB0fDUnXU5powFXDhCwa", // Charlotte - ElevenLabs
   },
   {
     id: "aiko" as const,
@@ -228,10 +232,12 @@ const CHARACTERS = [
     city: "Sydney",
     flag: "AU",
     flagEmoji: "\uD83C\uDDE6\uD83C\uDDFA",
-    color: "from-blue-500 to-yellow-500",
-    avatar: "/characters/aiko-australia.jpg",
-    style: "Descontraida e casual",
-    expression: "No worries, mate!",
+    color: "from-blue-500 to-cyan-400",
+    avatar: "/images/characters/aiko-adult.png",
+    avatarFront: "/images/characters/aiko-sydney.png",
+    style: "Australian English",
+    expression: "G'day, mate!",
+    voiceId: "cgSgspJ2msm6clMCkdW9", // Jessica - ElevenLabs
   },
 ];
 
@@ -244,6 +250,7 @@ export function VacationPlus2Content() {
   const [showCertificate, setShowCertificate] = useState(false);
   const [quizScores, setQuizScores] = useState<Record<number, { score: number; total: number }>>({});
   const [completedLessons, setCompletedLessons] = useState<number[]>([]);
+  const [audioCache, setAudioCache] = useState<Record<string, string>>({});
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // Carregar progresso salvo do banco de dados
@@ -295,8 +302,10 @@ export function VacationPlus2Content() {
   };
 
   const playCharacterAudio = async (character: "lucas" | "emily" | "aiko", text: string, situation?: "greeting" | "explaining" | "excited" | "casual" | "formal") => {
+    const cacheKey = `${character}-${text}`;
     const audioId = character + "-" + text.substring(0, 20);
     
+    // Toggle pause if already playing
     if (playingAudio === audioId && audioRef.current) {
       audioRef.current.pause();
       setPlayingAudio(null);
@@ -304,38 +313,65 @@ export function VacationPlus2Content() {
     }
 
     setLoadingAudio(audioId);
+    toast.info(`Gerando audio de ${character}...`);
 
     try {
-      const result = await speakMutation.mutateAsync({
-        text,
-        character,
-        situation,
-      });
+      let audioUrl = audioCache[cacheKey];
+      
+      // Check cache first to save ElevenLabs characters
+      if (!audioUrl) {
+        const result = await speakMutation.mutateAsync({
+          text,
+          character,
+          situation,
+        });
+        audioUrl = result.audioUrl;
+        
+        // Cache the audio URL
+        setAudioCache(prev => ({ ...prev, [cacheKey]: audioUrl }));
+      }
 
       if (audioRef.current) {
         audioRef.current.pause();
       }
 
-      const audio = new Audio(result.audioUrl);
+      const audio = new Audio(audioUrl);
       audioRef.current = audio;
       
+      // Set up event handlers before loading
       audio.onended = () => {
         setPlayingAudio(null);
       };
 
-      audio.onplay = () => {
-        setPlayingAudio(audioId);
-        setLoadingAudio(null);
-      };
-
       audio.onerror = () => {
-        toast.error("Erro ao reproduzir audio");
+        toast.error("Erro ao carregar audio");
         setPlayingAudio(null);
         setLoadingAudio(null);
       };
 
-      await audio.play();
-    } catch (error) {
+      // Try to play directly - modern browsers handle buffering
+      audio.onloadeddata = () => {
+        audio.play().then(() => {
+          setPlayingAudio(audioId);
+          setLoadingAudio(null);
+          toast.success(`Tocando ${character}!`);
+        }).catch((err) => {
+          // If autoplay is blocked, show a message
+          if (err.name === 'NotAllowedError') {
+            toast.error("Clique novamente para ouvir (autoplay bloqueado)");
+          } else {
+            toast.error("Erro ao reproduzir audio");
+          }
+          setPlayingAudio(null);
+          setLoadingAudio(null);
+        });
+      };
+
+      // Start loading the audio
+      audio.load();
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "Erro desconhecido";
+      toast.error(`Erro: ${errorMessage}`);
       setLoadingAudio(null);
     }
   };
@@ -450,60 +486,93 @@ export function VacationPlus2Content() {
         </div>
       </div>
 
-      {/* Characters Section */}
-      <Card className="bg-slate-800/50 border-slate-700">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-white flex items-center gap-2">
-            <Globe className="w-5 h-5 text-cyan-400" />
-            Seus Guias Culturais
-          </CardTitle>
-          <CardDescription className="text-slate-400">
-            Conheca os personagens que vao te guiar nessa jornada - clique para ouvir!
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {CHARACTERS.map((char) => (
+      {/* Characters Section - Cinematic Vertical Panels */}
+      <div className="mb-8">
+        <div className="flex items-center gap-2 mb-4">
+          <Globe className="w-5 h-5 text-cyan-400" />
+          <h3 className="text-xl font-bold text-white">Seus Guias Culturais</h3>
+        </div>
+        <p className="text-slate-400 text-sm mb-6">
+          Clique nos personagens para ouvir suas vozes autênticas!
+        </p>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {CHARACTERS.map((char) => {
+            const audioId = char.id + "-" + char.expression.substring(0, 20);
+            const isLoading = loadingAudio === audioId;
+            const isPlaying = playingAudio === audioId;
+            
+            return (
               <div 
                 key={char.name}
-                className="relative group rounded-xl overflow-hidden bg-slate-700/50 hover:bg-slate-700 transition-all duration-300 cursor-pointer"
+                className="relative group cursor-pointer"
                 onClick={() => playCharacterAudio(char.id, char.expression, "greeting")}
               >
-                <div className={"absolute inset-0 bg-gradient-to-br " + char.color + " opacity-20 group-hover:opacity-30 transition-opacity"} />
-                <div className="relative p-4 flex items-center gap-4">
-                  <div className="relative">
+                {/* Cinematic Card with Full Image */}
+                <div className="relative rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 group-hover:scale-[1.02] group-hover:shadow-cyan-500/20">
+                  {/* Background Image */}
+                  <div className="aspect-[3/4] relative">
                     <img 
                       src={char.avatar} 
                       alt={char.name}
-                      className="w-16 h-16 rounded-full object-cover border-2 border-white/20"
+                      className="w-full h-full object-cover"
                     />
-                    <span className="absolute -bottom-1 -right-1 text-xl">{char.flagEmoji}</span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-bold text-white">{char.name}</h4>
-                    <p className="text-xs text-slate-400">{char.city}, {char.country}</p>
-                    <p className="text-xs text-cyan-400 mt-1 italic">"{char.expression}"</p>
-                  </div>
-                  <Button 
-                    size="icon" 
-                    variant="ghost" 
-                    className="text-cyan-400 hover:text-cyan-300 hover:bg-cyan-400/10"
-                    disabled={loadingAudio === (char.id + "-" + char.expression.substring(0, 20))}
-                  >
-                    {loadingAudio === (char.id + "-" + char.expression.substring(0, 20)) ? (
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                    ) : playingAudio === (char.id + "-" + char.expression.substring(0, 20)) ? (
-                      <Pause className="w-5 h-5" />
-                    ) : (
-                      <Volume2 className="w-5 h-5" />
+                    
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+                    
+                    {/* Playing Indicator */}
+                    {isPlaying && (
+                      <div className="absolute top-4 right-4 bg-cyan-500 rounded-full p-2 animate-pulse">
+                        <Volume2 className="w-5 h-5 text-white" />
+                      </div>
                     )}
-                  </Button>
+                    
+                    {/* Loading Indicator */}
+                    {isLoading && (
+                      <div className="absolute top-4 right-4 bg-slate-800/80 rounded-full p-2">
+                        <Loader2 className="w-5 h-5 text-cyan-400 animate-spin" />
+                      </div>
+                    )}
+                    
+                    {/* Content Overlay */}
+                    <div className="absolute bottom-0 left-0 right-0 p-6">
+                      {/* Name */}
+                      <h4 className="text-3xl font-bold text-white mb-1 tracking-wide">
+                        {char.name}
+                      </h4>
+                      
+                      {/* Flag */}
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className="text-2xl">{char.flagEmoji}</span>
+                        <span className="text-white/80 text-sm font-medium">{char.style}</span>
+                      </div>
+                      
+                      {/* Expression */}
+                      <div className="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2 inline-block">
+                        <p className="text-cyan-300 font-medium italic">
+                          "{char.expression}"
+                        </p>
+                      </div>
+                      
+                      {/* Play Button */}
+                      <div className="mt-4 flex items-center gap-2 text-white/70 text-sm group-hover:text-cyan-400 transition-colors">
+                        {isPlaying ? (
+                          <><Pause className="w-4 h-4" /> Pausar</>
+                        ) : isLoading ? (
+                          <><Loader2 className="w-4 h-4 animate-spin" /> Carregando...</>
+                        ) : (
+                          <><Play className="w-4 h-4" /> Clique para ouvir</>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+            );
+          })}
+        </div>
+      </div>
 
       {/* Lessons Grid */}
       <div>
