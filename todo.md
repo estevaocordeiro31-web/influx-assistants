@@ -967,3 +967,49 @@
 - [x] Adicionar timeout de 20 segundos para requisições
 - [x] Testar todos os personagens (Lucas, Emily, Aiko)
 - [x] Validar funcionamento completo do TTS no preview
+
+
+## Fase 65: Vacation Plus 2 - Expansão de Conteúdo e Gamificação (30/01/2026)
+
+### Sistema de Cartões de Chunks com TTS
+- [ ] Criar banco de chunks por lição (8 lições x 10+ chunks cada)
+- [ ] Implementar cartões interativos com flip animation
+- [ ] Adicionar TTS para cada chunk (Lucas, Emily, Aiko)
+- [ ] Criar variações de pronúncia por sotaque
+- [ ] Implementar seção "Real Language" com destaque visual
+
+### Sistema de Badges e Gamificação
+- [ ] Criar tabela de badges do Vacation Plus 2
+- [ ] Gerar imagens de badges no estilo Disney/Pixar
+- [ ] Implementar lógica de conquista de badges por lição
+- [ ] Criar sistema de pontos (influxcoin) por atividade
+- [ ] Adicionar leaderboard de progresso
+
+### Curiosidades Culturais por Cidade
+- [ ] Criar banco de curiosidades de Nova York (Lucas)
+- [ ] Criar banco de curiosidades de Londres (Emily)
+- [ ] Criar banco de curiosidades de Sydney (Aiko)
+- [ ] Integrar curiosidades nas lições
+- [ ] Adicionar cards visuais com fotos das cidades
+
+### Estilo Visual Coeso
+- [ ] Criar paleta de cores por personagem
+- [ ] Implementar cards com estilo Disney/Pixar
+- [ ] Adicionar animações de transição
+- [ ] Criar ícones personalizados por lição
+- [ ] Integrar imagens dos personagens em todo o layout
+
+
+## Fase 66: Vacation Plus 2 - Expansão com Gamificação e Conteúdo Interativo - COMPLETO
+- [x] Criar arquivo vacation-plus-2-expanded.ts com 40 chunks (5 por lição)
+- [x] Adicionar Connected Speech com pronúncia fonética para cada chunk
+- [x] Criar 24 curiosidades culturais (3 por lição) sobre NYC, Londres e Sydney
+- [x] Implementar 12 badges de conquista (8 por lição + 4 especiais)
+- [x] Criar componente ChunkCard com botões TTS para cada personagem
+- [x] Criar componente CulturalFactCard com dicas de inglês por região
+- [x] Criar componente BadgeDisplay com sistema de desbloqueio
+- [x] Criar componente LessonExpandedContent integrando chunks, curiosidades e Real Language
+- [x] Adicionar aba "Chunks" no modal de lição com sub-abas (Chunks, Curiosidades, Real Language)
+- [x] Integrar seção "Suas Conquistas" com 12 badges e influxcoins
+- [x] Testar TTS com retry automático funcionando
+- [x] Validar layout visual no estilo Disney/Pixar dos personagens

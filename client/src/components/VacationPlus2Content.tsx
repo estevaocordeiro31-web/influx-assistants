@@ -13,6 +13,8 @@ import {
 } from "lucide-react";
 import { VacationQuiz } from "./VacationQuiz";
 import { VacationCertificate } from "./VacationCertificate";
+import { LessonExpandedContent } from "./vacation-plus-2/LessonExpandedContent";
+import { BadgeDisplay } from "./vacation-plus-2/BadgeDisplay";
 import { toast } from "sonner";
 
 // Dados das licoes do Vacation Plus 2
@@ -574,6 +576,9 @@ export function VacationPlus2Content() {
         </div>
       </div>
 
+      {/* Badges Section */}
+      <BadgeDisplay completedLessons={completedLessons} />
+
       {/* Lessons Grid */}
       <div>
         <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
@@ -661,9 +666,12 @@ export function VacationPlus2Content() {
               </DialogHeader>
 
               <Tabs defaultValue="overview" className="mt-4">
-                <TabsList className="grid w-full grid-cols-3 bg-slate-800">
+                <TabsList className="grid w-full grid-cols-4 bg-slate-800">
                   <TabsTrigger value="overview" className="data-[state=active]:bg-slate-700">
                     Visao Geral
+                  </TabsTrigger>
+                  <TabsTrigger value="chunks" className="data-[state=active]:bg-green-500/20 data-[state=active]:text-green-400">
+                    Chunks
                   </TabsTrigger>
                   <TabsTrigger value="vocabulary" className="data-[state=active]:bg-slate-700">
                     Vocabulario
@@ -721,6 +729,13 @@ export function VacationPlus2Content() {
                       Ouvir Dialogos
                     </Button>
                   </div>
+                </TabsContent>
+
+                <TabsContent value="chunks" className="mt-4">
+                  <LessonExpandedContent 
+                    lessonId={selectedLesson.id} 
+                    lessonTitle={selectedLesson.title} 
+                  />
                 </TabsContent>
 
                 <TabsContent value="vocabulary" className="mt-4">
