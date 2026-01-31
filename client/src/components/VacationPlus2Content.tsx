@@ -15,6 +15,8 @@ import { VacationQuiz } from "./VacationQuiz";
 import { VacationCertificate } from "./VacationCertificate";
 import { LessonExpandedContent } from "./vacation-plus-2/LessonExpandedContent";
 import { BadgeDisplay } from "./vacation-plus-2/BadgeDisplay";
+import { RealEnglishTab } from "./vacation-plus-2/RealEnglishTab";
+import { AnimationScriptsTab } from "./vacation-plus-2/AnimationScriptsTab";
 import { toast } from "sonner";
 
 // Dados das licoes do Vacation Plus 2
@@ -579,6 +581,11 @@ export function VacationPlus2Content() {
       {/* Badges Section */}
       <BadgeDisplay completedLessons={completedLessons} />
 
+      {/* Animation Stories Section */}
+      <div className="mt-8 bg-white/10 backdrop-blur-sm rounded-xl p-6">
+        <AnimationScriptsTab />
+      </div>
+
       {/* Lessons Grid */}
       <div>
         <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
@@ -666,7 +673,7 @@ export function VacationPlus2Content() {
               </DialogHeader>
 
               <Tabs defaultValue="overview" className="mt-4">
-                <TabsList className="grid w-full grid-cols-4 bg-slate-800">
+                <TabsList className="grid w-full grid-cols-5 bg-slate-800">
                   <TabsTrigger value="overview" className="data-[state=active]:bg-slate-700">
                     Visao Geral
                   </TabsTrigger>
@@ -678,6 +685,9 @@ export function VacationPlus2Content() {
                   </TabsTrigger>
                   <TabsTrigger value="dialogues" className="data-[state=active]:bg-slate-700">
                     Dialogos
+                  </TabsTrigger>
+                  <TabsTrigger value="real-english" className="data-[state=active]:bg-purple-500/20 data-[state=active]:text-purple-400">
+                    Real English
                   </TabsTrigger>
                 </TabsList>
 
@@ -861,6 +871,10 @@ export function VacationPlus2Content() {
                       </Button>
                     </CardContent>
                   </Card>
+                </TabsContent>
+
+                <TabsContent value="real-english" className="mt-4">
+                  <RealEnglishTab lessonId={`lesson0${selectedLesson.id}`} />
                 </TabsContent>
               </Tabs>
             </>

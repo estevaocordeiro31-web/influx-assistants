@@ -1013,3 +1013,37 @@
 - [x] Integrar seção "Suas Conquistas" com 12 badges e influxcoins
 - [x] Testar TTS com retry automático funcionando
 - [x] Validar layout visual no estilo Disney/Pixar dos personagens
+
+
+## Fase 67: Vacation Plus 2 - Real English e Conteúdo Autêntico
+- [ ] Pesquisar expressões e gírias usadas por jovens em NYC (18-25 anos)
+- [ ] Pesquisar expressões e gírias usadas por jovens em Londres (18-25 anos)
+- [ ] Pesquisar expressões e gírias usadas por jovens em Sydney (18-25 anos)
+- [ ] Criar conteúdo de pontos turísticos com Lucas apresentando NYC
+- [ ] Criar conteúdo de pontos turísticos com Emily apresentando Londres
+- [ ] Criar conteúdo de pontos turísticos com Aiko apresentando Sydney
+- [ ] Desenvolver situações de diálogo com cenários reais para cada lição
+- [ ] Implementar aba "Real English" com vocabulário autêntico por cidade
+- [ ] Adicionar Connected Speech com pronúncia natural e contrações
+- [ ] Criar equivalências regionais (US vs UK vs AU English)
+- [ ] Gerar imagens para situações de diálogo
+- [ ] Integrar conteúdo nas lições e testar TTS
+- [ ] Salvar checkpoint final
+
+
+## Fase 68: Animation Stories - Roteiros no Estilo degenaicomedy - COMPLETO
+- [x] Pesquisar gírias e expressões de jovens em NYC, Londres e Sydney
+- [x] Criar 6 roteiros de animação (2 por personagem):
+  - Lucas e o Lago Ness (Escócia)
+  - Emily no Texas (EUA)
+  - Aiko em Nova York (EUA)
+  - Lucas em Londres (UK)
+  - Emily na Austrália
+  - Aiko em Londres (UK)
+- [x] Implementar componente AnimationScriptCard com abas (Cenas, Chunks, Cultura)
+- [x] Implementar componente AnimationScriptsTab com filtros por personagem
+- [x] Integrar Animation Stories ao VacationPlus2Content
+- [x] Adicionar chunks e connected speech em cada roteiro
+- [x] Adicionar curiosidades culturais por roteiro
+- [x] Testar TTS em todas as cenas
+- [x] Validar funcionamento no navegador
