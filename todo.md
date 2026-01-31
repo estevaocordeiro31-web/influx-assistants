@@ -1047,3 +1047,11 @@
 - [x] Adicionar curiosidades culturais por roteiro
 - [x] Testar TTS em todas as cenas
 - [x] Validar funcionamento no navegador
+
+
+## Fase 69: Vídeo de Animação - Lucas e o Lago Ness
+- [x] Preparar assets e roteiro para o vídeo
+- [x] Gerar imagens de cenas do Lucas no Lago Ness (estilo Disney/Pixar)
+- [x] Gerar áudios TTS para cada cena (sotaque americano)
+- [x] Montar vídeo com imagens e áudios
+- [x] Entregar vídeo ao usuário
