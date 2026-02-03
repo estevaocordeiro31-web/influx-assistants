@@ -30,6 +30,7 @@ import GeminiSuggestions from "./pages/GeminiSuggestions";
 import GeminiStrategicAnalysis from "./pages/GeminiStrategicAnalysis";
 import GeminiChat from "./pages/GeminiChat";
 import EditProfile from "./pages/EditProfile";
+import AnimationsPage from "./pages/AnimationsPage";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -58,6 +59,8 @@ function Router() {
       <Route path="/demo/voice-chat" component={VoiceChatPage} />
       <Route path="/demo/blog-tips" component={BlogTips} />
       <Route path="/demo/simulator" component={SituationSimulator} />
+      <Route path="/animations" component={AnimationsPage} />
+      <Route path="/demo/animations" component={AnimationsPage} />
       {/* Rotas de acesso via link personalizado */}
       <Route path="/access/:linkHash" component={AccessViaLink} />
       {/* Rotas autenticadas */}
