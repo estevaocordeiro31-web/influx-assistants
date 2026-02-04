@@ -1169,3 +1169,31 @@
 - [ ] Implementar score básico de pronúncia
 - [ ] Criar histórico de gravações do aluno
 
+
+
+## Fase 75: Reorganização - Conteúdo dentro do Tutor
+
+### Fase 75.1: Reorganizar Estrutura
+- [ ] Mover Lesson Quest para dentro do fluxo do StudentDashboard
+- [ ] Remover rotas separadas de /lesson-quest
+- [ ] Integrar como aba ou seção dentro do tutor
+
+### Fase 75.2: Remover Áudios
+- [ ] Remover seção de músicas (aluno já tem em outros apps)
+- [ ] Manter apenas quizzes, flashcards e gravação de pronúncia
+- [ ] Simplificar interface focando em prática
+
+### Fase 75.3: Integrar ao Fluxo do Aluno
+- [ ] Adicionar seção "Praticar Lesson" no StudentDashboard
+- [ ] Conectar com lesson atual do aluno
+- [ ] Manter navegação entre lessons dentro do tutor
+
+
+## Fase 76: Reorganização - Conteúdo dentro do Tutor
+
+- [x] Criar componente LessonPractice simplificado (sem áudios)
+- [x] Adicionar LessonPractice como sub-aba "Praticar" no MeuTutorTab
+- [x] Mover Animações para dentro do VacationPlus2Content (já estava integrado)
+- [x] Remover rota /lesson-quest do App.tsx
+- [x] Remover rota /animations do App.tsx
+- [x] Limpar arquivos não utilizados (rotas removidas)

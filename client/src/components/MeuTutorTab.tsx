@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { LessonPractice } from "@/components/LessonPractice";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -6,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   BookOpen, TrendingUp, RotateCcw, Star, Flame, 
-  Plane, FileText, CheckCircle2, Clock, Award, Zap
+  Plane, FileText, CheckCircle2, Clock, Award, Zap, Target
 } from "lucide-react";
 import { useLocation } from "wouter";
 import TipOfDayWidget from "@/components/TipOfDayWidget";
@@ -52,6 +53,7 @@ export function MeuTutorTab({ studentData }: MeuTutorTabProps) {
 
   const subTabs = [
     { id: "books", label: "Meus Livros", icon: TrendingUp, color: "green" },
+    { id: "practice", label: "Praticar", icon: Target, color: "yellow" },
     { id: "vacation2", label: "Vacation 2", icon: Plane, color: "cyan" },
     { id: "review", label: "Revisão", icon: RotateCcw, color: "purple" },
     { id: "blog", label: "Blog", icon: BookOpen, color: "orange" },
@@ -68,6 +70,7 @@ export function MeuTutorTab({ studentData }: MeuTutorTabProps) {
             const isActive = activeSubTab === tab.id;
             const colorClasses: Record<string, string> = {
               green: isActive ? "bg-green-500 text-white shadow-green-500/50" : "bg-slate-700/50 text-slate-300 hover:bg-slate-700",
+              yellow: isActive ? "bg-yellow-500 text-slate-900 shadow-yellow-500/50" : "bg-slate-700/50 text-slate-300 hover:bg-slate-700",
               cyan: isActive ? "bg-gradient-to-r from-cyan-500 via-green-500 to-purple-500 text-white shadow-cyan-500/50" : "bg-slate-700/50 text-slate-300 hover:bg-slate-700",
               purple: isActive ? "bg-purple-500 text-white shadow-purple-500/50" : "bg-slate-700/50 text-slate-300 hover:bg-slate-700",
               orange: isActive ? "bg-orange-500 text-white shadow-orange-500/50" : "bg-slate-700/50 text-slate-300 hover:bg-slate-700",
@@ -161,6 +164,10 @@ export function MeuTutorTab({ studentData }: MeuTutorTabProps) {
             </CardContent>
           </Card>
         </div>
+      )}
+
+      {activeSubTab === "practice" && (
+        <LessonPractice currentBookId={5} />
       )}
 
       {activeSubTab === "vacation2" && (
