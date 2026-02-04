@@ -1321,3 +1321,12 @@
 - [x] Corrigir responsividade dos botões no mobile (sobreposição)
 - [x] Aumentar tamanho dos elementos para melhor leitura no celular
 - [x] Testar em diferentes tamanhos de tela
+
+
+## Fase 83: Bug - Vídeos não estão rodando na aba Animation Stories
+- [x] Verificar código do AnimationScriptsTab.tsx
+- [x] Confirmar que os 3 vídeos já estavam configurados (Lucas, Emily, Aiko)
+- [x] Melhorar interatividade dos cards para mobile (div -> button)
+- [x] Adicionar botão de play sempre visível em mobile
+- [x] Adicionar botão "Assistir Vídeo" explícito para mobile
+- [x] Testar vídeos funcionando - todos os 3 abrem corretamente

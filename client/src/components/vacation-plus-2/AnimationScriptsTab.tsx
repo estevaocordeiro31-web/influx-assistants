@@ -230,10 +230,11 @@ export function AnimationScriptsTab() {
           {/* Grid de Vídeos - Otimizado para Mobile */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-2 sm:px-0">
             {filteredVideos.map((video) => (
-              <div
+              <button
                 key={video.id}
                 onClick={() => setSelectedVideo(video)}
-                className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all cursor-pointer group"
+                className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl active:scale-[0.98] transition-all cursor-pointer group text-left w-full"
+                type="button"
               >
                 {/* Thumbnail */}
                 <div className="relative aspect-video">
@@ -242,9 +243,10 @@ export function AnimationScriptsTab() {
                     alt={video.title}
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/90 flex items-center justify-center">
-                      <Play className="w-7 h-7 sm:w-8 sm:h-8 text-gray-900 ml-1" fill="currentColor" />
+                  {/* Botão de play sempre visível em mobile */}
+                  <div className="absolute inset-0 bg-black/30 sm:bg-black/40 flex items-center justify-center sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
+                      <Play className="w-7 h-7 sm:w-8 sm:h-8 text-purple-600 ml-1" fill="currentColor" />
                     </div>
                   </div>
                   <div className="absolute bottom-2 right-2 px-2 py-1 bg-black/70 rounded text-xs text-white">
@@ -271,8 +273,15 @@ export function AnimationScriptsTab() {
                       {video.accent}
                     </span>
                   </div>
+                  {/* Botão explícito para mobile */}
+                  <div className="mt-3 flex justify-center sm:hidden">
+                    <span className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">
+                      <Play className="w-4 h-4" fill="currentColor" />
+                      Assistir Vídeo
+                    </span>
+                  </div>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
 
