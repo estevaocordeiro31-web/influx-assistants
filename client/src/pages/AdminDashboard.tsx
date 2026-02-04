@@ -2,13 +2,15 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Users, AlertCircle, LogOut, Search, Bell, Loader2, Edit, BarChart3, Sparkles, Brain, MessageSquare } from "lucide-react";
+import { Users, AlertCircle, LogOut, Search, Bell, Loader2, Edit, BarChart3, Sparkles, Brain, MessageSquare, Hash, RefreshCw } from "lucide-react";
+import { toast } from "sonner";
 import { useLocation } from "wouter";
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 
 interface StudentData {
   id: number;
+  studentId: string | null;
   name: string;
   email: string;
   level: string;
@@ -26,9 +28,16 @@ export default function AdminDashboard() {
   const [selectedStudent, setSelectedStudent] = useState<StudentData | null>(null);
 
   // Buscar alunos do banco de dados
-  const { data: studentsData, isLoading } = trpc.adminStudents.getStudents.useQuery({
+  const { data: studentsData, isLoading, refetch } = trpc.adminStudents.getStudents.useQuery({
     search: searchTerm || undefined,
     limit: 50,
+  });
+
+  // Mutation para gerar IDs de todos os alunos
+  const assignAllIdsMutation = trpc.adminStudents.assignAllStudentIds.useMutation({
+    onSuccess: () => {
+      refetch();
+    },
   });
 
   const students = studentsData?.students || [];
@@ -160,7 +169,26 @@ export default function AdminDashboard() {
                   Visualize e gerencie todos os alunos da plataforma
                 </CardDescription>
               </div>
-              <div className="flex gap-2">
+              <div className="flex gap-2 flex-wrap">
+                <Button 
+                  variant="outline"
+                  onClick={async () => {
+                    try {
+                      const result = await assignAllIdsMutation.mutateAsync();
+                      toast.success(result.message);
+                    } catch (error) {
+                      toast.error("Erro ao gerar IDs");
+                    }
+                  }}
+                  disabled={assignAllIdsMutation.isPending}
+                >
+                  {assignAllIdsMutation.isPending ? (
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  ) : (
+                    <Hash className="w-4 h-4 mr-2" />
+                  )}
+                  Gerar IDs
+                </Button>
                 <Button 
                   variant="outline"
                   onClick={() => setLocation("/admin/personalized-links")}
@@ -205,6 +233,7 @@ export default function AdminDashboard() {
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-border">
+                      <th className="text-left py-3 px-4 font-semibold text-sm">ID</th>
                       <th className="text-left py-3 px-4 font-semibold text-sm">Nome</th>
                       <th className="text-left py-3 px-4 font-semibold text-sm">Email</th>
                       <th className="text-left py-3 px-4 font-semibold text-sm">Nível</th>
@@ -223,6 +252,9 @@ export default function AdminDashboard() {
                         className="border-b border-border hover:bg-muted/50 cursor-pointer"
                         onClick={() => setSelectedStudent(student as StudentData)}
                       >
+                        <td className="py-3 px-4 text-sm font-mono text-xs">
+                          {(student as any).studentId || <span className="text-muted-foreground">-</span>}
+                        </td>
                         <td className="py-3 px-4 text-sm font-medium">{student.name}</td>
                         <td className="py-3 px-4 text-sm text-muted-foreground">{student.email}</td>
                         <td className="py-3 px-4 text-sm">{levelMap[student.level] || student.level}</td>

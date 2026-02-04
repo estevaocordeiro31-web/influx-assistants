@@ -1,9 +1,9 @@
 import { router, adminProcedure } from '../_core/trpc';
 import { z } from 'zod';
 import { TRPCError } from '@trpc/server';
-import { getDb } from '../db';
+import { getDb, assignStudentId, assignStudentIdsToAllUsers } from '../db';
 import { users, studentProfiles } from '../../drizzle/schema';
-import { eq } from 'drizzle-orm';
+import { eq, isNull } from 'drizzle-orm';
 
 export const adminStudentsRouter = router({
   /**
@@ -31,6 +31,7 @@ export const adminStudentsRouter = router({
         let query = database
           .select({
             id: users.id,
+            studentId: users.studentId,
             name: users.name,
             email: users.email,
             createdAt: users.createdAt,
@@ -72,6 +73,7 @@ export const adminStudentsRouter = router({
 
             return {
               id: student.id,
+              studentId: student.studentId || null,
               name: student.name || 'Sem nome',
               email: student.email || 'Sem email',
               level: profile?.currentLevel || 'beginner',
@@ -138,9 +140,9 @@ export const adminStudentsRouter = router({
           success: true,
           student: {
             id: student.id,
+            studentId: (student as any).studentId || null,
             name: student.name,
             email: student.email,
-            // status removido - campo não existe no banco centralizado
             createdAt: student.createdAt,
             lastSignedIn: student.lastSignedIn,
             profile: profile || null,
@@ -151,6 +153,53 @@ export const adminStudentsRouter = router({
         throw new TRPCError({
           code: 'INTERNAL_SERVER_ERROR',
           message: `Erro ao buscar detalhes do aluno: ${error}`,
+        });
+      }
+    }),
+
+  /**
+   * Gerar/atribuir studentId para um aluno específico
+   */
+  assignStudentId: adminProcedure
+    .input(z.object({ userId: z.number() }))
+    .mutation(async ({ input }) => {
+      try {
+        const newStudentId = await assignStudentId(input.userId);
+        if (!newStudentId) {
+          throw new TRPCError({
+            code: 'INTERNAL_SERVER_ERROR',
+            message: 'Erro ao gerar ID do aluno',
+          });
+        }
+        return {
+          success: true,
+          studentId: newStudentId,
+        };
+      } catch (error) {
+        if (error instanceof TRPCError) throw error;
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: `Erro ao atribuir ID: ${error}`,
+        });
+      }
+    }),
+
+  /**
+   * Gerar/atribuir studentId para todos os alunos sem ID
+   */
+  assignAllStudentIds: adminProcedure
+    .mutation(async () => {
+      try {
+        const count = await assignStudentIdsToAllUsers();
+        return {
+          success: true,
+          message: `${count} alunos receberam IDs`,
+          count,
+        };
+      } catch (error) {
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: `Erro ao atribuir IDs: ${error}`,
         });
       }
     }),

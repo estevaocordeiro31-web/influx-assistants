@@ -1209,3 +1209,15 @@
 - [x] Testar responsividade do StudentDashboard
 - [x] Corrigir problemas de overflow ou texto cortado
 - [x] Salvar checkpoint final
+
+
+## Fase 79: Sistema de ID Único para Alunos
+
+### Implementação
+- [x] Verificar estrutura atual da tabela users/students
+- [x] Adicionar campo student_id único e legível (ex: INF-2026-0001)
+- [x] Criar função para gerar IDs automaticamente (generateStudentId, assignStudentId)
+- [x] Atualizar interface para exibir o ID do aluno (coluna ID no AdminDashboard)
+- [x] Adicionar botão "Gerar IDs" para atribuir IDs em massa
+- [x] Criar testes unitários (8 testes passando)
+- [x] Testar e salvar checkpoint

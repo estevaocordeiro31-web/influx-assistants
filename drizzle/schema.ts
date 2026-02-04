@@ -13,6 +13,8 @@ export const users = mysqlTable("users", {
   id: int("id").autoincrement().primaryKey(),
   /** Manus OAuth identifier (openId) returned from the OAuth callback. Unique per user. */
   openId: varchar("openId", { length: 64 }).notNull().unique(),
+  /** ID único legível do aluno (ex: INF-2026-0001) */
+  studentId: varchar("student_id", { length: 20 }).unique(),
   name: text("name"),
   email: varchar("email", { length: 320 }),
   /** Hashed password for traditional login (bcrypt) */
