@@ -16,6 +16,8 @@ import MyFavoriteTips from "@/components/MyFavoriteTips";
 import BadgesDisplay from "@/components/BadgesDisplay";
 import { ExclusiveMaterialsSection } from "@/components/ExclusiveMaterialsSection";
 import { VacationPlus2Content } from "@/components/VacationPlus2Content";
+import { AllBooksProgress } from "@/components/AllBooksProgress";
+import { MateriaisExtrasTab } from "@/components/MateriaisExtrasTab";
 import { trpc } from "@/lib/trpc";
 
 interface MeuTutorTabProps {
@@ -93,77 +95,7 @@ export function MeuTutorTab({ studentData }: MeuTutorTabProps) {
 
       {/* Conteúdo das sub-abas */}
       {activeSubTab === "books" && (
-        <div className="space-y-4">
-          {/* Progresso Atual */}
-          <Card className="bg-slate-800/50 border-slate-700">
-            <CardHeader>
-              <CardTitle className="text-white flex items-center gap-2">
-                <BookOpen className="w-5 h-5 text-green-400" />
-                {studentData.currentBook} - Progresso Atual
-              </CardTitle>
-              <CardDescription className="text-slate-400">
-                Unit {studentData.currentUnit} de {studentData.totalUnits}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <div className="flex justify-between mb-2">
-                  <span className="text-sm text-slate-300">Progresso do Livro</span>
-                  <span className="text-sm font-bold text-green-400">{studentData.progressPercentage}%</span>
-                </div>
-                <Progress value={studentData.progressPercentage} className="h-3 bg-slate-700" />
-              </div>
-              <Button className="w-full bg-green-500 hover:bg-green-600 text-slate-900 font-bold">
-                <Zap className="w-4 h-4 mr-2" />
-                Continuar Estudando
-              </Button>
-            </CardContent>
-          </Card>
-
-          {/* Histórico de Livros */}
-          <Card className="bg-slate-800/50 border-slate-700">
-            <CardHeader>
-              <CardTitle className="text-white flex items-center gap-2">
-                <TrendingUp className="w-5 h-5 text-blue-400" />
-                Histórico de Livros
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {studentData.completedBooks.map((book) => (
-                  <div 
-                    key={book.id}
-                    className={`p-3 rounded-lg border ${
-                      book.progress === 100 
-                        ? 'bg-green-500/10 border-green-500/30' 
-                        : 'bg-blue-500/10 border-blue-500/30'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        {book.progress === 100 ? (
-                          <CheckCircle2 className="w-5 h-5 text-green-400" />
-                        ) : (
-                          <Clock className="w-5 h-5 text-blue-400" />
-                        )}
-                        <span className="font-bold text-white">{book.name}</span>
-                        <Badge variant="outline" className="text-xs">
-                          {book.level}
-                        </Badge>
-                      </div>
-                      <span className="text-sm text-slate-400">{book.progress}%</span>
-                    </div>
-                    <Progress value={book.progress} className="h-2 bg-slate-700" />
-                    <div className="flex gap-4 mt-2 text-xs text-slate-400">
-                      <span>{book.hoursSpent}h estudadas</span>
-                      <span>{book.chunksLearned} chunks</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+        <AllBooksProgress />
       )}
 
       {activeSubTab === "practice" && (
@@ -261,20 +193,7 @@ export function MeuTutorTab({ studentData }: MeuTutorTabProps) {
       )}
 
       {activeSubTab === "materials" && (
-        <Card className="bg-slate-800/50 border-slate-700">
-          <CardHeader>
-            <CardTitle className="text-white flex items-center gap-2">
-              <FileText className="w-5 h-5 text-pink-400" />
-              Materiais Exclusivos
-            </CardTitle>
-            <CardDescription className="text-slate-400">
-              Materiais compartilhados especialmente para você
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ExclusiveMaterialsSection />
-          </CardContent>
-        </Card>
+        <MateriaisExtrasTab />
       )}
     </div>
   );

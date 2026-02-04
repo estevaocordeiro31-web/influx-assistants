@@ -1221,3 +1221,23 @@
 - [x] Adicionar botão "Gerar IDs" para atribuir IDs em massa
 - [x] Criar testes unitários (8 testes passando)
 - [x] Testar e salvar checkpoint
+
+
+## Fase 80: Novas Abas de Perfil - Livros e Materiais Extras
+
+### Aba Livros
+- [ ] Criar componente BooksTab com progressão de todos os books (1-12)
+- [ ] Mostrar status de cada book (completo, em andamento, bloqueado)
+- [ ] Exibir chunks aprendidos por book
+- [ ] Adicionar barra de progresso visual por book
+
+### Aba Materiais Extras
+- [ ] Criar componente MateriaisExtrasTab
+- [ ] Listar recursos adicionais (PDFs, vídeos, áudios)
+- [ ] Organizar por categoria (Grammar, Vocabulary, Listening, etc.)
+- [ ] Adicionar links para materiais externos
+
+### Integração
+- [ ] Adicionar novas abas ao MeuTutorTab
+- [ ] Testar navegação e responsividade
+- [ ] Salvar checkpoint
