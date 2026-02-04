@@ -1261,3 +1261,9 @@
 - [ ] Atualizar StudentDashboard para mostrar livro real do aluno
 - [ ] Testar integração completa
 
+
+
+## Bug: Erro ao criar link pelo ID
+- [ ] Identificar erro na funcionalidade de criar link pelo ID
+- [ ] Corrigir código
+- [ ] Testar e salvar checkpoint
