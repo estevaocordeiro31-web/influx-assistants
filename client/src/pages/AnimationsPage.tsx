@@ -13,18 +13,18 @@ const animations = [
     character: "Emily",
     flag: "🇬🇧",
     description: "Emily visits Texas and discovers that everything is bigger in the Lone Star State!",
-    thumbnail: "/videos/emily-texas/scenes/scene_01.png",
-    videoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/azSITNDsJtpwCrYq.mp4",
+    thumbnail: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/LpGXrOihHjIjpArw.png",
+    videoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/WDmUXTecOMowvCJM.mp4",
     subtitles: [
       {
         label: "English",
         srclang: "en",
-        src: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/CdbUoDqRYelvQVgr.vtt",
+        src: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/kYXLktuonKmxIgip.vtt",
       },
       {
         label: "Português",
         srclang: "pt",
-        src: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/NQOvUZJqyUELAMKL.vtt",
+        src: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/ApdiNOiDEXLsZaXX.vtt",
       },
     ],
     duration: "1:03",

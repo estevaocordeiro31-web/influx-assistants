@@ -1055,3 +1055,25 @@
 - [x] Gerar áudios TTS para cada cena (sotaque americano)
 - [x] Montar vídeo com imagens e áudios
 - [x] Entregar vídeo ao usuário
+
+
+## Fase 70: Player de Vídeo com Seletor de Legendas - Emily no Texas
+- [x] Criar vídeo da Emily no Texas com 6 cenas
+- [x] Gerar áudios TTS com sotaque britânico (Charlotte - ElevenLabs)
+- [x] Criar legendas VTT em inglês e português
+- [x] Fazer upload do vídeo e legendas para S3/CDN
+- [x] Criar componente VideoPlayer com seletor de legendas
+- [x] Criar página AnimationsPage com grid de vídeos
+- [x] Adicionar rotas /animations e /demo/animations
+- [x] Verificar e corrigir animação da Emily que não está aparecendo
+- [x] Adicionar link para Animations na Home page
+- [ ] Adicionar link para Animations no menu lateral do dashboard
+
+## Fase 71: Skill Reutilizável para Gerar Animações de Lições
+- [x] Criar skill SKILL.md com instruções completas
+- [x] Documentar processo de geração de imagens (estilo Disney/Pixar)
+- [x] Documentar processo de geração de áudios TTS (ElevenLabs)
+- [x] Documentar processo de montagem de vídeo (FFmpeg)
+- [x] Documentar processo de criação de legendas VTT
+- [x] Criar templates reutilizáveis para cada etapa
+- [ ] Testar skill com nova animação

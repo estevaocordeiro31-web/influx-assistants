@@ -151,7 +151,7 @@ export function VideoPlayer({
         poster={poster}
         className="w-full h-full object-contain"
         onClick={togglePlay}
-        crossOrigin="anonymous"
+
       >
         {subtitles.map((track) => (
           <track
