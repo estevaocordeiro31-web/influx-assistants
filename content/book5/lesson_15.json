@@ -1,0 +1,493 @@
+{
+  "lesson_number": 15,
+  "file": "B5L15.ppsx",
+  "slide_count": 24,
+  "audio_files": [
+    "ppt/media/media1.mp3",
+    "ppt/media/media4.mp3",
+    "ppt/media/media3.mp3",
+    "ppt/media/media2.mp3"
+  ],
+  "media_count": 39,
+  "all_texts": [
+    "Lesson",
+    "15",
+    "Hiring",
+    "and",
+    "firing",
+    "Unit 8",
+    "Book 5",
+    "TODAY YOU’LL LEARN HOW TO SAY",
+    "VOCABULARY EXPANSION",
+    "INTERNSHIP",
+    "HELPING YOU",
+    "to do an internship at",
+    "(company’s name)",
+    "as a/an",
+    "(job / position)",
+    "She",
+    "does an internship at",
+    "a big company",
+    "as an",
+    "engineer.",
+    "INTERN",
+    "HELPING YOU",
+    "to work",
+    "as an",
+    "intern",
+    "at",
+    "company’s name",
+    "She",
+    "works",
+    "as an",
+    "intern",
+    "at",
+    "inFlux.",
+    "a record company",
+    "to work as an intern",
+    "for",
+    "a law firm",
+    "Mr. Jackson",
+    "etc.",
+    "COLLEAGUE",
+    "colleague",
+    "I get along with my",
+    "colleagues",
+    "co-worker",
+    "HELPING YOU",
+    "OVERTIME",
+    "HELPING YOU",
+    "work",
+    "(or",
+    "do",
+    ") about six hours’",
+    "overtime",
+    "week.",
+    "overtime",
+    "to do",
+    "to work",
+    "PERMANENT",
+    "job",
+    "a permanent",
+    "HELPING YOU",
+    "work",
+    "staff",
+    "etc.",
+    "TEMPORARY",
+    "job",
+    "a temporary",
+    "HELPING YOU",
+    "work",
+    "staff",
+    "etc.",
+    "We usually hire",
+    "temporary",
+    "staff in the summer.",
+    "temporary",
+    "(informal temp) is an adjective:",
+    "TEMP",
+    "HELPING YOU",
+    "temp",
+    "is a noun:",
+    "She decided to work as",
+    "a temp",
+    "for a while.",
+    "The secretary’s sick. We’ll have to hire",
+    "a temp",
+    "COMMISSION",
+    "HELPING YOU",
+    "In this job you",
+    "work on commission",
+    "You",
+    "get",
+    "10%",
+    "commission",
+    "on everything you sell.",
+    "earned",
+    "$1000",
+    "in commission",
+    "last month.",
+    "BENEFITS",
+    "HELPING YOU",
+    "benefits",
+    ", we can also say",
+    "fringe benefits",
+    "or",
+    "perks",
+    "VACANCY",
+    "vacancy",
+    "or opening",
+    "LEAVE",
+    "HELPING YOU",
+    "leave",
+    "maternity",
+    "sick",
+    "paid",
+    "unpaid",
+    "etc.",
+    "leave",
+    "to have",
+    "to get",
+    "to take",
+    "to be on a",
+    "She’s",
+    "on a leave",
+    "until the end of the month.",
+    "TO QUIT / QUIT / QUIT",
+    "to quit",
+    "HELPING YOU",
+    "to resign",
+    "to leave",
+    "TO HIRE / HIRED / HIRED",
+    "to hire",
+    "HELPING YOU",
+    "to employ",
+    "TO FIRE / FIRED / FIRED",
+    "to fire",
+    "HELPING YOU",
+    "to dismiss",
+    "(formal)",
+    "You’re",
+    "dismissed",
+    "You’re",
+    "fired",
+    "TO APPLY / APPLIED / APPLIED",
+    "HELPING YOU",
+    "to apply",
+    "for",
+    "Has anyone",
+    "applied for",
+    "the job yet?",
+    "Dialog",
+    "samples",
+    "Key",
+    "phrases",
+    "and",
+    "expressions",
+    "TO GET PAID PEANUTS",
+    "HELPING YOU",
+    "peanuts",
+    "to pay",
+    "to work for",
+    "to get paid",
+    "TO HAND IN (YOUR) NOTICE",
+    "to hand in",
+    "HELPING YOU",
+    "your",
+    "notice",
+    "resignation",
+    "his",
+    "etc.",
+    "DOCTOR’S STATEMENT",
+    "HELPING YOU",
+    "doctor’s statement",
+    "physician’s statement",
+    "Dialog",
+    "samples"
+  ],
+  "slides": [
+    {
+      "number": 1,
+      "texts": [
+        "Lesson",
+        "15",
+        "Hiring",
+        "and",
+        "firing",
+        "Unit 8",
+        "Book 5"
+      ]
+    },
+    {
+      "number": 2,
+      "texts": [
+        "TODAY YOU’LL LEARN HOW TO SAY"
+      ]
+    },
+    {
+      "number": 3,
+      "texts": [
+        "VOCABULARY EXPANSION"
+      ]
+    },
+    {
+      "number": 4,
+      "texts": [
+        "INTERNSHIP",
+        "HELPING YOU",
+        "to do an internship at",
+        "(company’s name)",
+        "as a/an",
+        "(job / position)",
+        "She",
+        "does an internship at",
+        "a big company",
+        "as an",
+        "engineer."
+      ]
+    },
+    {
+      "number": 5,
+      "texts": [
+        "INTERN",
+        "HELPING YOU",
+        "to work",
+        "as an",
+        "intern",
+        "at",
+        "company’s name",
+        "She",
+        "works",
+        "as an",
+        "intern",
+        "at",
+        "inFlux.",
+        "a record company",
+        "to work as an intern",
+        "for",
+        "a law firm",
+        "Mr. Jackson",
+        "etc."
+      ]
+    },
+    {
+      "number": 6,
+      "texts": [
+        "COLLEAGUE",
+        "colleague",
+        "I get along with my",
+        "colleagues",
+        "co-worker",
+        "HELPING YOU"
+      ]
+    },
+    {
+      "number": 7,
+      "texts": [
+        "OVERTIME",
+        "HELPING YOU",
+        "work",
+        "(or",
+        "do",
+        ") about six hours’",
+        "overtime",
+        "week.",
+        "overtime",
+        "to do",
+        "to work"
+      ]
+    },
+    {
+      "number": 8,
+      "texts": [
+        "PERMANENT",
+        "job",
+        "a permanent",
+        "HELPING YOU",
+        "work",
+        "staff",
+        "etc."
+      ]
+    },
+    {
+      "number": 9,
+      "texts": [
+        "TEMPORARY",
+        "job",
+        "a temporary",
+        "HELPING YOU",
+        "work",
+        "staff",
+        "etc.",
+        "We usually hire",
+        "temporary",
+        "staff in the summer.",
+        "temporary",
+        "(informal temp) is an adjective:"
+      ]
+    },
+    {
+      "number": 10,
+      "texts": [
+        "TEMP",
+        "HELPING YOU",
+        "temp",
+        "is a noun:",
+        "She decided to work as",
+        "a temp",
+        "for a while.",
+        "The secretary’s sick. We’ll have to hire",
+        "a temp"
+      ]
+    },
+    {
+      "number": 11,
+      "texts": [
+        "COMMISSION",
+        "HELPING YOU",
+        "In this job you",
+        "work on commission",
+        "You",
+        "get",
+        "10%",
+        "commission",
+        "on everything you sell.",
+        "earned",
+        "$1000",
+        "in commission",
+        "last month."
+      ]
+    },
+    {
+      "number": 12,
+      "texts": [
+        "BENEFITS",
+        "HELPING YOU",
+        "benefits",
+        ", we can also say",
+        "fringe benefits",
+        "or",
+        "perks",
+        "VACANCY",
+        "vacancy",
+        "or opening"
+      ]
+    },
+    {
+      "number": 13,
+      "texts": [
+        "LEAVE",
+        "HELPING YOU",
+        "leave",
+        "maternity",
+        "sick",
+        "paid",
+        "unpaid",
+        "etc.",
+        "leave",
+        "to have",
+        "to get",
+        "to take",
+        "to be on a",
+        "She’s",
+        "on a leave",
+        "until the end of the month."
+      ]
+    },
+    {
+      "number": 14,
+      "texts": [
+        "TO QUIT / QUIT / QUIT",
+        "to quit",
+        "HELPING YOU",
+        "to resign",
+        "to leave"
+      ]
+    },
+    {
+      "number": 15,
+      "texts": [
+        "TO HIRE / HIRED / HIRED",
+        "to hire",
+        "HELPING YOU",
+        "to employ"
+      ]
+    },
+    {
+      "number": 16,
+      "texts": [
+        "TO FIRE / FIRED / FIRED",
+        "to fire",
+        "HELPING YOU",
+        "to dismiss",
+        "(formal)",
+        "You’re",
+        "dismissed",
+        "You’re",
+        "fired"
+      ]
+    },
+    {
+      "number": 17,
+      "texts": [
+        "TO APPLY / APPLIED / APPLIED",
+        "HELPING YOU",
+        "to apply",
+        "for",
+        "Has anyone",
+        "applied for",
+        "the job yet?"
+      ]
+    },
+    {
+      "number": 18,
+      "texts": [
+        "Dialog",
+        "samples"
+      ]
+    },
+    {
+      "number": 19,
+      "texts": [
+        "Key",
+        "phrases",
+        "and",
+        "expressions"
+      ]
+    },
+    {
+      "number": 20,
+      "texts": [
+        "TO GET PAID PEANUTS",
+        "HELPING YOU",
+        "peanuts",
+        "to pay",
+        "to work for",
+        "to get paid"
+      ]
+    },
+    {
+      "number": 21,
+      "texts": [
+        "TO HAND IN (YOUR) NOTICE",
+        "to hand in",
+        "HELPING YOU",
+        "your",
+        "notice",
+        "resignation",
+        "his",
+        "etc."
+      ]
+    },
+    {
+      "number": 22,
+      "texts": [
+        "DOCTOR’S STATEMENT",
+        "HELPING YOU",
+        "doctor’s statement",
+        "physician’s statement"
+      ]
+    },
+    {
+      "number": 23,
+      "texts": [
+        "Dialog",
+        "samples"
+      ]
+    },
+    {
+      "number": 24,
+      "texts": []
+    }
+  ],
+  "analysis": {
+    "chunks": [
+      "have to"
+    ],
+    "vocabulary": [],
+    "collocations": [],
+    "equivalences": [],
+    "examples": [],
+    "examples_count": 3
+  }
+}

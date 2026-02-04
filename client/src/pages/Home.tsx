@@ -2,7 +2,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, MessageCircle, Zap, TrendingUp, Award, Users, Play, ArrowRight, Sparkles, Film } from "lucide-react";
+import { BookOpen, MessageCircle, Zap, TrendingUp, Award, Users, Play, ArrowRight, Sparkles, Film, GraduationCap } from "lucide-react";
 import { useLocation } from "wouter";
 import { getLoginUrl } from "@/const";
 
@@ -32,6 +32,14 @@ export default function Home() {
             </div>
           </div>
           <div className="flex items-center gap-3">
+            <Button 
+              onClick={() => setLocation("/lessons")}
+              variant="ghost" 
+              className="text-slate-300 hover:text-white hover:bg-slate-800"
+            >
+              <GraduationCap className="w-4 h-4 mr-2" />
+              Lessons
+            </Button>
             <Button 
               onClick={() => setLocation("/animations")}
               variant="ghost" 

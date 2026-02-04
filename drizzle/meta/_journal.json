@@ -78,6 +78,13 @@
       "when": 1769701619078,
       "tag": "0010_burly_whiplash",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "5",
+      "when": 1770214371936,
+      "tag": "0011_aberrant_slipstream",
+      "breakpoints": true
     }
   ]
 }

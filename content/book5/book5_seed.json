@@ -1,0 +1,2395 @@
+{
+  "book": {
+    "id": 5,
+    "name": "Book 5",
+    "level": "Intermediate",
+    "description": "Intermediate level focusing on personality, relationships, colors, crime, permissions, arguments, and storytelling"
+  },
+  "units": [
+    {
+      "id": 1,
+      "book_id": 5,
+      "name": "Friends, Family & Relationships",
+      "order": 1
+    },
+    {
+      "id": 2,
+      "book_id": 5,
+      "name": "Shapes and Colors",
+      "order": 2
+    },
+    {
+      "id": 3,
+      "book_id": 5,
+      "name": "Crime and Punishment",
+      "order": 3
+    },
+    {
+      "id": 4,
+      "book_id": 5,
+      "name": "Permission and Prohibition",
+      "order": 4
+    },
+    {
+      "id": 5,
+      "book_id": 5,
+      "name": "Arguing and Making up",
+      "order": 5
+    },
+    {
+      "id": 6,
+      "book_id": 5,
+      "name": "Storytelling",
+      "order": 6
+    },
+    {
+      "id": 7,
+      "book_id": 5,
+      "name": "Advanced Topics",
+      "order": 7
+    }
+  ],
+  "lessons": [
+    {
+      "id": 1,
+      "book_id": 5,
+      "unit_id": 1,
+      "number": 1,
+      "title": "Friends and Acquaintances",
+      "audio_count": 6
+    },
+    {
+      "id": 2,
+      "book_id": 5,
+      "unit_id": 1,
+      "number": 2,
+      "title": "Friends and Acquaintances",
+      "audio_count": 1
+    },
+    {
+      "id": 3,
+      "book_id": 5,
+      "unit_id": 1,
+      "number": 3,
+      "title": "Family and Relationship",
+      "audio_count": 4
+    },
+    {
+      "id": 4,
+      "book_id": 5,
+      "unit_id": 1,
+      "number": 4,
+      "title": "Family and Relationship",
+      "audio_count": 1
+    },
+    {
+      "id": 5,
+      "book_id": 5,
+      "unit_id": 2,
+      "number": 5,
+      "title": "Shapes and Colors",
+      "audio_count": 4
+    },
+    {
+      "id": 6,
+      "book_id": 5,
+      "unit_id": 2,
+      "number": 6,
+      "title": "Shapes and Colors",
+      "audio_count": 1
+    },
+    {
+      "id": 7,
+      "book_id": 5,
+      "unit_id": 3,
+      "number": 7,
+      "title": "Crime and Punishment",
+      "audio_count": 5
+    },
+    {
+      "id": 8,
+      "book_id": 5,
+      "unit_id": 3,
+      "number": 8,
+      "title": "Crime and Punishment",
+      "audio_count": 1
+    },
+    {
+      "id": 9,
+      "book_id": 5,
+      "unit_id": 4,
+      "number": 9,
+      "title": "Permission and Prohibition",
+      "audio_count": 4
+    },
+    {
+      "id": 10,
+      "book_id": 5,
+      "unit_id": 4,
+      "number": 10,
+      "title": "Permission and Prohibition",
+      "audio_count": 2
+    },
+    {
+      "id": 11,
+      "book_id": 5,
+      "unit_id": 5,
+      "number": 11,
+      "title": "Arguing and Making up",
+      "audio_count": 4
+    },
+    {
+      "id": 12,
+      "book_id": 5,
+      "unit_id": 5,
+      "number": 12,
+      "title": "Arguing and Making up",
+      "audio_count": 1
+    },
+    {
+      "id": 13,
+      "book_id": 5,
+      "unit_id": 6,
+      "number": 13,
+      "title": "Storytelling",
+      "audio_count": 5
+    },
+    {
+      "id": 14,
+      "book_id": 5,
+      "unit_id": 6,
+      "number": 14,
+      "title": "Storytelling",
+      "audio_count": 1
+    },
+    {
+      "id": 15,
+      "book_id": 5,
+      "unit_id": 7,
+      "number": 15,
+      "title": "Book 5",
+      "audio_count": 4
+    },
+    {
+      "id": 16,
+      "book_id": 5,
+      "unit_id": 7,
+      "number": 16,
+      "title": "Book 5",
+      "audio_count": 1
+    },
+    {
+      "id": 17,
+      "book_id": 5,
+      "unit_id": 7,
+      "number": 17,
+      "title": "Book 5",
+      "audio_count": 5
+    },
+    {
+      "id": 18,
+      "book_id": 5,
+      "unit_id": 7,
+      "number": 18,
+      "title": "Book 5",
+      "audio_count": 1
+    },
+    {
+      "id": 19,
+      "book_id": 5,
+      "unit_id": 7,
+      "number": 19,
+      "title": "Book 5",
+      "audio_count": 4
+    },
+    {
+      "id": 20,
+      "book_id": 5,
+      "unit_id": 7,
+      "number": 20,
+      "title": "Book 5",
+      "audio_count": 1
+    },
+    {
+      "id": 21,
+      "book_id": 5,
+      "unit_id": 7,
+      "number": 21,
+      "title": "Book 5",
+      "audio_count": 4
+    },
+    {
+      "id": 22,
+      "book_id": 5,
+      "unit_id": 7,
+      "number": 22,
+      "title": "Book 5",
+      "audio_count": 1
+    },
+    {
+      "id": 23,
+      "book_id": 5,
+      "unit_id": 7,
+      "number": 23,
+      "title": "Book 5",
+      "audio_count": 5
+    },
+    {
+      "id": 24,
+      "book_id": 5,
+      "unit_id": 7,
+      "number": 24,
+      "title": "Book 5",
+      "audio_count": 1
+    },
+    {
+      "id": 25,
+      "book_id": 5,
+      "unit_id": 7,
+      "number": 25,
+      "title": "Book 5",
+      "audio_count": 4
+    },
+    {
+      "id": 26,
+      "book_id": 5,
+      "unit_id": 7,
+      "number": 26,
+      "title": "Book 5",
+      "audio_count": 1
+    },
+    {
+      "id": 27,
+      "book_id": 5,
+      "unit_id": 7,
+      "number": 27,
+      "title": "Book 5",
+      "audio_count": 3
+    },
+    {
+      "id": 28,
+      "book_id": 5,
+      "unit_id": 7,
+      "number": 28,
+      "title": "Book 5",
+      "audio_count": 1
+    },
+    {
+      "id": 29,
+      "book_id": 5,
+      "unit_id": 7,
+      "number": 29,
+      "title": "Book 5",
+      "audio_count": 3
+    },
+    {
+      "id": 30,
+      "book_id": 5,
+      "unit_id": 7,
+      "number": 30,
+      "title": "Book 5",
+      "audio_count": 2
+    }
+  ],
+  "vocabulary": [
+    {
+      "id": 1,
+      "lesson_id": 1,
+      "word": "MEAN",
+      "type": "vocabulary"
+    },
+    {
+      "id": 2,
+      "lesson_id": 1,
+      "word": "TO GET TO KNOW",
+      "type": "vocabulary"
+    },
+    {
+      "id": 3,
+      "lesson_id": 1,
+      "word": "VAIN",
+      "type": "vocabulary"
+    },
+    {
+      "id": 4,
+      "lesson_id": 1,
+      "word": "STRAIGHTFORWARD",
+      "type": "vocabulary"
+    },
+    {
+      "id": 5,
+      "lesson_id": 1,
+      "word": "TO KEEP IT TO YOURSELF",
+      "type": "vocabulary"
+    },
+    {
+      "id": 6,
+      "lesson_id": 1,
+      "word": "TO CONVINCE / CONVINCED / CONVINCED",
+      "type": "vocabulary"
+    },
+    {
+      "id": 7,
+      "lesson_id": 1,
+      "word": "GRATEFUL WELL",
+      "type": "vocabulary"
+    },
+    {
+      "id": 8,
+      "lesson_id": 1,
+      "word": "ENVIOUS / ENVY",
+      "type": "vocabulary"
+    },
+    {
+      "id": 9,
+      "lesson_id": 1,
+      "word": "CHILDISH",
+      "type": "vocabulary"
+    },
+    {
+      "id": 10,
+      "lesson_id": 1,
+      "word": "TO SPEAK (YOUR) MIND",
+      "type": "vocabulary"
+    },
+    {
+      "id": 11,
+      "lesson_id": 1,
+      "word": "CONFIDENT",
+      "type": "vocabulary"
+    },
+    {
+      "id": 12,
+      "lesson_id": 3,
+      "word": "TO BELONG / BELONGED / BELONGED",
+      "type": "vocabulary"
+    },
+    {
+      "id": 13,
+      "lesson_id": 3,
+      "word": "TO BE HEADING (FOR / TO)",
+      "type": "vocabulary"
+    },
+    {
+      "id": 14,
+      "lesson_id": 3,
+      "word": "TO BE FULL OF (YOURSELF)",
+      "type": "vocabulary"
+    },
+    {
+      "id": 15,
+      "lesson_id": 3,
+      "word": "TO STARE / STARED / STARED",
+      "type": "vocabulary"
+    },
+    {
+      "id": 16,
+      "lesson_id": 3,
+      "word": "BIG HEADED",
+      "type": "vocabulary"
+    },
+    {
+      "id": 17,
+      "lesson_id": 3,
+      "word": "FAITHFUL",
+      "type": "vocabulary"
+    },
+    {
+      "id": 18,
+      "lesson_id": 3,
+      "word": "TO PASS AWAY",
+      "type": "vocabulary"
+    },
+    {
+      "id": 19,
+      "lesson_id": 3,
+      "word": "NO",
+      "type": "vocabulary"
+    },
+    {
+      "id": 20,
+      "lesson_id": 3,
+      "word": "GRUMPY",
+      "type": "vocabulary"
+    },
+    {
+      "id": 21,
+      "lesson_id": 3,
+      "word": "PREJUDICE",
+      "type": "vocabulary"
+    },
+    {
+      "id": 22,
+      "lesson_id": 5,
+      "word": "TO DRAW THE LINE",
+      "type": "vocabulary"
+    },
+    {
+      "id": 23,
+      "lesson_id": 5,
+      "word": "OUT OF THE BLUE",
+      "type": "vocabulary"
+    },
+    {
+      "id": 24,
+      "lesson_id": 5,
+      "word": "TO COLOR / COLORED / COLORED",
+      "type": "vocabulary"
+    },
+    {
+      "id": 25,
+      "lesson_id": 5,
+      "word": "RED TAPE",
+      "type": "vocabulary"
+    },
+    {
+      "id": 26,
+      "lesson_id": 5,
+      "word": "BUMPY",
+      "type": "vocabulary"
+    },
+    {
+      "id": 27,
+      "lesson_id": 5,
+      "word": "TRIANGULAR / SHAPE",
+      "type": "vocabulary"
+    },
+    {
+      "id": 28,
+      "lesson_id": 5,
+      "word": "TO STRAIGHTEN UP TO JOT DOWN",
+      "type": "vocabulary"
+    },
+    {
+      "id": 29,
+      "lesson_id": 5,
+      "word": "TO DRAW NEAR",
+      "type": "vocabulary"
+    },
+    {
+      "id": 30,
+      "lesson_id": 5,
+      "word": "DEPTH / LENGTH / WIDTH",
+      "type": "vocabulary"
+    },
+    {
+      "id": 31,
+      "lesson_id": 5,
+      "word": "ARCH",
+      "type": "vocabulary"
+    },
+    {
+      "id": 32,
+      "lesson_id": 5,
+      "word": "BOUNDARY",
+      "type": "vocabulary"
+    },
+    {
+      "id": 33,
+      "lesson_id": 5,
+      "word": "SHAPE",
+      "type": "vocabulary"
+    },
+    {
+      "id": 34,
+      "lesson_id": 5,
+      "word": "LINE",
+      "type": "vocabulary"
+    },
+    {
+      "id": 35,
+      "lesson_id": 6,
+      "word": "ACTIVITY",
+      "type": "vocabulary"
+    },
+    {
+      "id": 36,
+      "lesson_id": 7,
+      "word": "TO RAT ON (SOMEBODY)",
+      "type": "vocabulary"
+    },
+    {
+      "id": 37,
+      "lesson_id": 7,
+      "word": "JAIL",
+      "type": "vocabulary"
+    },
+    {
+      "id": 38,
+      "lesson_id": 7,
+      "word": "SELF",
+      "type": "vocabulary"
+    },
+    {
+      "id": 39,
+      "lesson_id": 7,
+      "word": "TO BE CONVICTED OF",
+      "type": "vocabulary"
+    },
+    {
+      "id": 40,
+      "lesson_id": 7,
+      "word": "TO GET WORSE AND WORSE",
+      "type": "vocabulary"
+    },
+    {
+      "id": 41,
+      "lesson_id": 7,
+      "word": "TO SET (SOMEBODY) FREE",
+      "type": "vocabulary"
+    },
+    {
+      "id": 42,
+      "lesson_id": 7,
+      "word": "DEATH SENTENCE / LIFE SENTENCE",
+      "type": "vocabulary"
+    },
+    {
+      "id": 43,
+      "lesson_id": 7,
+      "word": "TO PRESS CHARGES AGAINST",
+      "type": "vocabulary"
+    },
+    {
+      "id": 44,
+      "lesson_id": 7,
+      "word": "TO SUE / SUED / SUED",
+      "type": "vocabulary"
+    },
+    {
+      "id": 45,
+      "lesson_id": 7,
+      "word": "ATTORNEY",
+      "type": "vocabulary"
+    },
+    {
+      "id": 46,
+      "lesson_id": 7,
+      "word": "TO DEFEND / DEFENDED / DEFENDED",
+      "type": "vocabulary"
+    },
+    {
+      "id": 47,
+      "lesson_id": 7,
+      "word": "TRAP",
+      "type": "vocabulary"
+    },
+    {
+      "id": 48,
+      "lesson_id": 7,
+      "word": "KIDNAP",
+      "type": "vocabulary"
+    },
+    {
+      "id": 49,
+      "lesson_id": 9,
+      "word": "RESTRICTION",
+      "type": "vocabulary"
+    },
+    {
+      "id": 50,
+      "lesson_id": 9,
+      "word": "TO LIMIT YOURSELF TO",
+      "type": "vocabulary"
+    },
+    {
+      "id": 51,
+      "lesson_id": 9,
+      "word": "BY THE BOOK",
+      "type": "vocabulary"
+    },
+    {
+      "id": 52,
+      "lesson_id": 9,
+      "word": "LAW",
+      "type": "vocabulary"
+    },
+    {
+      "id": 53,
+      "lesson_id": 9,
+      "word": "TO ALLOW / ALLOWED / ALLOWED",
+      "type": "vocabulary"
+    },
+    {
+      "id": 54,
+      "lesson_id": 9,
+      "word": "TO LIMIT / LIMITED / LIMITED",
+      "type": "vocabulary"
+    },
+    {
+      "id": 55,
+      "lesson_id": 9,
+      "word": "WHAT GOOD IS (IT)",
+      "type": "vocabulary"
+    },
+    {
+      "id": 56,
+      "lesson_id": 9,
+      "word": "CURFEW",
+      "type": "vocabulary"
+    },
+    {
+      "id": 57,
+      "lesson_id": 9,
+      "word": "LIMIT",
+      "type": "vocabulary"
+    },
+    {
+      "id": 58,
+      "lesson_id": 9,
+      "word": "A",
+      "type": "vocabulary"
+    },
+    {
+      "id": 59,
+      "lesson_id": 11,
+      "word": "TO SHOUT / SHOUTED / SHOUTED",
+      "type": "vocabulary"
+    },
+    {
+      "id": 60,
+      "lesson_id": 11,
+      "word": "NOWHERE",
+      "type": "vocabulary"
+    },
+    {
+      "id": 61,
+      "lesson_id": 11,
+      "word": "ARGUMENT",
+      "type": "vocabulary"
+    },
+    {
+      "id": 62,
+      "lesson_id": 11,
+      "word": "TO DISAGREE / DISAGREED / DISAGREED",
+      "type": "vocabulary"
+    },
+    {
+      "id": 63,
+      "lesson_id": 11,
+      "word": "TO ARGUE / ARGUED / ARGUED",
+      "type": "vocabulary"
+    },
+    {
+      "id": 64,
+      "lesson_id": 11,
+      "word": "TO INTERFERE / INTERFERED / INTERFERED",
+      "type": "vocabulary"
+    },
+    {
+      "id": 65,
+      "lesson_id": 11,
+      "word": "TO PICK A FIGHT",
+      "type": "vocabulary"
+    },
+    {
+      "id": 66,
+      "lesson_id": 11,
+      "word": "TO CRITICIZE / CRITICIZED / CRITICIZED",
+      "type": "vocabulary"
+    },
+    {
+      "id": 67,
+      "lesson_id": 11,
+      "word": "TO TELL (SOMEBODY) TO (THEIR) FACE",
+      "type": "vocabulary"
+    },
+    {
+      "id": 68,
+      "lesson_id": 11,
+      "word": "TO",
+      "type": "vocabulary"
+    },
+    {
+      "id": 69,
+      "lesson_id": 11,
+      "word": "TOLERANT",
+      "type": "vocabulary"
+    },
+    {
+      "id": 70,
+      "lesson_id": 11,
+      "word": "TO DROP THE SUBJECT",
+      "type": "vocabulary"
+    },
+    {
+      "id": 71,
+      "lesson_id": 11,
+      "word": "(NO) HARD FEELINGS",
+      "type": "vocabulary"
+    },
+    {
+      "id": 72,
+      "lesson_id": 11,
+      "word": "INTOLERABLE",
+      "type": "vocabulary"
+    },
+    {
+      "id": 73,
+      "lesson_id": 11,
+      "word": "TO MAKE UP (WITH)",
+      "type": "vocabulary"
+    },
+    {
+      "id": 74,
+      "lesson_id": 11,
+      "word": "TO DARE / DARED / DARED",
+      "type": "vocabulary"
+    },
+    {
+      "id": 75,
+      "lesson_id": 13,
+      "word": "TALE",
+      "type": "vocabulary"
+    },
+    {
+      "id": 76,
+      "lesson_id": 13,
+      "word": "ALTOGETHER",
+      "type": "vocabulary"
+    },
+    {
+      "id": 77,
+      "lesson_id": 13,
+      "word": "TO MAKE UP",
+      "type": "vocabulary"
+    },
+    {
+      "id": 78,
+      "lesson_id": 13,
+      "word": "WE USE THE (MORE / ETC",
+      "type": "vocabulary"
+    },
+    {
+      "id": 79,
+      "lesson_id": 13,
+      "word": "BETTER THAN EVER",
+      "type": "vocabulary"
+    },
+    {
+      "id": 80,
+      "lesson_id": 13,
+      "word": "REMARK",
+      "type": "vocabulary"
+    },
+    {
+      "id": 81,
+      "lesson_id": 13,
+      "word": "EXCEPT",
+      "type": "vocabulary"
+    },
+    {
+      "id": 82,
+      "lesson_id": 13,
+      "word": "TO",
+      "type": "vocabulary"
+    },
+    {
+      "id": 83,
+      "lesson_id": 13,
+      "word": "AT",
+      "type": "vocabulary"
+    },
+    {
+      "id": 84,
+      "lesson_id": 15,
+      "word": "OVERTIME HELPING YOU",
+      "type": "vocabulary"
+    },
+    {
+      "id": 85,
+      "lesson_id": 19,
+      "word": "TO",
+      "type": "vocabulary"
+    },
+    {
+      "id": 86,
+      "lesson_id": 23,
+      "word": "PILES (OF)",
+      "type": "vocabulary"
+    },
+    {
+      "id": 87,
+      "lesson_id": 23,
+      "word": "TO NIBBLE / NIBBLED / NIBBLED",
+      "type": "vocabulary"
+    },
+    {
+      "id": 88,
+      "lesson_id": 23,
+      "word": "DENT",
+      "type": "vocabulary"
+    },
+    {
+      "id": 89,
+      "lesson_id": 23,
+      "word": "STANDARD",
+      "type": "vocabulary"
+    },
+    {
+      "id": 90,
+      "lesson_id": 23,
+      "word": "TO SEW UP",
+      "type": "vocabulary"
+    },
+    {
+      "id": 91,
+      "lesson_id": 23,
+      "word": "STANDARD OF LIVING",
+      "type": "vocabulary"
+    },
+    {
+      "id": 92,
+      "lesson_id": 24,
+      "word": "USDA",
+      "type": "vocabulary"
+    },
+    {
+      "id": 93,
+      "lesson_id": 27,
+      "word": "PACKED HELPING YOU",
+      "type": "vocabulary"
+    },
+    {
+      "id": 94,
+      "lesson_id": 27,
+      "word": "BORED HELPING YOU",
+      "type": "vocabulary"
+    },
+    {
+      "id": 95,
+      "lesson_id": 27,
+      "word": "AGITATED",
+      "type": "vocabulary"
+    },
+    {
+      "id": 96,
+      "lesson_id": 27,
+      "word": "SEAT HELPING YOU",
+      "type": "vocabulary"
+    },
+    {
+      "id": 97,
+      "lesson_id": 28,
+      "word": "ACTIVITY",
+      "type": "vocabulary"
+    },
+    {
+      "id": 98,
+      "lesson_id": 29,
+      "word": "THE",
+      "type": "vocabulary"
+    },
+    {
+      "id": 99,
+      "lesson_id": 29,
+      "word": "PROGRESS",
+      "type": "vocabulary"
+    }
+  ],
+  "chunks": [
+    {
+      "id": 1,
+      "lesson_id": 1,
+      "expression": "confident about",
+      "type": "chunk"
+    },
+    {
+      "id": 2,
+      "lesson_id": 1,
+      "expression": "by sight",
+      "type": "chunk"
+    },
+    {
+      "id": 3,
+      "lesson_id": 1,
+      "expression": "envious of",
+      "type": "chunk"
+    },
+    {
+      "id": 4,
+      "lesson_id": 1,
+      "expression": "get acquainted",
+      "type": "chunk"
+    },
+    {
+      "id": 5,
+      "lesson_id": 1,
+      "expression": "envy of",
+      "type": "chunk"
+    },
+    {
+      "id": 6,
+      "lesson_id": 1,
+      "expression": "get to know",
+      "type": "chunk"
+    },
+    {
+      "id": 7,
+      "lesson_id": 1,
+      "expression": "confidence in",
+      "type": "chunk"
+    },
+    {
+      "id": 8,
+      "lesson_id": 1,
+      "expression": "keep it to",
+      "type": "chunk"
+    },
+    {
+      "id": 9,
+      "lesson_id": 1,
+      "expression": "speak your mind",
+      "type": "chunk"
+    },
+    {
+      "id": 10,
+      "lesson_id": 1,
+      "expression": "at times",
+      "type": "chunk"
+    },
+    {
+      "id": 11,
+      "lesson_id": 1,
+      "expression": "team player",
+      "type": "chunk"
+    },
+    {
+      "id": 12,
+      "lesson_id": 3,
+      "expression": "unfaithful to",
+      "type": "chunk"
+    },
+    {
+      "id": 13,
+      "lesson_id": 3,
+      "expression": "no matter",
+      "type": "chunk"
+    },
+    {
+      "id": 14,
+      "lesson_id": 3,
+      "expression": "headed to",
+      "type": "chunk"
+    },
+    {
+      "id": 15,
+      "lesson_id": 3,
+      "expression": "faithful to",
+      "type": "chunk"
+    },
+    {
+      "id": 16,
+      "lesson_id": 3,
+      "expression": "full of",
+      "type": "chunk"
+    },
+    {
+      "id": 17,
+      "lesson_id": 3,
+      "expression": "pass away",
+      "type": "chunk"
+    },
+    {
+      "id": 18,
+      "lesson_id": 3,
+      "expression": "belong to",
+      "type": "chunk"
+    },
+    {
+      "id": 19,
+      "lesson_id": 3,
+      "expression": "belongs to",
+      "type": "chunk"
+    },
+    {
+      "id": 20,
+      "lesson_id": 3,
+      "expression": "prejudiced against",
+      "type": "chunk"
+    },
+    {
+      "id": 21,
+      "lesson_id": 3,
+      "expression": "prejudice against",
+      "type": "chunk"
+    },
+    {
+      "id": 22,
+      "lesson_id": 3,
+      "expression": "stare at",
+      "type": "chunk"
+    },
+    {
+      "id": 23,
+      "lesson_id": 3,
+      "expression": "heading for",
+      "type": "chunk"
+    },
+    {
+      "id": 24,
+      "lesson_id": 4,
+      "expression": "unfaithful to",
+      "type": "chunk"
+    },
+    {
+      "id": 25,
+      "lesson_id": 4,
+      "expression": "faithful to",
+      "type": "chunk"
+    }
+  ],
+  "collocations": [],
+  "examples": [
+    {
+      "id": 1,
+      "lesson_id": 1,
+      "sentence": "to wear glasses.",
+      "type": "example"
+    },
+    {
+      "id": 2,
+      "lesson_id": 1,
+      "sentence": "English so well.",
+      "type": "example"
+    },
+    {
+      "id": 3,
+      "lesson_id": 1,
+      "sentence": "his trip to Canada.",
+      "type": "example"
+    },
+    {
+      "id": 4,
+      "lesson_id": 1,
+      "sentence": "to see a doctor.",
+      "type": "example"
+    },
+    {
+      "id": 5,
+      "lesson_id": 2,
+      "sentence": "She’s a real character.",
+      "type": "example"
+    },
+    {
+      "id": 6,
+      "lesson_id": 2,
+      "sentence": "... a real friend",
+      "type": "example"
+    },
+    {
+      "id": 7,
+      "lesson_id": 3,
+      "sentence": "my mother-in-law.",
+      "type": "example"
+    },
+    {
+      "id": 8,
+      "lesson_id": 3,
+      "sentence": "the upper shelf.",
+      "type": "example"
+    },
+    {
+      "id": 9,
+      "lesson_id": 4,
+      "sentence": "It bothers me when people aren’t faithful.",
+      "type": "example"
+    },
+    {
+      "id": 10,
+      "lesson_id": 4,
+      "sentence": "We were lying on the grass staring at the stars.",
+      "type": "example"
+    },
+    {
+      "id": 11,
+      "lesson_id": 4,
+      "sentence": "She looked as if she was about to cry.",
+      "type": "example"
+    },
+    {
+      "id": 12,
+      "lesson_id": 4,
+      "sentence": "have similar ideas, interests, etc.",
+      "type": "example"
+    },
+    {
+      "id": 13,
+      "lesson_id": 4,
+      "sentence": "not your husband or wife.",
+      "type": "example"
+    },
+    {
+      "id": 14,
+      "lesson_id": 4,
+      "sentence": "romantic relationship with someone.",
+      "type": "example"
+    },
+    {
+      "id": 15,
+      "lesson_id": 4,
+      "sentence": "a relationship with someone else at the same time.",
+      "type": "example"
+    },
+    {
+      "id": 16,
+      "lesson_id": 4,
+      "sentence": "(   ) to behave towards someone as if you find them attractive.",
+      "type": "example"
+    },
+    {
+      "id": 17,
+      "lesson_id": 5,
+      "sentence": "in Paris, France.",
+      "type": "example"
+    },
+    {
+      "id": 18,
+      "lesson_id": 5,
+      "sentence": "my room before I left.",
+      "type": "example"
+    },
+    {
+      "id": 19,
+      "lesson_id": 5,
+      "sentence": "everything myself.",
+      "type": "example"
+    },
+    {
+      "id": 20,
+      "lesson_id": 5,
+      "sentence": "literature/written!",
+      "type": "example"
+    },
+    {
+      "id": 21,
+      "lesson_id": 5,
+      "sentence": "involved in getting my work permit.",
+      "type": "example"
+    },
+    {
+      "id": 22,
+      "lesson_id": 6,
+      "sentence": "The car came out of the blue and hit him.",
+      "type": "example"
+    },
+    {
+      "id": 23,
+      "lesson_id": 6,
+      "sentence": "We managed to check in after a lot of red tape.",
+      "type": "example"
+    },
+    {
+      "id": 24,
+      "lesson_id": 6,
+      "sentence": "She was green with envy when she found out about my new job.",
+      "type": "example"
+    },
+    {
+      "id": 25,
+      "lesson_id": 7,
+      "sentence": "all kinds of attackers.",
+      "type": "example"
+    },
+    {
+      "id": 26,
+      "lesson_id": 7,
+      "sentence": "people are learning English these days.",
+      "type": "example"
+    },
+    {
+      "id": 27,
+      "lesson_id": 8,
+      "sentence": "he couldn’t get away.",
+      "type": "example"
+    },
+    {
+      "id": 28,
+      "lesson_id": 8,
+      "sentence": "someone ratted on him.",
+      "type": "example"
+    },
+    {
+      "id": 29,
+      "lesson_id": 8,
+      "sentence": "All the other hostages were finally set free.",
+      "type": "example"
+    },
+    {
+      "id": 30,
+      "lesson_id": 8,
+      "sentence": "favorite detective story?",
+      "type": "example"
+    },
+    {
+      "id": 31,
+      "lesson_id": 9,
+      "sentence": "fifteen students.",
+      "type": "example"
+    },
+    {
+      "id": 32,
+      "lesson_id": 9,
+      "sentence": "a free hand with the script.",
+      "type": "example"
+    },
+    {
+      "id": 33,
+      "lesson_id": 9,
+      "sentence": "money if I can’t go out?",
+      "type": "example"
+    },
+    {
+      "id": 34,
+      "lesson_id": 10,
+      "sentence": "Laws are made to be obeyed.",
+      "type": "example"
+    },
+    {
+      "id": 35,
+      "lesson_id": 10,
+      "sentence": "1 - We can’t have proper meetings unless everybody...",
+      "type": "example"
+    },
+    {
+      "id": 36,
+      "lesson_id": 10,
+      "sentence": "2 - If you have any questions just feel free...",
+      "type": "example"
+    },
+    {
+      "id": 37,
+      "lesson_id": 10,
+      "sentence": "3 - You can come and go when you want, ...",
+      "type": "example"
+    },
+    {
+      "id": 38,
+      "lesson_id": 10,
+      "sentence": "4 - Say, how much time are we...",
+      "type": "example"
+    },
+    {
+      "id": 39,
+      "lesson_id": 10,
+      "sentence": "5 - Journalists should limit themselves to...",
+      "type": "example"
+    },
+    {
+      "id": 40,
+      "lesson_id": 10,
+      "sentence": "6 - Children must be educated so that they grow...",
+      "type": "example"
+    },
+    {
+      "id": 41,
+      "lesson_id": 11,
+      "sentence": "those who disagree with him.",
+      "type": "example"
+    },
+    {
+      "id": 42,
+      "lesson_id": 11,
+      "sentence": "her students… she could never be a teacher.",
+      "type": "example"
+    },
+    {
+      "id": 43,
+      "lesson_id": 11,
+      "sentence": "them and got arrested.",
+      "type": "example"
+    },
+    {
+      "id": 44,
+      "lesson_id": 11,
+      "sentence": "the argument and she didn’t like it.",
+      "type": "example"
+    },
+    {
+      "id": 45,
+      "lesson_id": 11,
+      "sentence": "or can we be friends?",
+      "type": "example"
+    },
+    {
+      "id": 46,
+      "lesson_id": 12,
+      "sentence": "as if he was nothing.",
+      "type": "example"
+    },
+    {
+      "id": 47,
+      "lesson_id": 12,
+      "sentence": "in the heat of the moment.",
+      "type": "example"
+    },
+    {
+      "id": 48,
+      "lesson_id": 12,
+      "sentence": "drop the subject.",
+      "type": "example"
+    },
+    {
+      "id": 49,
+      "lesson_id": 12,
+      "sentence": "to pick a fight.",
+      "type": "example"
+    },
+    {
+      "id": 50,
+      "lesson_id": 13,
+      "sentence": "/ etc.)... (with two comparatives) to say that one thing depends on another thing:",
+      "type": "example"
+    },
+    {
+      "id": 51,
+      "lesson_id": 13,
+      "sentence": "friend. The more...",
+      "type": "example"
+    },
+    {
+      "id": 52,
+      "lesson_id": 14,
+      "sentence": "I opened the door, the phone rang.",
+      "type": "example"
+    },
+    {
+      "id": 53,
+      "lesson_id": 14,
+      "sentence": "and decided not to go.",
+      "type": "example"
+    },
+    {
+      "id": 54,
+      "lesson_id": 14,
+      "sentence": "went from bad to worse.",
+      "type": "example"
+    },
+    {
+      "id": 55,
+      "lesson_id": 15,
+      "sentence": "staff in the summer.",
+      "type": "example"
+    },
+    {
+      "id": 56,
+      "lesson_id": 15,
+      "sentence": "The secretary’s sick. We’ll have to hire",
+      "type": "example"
+    },
+    {
+      "id": 57,
+      "lesson_id": 15,
+      "sentence": "on everything you sell.",
+      "type": "example"
+    },
+    {
+      "id": 58,
+      "lesson_id": 15,
+      "sentence": "until the end of the month.",
+      "type": "example"
+    },
+    {
+      "id": 59,
+      "lesson_id": 16,
+      "sentence": "to the chairman’s position.",
+      "type": "example"
+    },
+    {
+      "id": 60,
+      "lesson_id": 16,
+      "sentence": "fulfills the job requirements.",
+      "type": "example"
+    },
+    {
+      "id": 61,
+      "lesson_id": 16,
+      "sentence": "meets the job requirements.",
+      "type": "example"
+    },
+    {
+      "id": 62,
+      "lesson_id": 16,
+      "sentence": "satisfies the job requirements.",
+      "type": "example"
+    },
+    {
+      "id": 63,
+      "lesson_id": 17,
+      "sentence": "when I called you yesterday.",
+      "type": "example"
+    },
+    {
+      "id": 64,
+      "lesson_id": 17,
+      "sentence": "bother me so much!",
+      "type": "example"
+    },
+    {
+      "id": 65,
+      "lesson_id": 17,
+      "sentence": "communication skills.",
+      "type": "example"
+    },
+    {
+      "id": 66,
+      "lesson_id": 17,
+      "sentence": "he’s going to travel abroad soon.",
+      "type": "example"
+    },
+    {
+      "id": 67,
+      "lesson_id": 17,
+      "sentence": "in the middle of the call.",
+      "type": "example"
+    },
+    {
+      "id": 68,
+      "lesson_id": 17,
+      "sentence": "Why are you still catching up on the news?",
+      "type": "example"
+    },
+    {
+      "id": 69,
+      "lesson_id": 17,
+      "sentence": "someone else now.",
+      "type": "example"
+    },
+    {
+      "id": 70,
+      "lesson_id": 17,
+      "sentence": "Could you hang on?",
+      "type": "example"
+    },
+    {
+      "id": 71,
+      "lesson_id": 17,
+      "sentence": "a minute, please?",
+      "type": "example"
+    },
+    {
+      "id": 72,
+      "lesson_id": 17,
+      "sentence": "a minute, I’ll put you through.",
+      "type": "example"
+    },
+    {
+      "id": 73,
+      "lesson_id": 18,
+      "sentence": "= suddenly; quickly and unexpectedly.",
+      "type": "example"
+    },
+    {
+      "id": 74,
+      "lesson_id": 18,
+      "sentence": "1.\tasks for you. / indicate that / the line / the caller / you’re on /.",
+      "type": "example"
+    },
+    {
+      "id": 75,
+      "lesson_id": 18,
+      "sentence": "2.\tname / . / your caller’s / ask for",
+      "type": "example"
+    },
+    {
+      "id": 76,
+      "lesson_id": 18,
+      "sentence": "3.\this/her name / you couldn’t understand / caller know / let your /.",
+      "type": "example"
+    },
+    {
+      "id": 77,
+      "lesson_id": 18,
+      "sentence": "4.\tfor someone / . / some information / wants to leave / ask if / the caller",
+      "type": "example"
+    },
+    {
+      "id": 78,
+      "lesson_id": 18,
+      "sentence": "5.\tyou want to / . / name the person / speak to",
+      "type": "example"
+    },
+    {
+      "id": 79,
+      "lesson_id": 18,
+      "sentence": "6.\task / . / to wait / the caller",
+      "type": "example"
+    },
+    {
+      "id": 80,
+      "lesson_id": 18,
+      "sentence": "7.\tthe call / end / politely / .",
+      "type": "example"
+    },
+    {
+      "id": 81,
+      "lesson_id": 18,
+      "sentence": "8.\tswitchboard operator / with someone / . / ask the / to connect you",
+      "type": "example"
+    },
+    {
+      "id": 82,
+      "lesson_id": 18,
+      "sentence": "9.\tanswer it. / is ringing. / the phone",
+      "type": "example"
+    },
+    {
+      "id": 83,
+      "lesson_id": 18,
+      "sentence": "10.\t. / you want to speak to / the person / ask when / will be available",
+      "type": "example"
+    },
+    {
+      "id": 84,
+      "lesson_id": 18,
+      "sentence": "11.\t the number / personnel office / . / give the caller / of the",
+      "type": "example"
+    },
+    {
+      "id": 85,
+      "lesson_id": 18,
+      "sentence": "12.\t your boss / in the office / isn’t / tell the caller /.",
+      "type": "example"
+    },
+    {
+      "id": 86,
+      "lesson_id": 18,
+      "sentence": "1.\tThe caller asks for you. Indicate that you’re on the line.",
+      "type": "example"
+    },
+    {
+      "id": 87,
+      "lesson_id": 18,
+      "sentence": "2.\tAsk for your caller’s name.",
+      "type": "example"
+    },
+    {
+      "id": 88,
+      "lesson_id": 18,
+      "sentence": "3.\tLet your caller know you couldn’t understand his / her name.",
+      "type": "example"
+    },
+    {
+      "id": 89,
+      "lesson_id": 18,
+      "sentence": "4.\tAsk if the caller wants to leave some information for someone.",
+      "type": "example"
+    },
+    {
+      "id": 90,
+      "lesson_id": 18,
+      "sentence": "5.\tName the person you want to speak to.",
+      "type": "example"
+    },
+    {
+      "id": 91,
+      "lesson_id": 18,
+      "sentence": "6.\tAsk the caller to wait.",
+      "type": "example"
+    },
+    {
+      "id": 92,
+      "lesson_id": 18,
+      "sentence": "7.\tEnd the call politely.",
+      "type": "example"
+    },
+    {
+      "id": 93,
+      "lesson_id": 18,
+      "sentence": "8.\tAsk the switchboard operator to connect you with someone.",
+      "type": "example"
+    },
+    {
+      "id": 94,
+      "lesson_id": 18,
+      "sentence": "9.\tThe phone is ringing. Answer it.",
+      "type": "example"
+    },
+    {
+      "id": 95,
+      "lesson_id": 18,
+      "sentence": "10.\tAsk when the person you want to speak to will be available.",
+      "type": "example"
+    },
+    {
+      "id": 96,
+      "lesson_id": 18,
+      "sentence": "11.\t Give the caller the number of the Personnel office.",
+      "type": "example"
+    },
+    {
+      "id": 97,
+      "lesson_id": 18,
+      "sentence": "12.\t Tell the caller your boss isn’t in the office.",
+      "type": "example"
+    },
+    {
+      "id": 98,
+      "lesson_id": 18,
+      "sentence": "(     ) Speaking.",
+      "type": "example"
+    },
+    {
+      "id": 99,
+      "lesson_id": 18,
+      "sentence": "(     ) Who’s calling, please?",
+      "type": "example"
+    },
+    {
+      "id": 100,
+      "lesson_id": 18,
+      "sentence": "(     ) Oxford, 26431, Cambridge Hotel. Good morning",
+      "type": "example"
+    },
+    {
+      "id": 101,
+      "lesson_id": 18,
+      "sentence": "(     ) Could you put me through to..., please?",
+      "type": "example"
+    },
+    {
+      "id": 102,
+      "lesson_id": 18,
+      "sentence": "(     ) When can I reach him / her?",
+      "type": "example"
+    },
+    {
+      "id": 103,
+      "lesson_id": 18,
+      "sentence": "(     ) I’m sorry, he / she is not here at the moment.",
+      "type": "example"
+    },
+    {
+      "id": 104,
+      "lesson_id": 18,
+      "sentence": "(     ) It’s extension 291.",
+      "type": "example"
+    },
+    {
+      "id": 105,
+      "lesson_id": 18,
+      "sentence": "(     ) Hold the line, please.",
+      "type": "example"
+    },
+    {
+      "id": 106,
+      "lesson_id": 18,
+      "sentence": "(     ) May I speak to..., please?",
+      "type": "example"
+    },
+    {
+      "id": 107,
+      "lesson_id": 18,
+      "sentence": "(     ) Sorry. I didn’t catch your name.",
+      "type": "example"
+    },
+    {
+      "id": 108,
+      "lesson_id": 18,
+      "sentence": "(     ) May I take a message?",
+      "type": "example"
+    },
+    {
+      "id": 109,
+      "lesson_id": 18,
+      "sentence": "(     ) Thank you for calling. Goodbye",
+      "type": "example"
+    },
+    {
+      "id": 110,
+      "lesson_id": 19,
+      "sentence": "racism at the demonstrations.",
+      "type": "example"
+    },
+    {
+      "id": 111,
+      "lesson_id": 19,
+      "sentence": "aviation safety in the past.",
+      "type": "example"
+    },
+    {
+      "id": 112,
+      "lesson_id": 19,
+      "sentence": "about smoking every Monday.",
+      "type": "example"
+    },
+    {
+      "id": 113,
+      "lesson_id": 19,
+      "sentence": "almost any singer he wanted.",
+      "type": "example"
+    },
+    {
+      "id": 114,
+      "lesson_id": 19,
+      "sentence": "when he’s embarrassed.",
+      "type": "example"
+    },
+    {
+      "id": 115,
+      "lesson_id": 19,
+      "sentence": ", it goes on and off, especially in order to make you notice something.",
+      "type": "example"
+    },
+    {
+      "id": 116,
+      "lesson_id": 19,
+      "sentence": "on the car’s dashboard.",
+      "type": "example"
+    },
+    {
+      "id": 117,
+      "lesson_id": 19,
+      "sentence": "when I got home.",
+      "type": "example"
+    },
+    {
+      "id": 118,
+      "lesson_id": 19,
+      "sentence": "her but didn’t say a single word.",
+      "type": "example"
+    },
+    {
+      "id": 119,
+      "lesson_id": 19,
+      "sentence": "women on the street.",
+      "type": "example"
+    },
+    {
+      "id": 120,
+      "lesson_id": 19,
+      "sentence": "women on the street. It’s very rude.",
+      "type": "example"
+    },
+    {
+      "id": 121,
+      "lesson_id": 19,
+      "sentence": "with only one hand?",
+      "type": "example"
+    },
+    {
+      "id": 122,
+      "lesson_id": 19,
+      "sentence": "and walked away.",
+      "type": "example"
+    },
+    {
+      "id": 123,
+      "lesson_id": 19,
+      "sentence": ", showing she didn’t understand anything.",
+      "type": "example"
+    },
+    {
+      "id": 124,
+      "lesson_id": 19,
+      "sentence": "when he was asked if he agreed.",
+      "type": "example"
+    },
+    {
+      "id": 125,
+      "lesson_id": 19,
+      "sentence": ", showing he firmly disagreed with them.",
+      "type": "example"
+    },
+    {
+      "id": 126,
+      "lesson_id": 19,
+      "sentence": "organic food online.",
+      "type": "example"
+    },
+    {
+      "id": 127,
+      "lesson_id": 19,
+      "sentence": "very little money.",
+      "type": "example"
+    },
+    {
+      "id": 128,
+      "lesson_id": 19,
+      "sentence": "languages, like Spanish and Arabic.",
+      "type": "example"
+    },
+    {
+      "id": 129,
+      "lesson_id": 20,
+      "sentence": "more subtle today.",
+      "type": "example"
+    },
+    {
+      "id": 130,
+      "lesson_id": 20,
+      "sentence": "with some persuasive arguments.",
+      "type": "example"
+    },
+    {
+      "id": 131,
+      "lesson_id": 20,
+      "sentence": "is similar to quite.",
+      "type": "example"
+    },
+    {
+      "id": 132,
+      "lesson_id": 20,
+      "sentence": "– to get someone’s support or friendship by persuading them or being nice to them.",
+      "type": "example"
+    },
+    {
+      "id": 133,
+      "lesson_id": 21,
+      "sentence": "his stories of life in Egypt.",
+      "type": "example"
+    },
+    {
+      "id": 134,
+      "lesson_id": 21,
+      "sentence": "living in Spain.",
+      "type": "example"
+    },
+    {
+      "id": 135,
+      "lesson_id": 21,
+      "sentence": "when I started working there.",
+      "type": "example"
+    },
+    {
+      "id": 136,
+      "lesson_id": 21,
+      "sentence": "out alone at night when she was in Rio.",
+      "type": "example"
+    },
+    {
+      "id": 137,
+      "lesson_id": 21,
+      "sentence": "boy who talks to anybody.",
+      "type": "example"
+    },
+    {
+      "id": 138,
+      "lesson_id": 21,
+      "sentence": "the whole thing?",
+      "type": "example"
+    },
+    {
+      "id": 139,
+      "lesson_id": 21,
+      "sentence": "that he’s very young.",
+      "type": "example"
+    },
+    {
+      "id": 140,
+      "lesson_id": 22,
+      "sentence": "due to the recession.",
+      "type": "example"
+    },
+    {
+      "id": 141,
+      "lesson_id": 22,
+      "sentence": "(     ) if you are meeting for the first time.",
+      "type": "example"
+    },
+    {
+      "id": 142,
+      "lesson_id": 22,
+      "sentence": "(     ) many areas are non-smoking and many people object to this habit.",
+      "type": "example"
+    },
+    {
+      "id": 143,
+      "lesson_id": 22,
+      "sentence": "(     ) but only call a person of a higher position by their first name if they invite you to.",
+      "type": "example"
+    },
+    {
+      "id": 144,
+      "lesson_id": 22,
+      "sentence": "(     ) or how much rent they pay.",
+      "type": "example"
+    },
+    {
+      "id": 145,
+      "lesson_id": 22,
+      "sentence": "(     ) for a business lunch or dinner. alcohol may not even be available.",
+      "type": "example"
+    },
+    {
+      "id": 146,
+      "lesson_id": 22,
+      "sentence": "(     ) unavoidable reasons! dedication to your job is expected of you.",
+      "type": "example"
+    },
+    {
+      "id": 147,
+      "lesson_id": 22,
+      "sentence": "(     ) wait in line for a table and be prepared to pay a 15% tip at the end of the meal.",
+      "type": "example"
+    },
+    {
+      "id": 148,
+      "lesson_id": 22,
+      "sentence": "(     ) so they like getting straight to the point at meetings.",
+      "type": "example"
+    },
+    {
+      "id": 149,
+      "lesson_id": 22,
+      "sentence": "(     ) you should send a handwritten thank you note to your host and hostess afterwards.",
+      "type": "example"
+    },
+    {
+      "id": 150,
+      "lesson_id": 22,
+      "sentence": "(     ) a suit and a tie for a man and a dress or skirt and a blouse for a woman.",
+      "type": "example"
+    },
+    {
+      "id": 151,
+      "lesson_id": 22,
+      "sentence": "(     ) appreciate and expect some small talk, smiles, and humor.",
+      "type": "example"
+    },
+    {
+      "id": 152,
+      "lesson_id": 23,
+      "sentence": "” coat yesterday.",
+      "type": "example"
+    },
+    {
+      "id": 153,
+      "lesson_id": 23,
+      "sentence": "has improved a lot since last year.",
+      "type": "example"
+    },
+    {
+      "id": 154,
+      "lesson_id": 23,
+      "sentence": "You’ll have to do it again. That’s",
+      "type": "example"
+    },
+    {
+      "id": 155,
+      "lesson_id": 23,
+      "sentence": "on the car door isn’t that large.",
+      "type": "example"
+    },
+    {
+      "id": 156,
+      "lesson_id": 23,
+      "sentence": "all the furniture that was damaged in the flood.",
+      "type": "example"
+    },
+    {
+      "id": 157,
+      "lesson_id": 23,
+      "sentence": "a feeling of panic.",
+      "type": "example"
+    },
+    {
+      "id": 158,
+      "lesson_id": 23,
+      "sentence": "” is common in negative sentences.",
+      "type": "example"
+    },
+    {
+      "id": 159,
+      "lesson_id": 23,
+      "sentence": "traffic at this time of day.",
+      "type": "example"
+    },
+    {
+      "id": 160,
+      "lesson_id": 23,
+      "sentence": "of them go to church.",
+      "type": "example"
+    },
+    {
+      "id": 161,
+      "lesson_id": 23,
+      "sentence": "and a good quality of life.",
+      "type": "example"
+    },
+    {
+      "id": 162,
+      "lesson_id": 23,
+      "sentence": "Of course he can afford to pay. He has",
+      "type": "example"
+    },
+    {
+      "id": 163,
+      "lesson_id": 23,
+      "sentence": "this hole in my pants?",
+      "type": "example"
+    },
+    {
+      "id": 164,
+      "lesson_id": 24,
+      "sentence": "use of such creams.",
+      "type": "example"
+    },
+    {
+      "id": 165,
+      "lesson_id": 25,
+      "sentence": "before launching the product.",
+      "type": "example"
+    },
+    {
+      "id": 166,
+      "lesson_id": 25,
+      "sentence": "flu vaccines this year.",
+      "type": "example"
+    },
+    {
+      "id": 167,
+      "lesson_id": 25,
+      "sentence": "our new product coming along?",
+      "type": "example"
+    },
+    {
+      "id": 168,
+      "lesson_id": 25,
+      "sentence": "is becoming more and more common.",
+      "type": "example"
+    },
+    {
+      "id": 169,
+      "lesson_id": 25,
+      "sentence": "to your account right now.",
+      "type": "example"
+    },
+    {
+      "id": 170,
+      "lesson_id": 25,
+      "sentence": "is slowly improving, according to the latest research.",
+      "type": "example"
+    },
+    {
+      "id": 171,
+      "lesson_id": 25,
+      "sentence": "this time of the year.",
+      "type": "example"
+    },
+    {
+      "id": 172,
+      "lesson_id": 25,
+      "sentence": ", so we must work hard.",
+      "type": "example"
+    },
+    {
+      "id": 173,
+      "lesson_id": 25,
+      "sentence": "and I like the experience.",
+      "type": "example"
+    },
+    {
+      "id": 174,
+      "lesson_id": 27,
+      "sentence": "– she’s always among friends.",
+      "type": "example"
+    },
+    {
+      "id": 175,
+      "lesson_id": 27,
+      "sentence": "and started shouting at the customers.",
+      "type": "example"
+    },
+    {
+      "id": 176,
+      "lesson_id": 27,
+      "sentence": "at the mall when I met her the last time.",
+      "type": "example"
+    },
+    {
+      "id": 177,
+      "lesson_id": 27,
+      "sentence": "junk food every day.",
+      "type": "example"
+    },
+    {
+      "id": 178,
+      "lesson_id": 27,
+      "sentence": "hammock rather than on a bed.",
+      "type": "example"
+    },
+    {
+      "id": 179,
+      "lesson_id": 27,
+      "sentence": "this tent in almost 5 minutes.",
+      "type": "example"
+    },
+    {
+      "id": 180,
+      "lesson_id": 27,
+      "sentence": "my tent and head back home.",
+      "type": "example"
+    },
+    {
+      "id": 181,
+      "lesson_id": 27,
+      "sentence": "looks very comfortable in this new model.",
+      "type": "example"
+    },
+    {
+      "id": 182,
+      "lesson_id": 27,
+      "sentence": "for the concert were on sale.",
+      "type": "example"
+    },
+    {
+      "id": 183,
+      "lesson_id": 27,
+      "sentence": "for tonight’s concert.",
+      "type": "example"
+    },
+    {
+      "id": 184,
+      "lesson_id": 27,
+      "sentence": "close to the field?",
+      "type": "example"
+    },
+    {
+      "id": 185,
+      "lesson_id": 27,
+      "sentence": ". Could you get it for me?",
+      "type": "example"
+    },
+    {
+      "id": 186,
+      "lesson_id": 27,
+      "sentence": "–  at concerts, movies, lectures, speeches, etc.",
+      "type": "example"
+    },
+    {
+      "id": 187,
+      "lesson_id": 27,
+      "sentence": "when the concert was over.",
+      "type": "example"
+    },
+    {
+      "id": 188,
+      "lesson_id": 27,
+      "sentence": "in the end of his lecture.",
+      "type": "example"
+    },
+    {
+      "id": 189,
+      "lesson_id": 27,
+      "sentence": "cheering at the final match.",
+      "type": "example"
+    },
+    {
+      "id": 190,
+      "lesson_id": 27,
+      "sentence": "my doctor to get a prescription for pain.",
+      "type": "example"
+    },
+    {
+      "id": 191,
+      "lesson_id": 27,
+      "sentence": "home after midnight.",
+      "type": "example"
+    },
+    {
+      "id": 192,
+      "lesson_id": 27,
+      "sentence": "to invite you to my graduation party.",
+      "type": "example"
+    },
+    {
+      "id": 193,
+      "lesson_id": 27,
+      "sentence": "sometime to have a coffee or a beer with me.",
+      "type": "example"
+    },
+    {
+      "id": 194,
+      "lesson_id": 27,
+      "sentence": "your competitors.",
+      "type": "example"
+    },
+    {
+      "id": 195,
+      "lesson_id": 27,
+      "sentence": "of your behavior!",
+      "type": "example"
+    },
+    {
+      "id": 196,
+      "lesson_id": 27,
+      "sentence": "did I realize I had forgotten my wallet.",
+      "type": "example"
+    },
+    {
+      "id": 197,
+      "lesson_id": 28,
+      "sentence": "watch to choose from.",
+      "type": "example"
+    },
+    {
+      "id": 198,
+      "lesson_id": 28,
+      "sentence": "above your desk.",
+      "type": "example"
+    },
+    {
+      "id": 199,
+      "lesson_id": 28,
+      "sentence": "Take your swimming trunks with you. They might",
+      "type": "example"
+    },
+    {
+      "id": 200,
+      "lesson_id": 29,
+      "sentence": "best acting this year.",
+      "type": "example"
+    },
+    {
+      "id": 201,
+      "lesson_id": 29,
+      "sentence": "the development of the new mall.",
+      "type": "example"
+    },
+    {
+      "id": 202,
+      "lesson_id": 29,
+      "sentence": "Math and Physics.",
+      "type": "example"
+    },
+    {
+      "id": 203,
+      "lesson_id": 29,
+      "sentence": "yoga little by little.",
+      "type": "example"
+    },
+    {
+      "id": 204,
+      "lesson_id": 29,
+      "sentence": "has been increasing year after year.",
+      "type": "example"
+    },
+    {
+      "id": 205,
+      "lesson_id": 29,
+      "sentence": "to finish the renovation as soon as possible.",
+      "type": "example"
+    },
+    {
+      "id": 206,
+      "lesson_id": 29,
+      "sentence": "and managed to make more money this year.",
+      "type": "example"
+    },
+    {
+      "id": 207,
+      "lesson_id": 29,
+      "sentence": "to study abroad.",
+      "type": "example"
+    },
+    {
+      "id": 208,
+      "lesson_id": 29,
+      "sentence": "of becoming famous.",
+      "type": "example"
+    },
+    {
+      "id": 209,
+      "lesson_id": 29,
+      "sentence": "his successful career and accomplishments.",
+      "type": "example"
+    },
+    {
+      "id": 210,
+      "lesson_id": 29,
+      "sentence": "that you should know a little French before going to Paris.",
+      "type": "example"
+    },
+    {
+      "id": 211,
+      "lesson_id": 29,
+      "sentence": "a lot throughout the course.",
+      "type": "example"
+    },
+    {
+      "id": 212,
+      "lesson_id": 29,
+      "sentence": "your Japanese a little.",
+      "type": "example"
+    },
+    {
+      "id": 213,
+      "lesson_id": 29,
+      "sentence": "her father because of his willpower.",
+      "type": "example"
+    },
+    {
+      "id": 214,
+      "lesson_id": 29,
+      "sentence": "to succeed in life.",
+      "type": "example"
+    },
+    {
+      "id": 215,
+      "lesson_id": 29,
+      "sentence": "to fight for our rights.",
+      "type": "example"
+    },
+    {
+      "id": 216,
+      "lesson_id": 30,
+      "sentence": "achieving a particular result.",
+      "type": "example"
+    },
+    {
+      "id": 217,
+      "lesson_id": 30,
+      "sentence": "Over the last few years...",
+      "type": "example"
+    },
+    {
+      "id": 218,
+      "lesson_id": 30,
+      "sentence": "I’ve managed to buy my own car.",
+      "type": "example"
+    },
+    {
+      "id": 219,
+      "lesson_id": 30,
+      "sentence": "I’ve been able to get good grades at school.",
+      "type": "example"
+    },
+    {
+      "id": 220,
+      "lesson_id": 30,
+      "sentence": "I was able to...",
+      "type": "example"
+    },
+    {
+      "id": 221,
+      "lesson_id": 30,
+      "sentence": "Five years from now...",
+      "type": "example"
+    },
+    {
+      "id": 222,
+      "lesson_id": 30,
+      "sentence": "I hope I’ll have learned to drive.",
+      "type": "example"
+    },
+    {
+      "id": 223,
+      "lesson_id": 30,
+      "sentence": "I’d like to have...",
+      "type": "example"
+    },
+    {
+      "id": 224,
+      "lesson_id": 30,
+      "sentence": "I expect to have...",
+      "type": "example"
+    },
+    {
+      "id": 225,
+      "lesson_id": 30,
+      "sentence": "What would you like to accomplish over the next five years?*",
+      "type": "example"
+    }
+  ]
+}

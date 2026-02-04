@@ -570,6 +570,64 @@ export const vacationPlus2VocabularyProgress = mysqlTable("vacation_plus_2_vocab
 export type VacationPlus2VocabularyProgress = typeof vacationPlus2VocabularyProgress.$inferSelect;
 export type InsertVacationPlus2VocabularyProgress = typeof vacationPlus2VocabularyProgress.$inferInsert;
 
+// ==================== BOOK 5 LESSONS ====================
+// Lessons table (individual lessons within units)
+export const lessons = mysqlTable("lessons", {
+  id: int("id").autoincrement().primaryKey(),
+  bookId: int("book_id").notNull(),
+  unitId: int("unit_id").notNull(),
+  lessonNumber: int("lesson_number").notNull(),
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description"),
+  audioCount: int("audio_count").default(0).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Lesson = typeof lessons.$inferSelect;
+export type InsertLesson = typeof lessons.$inferInsert;
+
+// Lesson vocabulary table
+export const lessonVocabulary = mysqlTable("lesson_vocabulary", {
+  id: int("id").autoincrement().primaryKey(),
+  lessonId: int("lesson_id").notNull(),
+  word: varchar("word", { length: 255 }).notNull(),
+  portugueseTranslation: text("portuguese_translation"),
+  example: text("example"),
+  audioUrl: varchar("audio_url", { length: 512 }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type LessonVocabulary = typeof lessonVocabulary.$inferSelect;
+export type InsertLessonVocabulary = typeof lessonVocabulary.$inferInsert;
+
+// Lesson chunks table
+export const lessonChunks = mysqlTable("lesson_chunks", {
+  id: int("id").autoincrement().primaryKey(),
+  lessonId: int("lesson_id").notNull(),
+  expression: varchar("expression", { length: 255 }).notNull(),
+  portugueseEquivalent: text("portuguese_equivalent"),
+  example: text("example"),
+  chunkType: mysqlEnum("chunk_type", ["phrasal_verb", "collocation", "expression", "idiom", "grammar_structure"]).default("expression").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type LessonChunk = typeof lessonChunks.$inferSelect;
+export type InsertLessonChunk = typeof lessonChunks.$inferInsert;
+
+// Lesson examples table
+export const lessonExamples = mysqlTable("lesson_examples", {
+  id: int("id").autoincrement().primaryKey(),
+  lessonId: int("lesson_id").notNull(),
+  sentence: text("sentence").notNull(),
+  portugueseTranslation: text("portuguese_translation"),
+  audioUrl: varchar("audio_url", { length: 512 }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type LessonExample = typeof lessonExamples.$inferSelect;
+export type InsertLessonExample = typeof lessonExamples.$inferInsert;
+
 // Vacation Plus 2 dialogue progress
 export const vacationPlus2DialogueProgress = mysqlTable("vacation_plus_2_dialogue_progress", {
   id: int("id").autoincrement().primaryKey(),

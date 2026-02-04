@@ -1,0 +1,382 @@
+{
+  "lesson_number": 3,
+  "file": "B5_L3.ppsx",
+  "slide_count": 17,
+  "audio_files": [
+    "ppt/media/media1.mp3",
+    "ppt/media/media2.mp3",
+    "ppt/media/media3.mp3",
+    "ppt/media/media4.mp3"
+  ],
+  "media_count": 19,
+  "all_texts": [
+    "Lesson",
+    "Family and Relationship",
+    "Unit 1",
+    "TODAY YOU’LL LEARN",
+    "HOW TO SAY",
+    "vocabulary",
+    "expansion",
+    "to be faithful",
+    "to",
+    "to be unfaithful",
+    "to",
+    "somebody",
+    "something",
+    "HELPING",
+    "YOU",
+    "FAITHFUL",
+    "rumpy",
+    "oody",
+    "bad tempered",
+    "HELPING",
+    "YOU",
+    "GRUMPY",
+    "big headed",
+    "onceited",
+    "stuck-up",
+    "HELPING",
+    "YOU",
+    "BIG HEADED",
+    "prejudice",
+    "against",
+    "somebody",
+    "prejudiced",
+    "against",
+    "something",
+    "racial",
+    "prejudice",
+    "sexual",
+    "religious",
+    "class",
+    "political",
+    "cultural",
+    "etc.",
+    "HELPING",
+    "YOU",
+    "PREJUDICE",
+    "to",
+    "stare",
+    "at",
+    "somebody",
+    "something",
+    "What are you",
+    "staring at",
+    "HELPING",
+    "YOU",
+    "TO STARE / STARED / STARED",
+    "to",
+    "belong",
+    "to",
+    "somebody",
+    "something",
+    "It",
+    "belongs to",
+    "my mother-in-law.",
+    "to belong",
+    "She doesn’t",
+    "belong",
+    "here.",
+    "That book",
+    "belongs",
+    "on",
+    "the upper shelf.",
+    "HELPING",
+    "YOU",
+    "TO BELONG / BELONGED / BELONGED",
+    "dialog",
+    "samples",
+    "Key",
+    "phrases",
+    "and",
+    "expressions",
+    "what",
+    "who",
+    "where",
+    "when",
+    "how",
+    "no matter",
+    "I’ll be there tomorrow,",
+    "no matter",
+    "the weather.",
+    "I’ll be there tomorrow,",
+    "no matter what",
+    "I’ll be there,",
+    "no matter when",
+    "HELPING",
+    "YOU",
+    "NO MATTER",
+    "I’m",
+    "full of",
+    "myself",
+    "He’s",
+    "full of",
+    "himself",
+    "She’s",
+    "full of",
+    "herself",
+    "etc.",
+    "HELPING",
+    "YOU",
+    "TO BE FULL OF (YOURSELF)",
+    "to pass away",
+    "My stepfather",
+    "passed away",
+    "a year ago.",
+    "to die",
+    "HELPING",
+    "YOU",
+    "TO PASS AWAY",
+    "to be heading",
+    "for",
+    "to be headed",
+    "for",
+    "to be heading",
+    "to",
+    "to be headed",
+    "to",
+    "the same direction",
+    "work",
+    "divorce",
+    "etc.",
+    "heading?",
+    "headed?",
+    "Where are you",
+    "HELPING",
+    "YOU",
+    "TO BE HEADING (FOR / TO)",
+    "dialog",
+    "samples"
+  ],
+  "slides": [
+    {
+      "number": 1,
+      "texts": [
+        "Lesson",
+        "Family and Relationship",
+        "Unit 1"
+      ]
+    },
+    {
+      "number": 2,
+      "texts": [
+        "TODAY YOU’LL LEARN",
+        "HOW TO SAY"
+      ]
+    },
+    {
+      "number": 3,
+      "texts": [
+        "vocabulary",
+        "expansion"
+      ]
+    },
+    {
+      "number": 4,
+      "texts": [
+        "to be faithful",
+        "to",
+        "to be unfaithful",
+        "to",
+        "somebody",
+        "something",
+        "HELPING",
+        "YOU",
+        "FAITHFUL"
+      ]
+    },
+    {
+      "number": 5,
+      "texts": [
+        "rumpy",
+        "oody",
+        "bad tempered",
+        "HELPING",
+        "YOU",
+        "GRUMPY"
+      ]
+    },
+    {
+      "number": 6,
+      "texts": [
+        "big headed",
+        "onceited",
+        "stuck-up",
+        "HELPING",
+        "YOU",
+        "BIG HEADED"
+      ]
+    },
+    {
+      "number": 7,
+      "texts": [
+        "prejudice",
+        "against",
+        "somebody",
+        "prejudiced",
+        "against",
+        "something",
+        "racial",
+        "prejudice",
+        "sexual",
+        "religious",
+        "class",
+        "political",
+        "cultural",
+        "etc.",
+        "HELPING",
+        "YOU",
+        "PREJUDICE"
+      ]
+    },
+    {
+      "number": 8,
+      "texts": [
+        "to",
+        "stare",
+        "at",
+        "somebody",
+        "something",
+        "What are you",
+        "staring at",
+        "HELPING",
+        "YOU",
+        "TO STARE / STARED / STARED"
+      ]
+    },
+    {
+      "number": 9,
+      "texts": [
+        "to",
+        "belong",
+        "to",
+        "somebody",
+        "something",
+        "It",
+        "belongs to",
+        "my mother-in-law.",
+        "to belong",
+        "She doesn’t",
+        "belong",
+        "here.",
+        "That book",
+        "belongs",
+        "on",
+        "the upper shelf.",
+        "HELPING",
+        "YOU",
+        "TO BELONG / BELONGED / BELONGED"
+      ]
+    },
+    {
+      "number": 10,
+      "texts": [
+        "dialog",
+        "samples"
+      ]
+    },
+    {
+      "number": 11,
+      "texts": [
+        "Key",
+        "phrases",
+        "and",
+        "expressions"
+      ]
+    },
+    {
+      "number": 12,
+      "texts": [
+        "what",
+        "who",
+        "where",
+        "when",
+        "how",
+        "no matter",
+        "I’ll be there tomorrow,",
+        "no matter",
+        "the weather.",
+        "I’ll be there tomorrow,",
+        "no matter what",
+        "I’ll be there,",
+        "no matter when",
+        "HELPING",
+        "YOU",
+        "NO MATTER"
+      ]
+    },
+    {
+      "number": 13,
+      "texts": [
+        "I’m",
+        "full of",
+        "myself",
+        "He’s",
+        "full of",
+        "himself",
+        "She’s",
+        "full of",
+        "herself",
+        "etc.",
+        "HELPING",
+        "YOU",
+        "TO BE FULL OF (YOURSELF)"
+      ]
+    },
+    {
+      "number": 14,
+      "texts": [
+        "to pass away",
+        "My stepfather",
+        "passed away",
+        "a year ago.",
+        "to die",
+        "HELPING",
+        "YOU",
+        "TO PASS AWAY"
+      ]
+    },
+    {
+      "number": 15,
+      "texts": [
+        "to be heading",
+        "for",
+        "to be headed",
+        "for",
+        "to be heading",
+        "to",
+        "to be headed",
+        "to",
+        "the same direction",
+        "work",
+        "divorce",
+        "etc.",
+        "heading?",
+        "headed?",
+        "Where are you",
+        "HELPING",
+        "YOU",
+        "TO BE HEADING (FOR / TO)"
+      ]
+    },
+    {
+      "number": 16,
+      "texts": [
+        "dialog",
+        "samples"
+      ]
+    },
+    {
+      "number": 17,
+      "texts": []
+    }
+  ],
+  "analysis": {
+    "chunks": [],
+    "vocabulary": [],
+    "collocations": [],
+    "equivalences": [],
+    "examples": [],
+    "examples_count": 0
+  }
+}

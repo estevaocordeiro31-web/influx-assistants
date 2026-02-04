@@ -1089,3 +1089,26 @@
 - [ ] Criar animação Lucas in New York
 - [ ] Criar animação Emily in Paris
 - [ ] Adicionar quiz pós-vídeo para cada animação
+
+
+## Fase 72: Análise e Estruturação do Book 5 (30 Lições)
+- [ ] Extrair conteúdo de todas as 30 lições (PPSX)
+- [ ] Extrair áudios embutidos nas apresentações
+- [ ] Identificar chunks e expressões por lição
+- [ ] Identificar collocations e equivalências
+- [ ] Estruturar conteúdo no banco de dados
+- [ ] Criar seed de dados do Book 5
+- [ ] Integrar conteúdo na interface do tutor
+- [ ] Adicionar aba Animations no menu do dashboard
+- [ ] Criar quiz pós-vídeo para animações
+
+
+## Fase 73: Análise e Estruturação do Book 5
+- [x] Extrair conteúdo das 30 lições do Book 5 (PPSX)
+- [x] Identificar chunks, collocations e equivalências
+- [x] Criar tabelas de lessons no banco de dados
+- [x] Inserir 30 lições, 99 vocabulário, 25 chunks, 225 exemplos
+- [x] Criar página LessonsPage.tsx para visualizar conteúdo
+- [x] Criar router tRPC lessons.ts com endpoints
+- [x] Adicionar link para Lessons na Home page
+- [x] Testar navegação e exibição de conteúdo

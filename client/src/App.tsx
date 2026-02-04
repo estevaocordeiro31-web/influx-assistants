@@ -31,6 +31,7 @@ import GeminiStrategicAnalysis from "./pages/GeminiStrategicAnalysis";
 import GeminiChat from "./pages/GeminiChat";
 import EditProfile from "./pages/EditProfile";
 import AnimationsPage from "./pages/AnimationsPage";
+import LessonsPage from "./pages/LessonsPage";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -61,6 +62,8 @@ function Router() {
       <Route path="/demo/simulator" component={SituationSimulator} />
       <Route path="/animations" component={AnimationsPage} />
       <Route path="/demo/animations" component={AnimationsPage} />
+      <Route path="/lessons" component={LessonsPage} />
+      <Route path="/demo/lessons" component={LessonsPage} />
       {/* Rotas de acesso via link personalizado */}
       <Route path="/access/:linkHash" component={AccessViaLink} />
       {/* Rotas autenticadas */}

@@ -27,6 +27,7 @@ import { dailySyncRouter } from "./routers/daily-sync";
 import { geminiRouter } from "./routers/gemini";
 import { ttsRouter } from "./routers/tts";
 import { vacationPlus2Router } from "./routers/vacation-plus-2";
+import { lessonsRouter } from "./routers/lessons";
 
 export const appRouter = router({
   system: systemRouter,
@@ -66,6 +67,7 @@ export const appRouter = router({
   tutor: tutorRouter,
   tts: ttsRouter,
   vacationPlus2: vacationPlus2Router,
+  lessons: lessonsRouter,
 });
 
 export type AppRouter = typeof appRouter;
