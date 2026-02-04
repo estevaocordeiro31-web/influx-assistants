@@ -1,0 +1,34 @@
+{
+  "query": "SHOW CREATE TABLE student_profiles;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T8Mwbb7L99VC4H.e93aa651f00b --database 2aNFQGA4rARocXGp2d4pqb --execute SHOW CREATE TABLE student_profiles;",
+  "rows": [
+    {
+      "Table": "student_profiles",
+      "Create Table": "CREATE TABLE `student_profiles` ("
+    }
+  ],
+  "messages": [
+    "  `id` int(11) NOT NULL AUTO_INCREMENT,",
+    "  `user_id` int(11) NOT NULL,",
+    "  `objective` enum('career','travel','studies','other') COLLATE utf8mb4_unicode_ci NOT NULL,",
+    "  `current_level` enum('beginner','elementary','intermediate','upper_intermediate','advanced','proficient') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'beginner',",
+    "  `total_hours_learned` int(11) NOT NULL DEFAULT '0',",
+    "  `streak_days` int(11) NOT NULL DEFAULT '0',",
+    "  `last_activity_at` timestamp NULL DEFAULT NULL,",
+    "  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,",
+    "  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,",
+    "  `study_duration_years` decimal(3,1) DEFAULT NULL,",
+    "  `study_duration_months` int(11) DEFAULT NULL,",
+    "  `specific_goals` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+    "  `discomfort_areas` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+    "  `comfort_areas` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+    "  `english_consumption_sources` json DEFAULT NULL,",
+    "  `improvement_areas` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,",
+    "  PRIMARY KEY (`id`) /*T![clustered_index] CLUSTERED */,",
+    "  UNIQUE KEY `student_profiles_user_id_unique` (`user_id`)",
+    ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=60001"
+  ],
+  "stdout": "Table\tCreate Table\nstudent_profiles\tCREATE TABLE `student_profiles` (\n  `id` int(11) NOT NULL AUTO_INCREMENT,\n  `user_id` int(11) NOT NULL,\n  `objective` enum('career','travel','studies','other') COLLATE utf8mb4_unicode_ci NOT NULL,\n  `current_level` enum('beginner','elementary','intermediate','upper_intermediate','advanced','proficient') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'beginner',\n  `total_hours_learned` int(11) NOT NULL DEFAULT '0',\n  `streak_days` int(11) NOT NULL DEFAULT '0',\n  `last_activity_at` timestamp NULL DEFAULT NULL,\n  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  `study_duration_years` decimal(3,1) DEFAULT NULL,\n  `study_duration_months` int(11) DEFAULT NULL,\n  `specific_goals` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  `discomfort_areas` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  `comfort_areas` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  `english_consumption_sources` json DEFAULT NULL,\n  `improvement_areas` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,\n  PRIMARY KEY (`id`) /*T![clustered_index] CLUSTERED */,\n  UNIQUE KEY `student_profiles_user_id_unique` (`user_id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=60001\n",
+  "stderr": "",
+  "execution_time_ms": 357
+}
