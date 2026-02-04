@@ -1,0 +1,125 @@
+{
+  "query": "SELECT id, name, student_id FROM users ORDER BY student_id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T8Mwbb7L99VC4H.e93aa651f00b --database 2aNFQGA4rARocXGp2d4pqb --execute SELECT id, name, student_id FROM users ORDER BY student_id;",
+  "rows": [
+    {
+      "id": "630089",
+      "name": "Carlos Alberto Pirani Júnior",
+      "student_id": "19"
+    },
+    {
+      "id": "570006",
+      "name": "Laís Milena Gambini",
+      "student_id": "30001"
+    },
+    {
+      "id": "390197",
+      "name": "Laís Milena Gambini",
+      "student_id": "30001"
+    },
+    {
+      "id": "390195",
+      "name": "Laís Milena Gambini",
+      "student_id": "30001"
+    },
+    {
+      "id": "570007",
+      "name": "Camila Gonsalves",
+      "student_id": "30002"
+    },
+    {
+      "id": "630041",
+      "name": "Andressa Amorim de Araújo",
+      "student_id": "30004"
+    },
+    {
+      "id": "630042",
+      "name": "Elizabeth Rodrigues De Souza",
+      "student_id": "30005"
+    },
+    {
+      "id": "630088",
+      "name": "Carlos Alberto Pirani Júnior",
+      "student_id": "30009"
+    },
+    {
+      "id": "630090",
+      "name": "Diego Bim",
+      "student_id": "30010"
+    },
+    {
+      "id": "1",
+      "name": "Estevao Cordeiro",
+      "student_id": "30011"
+    },
+    {
+      "id": "390029",
+      "name": "Fabio",
+      "student_id": "30012"
+    },
+    {
+      "id": "390046",
+      "name": "Adm inFlux",
+      "student_id": "30013"
+    },
+    {
+      "id": "390047",
+      "name": "direcaojundiairetiro",
+      "student_id": "30014"
+    },
+    {
+      "id": "390067",
+      "name": "direcaojundiairetiro",
+      "student_id": "30015"
+    },
+    {
+      "id": "390074",
+      "name": "João Silva",
+      "student_id": "30016"
+    },
+    {
+      "id": "390075",
+      "name": "Maria Santos",
+      "student_id": "30017"
+    },
+    {
+      "id": "390076",
+      "name": "Pedro Costa",
+      "student_id": "30018"
+    },
+    {
+      "id": "390077",
+      "name": "Fabio Hk",
+      "student_id": "30019"
+    },
+    {
+      "id": "390196",
+      "name": "Camila Gonsalves da Rosa de Carvalho",
+      "student_id": "30020"
+    },
+    {
+      "id": "390198",
+      "name": "Camila Gonsalves da Rosa de Carvalho",
+      "student_id": "30021"
+    },
+    {
+      "id": "570011",
+      "name": "Estevão (Teste)",
+      "student_id": "30022"
+    },
+    {
+      "id": "1140061",
+      "name": "Bruna Iubel",
+      "student_id": "30023"
+    },
+    {
+      "id": "660028",
+      "name": "Estevão Cordeiro",
+      "student_id": "60002"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tstudent_id\n630089\tCarlos Alberto Pirani Júnior\t19\n570006\tLaís Milena Gambini\t30001\n390197\tLaís Milena Gambini\t30001\n390195\tLaís Milena Gambini\t30001\n570007\tCamila Gonsalves\t30002\n630041\tAndressa Amorim de Araújo\t30004\n630042\tElizabeth Rodrigues De Souza\t30005\n630088\tCarlos Alberto Pirani Júnior\t30009\n630090\tDiego Bim\t30010\n1\tEstevao Cordeiro\t30011\n390029\tFabio\t30012\n390046\tAdm inFlux\t30013\n390047\tdirecaojundiairetiro\t30014\n390067\tdirecaojundiairetiro\t30015\n390074\tJoão Silva\t30016\n390075\tMaria Santos\t30017\n390076\tPedro Costa\t30018\n390077\tFabio Hk\t30019\n390196\tCamila Gonsalves da Rosa de Carvalho\t30020\n390198\tCamila Gonsalves da Rosa de Carvalho\t30021\n570011\tEstevão (Teste)\t30022\n1140061\tBruna Iubel\t30023\n660028\tEstevão Cordeiro\t60002\n",
+  "stderr": "",
+  "execution_time_ms": 363
+}

@@ -1267,3 +1267,16 @@
 - [ ] Identificar erro na funcionalidade de criar link pelo ID
 - [ ] Corrigir código
 - [ ] Testar e salvar checkpoint
+
+
+## Fase 78: Sistema de ID Único e Exportação de Dados
+- [x] Criar campo student_id no formato INF-YYYY-XXXX no schema
+- [x] Implementar função generateStudentId() para gerar IDs únicos
+- [x] Implementar função assignStudentId() para atribuir IDs
+- [x] Criar botão "Gerar IDs" no Dashboard Admin para atribuição em massa
+- [x] Exibir coluna ID na tabela de alunos do Dashboard Admin
+- [x] Criar botão "Exportar CSV" para download da lista de alunos
+- [x] Implementar exportação com todos os campos (ID, Nome, Email, Nível, Objetivo, Horas, Streak, Última Atividade, Status)
+- [x] Testar exportação CSV com dados reais
+- [x] Criar skill "unique-id-generator" para documentar o processo
+

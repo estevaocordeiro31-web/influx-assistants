@@ -2,7 +2,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Users, AlertCircle, LogOut, Search, Bell, Loader2, Edit, BarChart3, Sparkles, Brain, MessageSquare, Hash, RefreshCw } from "lucide-react";
+import { Users, AlertCircle, LogOut, Search, Bell, Loader2, Edit, BarChart3, Sparkles, Brain, MessageSquare, Hash, RefreshCw, Download } from "lucide-react";
 import { toast } from "sonner";
 import { useLocation } from "wouter";
 import { useState } from "react";
@@ -200,6 +200,37 @@ export default function AdminDashboard() {
                   onClick={() => setLocation("/admin/upload-materials")}
                 >
                   Compartilhar Materiais
+                </Button>
+                <Button 
+                  variant="outline"
+                  onClick={() => {
+                    // Exportar lista de alunos em CSV
+                    const headers = ['ID', 'Nome', 'Email', 'Nível', 'Objetivo', 'Horas', 'Streak', 'Última Atividade', 'Status'];
+                    const csvContent = [
+                      headers.join(','),
+                      ...filteredStudents.map(s => [
+                        (s as any).studentId || '-',
+                        `"${s.name}"`,
+                        s.email,
+                        levelMap[s.level] || s.level,
+                        objectiveMap[s.objective] || s.objective,
+                        `${s.hoursLearned}h`,
+                        `${s.streakDays}d`,
+                        s.lastActivity,
+                        s.status === 'active' ? 'Ativo' : s.status === 'inactive' ? 'Inativo' : 'Em Risco'
+                      ].join(','))
+                    ].join('\n');
+                    
+                    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = `alunos_influx_${new Date().toISOString().split('T')[0]}.csv`;
+                    link.click();
+                    toast.success('Lista exportada com sucesso!');
+                  }}
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Exportar CSV
                 </Button>
               </div>
             </div>
