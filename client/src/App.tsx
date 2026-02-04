@@ -32,6 +32,7 @@ import GeminiChat from "./pages/GeminiChat";
 import EditProfile from "./pages/EditProfile";
 import AnimationsPage from "./pages/AnimationsPage";
 import LessonsPage from "./pages/LessonsPage";
+import LessonQuest from "./pages/LessonQuest";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -64,6 +65,8 @@ function Router() {
       <Route path="/demo/animations" component={AnimationsPage} />
       <Route path="/lessons" component={LessonsPage} />
       <Route path="/demo/lessons" component={LessonsPage} />
+      <Route path="/lesson-quest/:id" component={LessonQuest} />
+      <Route path="/demo/lesson-quest/:id" component={LessonQuest} />
       {/* Rotas de acesso via link personalizado */}
       <Route path="/access/:linkHash" component={AccessViaLink} />
       {/* Rotas autenticadas */}

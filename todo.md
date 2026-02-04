@@ -1112,3 +1112,60 @@
 - [x] Criar router tRPC lessons.ts com endpoints
 - [x] Adicionar link para Lessons na Home page
 - [x] Testar navegação e exibição de conteúdo
+
+
+## Fase 74: inFlux Learning Experience 2.0 - Sprint Completo
+
+### Fase 74.1: Consolidar Chunks de Todas as Lessons (Book 5)
+- [ ] Verificar chunks da Lesson 1 (Friends and Acquaintances)
+- [ ] Verificar chunks da Lesson 2 (Friends and Acquaintances - Comunicativa)
+- [ ] Verificar chunks da Lesson 3 (Family and Relationship)
+- [ ] Verificar chunks da Lesson 4 (Family and Relationship - Comunicativa)
+- [x] Verificar chunks da Lesson 5 (Shapes and Colors) - 30 chunks
+- [x] Verificar chunks da Lesson 6 (Shapes and Colors - Comunicativa) - 44 chunks
+
+### Fase 74.2: Sistema de Gamificação
+- [ ] Criar tabelas de pontos, badges e transações no schema
+- [ ] Implementar API de pontos (ganhar, consultar, histórico)
+- [ ] Implementar streak de dias consecutivos
+- [ ] Criar componente de nível/XP bar
+- [ ] Implementar leaderboard por turma
+- [ ] Criar sistema de desafios semanais
+
+### Fase 74.3: Músicas Originais por Lesson
+- [x] Gerar letra da música Lesson 1 (Friends and Acquaintances)
+- [x] Gerar letra da música Lesson 2 (Friends and Acquaintances)
+- [x] Gerar letra da música Lesson 3 (Family and Relationship)
+- [x] Gerar letra da música Lesson 4 (Family and Relationship)
+- [x] Gerar letra da música Lesson 5 (Shapes and Colors)
+- [x] Gerar letra da música Lesson 6 (Shapes and Colors)
+- [x] Gerar áudios das músicas com IA (TTS)
+- [ ] Criar player de música com letra sincronizada
+- [ ] Implementar modo karaokê
+
+### Fase 74.4: Quizzes Interativos
+- [x] Criar banco de questões Lesson 1 (10+ questões)
+- [x] Criar banco de questões Lesson 2 (10+ questões)
+- [x] Criar banco de questões Lesson 3 (10+ questões)
+- [x] Criar banco de questões Lesson 4 (10+ questões)
+- [x] Criar banco de questões Lesson 5 (10+ questões)
+- [x] Criar banco de questões Lesson 6 (10+ questões)
+- [x] Implementar componente Quiz interativo (multiple choice, fill blank, matching)
+- [ ] Integrar sistema de pontos com quizzes
+
+### Fase 74.5: Frontend Lesson Quest
+- [x] Criar página LessonQuest.tsx com estrutura de jornada
+- [x] Implementar seção WATCH (micro-animações)
+- [x] Implementar seção LISTEN (músicas)
+- [x] Implementar seção PRACTICE (quizzes)
+- [x] Implementar seção SPEAK (gravação de pronúncia)
+- [ ] Implementar sistema de badges por lesson completada
+- [ ] Criar barra de progresso visual
+
+### Fase 74.6: Gravação de Pronúncia
+- [x] Criar componente de gravação de áudio
+- [ ] Implementar upload para S3
+- [ ] Criar player de comparação lado-a-lado com nativo
+- [ ] Implementar score básico de pronúncia
+- [ ] Criar histórico de gravações do aluno
+
