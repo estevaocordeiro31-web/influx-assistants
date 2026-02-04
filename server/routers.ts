@@ -28,6 +28,7 @@ import { geminiRouter } from "./routers/gemini";
 import { ttsRouter } from "./routers/tts";
 import { vacationPlus2Router } from "./routers/vacation-plus-2";
 import { lessonsRouter } from "./routers/lessons";
+import { gamificationRouter } from "./routers/gamification";
 
 export const appRouter = router({
   system: systemRouter,
@@ -68,6 +69,7 @@ export const appRouter = router({
   tts: ttsRouter,
   vacationPlus2: vacationPlus2Router,
   lessons: lessonsRouter,
+  gamification: gamificationRouter,
 });
 
 export type AppRouter = typeof appRouter;
