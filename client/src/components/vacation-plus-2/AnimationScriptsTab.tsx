@@ -285,26 +285,7 @@ export function AnimationScriptsTab() {
             ))}
           </div>
 
-          {/* Próximos vídeos */}
-          <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-4 sm:p-6 rounded-lg border border-blue-200 mx-2 sm:mx-0">
-            <h3 className="font-semibold text-blue-700 mb-3 text-sm sm:text-base">🎬 Próximos Vídeos</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-              <div className="flex items-center gap-3 bg-white/60 p-3 rounded-lg">
-                <span className="text-xl sm:text-2xl">🇺🇸</span>
-                <div>
-                  <p className="font-medium text-gray-700 text-sm sm:text-base">Lucas in New York</p>
-                  <p className="text-xs sm:text-sm text-gray-500">Em breve...</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 bg-white/60 p-3 rounded-lg">
-                <span className="text-xl sm:text-2xl">🇬🇧</span>
-                <div>
-                  <p className="font-medium text-gray-700 text-sm sm:text-base">Emily in Paris</p>
-                  <p className="text-xs sm:text-sm text-gray-500">Em breve...</p>
-                </div>
-              </div>
-            </div>
-          </div>
+
         </>
       ) : (
         <>

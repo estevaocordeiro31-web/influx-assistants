@@ -1330,3 +1330,11 @@
 - [x] Adicionar botão de play sempre visível em mobile
 - [x] Adicionar botão "Assistir Vídeo" explícito para mobile
 - [x] Testar vídeos funcionando - todos os 3 abrem corretamente
+
+
+## Fase 84: Bug - Imagens e Vídeos na Vacation Plus 2
+- [x] Corrigir seção "Próximos Vídeos" - removida pois confundia usuários
+- [x] Corrigir imagem do Lucas - URL atualizada para lucas-nyc.png
+- [x] Corrigir imagem da Aiko - URL atualizada para aiko-sydney.png
+- [x] Verificar URLs das imagens dos personagens - todas corrigidas
+- [x] Testar em navegador - imagens e vídeos funcionando corretamente
