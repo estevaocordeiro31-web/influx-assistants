@@ -1,0 +1,9 @@
+{
+  "query": "\n-- Obter ID da Sara Leite\nSET @sara_id = (SELECT id FROM users WHERE name = 'Sara Leite' LIMIT 1);\n\n-- Adicionar saldo de inFlux Dollars\nINSERT INTO student_influx_dollars (student_id, balance, total_earned, total_spent, updated_at)\nVALUES (@sara_id, 2500, 3500, 1000, NOW());\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T8Mwbb7L99VC4H.e93aa651f00b --database 2aNFQGA4rARocXGp2d4pqb --execute \n-- Obter ID da Sara Leite\nSET @sara_id = (SELECT id FROM users WHERE name = 'Sara Leite' LIMIT 1);\n\n-- Adicionar saldo de inFlux Dollars\nINSERT INTO student_influx_dollars (student_id, balance, total_earned, total_spent, updated_at)\nVALUES (@sara_id, 2500, 3500, 1000, NOW());\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 419
+}

@@ -1,0 +1,9 @@
+{
+  "query": "\n-- Primeiro, obter o ID da Sara Leite\nSET @sara_id = (SELECT id FROM users WHERE name = 'Sara Leite' LIMIT 1);\n\n-- Criar perfil de estudante para Sara\nINSERT INTO student_profiles (user_id, objective, current_level, total_hours_learned, streak_days, last_activity_at, study_duration_years, study_duration_months, specific_goals, discomfort_areas, comfort_areas, improvement_areas, created_at, updated_at)\nVALUES (\n  @sara_id,\n  'career',\n  'advanced',\n  450,\n  45,\n  NOW(),\n  5.0,\n  60,\n  'Ensinar inglês de forma eficaz e inspiradora para alunos de todos os níveis',\n  'Gírias muito recentes e expressões de internet',\n  'Gramática, pronúncia, metodologia de ensino, conversação',\n  'Vocabulário de tecnologia e redes sociais',\n  NOW(),\n  NOW()\n);\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T8Mwbb7L99VC4H.e93aa651f00b --database 2aNFQGA4rARocXGp2d4pqb --execute \n-- Primeiro, obter o ID da Sara Leite\nSET @sara_id = (SELECT id FROM users WHERE name = 'Sara Leite' LIMIT 1);\n\n-- Criar perfil de estudante para Sara\nINSERT INTO student_profiles (user_id, objective, current_level, total_hours_learned, streak_days, last_activity_at, study_duration_years, study_duration_months, specific_goals, discomfort_areas, comfort_areas, improvement_areas, created_at, updated_at)\nVALUES (\n  @sara_id,\n  'career',\n  'advanced',\n  450,\n  45,\n  NOW(),\n  5.0,\n  60,\n  'Ensinar inglês de forma eficaz e inspiradora para alunos de todos os níveis',\n  'Gírias muito recentes e expressões de internet',\n  'Gramática, pronúncia, metodologia de ensino, conversação',\n  'Vocabulário de tecnologia e redes sociais',\n  NOW(),\n  NOW()\n);\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 416
+}
