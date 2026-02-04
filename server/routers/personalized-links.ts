@@ -32,10 +32,18 @@ export const personalizedLinksRouter = router({
 
       try {
         const link = await createPersonalizedLink(input.studentId);
+        
+        // Construir URL base dinamicamente a partir do host da requisição
+        // Isso garante que o link funcione tanto em desenvolvimento quanto em produção
+        const host = ctx.req?.headers?.host || 'localhost:3000';
+        const protocol = ctx.req?.headers?.['x-forwarded-proto'] || 
+                        (host.includes('localhost') ? 'http' : 'https');
+        const baseUrl = `${protocol}://${host}`;
+        
         return {
           success: true,
           link,
-          fullUrl: `${process.env.VITE_APP_URL || 'http://localhost:3000'}/access/${link.linkHash}`,
+          fullUrl: `${baseUrl}/access/${link.linkHash}`,
         };
       } catch (error) {
         throw new TRPCError({

@@ -1288,3 +1288,10 @@
 - [x] Configurar dados de demonstração completos
 - [x] Testar perfil no sistema
 
+
+
+## Fase 80: Correção de Links Personalizados
+- [x] Identificar problema: links usando localhost em vez de URL pública
+- [x] Corrigir geração de URL para usar host da requisição dinamicamente
+- [x] Testar link gerado para Sara Leite
+- [x] Verificar redirecionamento para dashboard do aluno
