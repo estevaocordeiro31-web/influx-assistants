@@ -30,6 +30,52 @@ const animations = [
     duration: "1:03",
     accent: "British English",
   },
+  {
+    id: "aiko-sydney",
+    title: "Aiko's Sydney Tour",
+    character: "Aiko",
+    flag: "🇦🇺",
+    description: "Aiko explores Sydney and experiences Australian culture, from the Opera House to Vegemite!",
+    thumbnail: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/tBESoEpKJJPSiKTO.png",
+    videoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/eNdjiqugGmEJQgRE.mp4",
+    subtitles: [
+      {
+        label: "English",
+        srclang: "en",
+        src: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/TrnCGIZtijlTKymO.vtt",
+      },
+      {
+        label: "Português",
+        srclang: "pt",
+        src: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/rIvQroiZqgmnIxJN.vtt",
+      },
+    ],
+    duration: "0:57",
+    accent: "Australian English",
+  },
+  {
+    id: "lucas-lochness",
+    title: "Lucas and the Loch Ness",
+    character: "Lucas",
+    flag: "🇺🇸",
+    description: "Lucas travels to Scotland and dreams of meeting the legendary Loch Ness Monster!",
+    thumbnail: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/HKJrxYrZsLNxrhVB.png",
+    videoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/qcOCQVBVeNQFIbFC.mp4",
+    subtitles: [
+      {
+        label: "English",
+        srclang: "en",
+        src: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/hVUlQIilaYzdHCtF.vtt",
+      },
+      {
+        label: "Português",
+        srclang: "pt",
+        src: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/cHwyEDYUSYpCwLkx.vtt",
+      },
+    ],
+    duration: "1:01",
+    accent: "American English",
+  },
 ];
 
 export default function AnimationsPage() {
@@ -177,7 +223,7 @@ export default function AnimationsPage() {
               ))}
 
               {/* Coming Soon Cards */}
-              {["Lucas in New York", "Aiko in Sydney"].map((title) => (
+              {["Lucas in New York", "Emily in Paris"].map((title) => (
                 <Card
                   key={title}
                   className="bg-white/5 border-white/10 overflow-hidden opacity-50"

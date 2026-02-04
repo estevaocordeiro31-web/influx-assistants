@@ -1077,3 +1077,15 @@
 - [x] Documentar processo de criação de legendas VTT
 - [x] Criar templates reutilizáveis para cada etapa
 - [ ] Testar skill com nova animação
+
+
+## Fase 71: Animações Educacionais com Personagens
+- [x] Criar banco de referências de personagens (Lucas, Emily, Aiko)
+- [x] Criar animação Emily's Texas Adventure (1:03) - British English
+- [x] Criar animação Aiko's Sydney Tour (0:57) - Australian English
+- [x] Criar animação Lucas and the Loch Ness (1:01) - American English
+- [x] Integrar vídeos na página de Animations
+- [x] Criar skill reutilizável para geração de animações
+- [ ] Criar animação Lucas in New York
+- [ ] Criar animação Emily in Paris
+- [ ] Adicionar quiz pós-vídeo para cada animação
