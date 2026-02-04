@@ -155,9 +155,9 @@ function QuizSection({ lesson, onComplete, isLoggedIn }: { lesson: typeof lesson
       <Progress value={(currentQuestion / questions.length) * 100} className="h-2" />
       <div className="p-4 bg-slate-900/50 rounded-lg">
         <h3 className="text-lg font-semibold text-white mb-4">{questions[currentQuestion].question}</h3>
-        <div className="grid gap-2">
+        <div className="grid gap-3">
           {questions[currentQuestion].options.map((option, idx) => (
-            <Button key={idx} variant="outline" className={`w-full justify-start p-3 h-auto text-left text-sm ${selectedAnswer === idx ? (isCorrect ? 'bg-green-500/20 border-green-500 text-green-400' : 'bg-red-500/20 border-red-500 text-red-400') : selectedAnswer !== null && idx === questions[currentQuestion].correctAnswer ? 'bg-green-500/20 border-green-500 text-green-400' : 'hover:bg-slate-700/50'}`} onClick={() => selectedAnswer === null && handleAnswer(idx)} disabled={selectedAnswer !== null}>
+            <Button key={idx} variant="outline" className={`w-full justify-start p-4 h-auto min-h-[52px] text-left text-sm ${selectedAnswer === idx ? (isCorrect ? 'bg-green-500/20 border-green-500 text-green-400' : 'bg-red-500/20 border-red-500 text-red-400') : selectedAnswer !== null && idx === questions[currentQuestion].correctAnswer ? 'bg-green-500/20 border-green-500 text-green-400' : 'hover:bg-slate-700/50'}`} onClick={() => selectedAnswer === null && handleAnswer(idx)} disabled={selectedAnswer !== null}>
               <span className="mr-2 font-bold">{String.fromCharCode(65 + idx)}.</span>{option}
               {selectedAnswer === idx && (isCorrect ? <CheckCircle2 className="w-4 h-4 ml-auto text-green-400" /> : <XCircle className="w-4 h-4 ml-auto text-red-400" />)}
             </Button>
@@ -293,9 +293,9 @@ export function LessonPractice({ currentBookId = 5 }: { currentBookId?: number }
           <CardDescription className="text-slate-400">Escolha uma lesson para praticar os chunks</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 touch-spacing">
             {lessonsData.map((lesson) => (
-              <Button key={lesson.id} variant={selectedLesson.id === lesson.id ? "default" : "outline"} className={`h-auto py-2 px-3 ${selectedLesson.id === lesson.id ? `bg-gradient-to-r ${lesson.color} text-white border-0` : 'border-slate-600'}`} onClick={() => setSelectedLesson(lesson)}>
+              <Button key={lesson.id} variant={selectedLesson.id === lesson.id ? "default" : "outline"} className={`h-auto py-3 px-3 min-h-[56px] ${selectedLesson.id === lesson.id ? `bg-gradient-to-r ${lesson.color} text-white border-0` : 'border-slate-600'}`} onClick={() => setSelectedLesson(lesson)}>
                 <div className="text-center"><div className="font-bold text-sm">L{lesson.id}</div><div className="text-[10px] opacity-80">{lesson.chunks.length} chunks</div></div>
               </Button>
             ))}
@@ -312,10 +312,10 @@ export function LessonPractice({ currentBookId = 5 }: { currentBookId?: number }
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="flashcards" className="space-y-4">
-            <TabsList className="grid grid-cols-3 bg-slate-900/50">
-              <TabsTrigger value="flashcards" className="data-[state=active]:bg-blue-500/20 text-xs sm:text-sm"><BookOpen className="w-4 h-4 mr-1 sm:mr-2" /><span className="hidden sm:inline">Flashcards</span><span className="sm:hidden">Cards</span></TabsTrigger>
-              <TabsTrigger value="quiz" className="data-[state=active]:bg-green-500/20 text-xs sm:text-sm"><Target className="w-4 h-4 mr-1 sm:mr-2" />Quiz</TabsTrigger>
-              <TabsTrigger value="speak" className="data-[state=active]:bg-red-500/20 text-xs sm:text-sm"><Mic className="w-4 h-4 mr-1 sm:mr-2" /><span className="hidden sm:inline">Pronúncia</span><span className="sm:hidden">Falar</span></TabsTrigger>
+            <TabsList className="grid grid-cols-3 bg-slate-900/50 h-auto p-1">
+              <TabsTrigger value="flashcards" className="data-[state=active]:bg-blue-500/20 text-xs sm:text-sm py-3"><BookOpen className="w-4 h-4 mr-1 sm:mr-2" /><span className="hidden sm:inline">Flashcards</span><span className="sm:hidden">Cards</span></TabsTrigger>
+              <TabsTrigger value="quiz" className="data-[state=active]:bg-green-500/20 text-xs sm:text-sm py-3"><Target className="w-4 h-4 mr-1 sm:mr-2" />Quiz</TabsTrigger>
+              <TabsTrigger value="speak" className="data-[state=active]:bg-red-500/20 text-xs sm:text-sm py-3"><Mic className="w-4 h-4 mr-1 sm:mr-2" /><span className="hidden sm:inline">Pronúncia</span><span className="sm:hidden">Falar</span></TabsTrigger>
             </TabsList>
             <TabsContent value="flashcards"><FlashcardsSection lesson={selectedLesson} isLoggedIn={isLoggedIn} /></TabsContent>
             <TabsContent value="quiz"><QuizSection lesson={selectedLesson} onComplete={(score) => setLocalPoints(prev => prev + score)} isLoggedIn={isLoggedIn} /></TabsContent>

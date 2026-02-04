@@ -135,6 +135,33 @@
 }
 
 @layer components {
+  /* Mobile Touch Optimization */
+  button, [role="button"], .btn {
+    min-height: 44px; /* Apple HIG minimum touch target */
+    min-width: 44px;
+  }
+  
+  /* Smaller buttons on mobile should still be touch-friendly */
+  button[data-size="sm"], .btn-sm {
+    min-height: 36px;
+    min-width: 36px;
+  }
+  
+  /* Ensure adequate spacing between clickable elements */
+  .touch-spacing > * + * {
+    margin-top: 8px;
+  }
+  
+  /* Mobile-first responsive text */
+  @media (max-width: 640px) {
+    .text-responsive {
+      font-size: 14px;
+    }
+    .heading-responsive {
+      font-size: 20px;
+    }
+  }
+
   /**
    * Custom container utility that centers content and adds responsive padding.
    *
