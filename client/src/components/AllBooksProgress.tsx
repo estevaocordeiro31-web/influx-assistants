@@ -56,29 +56,29 @@ const allBooks: BookData[] = [
     progress: 100, totalUnits: 10, completedUnits: 10, chunksLearned: 82, totalChunks: 82, hoursSpent: 44,
     completedAt: "2024-03-18"
   },
-  // Adult Series
+  // Série Regular (CEFR)
   { 
-    id: 6, name: "Book 1", level: "Beginner", status: "completed", 
+    id: 6, name: "Book 1", level: "A1", status: "completed", 
     progress: 100, totalUnits: 12, completedUnits: 12, chunksLearned: 120, totalChunks: 120, hoursSpent: 60,
     completedAt: "2024-06-22"
   },
   { 
-    id: 7, name: "Book 2", level: "Elementary", status: "completed", 
+    id: 7, name: "Book 2", level: "A2", status: "completed", 
     progress: 100, totalUnits: 12, completedUnits: 12, chunksLearned: 135, totalChunks: 135, hoursSpent: 65,
     completedAt: "2024-09-15"
   },
   { 
-    id: 8, name: "Book 3", level: "Pre-Intermediate", status: "completed", 
+    id: 8, name: "Book 3", level: "B1", status: "completed", 
     progress: 100, totalUnits: 12, completedUnits: 12, chunksLearned: 148, totalChunks: 148, hoursSpent: 70,
     completedAt: "2024-12-10"
   },
   { 
-    id: 9, name: "Book 4", level: "Intermediate", status: "completed", 
+    id: 9, name: "Book 4", level: "B2", status: "completed", 
     progress: 100, totalUnits: 12, completedUnits: 12, chunksLearned: 156, totalChunks: 156, hoursSpent: 75,
     completedAt: "2025-03-20"
   },
   { 
-    id: 10, name: "Book 5", level: "Upper-Intermediate", status: "in_progress", 
+    id: 10, name: "Book 5", level: "C1", status: "in_progress", 
     progress: 67, totalUnits: 12, completedUnits: 8, chunksLearned: 108, totalChunks: 162, hoursSpent: 52,
     units: [
       { id: 1, name: "Unit 1 - Friends and Acquaintances", progress: 100, chunksLearned: 13 },
@@ -95,13 +95,14 @@ const allBooks: BookData[] = [
       { id: 12, name: "Unit 12 - Business and Work", progress: 0, chunksLearned: 0 },
     ]
   },
+  // Cursos Avançados
   { 
-    id: 11, name: "Book 6", level: "Advanced", status: "locked", 
-    progress: 0, totalUnits: 12, completedUnits: 0, chunksLearned: 0, totalChunks: 175, hoursSpent: 0
+    id: 11, name: "Conversação Avançada", level: "C1-C2", status: "locked", 
+    progress: 0, totalUnits: 10, completedUnits: 0, chunksLearned: 0, totalChunks: 100, hoursSpent: 0
   },
   { 
-    id: 12, name: "Book 7", level: "Proficient", status: "locked", 
-    progress: 0, totalUnits: 12, completedUnits: 0, chunksLearned: 0, totalChunks: 180, hoursSpent: 0
+    id: 12, name: "Business English", level: "B2-C1", status: "locked", 
+    progress: 0, totalUnits: 10, completedUnits: 0, chunksLearned: 0, totalChunks: 120, hoursSpent: 0
   },
 ];
 

@@ -214,3 +214,132 @@ export async function syncSponteStudents(): Promise<{ synced: number; failed: nu
     return { synced: 0, failed: 0 };
   }
 }
+
+
+// Interfaces para Matrículas e Turmas
+interface SponteMatricula {
+  id: string;
+  alunoId: string;
+  turmaId: string;
+  turmaNome: string;
+  cursoNome: string;
+  dataInicio: string;
+  dataFim?: string;
+  status: string;
+  estagioAtual?: string;
+  unitAtual?: number;
+}
+
+interface SponteTurma {
+  id: string;
+  nome: string;
+  curso: string;
+  nivel?: string;
+  professor?: string;
+  horario?: string;
+  diasSemana?: string[];
+}
+
+/**
+ * Buscar matrículas de um aluno específico
+ */
+export async function getSponteStudentMatriculas(alunoId: string): Promise<SponteMatricula[]> {
+  try {
+    const token = await getSponteToken();
+
+    const response = await axios.get(
+      `${SPONTE_BASE_URL}/api/v3/Matriculas?alunoId=${alunoId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        timeout: 10000,
+      }
+    );
+
+    return response.data.map((m: any) => ({
+      id: m.id || m.Id,
+      alunoId: m.alunoId || m.AlunoId,
+      turmaId: m.turmaId || m.TurmaId,
+      turmaNome: m.turmaNome || m.TurmaNome || m.Turma?.Nome || '',
+      cursoNome: m.cursoNome || m.CursoNome || m.Curso?.Nome || '',
+      dataInicio: m.dataInicio || m.DataInicio,
+      dataFim: m.dataFim || m.DataFim,
+      status: m.status || m.Status || 'ativo',
+      estagioAtual: m.estagioAtual || m.EstagioAtual,
+      unitAtual: m.unitAtual || m.UnitAtual || 1,
+    }));
+  } catch (error) {
+    console.error(`[Sponte] Erro ao buscar matrículas do aluno ${alunoId}:`, error);
+    return [];
+  }
+}
+
+/**
+ * Buscar todas as turmas ativas
+ */
+export async function getSponteTurmas(): Promise<SponteTurma[]> {
+  try {
+    const token = await getSponteToken();
+
+    const response = await axios.get(
+      `${SPONTE_BASE_URL}/api/v3/Turmas`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        timeout: 10000,
+      }
+    );
+
+    return response.data.map((t: any) => ({
+      id: t.id || t.Id,
+      nome: t.nome || t.Nome,
+      curso: t.curso || t.Curso || t.CursoNome,
+      nivel: t.nivel || t.Nivel,
+      professor: t.professor || t.Professor,
+      horario: t.horario || t.Horario,
+      diasSemana: t.diasSemana || t.DiasSemana || [],
+    }));
+  } catch (error) {
+    console.error("[Sponte] Erro ao buscar turmas:", error);
+    return [];
+  }
+}
+
+/**
+ * Buscar matrícula ativa de um aluno (a mais recente)
+ */
+export async function getSponteActiveMatricula(alunoId: string): Promise<SponteMatricula | null> {
+  const matriculas = await getSponteStudentMatriculas(alunoId);
+  
+  // Filtrar apenas matrículas ativas e ordenar por data de início (mais recente primeiro)
+  const ativas = matriculas
+    .filter(m => m.status.toLowerCase() === 'ativo' || m.status.toLowerCase() === 'ativa')
+    .sort((a, b) => new Date(b.dataInicio).getTime() - new Date(a.dataInicio).getTime());
+  
+  return ativas[0] || null;
+}
+
+/**
+ * Buscar livro atual do aluno baseado na matrícula
+ */
+export async function getSponteStudentCurrentBook(alunoId: string): Promise<{
+  bookName: string;
+  turmaName: string;
+  unit: number;
+} | null> {
+  const matricula = await getSponteActiveMatricula(alunoId);
+  
+  if (!matricula) {
+    return null;
+  }
+  
+  return {
+    bookName: matricula.cursoNome || matricula.turmaNome,
+    turmaName: matricula.turmaNome,
+    unit: matricula.unitAtual || 1,
+  };
+}

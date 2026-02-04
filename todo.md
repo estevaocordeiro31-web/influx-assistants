@@ -1241,3 +1241,23 @@
 - [ ] Adicionar novas abas ao MeuTutorTab
 - [ ] Testar navegação e responsividade
 - [ ] Salvar checkpoint
+
+
+## Fase 81: Conectar Dados Reais do Sponte - Livros e Progresso
+
+### Verificação
+- [ ] Verificar integração atual com Sponte
+- [ ] Identificar campos disponíveis para livro/turma do aluno
+- [ ] Mapear campos do Sponte para livros inFlux (CEFR)
+
+### Implementação
+- [ ] Criar função para extrair livro atual do aluno via Sponte
+- [ ] Implementar sincronização de progresso por livro
+- [ ] Atualizar tabela users com campo de livro atual
+- [ ] Criar rotina de sincronização automática
+
+### Frontend
+- [ ] Atualizar AllBooksProgress para usar dados reais
+- [ ] Atualizar StudentDashboard para mostrar livro real do aluno
+- [ ] Testar integração completa
+
