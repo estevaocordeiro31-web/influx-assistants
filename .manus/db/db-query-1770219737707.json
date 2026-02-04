@@ -1,0 +1,37 @@
+{
+  "query": "SELECT * FROM lesson_vocabulary LIMIT 1;\nSELECT * FROM lesson_chunks LIMIT 1;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T8Mwbb7L99VC4H.e93aa651f00b --database 2aNFQGA4rARocXGp2d4pqb --execute SELECT * FROM lesson_vocabulary LIMIT 1;\nSELECT * FROM lesson_chunks LIMIT 1;",
+  "rows": [
+    {
+      "id": "12",
+      "lesson_id": "3",
+      "word": "TO BELONG / BELONGED / BELONGED",
+      "portuguese_translation": "NULL",
+      "example": "NULL",
+      "audio_url": "NULL",
+      "created_at": "2026-02-04 14:14:33"
+    },
+    {
+      "id": "id",
+      "lesson_id": "lesson_id",
+      "word": "expression",
+      "portuguese_translation": "portuguese_equivalent",
+      "example": "example",
+      "audio_url": "chunk_type",
+      "created_at": "created_at"
+    },
+    {
+      "id": "12",
+      "lesson_id": "3",
+      "word": "unfaithful to",
+      "portuguese_translation": "NULL",
+      "example": "NULL",
+      "audio_url": "expression",
+      "created_at": "2026-02-04 14:14:34"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tlesson_id\tword\tportuguese_translation\texample\taudio_url\tcreated_at\n12\t3\tTO BELONG / BELONGED / BELONGED\tNULL\tNULL\tNULL\t2026-02-04 14:14:33\nid\tlesson_id\texpression\tportuguese_equivalent\texample\tchunk_type\tcreated_at\n12\t3\tunfaithful to\tNULL\tNULL\texpression\t2026-02-04 14:14:34\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}

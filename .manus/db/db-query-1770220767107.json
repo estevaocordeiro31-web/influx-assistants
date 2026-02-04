@@ -1,0 +1,106 @@
+{
+  "query": "SELECT l.id, l.lesson_number, l.title, \n       (SELECT COUNT(*) FROM lesson_vocabulary WHERE lesson_id = l.id) as vocab_count,\n       (SELECT COUNT(*) FROM lesson_chunks WHERE lesson_id = l.id) as chunks_count,\n       (SELECT COUNT(*) FROM lesson_examples WHERE lesson_id = l.id) as examples_count\nFROM lessons l \nWHERE l.lesson_number IN (1, 2, 3, 4, 5, 6) AND l.book_id = 5\nORDER BY l.lesson_number;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T8Mwbb7L99VC4H.e93aa651f00b --database 2aNFQGA4rARocXGp2d4pqb --execute SELECT l.id, l.lesson_number, l.title, \n       (SELECT COUNT(*) FROM lesson_vocabulary WHERE lesson_id = l.id) as vocab_count,\n       (SELECT COUNT(*) FROM lesson_chunks WHERE lesson_id = l.id) as chunks_count,\n       (SELECT COUNT(*) FROM lesson_examples WHERE lesson_id = l.id) as examples_count\nFROM lessons l \nWHERE l.lesson_number IN (1, 2, 3, 4, 5, 6) AND l.book_id = 5\nORDER BY l.lesson_number;",
+  "rows": [
+    {
+      "id": "31",
+      "lesson_number": "1",
+      "title": "Friends and Acquaintances",
+      "vocab_count": "11",
+      "chunks_count": "11",
+      "examples_count": "4"
+    },
+    {
+      "id": "1",
+      "lesson_number": "1",
+      "title": "Friends and Acquaintances",
+      "vocab_count": "24",
+      "chunks_count": "13",
+      "examples_count": "9"
+    },
+    {
+      "id": "32",
+      "lesson_number": "2",
+      "title": "Friends and Acquaintances",
+      "vocab_count": "0",
+      "chunks_count": "0",
+      "examples_count": "2"
+    },
+    {
+      "id": "2",
+      "lesson_number": "2",
+      "title": "Friends and Acquaintances",
+      "vocab_count": "0",
+      "chunks_count": "0",
+      "examples_count": "2"
+    },
+    {
+      "id": "3",
+      "lesson_number": "3",
+      "title": "Family and Relationship",
+      "vocab_count": "10",
+      "chunks_count": "12",
+      "examples_count": "2"
+    },
+    {
+      "id": "33",
+      "lesson_number": "3",
+      "title": "Family and Relationship",
+      "vocab_count": "10",
+      "chunks_count": "12",
+      "examples_count": "2"
+    },
+    {
+      "id": "34",
+      "lesson_number": "4",
+      "title": "Family and Relationship",
+      "vocab_count": "0",
+      "chunks_count": "2",
+      "examples_count": "8"
+    },
+    {
+      "id": "4",
+      "lesson_number": "4",
+      "title": "Family and Relationship",
+      "vocab_count": "0",
+      "chunks_count": "2",
+      "examples_count": "8"
+    },
+    {
+      "id": "35",
+      "lesson_number": "5",
+      "title": "Shapes and Colors",
+      "vocab_count": "13",
+      "chunks_count": "0",
+      "examples_count": "5"
+    },
+    {
+      "id": "5",
+      "lesson_number": "5",
+      "title": "Shapes and Colors",
+      "vocab_count": "13",
+      "chunks_count": "30",
+      "examples_count": "5"
+    },
+    {
+      "id": "6",
+      "lesson_number": "6",
+      "title": "Shapes and Colors",
+      "vocab_count": "1",
+      "chunks_count": "44",
+      "examples_count": "3"
+    },
+    {
+      "id": "36",
+      "lesson_number": "6",
+      "title": "Shapes and Colors",
+      "vocab_count": "1",
+      "chunks_count": "0",
+      "examples_count": "3"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tlesson_number\ttitle\tvocab_count\tchunks_count\texamples_count\n31\t1\tFriends and Acquaintances\t11\t11\t4\n1\t1\tFriends and Acquaintances\t24\t13\t9\n32\t2\tFriends and Acquaintances\t0\t0\t2\n2\t2\tFriends and Acquaintances\t0\t0\t2\n3\t3\tFamily and Relationship\t10\t12\t2\n33\t3\tFamily and Relationship\t10\t12\t2\n34\t4\tFamily and Relationship\t0\t2\t8\n4\t4\tFamily and Relationship\t0\t2\t8\n35\t5\tShapes and Colors\t13\t0\t5\n5\t5\tShapes and Colors\t13\t30\t5\n6\t6\tShapes and Colors\t1\t44\t3\n36\t6\tShapes and Colors\t1\t0\t3\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

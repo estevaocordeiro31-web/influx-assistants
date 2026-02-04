@@ -1,0 +1,166 @@
+{
+  "query": "SELECT lv.id, lv.lesson_id, lv.word, lv.portuguese_translation FROM lesson_vocabulary lv WHERE lv.lesson_id IN (SELECT id FROM lessons WHERE lesson_number = 5) LIMIT 30;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T8Mwbb7L99VC4H.e93aa651f00b --database 2aNFQGA4rARocXGp2d4pqb --execute SELECT lv.id, lv.lesson_id, lv.word, lv.portuguese_translation FROM lesson_vocabulary lv WHERE lv.lesson_id IN (SELECT id FROM lessons WHERE lesson_number = 5) LIMIT 30;",
+  "rows": [
+    {
+      "id": "22",
+      "lesson_id": "5",
+      "word": "TO DRAW THE LINE",
+      "portuguese_translation": "NULL"
+    },
+    {
+      "id": "23",
+      "lesson_id": "5",
+      "word": "OUT OF THE BLUE",
+      "portuguese_translation": "NULL"
+    },
+    {
+      "id": "24",
+      "lesson_id": "5",
+      "word": "TO COLOR / COLORED / COLORED",
+      "portuguese_translation": "NULL"
+    },
+    {
+      "id": "25",
+      "lesson_id": "5",
+      "word": "RED TAPE",
+      "portuguese_translation": "NULL"
+    },
+    {
+      "id": "26",
+      "lesson_id": "5",
+      "word": "BUMPY",
+      "portuguese_translation": "NULL"
+    },
+    {
+      "id": "27",
+      "lesson_id": "5",
+      "word": "TRIANGULAR / SHAPE",
+      "portuguese_translation": "NULL"
+    },
+    {
+      "id": "28",
+      "lesson_id": "5",
+      "word": "TO STRAIGHTEN UP TO JOT DOWN",
+      "portuguese_translation": "NULL"
+    },
+    {
+      "id": "29",
+      "lesson_id": "5",
+      "word": "TO DRAW NEAR",
+      "portuguese_translation": "NULL"
+    },
+    {
+      "id": "30",
+      "lesson_id": "5",
+      "word": "DEPTH / LENGTH / WIDTH",
+      "portuguese_translation": "NULL"
+    },
+    {
+      "id": "31",
+      "lesson_id": "5",
+      "word": "ARCH",
+      "portuguese_translation": "NULL"
+    },
+    {
+      "id": "32",
+      "lesson_id": "5",
+      "word": "BOUNDARY",
+      "portuguese_translation": "NULL"
+    },
+    {
+      "id": "33",
+      "lesson_id": "5",
+      "word": "SHAPE",
+      "portuguese_translation": "NULL"
+    },
+    {
+      "id": "34",
+      "lesson_id": "5",
+      "word": "LINE",
+      "portuguese_translation": "NULL"
+    },
+    {
+      "id": "121",
+      "lesson_id": "35",
+      "word": "TO DRAW THE LINE",
+      "portuguese_translation": "NULL"
+    },
+    {
+      "id": "122",
+      "lesson_id": "35",
+      "word": "OUT OF THE BLUE",
+      "portuguese_translation": "NULL"
+    },
+    {
+      "id": "123",
+      "lesson_id": "35",
+      "word": "TO COLOR / COLORED / COLORED",
+      "portuguese_translation": "NULL"
+    },
+    {
+      "id": "124",
+      "lesson_id": "35",
+      "word": "RED TAPE",
+      "portuguese_translation": "NULL"
+    },
+    {
+      "id": "125",
+      "lesson_id": "35",
+      "word": "BUMPY",
+      "portuguese_translation": "NULL"
+    },
+    {
+      "id": "126",
+      "lesson_id": "35",
+      "word": "TRIANGULAR / SHAPE",
+      "portuguese_translation": "NULL"
+    },
+    {
+      "id": "127",
+      "lesson_id": "35",
+      "word": "TO STRAIGHTEN UP TO JOT DOWN",
+      "portuguese_translation": "NULL"
+    },
+    {
+      "id": "128",
+      "lesson_id": "35",
+      "word": "TO DRAW NEAR",
+      "portuguese_translation": "NULL"
+    },
+    {
+      "id": "129",
+      "lesson_id": "35",
+      "word": "DEPTH / LENGTH / WIDTH",
+      "portuguese_translation": "NULL"
+    },
+    {
+      "id": "130",
+      "lesson_id": "35",
+      "word": "ARCH",
+      "portuguese_translation": "NULL"
+    },
+    {
+      "id": "131",
+      "lesson_id": "35",
+      "word": "BOUNDARY",
+      "portuguese_translation": "NULL"
+    },
+    {
+      "id": "132",
+      "lesson_id": "35",
+      "word": "SHAPE",
+      "portuguese_translation": "NULL"
+    },
+    {
+      "id": "133",
+      "lesson_id": "35",
+      "word": "LINE",
+      "portuguese_translation": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tlesson_id\tword\tportuguese_translation\n22\t5\tTO DRAW THE LINE\tNULL\n23\t5\tOUT OF THE BLUE\tNULL\n24\t5\tTO COLOR / COLORED / COLORED\tNULL\n25\t5\tRED TAPE\tNULL\n26\t5\tBUMPY\tNULL\n27\t5\tTRIANGULAR / SHAPE\tNULL\n28\t5\tTO STRAIGHTEN UP TO JOT DOWN\tNULL\n29\t5\tTO DRAW NEAR\tNULL\n30\t5\tDEPTH / LENGTH / WIDTH\tNULL\n31\t5\tARCH\tNULL\n32\t5\tBOUNDARY\tNULL\n33\t5\tSHAPE\tNULL\n34\t5\tLINE\tNULL\n121\t35\tTO DRAW THE LINE\tNULL\n122\t35\tOUT OF THE BLUE\tNULL\n123\t35\tTO COLOR / COLORED / COLORED\tNULL\n124\t35\tRED TAPE\tNULL\n125\t35\tBUMPY\tNULL\n126\t35\tTRIANGULAR / SHAPE\tNULL\n127\t35\tTO STRAIGHTEN UP TO JOT DOWN\tNULL\n128\t35\tTO DRAW NEAR\tNULL\n129\t35\tDEPTH / LENGTH / WIDTH\tNULL\n130\t35\tARCH\tNULL\n131\t35\tBOUNDARY\tNULL\n132\t35\tSHAPE\tNULL\n133\t35\tLINE\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 63
+}
