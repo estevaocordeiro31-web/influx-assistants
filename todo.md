@@ -1347,3 +1347,15 @@
 - [x] Adicionar filtros por categoria (Vacation Plus 2 vs Especiais)
 - [x] Adicionar filtros por personagem (Lucas, Emily, Aiko)
 - [x] Testar reprodução dos vídeos no app
+
+
+## Fase 85: Quiz Pós-Vídeo para Vacation Plus 2
+- [x] Criar dados dos quizzes para os 8 vídeos (5 perguntas cada) - vacation-plus-2-quizzes.ts
+- [x] Implementar componente VideoQuiz com múltipla escolha
+- [x] Integrar quiz ao player de vídeo (aparece após assistir)
+- [x] Adicionar sistema de pontuação e feedback (70% para passar)
+- [x] Salvar progresso do quiz no localStorage
+- [x] Mostrar badge de quiz completado nos cards de vídeo
+- [x] Adicionar efeito de confetti ao passar no quiz
+- [x] Adicionar callback onEnded ao VideoPlayer
+- [x] Testar todos os quizzes

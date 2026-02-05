@@ -20,6 +20,7 @@ interface VideoPlayerProps {
   title?: string;
   subtitles?: SubtitleTrack[];
   className?: string;
+  onEnded?: () => void;
 }
 
 export function VideoPlayer({
@@ -28,6 +29,7 @@ export function VideoPlayer({
   title,
   subtitles = [],
   className = "",
+  onEnded,
 }: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -117,7 +119,10 @@ export function VideoPlayer({
 
     const handleTimeUpdate = () => setCurrentTime(video.currentTime);
     const handleLoadedMetadata = () => setDuration(video.duration);
-    const handleEnded = () => setIsPlaying(false);
+    const handleEnded = () => {
+      setIsPlaying(false);
+      onEnded?.();
+    };
 
     video.addEventListener("timeupdate", handleTimeUpdate);
     video.addEventListener("loadedmetadata", handleLoadedMetadata);
