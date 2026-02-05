@@ -1364,11 +1364,12 @@
 ## Fase 86: Refatoração Mobile-First, Desconexão Sponte e Destaque Meu Tutor
 
 ### 1. Refatoração da Interface Mobile (Mobile-First)
-- [ ] Substituir barra horizontal por grid de Action Cards (grid-cols-2)
-- [ ] Garantir área de toque mínima de 60-80px de altura
-- [ ] Aplicar cores sólidas da paleta inFlux (verde Fluxie, azul Reading Club)
-- [ ] Adicionar safe-area-inset-bottom para compatibilidade iOS/Android
-- [ ] Prevenir sobreposição de elementos na barra de navegação
+- [x] Substituir barra horizontal por grid de Action Cards (grid-cols-2)
+- [x] Garantir área de toque mínima de 60-80px de altura
+- [x] Aplicar cores sólidas da paleta inFlux (verde Fluxie, azul Reading Club)
+- [x] Adicionar safe-area-inset-bottom para compatibilidade iOS/Android
+- [x] Prevenir sobreposição de elementos na barra de navegação
+- [x] Corrigir TabsList para grid-cols-6 (evitar duas linhas no mobile)
 
 ### 2. Desconexão Total do Sponte
 - [x] Desativar router de sincronização (server/routers/sponte-sync.ts)
@@ -1379,8 +1380,8 @@
 - [ ] Prevenir cadastros duplicados durante campanhas
 
 ### 3. Melhoria na Visualização do "Meu Tutor"
-- [ ] Criar botão flutuante ou card de destaque para Meu Tutor
-- [ ] Tornar botão Meu Tutor o maior de todos na entrada
-- [ ] Reduzir tamanho de fontes em títulos secundários
-- [ ] Otimizar espaço para Voice Chat e Transcrição no mobile
-- [ ] Testar e salvar checkpoint
+- [x] Criar botão flutuante ou card de destaque para Meu Tutor
+- [x] Tornar botão Meu Tutor o maior de todos na entrada
+- [x] Reduzir tamanho de fontes em títulos secundários
+- [x] Otimizar espaço para Voice Chat e Transcrição no mobile
+- [x] Testar e salvar checkpoint

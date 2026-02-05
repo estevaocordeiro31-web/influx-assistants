@@ -283,21 +283,21 @@ export default function StudentDashboard() {
         {/* Abas Principais - Escondidas visualmente mas funcionais */}
         <Tabs defaultValue="overview" className="w-full">
           {/* Navegação Principal - Compacta no Mobile */}
-          <TabsList className="grid w-full grid-cols-3 sm:grid-cols-6 bg-slate-900/80 backdrop-blur-sm border border-slate-700/50 rounded-xl p-1 gap-1 shadow-lg">
+          <TabsList className="grid w-full grid-cols-6 bg-slate-900/80 backdrop-blur-sm border border-slate-700/50 rounded-xl p-1 gap-0.5 sm:gap-1 shadow-lg">
             <TabsTrigger 
               value="overview" 
               className="flex flex-col items-center justify-center gap-0.5 py-2 px-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-green-400 data-[state=active]:to-green-500 data-[state=active]:text-slate-900 data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200"
             >
-              <BookOpen className="w-5 h-5" />
-              <span className="text-[9px] sm:text-[10px] font-semibold">Visão Geral</span>
+              <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="text-[8px] sm:text-[10px] font-semibold">Visão Geral</span>
             </TabsTrigger>
             
             <TabsTrigger 
               value="tutor" 
               className="flex flex-col items-center justify-center gap-0.5 py-2 px-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-green-400 data-[state=active]:to-green-500 data-[state=active]:text-slate-900 data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200"
             >
-              <GraduationCap className="w-5 h-5" />
-              <span className="text-[9px] sm:text-[10px] font-semibold">Meu Tutor</span>
+              <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="text-[8px] sm:text-[10px] font-semibold">Meu Tutor</span>
             </TabsTrigger>
             
             <TabsTrigger 
@@ -305,8 +305,8 @@ export default function StudentDashboard() {
               className="flex flex-col items-center justify-center gap-0.5 py-2 px-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-orange-400 data-[state=active]:to-orange-500 data-[state=active]:text-white data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200 relative"
               onClick={() => clearNotification('readingClub')}
             >
-              <BookOpen className="w-5 h-5" />
-              <span className="text-[9px] sm:text-[10px] font-semibold">Reading Club</span>
+              <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="text-[8px] sm:text-[10px] font-semibold">Reading</span>
               <NotificationBadge count={notifications.readingClub} />
             </TabsTrigger>
             
@@ -315,8 +315,8 @@ export default function StudentDashboard() {
               className="flex flex-col items-center justify-center gap-0.5 py-2 px-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-blue-400 data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200 relative"
               onClick={() => clearNotification('chat')}
             >
-              <MessageCircle className="w-5 h-5" />
-              <span className="text-[9px] sm:text-[10px] font-semibold">Chat IA</span>
+              <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="text-[8px] sm:text-[10px] font-semibold">Chat</span>
               <NotificationBadge count={notifications.chat} />
             </TabsTrigger>
             
@@ -325,8 +325,8 @@ export default function StudentDashboard() {
               className="flex flex-col items-center justify-center gap-0.5 py-2 px-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-yellow-400 data-[state=active]:to-yellow-500 data-[state=active]:text-slate-900 data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200 relative"
               onClick={() => clearNotification('exercises')}
             >
-              <Zap className="w-5 h-5" />
-              <span className="text-[9px] sm:text-[10px] font-semibold">Exercícios</span>
+              <Zap className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="text-[8px] sm:text-[10px] font-semibold">Exercícios</span>
               <NotificationBadge count={notifications.exercises} />
             </TabsTrigger>
             
@@ -334,8 +334,8 @@ export default function StudentDashboard() {
               value="sponte" 
               className="flex flex-col items-center justify-center gap-0.5 py-2 px-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:to-cyan-500 data-[state=active]:text-slate-900 data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200"
             >
-              <TrendingUp className="w-5 h-5" />
-              <span className="text-[9px] sm:text-[10px] font-semibold">Dados</span>
+              <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="text-[8px] sm:text-[10px] font-semibold">Dados</span>
             </TabsTrigger>
           </TabsList>
 
