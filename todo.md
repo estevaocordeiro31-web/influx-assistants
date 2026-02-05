@@ -1338,3 +1338,12 @@
 - [x] Corrigir imagem da Aiko - URL atualizada para aiko-sydney.png
 - [x] Verificar URLs das imagens dos personagens - todas corrigidas
 - [x] Testar em navegador - imagens e vídeos funcionando corretamente
+
+
+## Fase 35: Integração de Vídeos Animados do Vacation Plus 2
+- [x] Upload dos 8 vídeos para S3
+- [x] Atualizar dados do Vacation Plus 2 com URLs dos vídeos (vacation-plus-2-expanded.ts)
+- [x] Criar/atualizar interface de exibição dos vídeos (AnimationScriptsTab.tsx)
+- [x] Adicionar filtros por categoria (Vacation Plus 2 vs Especiais)
+- [x] Adicionar filtros por personagem (Lucas, Emily, Aiko)
+- [x] Testar reprodução dos vídeos no app

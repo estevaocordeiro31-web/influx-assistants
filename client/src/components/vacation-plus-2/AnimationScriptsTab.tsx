@@ -1,12 +1,120 @@
 import { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
-import { Film, Play, FileText, Globe } from 'lucide-react';
+import { Film, Play, FileText, Globe, BookOpen, Sparkles } from 'lucide-react';
 import { AnimationScriptCard } from './AnimationScriptCard';
 import { VideoPlayer } from '@/components/VideoPlayer';
 import { ALL_ANIMATION_SCRIPTS, getScriptsByCharacter } from '@/data/animation-scripts';
 
-// Configuração dos vídeos disponíveis - Todos os 3 personagens
-const AVAILABLE_VIDEOS = [
+// Vídeos do Vacation Plus 2 (8 Units)
+const VACATION_PLUS_2_VIDEOS = [
+  {
+    id: 'vp2-unit1',
+    title: "Unit 1: Going on Vacation",
+    character: 'lucas' as const,
+    flag: '🇺🇸',
+    description: "Lucas at the Airport - JFK, New York. Aprenda expressões sobre viagens e aeroportos!",
+    duration: '0:29',
+    accent: 'American English',
+    thumbnail: '',
+    videoUrl: 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/XlCtRstbLoqDlKCx.mp4',
+    subtitles: [] as { label: string; srclang: string; src: string }[],
+    category: 'vacation-plus-2' as const,
+  },
+  {
+    id: 'vp2-unit2',
+    title: "Unit 2: Eating Out",
+    character: 'emily' as const,
+    flag: '🇬🇧',
+    description: "Emily's Restaurant Adventure - London. Aprenda a pedir comida e dar gorjeta!",
+    duration: '0:25',
+    accent: 'British English',
+    thumbnail: '',
+    videoUrl: 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/aGcXureUgMCJIlpd.mp4',
+    subtitles: [] as { label: string; srclang: string; src: string }[],
+    category: 'vacation-plus-2' as const,
+  },
+  {
+    id: 'vp2-unit3',
+    title: "Unit 3: Around Town",
+    character: 'aiko' as const,
+    flag: '🇦🇺',
+    description: "Aiko Explores Downtown Sydney. Aprenda a pedir direções e usar transporte público!",
+    duration: '0:19',
+    accent: 'Australian English',
+    thumbnail: '',
+    videoUrl: 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/idiFjoOMQmWLofpx.mp4',
+    subtitles: [] as { label: string; srclang: string; src: string }[],
+    category: 'vacation-plus-2' as const,
+  },
+  {
+    id: 'vp2-unit4',
+    title: "Unit 4: Describing People",
+    character: 'lucas' as const,
+    flag: '🇺🇸',
+    description: "Lucas Describes His Squad - Central Park. Aprenda a descrever pessoas e personalidades!",
+    duration: '0:21',
+    accent: 'American English',
+    thumbnail: '',
+    videoUrl: 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/LNHQCpAnWjcbWFpP.mp4',
+    subtitles: [] as { label: string; srclang: string; src: string }[],
+    category: 'vacation-plus-2' as const,
+  },
+  {
+    id: 'vp2-unit5',
+    title: "Unit 5: Shopping",
+    character: 'emily' as const,
+    flag: '🇬🇧',
+    description: "Emily Goes Shopping - Oxford Street. Aprenda a fazer compras e pagar!",
+    duration: '0:18',
+    accent: 'British English',
+    thumbnail: '',
+    videoUrl: 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/uGPcSpRnUkmezPRs.mp4',
+    subtitles: [] as { label: string; srclang: string; src: string }[],
+    category: 'vacation-plus-2' as const,
+  },
+  {
+    id: 'vp2-unit6',
+    title: "Unit 6: Giving Advice",
+    character: 'aiko' as const,
+    flag: '🇦🇺',
+    description: "Aiko's Life Advice - Bondi Beach. Aprenda a dar conselhos e sugestões!",
+    duration: '0:21',
+    accent: 'Australian English',
+    thumbnail: '',
+    videoUrl: 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/eXWCoukKvDKXastA.mp4',
+    subtitles: [] as { label: string; srclang: string; src: string }[],
+    category: 'vacation-plus-2' as const,
+  },
+  {
+    id: 'vp2-unit7',
+    title: "Unit 7: Talking About Hobbies",
+    character: 'lucas' as const,
+    flag: '🇺🇸',
+    description: "Lucas and His Hobbies - NYC. Aprenda a falar sobre hobbies e tempo livre!",
+    duration: '0:23',
+    accent: 'American English',
+    thumbnail: '',
+    videoUrl: 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/nzhpenBvndqVtZCS.mp4',
+    subtitles: [] as { label: string; srclang: string; src: string }[],
+    category: 'vacation-plus-2' as const,
+  },
+  {
+    id: 'vp2-unit8',
+    title: "Unit 8: Future Plans",
+    character: 'emily' as const,
+    flag: '🇬🇧',
+    description: "Emily's Future Plans - London Eye. Aprenda a falar sobre planos e sonhos!",
+    duration: '0:19',
+    accent: 'British English',
+    thumbnail: '',
+    videoUrl: 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/TKTRxXShWotkGaGJ.mp4',
+    subtitles: [] as { label: string; srclang: string; src: string }[],
+    category: 'vacation-plus-2' as const,
+  },
+];
+
+// Animações Especiais (histórias completas)
+const SPECIAL_ANIMATIONS = [
   {
     id: 'lucas-lochness',
     title: "Lucas and the Loch Ness",
@@ -29,6 +137,7 @@ const AVAILABLE_VIDEOS = [
         src: 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/cHwyEDYUSYpCwLkx.vtt',
       },
     ],
+    category: 'special' as const,
   },
   {
     id: 'emily-texas',
@@ -52,6 +161,7 @@ const AVAILABLE_VIDEOS = [
         src: 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/ApdiNOiDEXLsZaXX.vtt',
       },
     ],
+    category: 'special' as const,
   },
   {
     id: 'aiko-sydney',
@@ -75,27 +185,40 @@ const AVAILABLE_VIDEOS = [
         src: 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/rIvQroiZqgmnIxJN.vtt',
       },
     ],
+    category: 'special' as const,
   },
 ];
+
+// Combinar todos os vídeos
+const AVAILABLE_VIDEOS = [...VACATION_PLUS_2_VIDEOS, ...SPECIAL_ANIMATIONS];
 
 export function AnimationScriptsTab() {
   const [selectedCharacter, setSelectedCharacter] = useState<'all' | 'lucas' | 'emily' | 'aiko'>('all');
   const [viewMode, setViewMode] = useState<'videos' | 'scripts'>('videos');
+  const [videoCategory, setVideoCategory] = useState<'all' | 'vacation-plus-2' | 'special'>('all');
   const [selectedVideo, setSelectedVideo] = useState<typeof AVAILABLE_VIDEOS[0] | null>(null);
 
   const filteredScripts = selectedCharacter === 'all' 
     ? ALL_ANIMATION_SCRIPTS 
     : getScriptsByCharacter(selectedCharacter);
 
-  const filteredVideos = selectedCharacter === 'all'
-    ? AVAILABLE_VIDEOS
-    : AVAILABLE_VIDEOS.filter(v => v.character === selectedCharacter);
+  const filteredVideos = AVAILABLE_VIDEOS.filter(v => {
+    const matchesCharacter = selectedCharacter === 'all' || v.character === selectedCharacter;
+    const matchesCategory = videoCategory === 'all' || v.category === videoCategory;
+    return matchesCharacter && matchesCategory;
+  });
 
   const characterTabs = [
     { id: 'all', label: 'Todos', emoji: '🎬', count: ALL_ANIMATION_SCRIPTS.length },
     { id: 'lucas', label: 'Lucas', emoji: '🇺🇸', count: getScriptsByCharacter('lucas').length },
     { id: 'emily', label: 'Emily', emoji: '🇬🇧', count: getScriptsByCharacter('emily').length },
     { id: 'aiko', label: 'Aiko', emoji: '🇦🇺', count: getScriptsByCharacter('aiko').length },
+  ];
+
+  const categoryTabs = [
+    { id: 'all', label: 'Todos', icon: Film, count: AVAILABLE_VIDEOS.length },
+    { id: 'vacation-plus-2', label: 'Vacation Plus 2', icon: BookOpen, count: VACATION_PLUS_2_VIDEOS.length },
+    { id: 'special', label: 'Especiais', icon: Sparkles, count: SPECIAL_ANIMATIONS.length },
   ];
 
   // Se um vídeo está selecionado, mostrar o player
@@ -115,7 +238,7 @@ export function AnimationScriptsTab() {
           <VideoPlayer
             src={selectedVideo.videoUrl}
             title={selectedVideo.title}
-            poster={selectedVideo.thumbnail}
+            poster={selectedVideo.thumbnail || undefined}
             subtitles={selectedVideo.subtitles}
             className="aspect-video"
           />
@@ -123,6 +246,18 @@ export function AnimationScriptsTab() {
 
         {/* Info do Vídeo */}
         <div className="bg-white rounded-xl p-4 sm:p-6 shadow-lg">
+          <div className="flex items-center gap-2 mb-2">
+            {selectedVideo.category === 'vacation-plus-2' && (
+              <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
+                Vacation Plus 2
+              </span>
+            )}
+            {selectedVideo.category === 'special' && (
+              <span className="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium">
+                Especial
+              </span>
+            )}
+          </div>
           <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">
             {selectedVideo.title}
           </h2>
@@ -143,19 +278,31 @@ export function AnimationScriptsTab() {
           </div>
 
           {/* Legendas disponíveis */}
-          <div className="mt-4 pt-4 border-t border-gray-200">
-            <h3 className="text-sm font-medium text-gray-500 mb-2">Legendas disponíveis:</h3>
-            <div className="flex flex-wrap gap-2">
-              {selectedVideo.subtitles.map((sub) => (
-                <span
-                  key={sub.srclang}
-                  className="px-3 py-1.5 bg-green-100 text-green-700 rounded-full text-sm font-medium"
-                >
-                  {sub.label}
-                </span>
-              ))}
+          {selectedVideo.subtitles.length > 0 && (
+            <div className="mt-4 pt-4 border-t border-gray-200">
+              <h3 className="text-sm font-medium text-gray-500 mb-2">Legendas disponíveis:</h3>
+              <div className="flex flex-wrap gap-2">
+                {selectedVideo.subtitles.map((sub) => (
+                  <span
+                    key={sub.srclang}
+                    className="px-3 py-1.5 bg-green-100 text-green-700 rounded-full text-sm font-medium"
+                  >
+                    {sub.label}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
+
+          {/* Info sobre legendas embutidas */}
+          {selectedVideo.category === 'vacation-plus-2' && (
+            <div className="mt-4 pt-4 border-t border-gray-200">
+              <p className="text-sm text-gray-500 flex items-center gap-2">
+                <span className="text-lg">📝</span>
+                Legendas embutidas: Inglês (branco) + Português (amarelo)
+              </p>
+            </div>
+          )}
         </div>
       </div>
     );
@@ -174,7 +321,7 @@ export function AnimationScriptsTab() {
         </p>
       </div>
 
-      {/* Toggle Vídeos / Roteiros - Otimizado para Mobile */}
+      {/* Toggle Vídeos / Roteiros */}
       <div className="flex justify-center gap-2 px-2">
         <button
           onClick={() => setViewMode('videos')}
@@ -185,7 +332,7 @@ export function AnimationScriptsTab() {
           }`}
         >
           <Play className="w-4 h-4 sm:w-5 sm:h-5" />
-          <span className="font-medium">Vídeos</span>
+          <span className="font-medium">Vídeos ({AVAILABLE_VIDEOS.length})</span>
         </button>
         <button
           onClick={() => setViewMode('scripts')}
@@ -200,7 +347,36 @@ export function AnimationScriptsTab() {
         </button>
       </div>
 
-      {/* Filtro por personagem - Otimizado para Mobile */}
+      {/* Filtro por categoria de vídeo (apenas no modo vídeos) */}
+      {viewMode === 'videos' && (
+        <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2 px-2">
+          {categoryTabs.map((tab) => {
+            const Icon = tab.icon;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setVideoCategory(tab.id as typeof videoCategory)}
+                className={`flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full transition-all text-xs sm:text-sm ${
+                  videoCategory === tab.id
+                    ? 'bg-green-500 text-white shadow-lg'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <span className="font-medium">{tab.label}</span>
+                <Badge 
+                  variant={videoCategory === tab.id ? "secondary" : "outline"}
+                  className={`text-xs ${videoCategory === tab.id ? "bg-white/20 text-white" : ""}`}
+                >
+                  {tab.count}
+                </Badge>
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Filtro por personagem */}
       <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2 px-2">
         {characterTabs.map((tab) => (
           <button
@@ -214,12 +390,6 @@ export function AnimationScriptsTab() {
           >
             <span className="text-base sm:text-lg">{tab.emoji}</span>
             <span className="font-medium">{tab.label}</span>
-            <Badge 
-              variant={selectedCharacter === tab.id ? "secondary" : "outline"}
-              className={`text-xs ${selectedCharacter === tab.id ? "bg-white/20 text-white" : ""}`}
-            >
-              {tab.count}
-            </Badge>
           </button>
         ))}
       </div>
@@ -227,8 +397,8 @@ export function AnimationScriptsTab() {
       {/* Conteúdo baseado no modo de visualização */}
       {viewMode === 'videos' ? (
         <>
-          {/* Grid de Vídeos - Otimizado para Mobile */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-2 sm:px-0">
+          {/* Grid de Vídeos */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 px-2 sm:px-0">
             {filteredVideos.map((video) => (
               <button
                 key={video.id}
@@ -236,48 +406,65 @@ export function AnimationScriptsTab() {
                 className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl active:scale-[0.98] transition-all cursor-pointer group text-left w-full"
                 type="button"
               >
-                {/* Thumbnail */}
-                <div className="relative aspect-video">
-                  <img
-                    src={video.thumbnail}
-                    alt={video.title}
-                    className="w-full h-full object-cover"
-                  />
-                  {/* Botão de play sempre visível em mobile */}
+                {/* Thumbnail ou Placeholder */}
+                <div className="relative aspect-video bg-gradient-to-br from-purple-500 to-pink-500">
+                  {video.thumbnail ? (
+                    <img
+                      src={video.thumbnail}
+                      alt={video.title}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <div className="text-center text-white">
+                        <span className="text-4xl sm:text-5xl block mb-2">{video.flag}</span>
+                        <span className="text-xs sm:text-sm font-medium opacity-90">
+                          {video.character === 'lucas' ? 'Lucas' : video.character === 'emily' ? 'Emily' : 'Aiko'}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                  {/* Botão de play */}
                   <div className="absolute inset-0 bg-black/30 sm:bg-black/40 flex items-center justify-center sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
-                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
-                      <Play className="w-7 h-7 sm:w-8 sm:h-8 text-purple-600 ml-1" fill="currentColor" />
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
+                      <Play className="w-6 h-6 sm:w-7 sm:h-7 text-purple-600 ml-1" fill="currentColor" />
                     </div>
                   </div>
                   <div className="absolute bottom-2 right-2 px-2 py-1 bg-black/70 rounded text-xs text-white">
                     {video.duration}
                   </div>
-                  <div className="absolute top-2 left-2 text-2xl sm:text-3xl">
-                    {video.flag}
+                  {/* Badge de categoria */}
+                  <div className="absolute top-2 left-2">
+                    {video.category === 'vacation-plus-2' ? (
+                      <span className="px-2 py-1 bg-green-500 text-white rounded-full text-xs font-medium flex items-center gap-1">
+                        <BookOpen className="w-3 h-3" />
+                        VP2
+                      </span>
+                    ) : (
+                      <span className="px-2 py-1 bg-purple-500 text-white rounded-full text-xs font-medium flex items-center gap-1">
+                        <Sparkles className="w-3 h-3" />
+                        Especial
+                      </span>
+                    )}
                   </div>
                 </div>
 
                 {/* Info */}
                 <div className="p-3 sm:p-4">
-                  <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-1 line-clamp-1">
+                  <h3 className="text-sm sm:text-base font-semibold text-gray-800 mb-1 line-clamp-1">
                     {video.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-gray-500 line-clamp-2 mb-2 sm:mb-3">
+                  <p className="text-xs text-gray-500 line-clamp-2 mb-2">
                     {video.description}
                   </p>
-                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                    <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full font-medium">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <span className="text-lg">{video.flag}</span>
+                    <span className="text-xs text-gray-600 font-medium">
                       {video.character === 'lucas' ? 'Lucas' : video.character === 'emily' ? 'Emily' : 'Aiko'}
                     </span>
+                    <span className="text-xs text-gray-400">•</span>
                     <span className="text-xs text-gray-500">
                       {video.accent}
-                    </span>
-                  </div>
-                  {/* Botão explícito para mobile */}
-                  <div className="mt-3 flex justify-center sm:hidden">
-                    <span className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">
-                      <Play className="w-4 h-4" fill="currentColor" />
-                      Assistir Vídeo
                     </span>
                   </div>
                 </div>
@@ -285,7 +472,11 @@ export function AnimationScriptsTab() {
             ))}
           </div>
 
-
+          {filteredVideos.length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-gray-500">Nenhum vídeo encontrado com os filtros selecionados.</p>
+            </div>
+          )}
         </>
       ) : (
         <>
@@ -305,8 +496,13 @@ export function AnimationScriptsTab() {
           <div>
             <h4 className="font-semibold text-purple-700 text-sm sm:text-base">Dica de Aprendizado</h4>
             <p className="text-xs sm:text-sm text-gray-600">
-              Ouça cada cena várias vezes e repita em voz alta! Preste atenção no <strong>connected speech</strong> - 
-              é assim que nativos realmente falam no dia a dia. Tente imitar a entonação e o ritmo!
+              {viewMode === 'videos' ? (
+                <>Os vídeos do <strong>Vacation Plus 2</strong> têm legendas embutidas em inglês e português. 
+                Assista várias vezes e repita em voz alta para praticar o <strong>connected speech</strong>!</>
+              ) : (
+                <>Ouça cada cena várias vezes e repita em voz alta! Preste atenção no <strong>connected speech</strong> - 
+                é assim que nativos realmente falam no dia a dia. Tente imitar a entonação e o ritmo!</>
+              )}
             </p>
           </div>
         </div>

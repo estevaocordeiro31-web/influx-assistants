@@ -1079,3 +1079,108 @@ export const ALL_CULTURAL_FACTS = {
   7: LESSON_7_CULTURAL_FACTS,
   8: LESSON_8_CULTURAL_FACTS,
 };
+
+
+// ============================================
+// VÍDEOS ANIMADOS - Vacation Plus 2
+// ============================================
+export interface LessonVideo {
+  unit: number;
+  title: string;
+  titlePt: string;
+  description: string;
+  character: "lucas" | "emily" | "aiko";
+  city: "nyc" | "london" | "sydney";
+  duration: string;
+  videoUrl: string;
+  thumbnail?: string;
+}
+
+export const LESSON_VIDEOS: LessonVideo[] = [
+  {
+    unit: 1,
+    title: "Going on Vacation",
+    titlePt: "Indo de Férias",
+    description: "Lucas at the Airport - JFK, New York",
+    character: "lucas",
+    city: "nyc",
+    duration: "0:29",
+    videoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/XlCtRstbLoqDlKCx.mp4",
+  },
+  {
+    unit: 2,
+    title: "Eating Out",
+    titlePt: "Comendo Fora",
+    description: "Emily's Restaurant Adventure - London",
+    character: "emily",
+    city: "london",
+    duration: "0:25",
+    videoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/aGcXureUgMCJIlpd.mp4",
+  },
+  {
+    unit: 3,
+    title: "Around Town",
+    titlePt: "Pela Cidade",
+    description: "Aiko Explores Downtown Sydney",
+    character: "aiko",
+    city: "sydney",
+    duration: "0:19",
+    videoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/idiFjoOMQmWLofpx.mp4",
+  },
+  {
+    unit: 4,
+    title: "Describing People",
+    titlePt: "Descrevendo Pessoas",
+    description: "Lucas Describes His Squad - Central Park",
+    character: "lucas",
+    city: "nyc",
+    duration: "0:21",
+    videoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/LNHQCpAnWjcbWFpP.mp4",
+  },
+  {
+    unit: 5,
+    title: "Shopping",
+    titlePt: "Fazendo Compras",
+    description: "Emily Goes Shopping - Oxford Street",
+    character: "emily",
+    city: "london",
+    duration: "0:18",
+    videoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/uGPcSpRnUkmezPRs.mp4",
+  },
+  {
+    unit: 6,
+    title: "Giving Advice",
+    titlePt: "Dando Conselhos",
+    description: "Aiko's Life Advice - Bondi Beach",
+    character: "aiko",
+    city: "sydney",
+    duration: "0:21",
+    videoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/eXWCoukKvDKXastA.mp4",
+  },
+  {
+    unit: 7,
+    title: "Talking About Hobbies",
+    titlePt: "Falando Sobre Hobbies",
+    description: "Lucas and His Hobbies - NYC",
+    character: "lucas",
+    city: "nyc",
+    duration: "0:23",
+    videoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/nzhpenBvndqVtZCS.mp4",
+  },
+  {
+    unit: 8,
+    title: "Future Plans",
+    titlePt: "Planos Futuros",
+    description: "Emily's Future Plans - London Eye",
+    character: "emily",
+    city: "london",
+    duration: "0:19",
+    videoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/TKTRxXShWotkGaGJ.mp4",
+  },
+];
+
+// Exportar vídeos por unidade
+export const VIDEO_BY_UNIT: Record<number, LessonVideo> = LESSON_VIDEOS.reduce(
+  (acc, video) => ({ ...acc, [video.unit]: video }),
+  {}
+);
