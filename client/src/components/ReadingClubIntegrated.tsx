@@ -152,12 +152,22 @@ export function ReadingClubIntegrated() {
               </Card>
 
               {/* Info Box */}
-              <Card className="bg-green-500/10 border-green-500/30">
-                <CardContent className="pt-6">
-                  <p className="text-sm text-slate-300">
-                    💡 <strong>Dica:</strong> Assista aos vídeos para entender melhor a
-                    atividade e ganhe <span className="text-green-400">+2 influxcoin</span>!
-                  </p>
+              <Card className="bg-slate-800 border-purple-500/30">
+                <CardContent className="pt-4">
+                  <div className="flex items-start gap-3">
+                    <div className="relative flex-shrink-0">
+                      <img 
+                        src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/OwIgQozQmgnqPMOm.png" 
+                        alt="Fluxie Thinking" 
+                        className="w-10 h-10 object-contain"
+                      />
+                      <div className="absolute inset-0 bg-purple-500/20 blur-md rounded-full -z-10" />
+                    </div>
+                    <p className="text-sm text-slate-300">
+                      <strong className="text-purple-400">💡 Dica do Fluxie:</strong> Assista aos vídeos para entender melhor a
+                      atividade e ganhe <span className="text-green-400 font-bold">+2 influxcoin</span>!
+                    </p>
+                  </div>
                 </CardContent>
               </Card>
             </div>

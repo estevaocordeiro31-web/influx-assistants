@@ -637,19 +637,30 @@ export function AnimationScriptsTab() {
         </>
       )}
 
-      {/* Dica */}
-      <div className="bg-gradient-to-r from-purple-50 to-pink-50 p-3 sm:p-4 rounded-lg border border-purple-200 mx-2 sm:mx-0">
-        <div className="flex items-start gap-2 sm:gap-3">
-          <span className="text-xl sm:text-2xl">💡</span>
-          <div>
-            <h4 className="font-semibold text-purple-700 text-sm sm:text-base">Dica de Aprendizado</h4>
-            <p className="text-xs sm:text-sm text-gray-600">
+      {/* Dica com Fluxie Thinking */}
+      <div className="bg-gradient-to-r from-slate-800 to-slate-900 p-3 sm:p-4 rounded-lg border border-purple-500/30 mx-2 sm:mx-0 shadow-lg shadow-purple-500/10">
+        <div className="flex items-start gap-3 sm:gap-4">
+          <div className="relative flex-shrink-0">
+            <img 
+              src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/OwIgQozQmgnqPMOm.png" 
+              alt="Fluxie Thinking" 
+              className="w-14 h-14 sm:w-16 sm:h-16 object-contain"
+            />
+            {/* Glow effect */}
+            <div className="absolute inset-0 bg-purple-500/20 blur-md rounded-full -z-10" />
+          </div>
+          <div className="flex-1">
+            <h4 className="font-semibold text-purple-400 text-sm sm:text-base flex items-center gap-2">
+              💡 Dica de Aprendizado
+              <span className="text-xs bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded-full">Fluxie</span>
+            </h4>
+            <p className="text-xs sm:text-sm text-slate-300 mt-1">
               {viewMode === 'videos' ? (
-                <>Os vídeos do <strong>Vacation Plus 2</strong> têm legendas embutidas em inglês e português. 
-                Assista várias vezes e repita em voz alta para praticar o <strong>connected speech</strong>!
-                Depois, faça o <strong>Quiz</strong> para testar sua compreensão e ganhar <strong>influxcoins</strong>! 🏆</>
+                <>Os vídeos do <strong className="text-green-400">Vacation Plus 2</strong> têm legendas embutidas em inglês e português. 
+                Assista várias vezes e repita em voz alta para praticar o <strong className="text-cyan-400">connected speech</strong>!
+                Depois, faça o <strong className="text-yellow-400">Quiz</strong> para testar sua compreensão e ganhar <strong className="text-yellow-400">influxcoins</strong>! 🏆</>
               ) : (
-                <>Ouça cada cena várias vezes e repita em voz alta! Preste atenção no <strong>connected speech</strong> - 
+                <>Ouça cada cena várias vezes e repita em voz alta! Preste atenção no <strong className="text-cyan-400">connected speech</strong> - 
                 é assim que nativos realmente falam no dia a dia. Tente imitar a entonação e o ritmo!</>
               )}
             </p>

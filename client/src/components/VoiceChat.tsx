@@ -263,15 +263,29 @@ export default function VoiceChat() {
           )}
         </div>
 
-        {/* Instructions */}
-        <div className="bg-slate-700 rounded p-3 text-sm text-gray-300">
-          <p className="font-semibold mb-1">💡 Dica:</p>
-          <ul className="list-disc list-inside space-y-1 text-xs">
-            <li>Clique em "Iniciar Gravação" para começar a falar</li>
-            <li>Fale em inglês e o Fluxie responderá</li>
-            <li>Você receberá feedback sobre chunks e equivalências</li>
-            <li>O Fluxie falará a resposta automaticamente</li>
-          </ul>
+        {/* Instructions com Fluxie Thinking */}
+        <div className="bg-slate-800 rounded-lg p-3 text-sm text-gray-300 border border-purple-500/30">
+          <div className="flex items-start gap-3">
+            <div className="relative flex-shrink-0">
+              <img 
+                src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/OwIgQozQmgnqPMOm.png" 
+                alt="Fluxie Thinking" 
+                className="w-10 h-10 object-contain"
+              />
+              <div className="absolute inset-0 bg-purple-500/20 blur-md rounded-full -z-10" />
+            </div>
+            <div className="flex-1">
+              <p className="font-semibold mb-1 text-purple-400 flex items-center gap-2">
+                💡 Dica do Fluxie
+              </p>
+              <ul className="list-disc list-inside space-y-1 text-xs text-slate-300">
+                <li>Clique em "Iniciar Gravação" para começar a falar</li>
+                <li>Fale em inglês e o Fluxie responderá</li>
+                <li>Você receberá feedback sobre <strong className="text-cyan-400">chunks</strong> e equivalências</li>
+                <li>O Fluxie falará a resposta automaticamente</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>

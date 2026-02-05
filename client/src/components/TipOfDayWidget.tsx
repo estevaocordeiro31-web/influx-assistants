@@ -50,8 +50,13 @@ export default function TipOfDayWidget({ tip, isLoading, onViewMore }: TipOfDayW
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <div className="flex items-start gap-3 flex-1">
-            <div className="p-2 bg-amber-500/20 rounded-lg mt-1">
-              <Lightbulb className="w-5 h-5 text-amber-400" />
+            <div className="relative">
+              <img 
+                src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/OwIgQozQmgnqPMOm.png" 
+                alt="Fluxie Thinking" 
+                className="w-12 h-12 object-contain"
+              />
+              <div className="absolute inset-0 bg-amber-500/20 blur-md rounded-full -z-10" />
             </div>
             <div className="flex-1">
               <CardTitle className="text-white text-lg flex items-center gap-2">

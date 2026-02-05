@@ -229,13 +229,25 @@ export function MaterialUploadForm({ onSuccess }: MaterialUploadFormProps) {
             )}
           </div>
 
-          {/* Informações */}
-          <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3 text-sm text-blue-900 dark:text-blue-200">
-            <p className="font-medium mb-1">💡 Dica:</p>
-            <p>
-              Você pode compartilhar o material com alunos específicos após o upload. O material
-              será armazenado de forma segura e acessível apenas para os alunos selecionados.
-            </p>
+          {/* Informações com Fluxie Thinking */}
+          <div className="bg-slate-800 border border-purple-500/30 rounded-lg p-3 text-sm">
+            <div className="flex items-start gap-3">
+              <div className="relative flex-shrink-0">
+                <img 
+                  src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/OwIgQozQmgnqPMOm.png" 
+                  alt="Fluxie Thinking" 
+                  className="w-10 h-10 object-contain"
+                />
+                <div className="absolute inset-0 bg-purple-500/20 blur-md rounded-full -z-10" />
+              </div>
+              <div>
+                <p className="font-medium mb-1 text-purple-400">💡 Dica do Fluxie:</p>
+                <p className="text-slate-300">
+                  Você pode compartilhar o material com alunos específicos após o upload. O material
+                  será armazenado de forma segura e acessível apenas para os alunos selecionados.
+                </p>
+              </div>
+            </div>
           </div>
         </form>
       </CardContent>

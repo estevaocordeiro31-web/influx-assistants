@@ -189,26 +189,38 @@ export default function StudentDashboard() {
 
         {/* Action Cards - Grid 2x3 no Mobile com Meu Tutor em Destaque */}
         <div className="mb-4 sm:mb-6">
-          {/* Meu Tutor - Card de Destaque (Maior) */}
+          {/* Meu Tutor - Card de Destaque (Maior) com Fluxie Tech */}
           <button 
             onClick={() => {
               const tutorTab = document.querySelector('[value="tutor"]') as HTMLButtonElement;
               if (tutorTab) tutorTab.click();
             }}
-            className="w-full mb-3 p-4 sm:p-6 bg-gradient-to-br from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 rounded-2xl shadow-lg shadow-green-500/30 transition-all duration-200 active:scale-[0.98]"
+            className="w-full mb-3 p-4 sm:p-6 bg-gradient-to-br from-slate-800 to-slate-900 hover:from-slate-700 hover:to-slate-800 rounded-2xl shadow-lg shadow-green-500/20 border border-green-500/30 transition-all duration-200 active:scale-[0.98] overflow-hidden relative"
           >
-            <div className="flex items-center justify-between">
+            {/* Glow effect */}
+            <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 via-blue-500/10 to-green-500/10 animate-pulse" />
+            
+            <div className="flex items-center justify-between relative z-10">
               <div className="flex items-center gap-3 sm:gap-4">
-                <div className="p-3 sm:p-4 bg-white/20 rounded-xl">
-                  <GraduationCap className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
+                <div className="relative">
+                  <img 
+                    src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/UpLMiMaLftZmSfqa.png" 
+                    alt="Fluxie Tech Tutor" 
+                    className="w-16 h-16 sm:w-20 sm:h-20 object-contain rounded-xl"
+                  />
+                  {/* Neon glow around image */}
+                  <div className="absolute inset-0 rounded-xl bg-green-500/20 blur-md -z-10" />
                 </div>
                 <div className="text-left">
-                  <h3 className="text-lg sm:text-2xl font-bold text-white">Meu Tutor</h3>
-                  <p className="text-green-100 text-xs sm:text-sm">Fluxie • Vacation Plus • Materiais</p>
+                  <h3 className="text-lg sm:text-2xl font-bold text-white flex items-center gap-2">
+                    Meu Tutor
+                    <span className="text-xs sm:text-sm bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full border border-green-500/30">AI</span>
+                  </h3>
+                  <p className="text-slate-400 text-xs sm:text-sm">Fluxie • Vacation Plus • Materiais</p>
                 </div>
               </div>
               <div className="hidden sm:block text-right">
-                <span className="text-white/80 text-sm">Acesse agora →</span>
+                <span className="text-green-400 text-sm font-medium">Acesse agora →</span>
               </div>
             </div>
           </button>
