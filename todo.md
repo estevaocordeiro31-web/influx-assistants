@@ -1359,3 +1359,28 @@
 - [x] Adicionar efeito de confetti ao passar no quiz
 - [x] Adicionar callback onEnded ao VideoPlayer
 - [x] Testar todos os quizzes
+
+
+## Fase 86: Refatoração Mobile-First, Desconexão Sponte e Destaque Meu Tutor
+
+### 1. Refatoração da Interface Mobile (Mobile-First)
+- [ ] Substituir barra horizontal por grid de Action Cards (grid-cols-2)
+- [ ] Garantir área de toque mínima de 60-80px de altura
+- [ ] Aplicar cores sólidas da paleta inFlux (verde Fluxie, azul Reading Club)
+- [ ] Adicionar safe-area-inset-bottom para compatibilidade iOS/Android
+- [ ] Prevenir sobreposição de elementos na barra de navegação
+
+### 2. Desconexão Total do Sponte
+- [x] Desativar router de sincronização (server/routers/sponte-sync.ts)
+- [x] Remover chamadas automáticas de sincronização
+- [x] Migrar controle de status para tabela students local
+- [x] Usar IDs únicos INF-YYYY-XXXX como chave primária
+- [x] Criar função getFirstName para extrair primeiro nome (name-utils.ts)
+- [ ] Prevenir cadastros duplicados durante campanhas
+
+### 3. Melhoria na Visualização do "Meu Tutor"
+- [ ] Criar botão flutuante ou card de destaque para Meu Tutor
+- [ ] Tornar botão Meu Tutor o maior de todos na entrada
+- [ ] Reduzir tamanho de fontes em títulos secundários
+- [ ] Otimizar espaço para Voice Chat e Transcrição no mobile
+- [ ] Testar e salvar checkpoint
