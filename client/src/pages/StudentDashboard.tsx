@@ -18,6 +18,7 @@ import { trpc } from "@/lib/trpc";
 import { NotificationBadge } from "@/components/NotificationBadge";
 import { useNotifications } from "@/hooks/useNotifications";
 import { OnboardingTutorial } from "@/components/OnboardingTutorial";
+import { LeaderboardWidget } from "@/components/LeaderboardWidget";
 
 // Dados de demonstração - Aluno avançado Book 5
 const DEMO_STUDENT = {
@@ -431,6 +432,9 @@ export default function StudentDashboard() {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Leaderboard */}
+            <LeaderboardWidget />
           </TabsContent>
 
           {/* Aba: Meu Tutor (absorve Meus Livros, Vacation Plus, Revisão, Blog, Materiais) */}

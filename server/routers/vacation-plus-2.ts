@@ -4,7 +4,10 @@ import { getDb } from "../db";
 import { 
   vacationPlus2Progress, 
   vacationPlus2VocabularyProgress, 
-  vacationPlus2DialogueProgress 
+  vacationPlus2DialogueProgress,
+  quizResults,
+  leaderboard,
+  pointsHistory
 } from "../../drizzle/schema";
 import { eq, and } from "drizzle-orm";
 
@@ -285,6 +288,22 @@ export const vacationPlus2Router = router({
           completedAt: input.passed ? new Date() : null,
         });
       }
+      
+      // Tambem salvar no quiz_results para o leaderboard
+      const videoTitle = `Vacation Plus 2 - Unit ${input.lessonNumber}`;
+      const correctAnswers = Math.round((input.score / 100) * input.totalQuestions);
+      const pointsEarned = input.passed ? 10 : 0;
+      
+      await db.insert(quizResults).values({
+        studentId: ctx.user.id,
+        videoId: `vp2-unit-${input.lessonNumber}`,
+        videoTitle,
+        score: percentage,
+        totalQuestions: input.totalQuestions,
+        correctAnswers,
+        passed: input.passed,
+        pointsEarned,
+      });
       
       return { success: true, passed: input.passed, percentage };
     }),

@@ -1385,3 +1385,32 @@
 - [x] Reduzir tamanho de fontes em títulos secundários
 - [x] Otimizar espaço para Voice Chat e Transcrição no mobile
 - [x] Testar e salvar checkpoint
+
+
+## Fase 89: Sistema de Progresso Persistente
+- [ ] Criar tabela quiz_results para salvar respostas dos quizzes
+- [ ] Adicionar campos: user_id, video_id, score, completed_at
+- [ ] Implementar API para salvar resultados dos quizzes
+- [ ] Atualizar componente VideoQuiz para chamar API ao finalizar
+- [ ] Exibir histórico de quizzes completados no dashboard
+
+## Fase 90: Ranking de Pontuação com Leaderboard
+- [ ] Criar tabela leaderboard com user_id, total_points, rank
+- [ ] Implementar cálculo de pontos (quiz: 10 pts, lição: 5 pts, etc)
+- [ ] Criar componente Leaderboard com top 10 alunos
+- [ ] Adicionar aba "Ranking" no dashboard
+- [ ] Atualizar pontos em tempo real após cada quiz
+
+## Fase 91: Gerar Vídeos do Vacation Plus 1 e 3
+- [ ] Usar skill animated-video-producer para VP1 (8 vídeos)
+- [ ] Usar skill animated-video-producer para VP3 (8 vídeos)
+- [ ] Upload dos 16 vídeos para S3
+- [ ] Integrar VP1 e VP3 na seção Animation Stories
+- [ ] Testar reprodução de todos os vídeos
+
+## Fase 92: Animações de Transição do Fluxie
+- [ ] Implementar transição Thinking → Teaching → Celebrating
+- [ ] Adicionar efeito de fade-in/fade-out entre variações
+- [ ] Usar Framer Motion para animações suaves
+- [ ] Integrar nas seções de dicas, lições e conquistas
+- [ ] Testar em mobile e desktop

@@ -29,6 +29,7 @@ import { ttsRouter } from "./routers/tts";
 import { vacationPlus2Router } from "./routers/vacation-plus-2";
 import { lessonsRouter } from "./routers/lessons";
 import { gamificationRouter } from "./routers/gamification";
+import { quizLeaderboardRouter } from "./routers/quiz-leaderboard";
 
 export const appRouter = router({
   system: systemRouter,
@@ -70,6 +71,7 @@ export const appRouter = router({
   vacationPlus2: vacationPlus2Router,
   lessons: lessonsRouter,
   gamification: gamificationRouter,
+  quizLeaderboard: quizLeaderboardRouter,
 });
 
 export type AppRouter = typeof appRouter;

@@ -645,3 +645,50 @@ export const vacationPlus2DialogueProgress = mysqlTable("vacation_plus_2_dialogu
 export type VacationPlus2DialogueProgress = typeof vacationPlus2DialogueProgress.$inferSelect;
 export type InsertVacationPlus2DialogueProgress = typeof vacationPlus2DialogueProgress.$inferInsert;
 
+// ==================== QUIZ RESULTS ====================
+// Video quiz results table
+export const quizResults = mysqlTable("quiz_results", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("student_id").notNull().references(() => users.id),
+  videoId: varchar("video_id", { length: 100 }).notNull(),
+  videoTitle: varchar("video_title", { length: 255 }).notNull(),
+  score: int("score").notNull(), // 0-100
+  totalQuestions: int("total_questions").notNull(),
+  correctAnswers: int("correct_answers").notNull(),
+  passed: boolean("passed").notNull(), // true if score >= 70%
+  pointsEarned: int("points_earned").notNull(), // 10 pontos por quiz
+  completedAt: timestamp("completed_at").defaultNow().notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type QuizResult = typeof quizResults.$inferSelect;
+export type InsertQuizResult = typeof quizResults.$inferInsert;
+
+// ==================== LEADERBOARD ====================
+// Student leaderboard table
+export const leaderboard = mysqlTable("leaderboard", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("student_id").notNull().unique().references(() => users.id),
+  studentName: varchar("student_name", { length: 255 }).notNull(),
+  totalPoints: int("total_points").default(0).notNull(),
+  quizzesCompleted: int("quizzes_completed").default(0).notNull(),
+  lessonsCompleted: int("lessons_completed").default(0).notNull(),
+  rank: int("rank").default(0).notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Leaderboard = typeof leaderboard.$inferSelect;
+export type InsertLeaderboard = typeof leaderboard.$inferInsert;
+
+// Student points history table
+export const pointsHistory = mysqlTable("points_history", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("student_id").notNull().references(() => users.id),
+  points: int("points").notNull(),
+  reason: varchar("reason", { length: 255 }).notNull(), // "quiz_completed", "lesson_completed", etc
+  relatedId: int("related_id"), // ID do quiz ou lição
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type PointsHistory = typeof pointsHistory.$inferSelect;
+export type InsertPointsHistory = typeof pointsHistory.$inferInsert;
