@@ -692,3 +692,23 @@ export const pointsHistory = mysqlTable("points_history", {
 
 export type PointsHistory = typeof pointsHistory.$inferSelect;
 export type InsertPointsHistory = typeof pointsHistory.$inferInsert;
+
+
+// ==================== CURSOS EXTRAS DO ALUNO ====================
+// Student extra courses enrollment (Vacation Plus, Traveler, On Business, Reading Club)
+export const studentCourses = mysqlTable("student_courses", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("student_id").notNull().references(() => users.id),
+  courseCode: varchar("course_code", { length: 50 }).notNull(), // "vp1", "vp2", "vp3", "vp4", "traveler", "on_business", "reading_club"
+  courseName: varchar("course_name", { length: 255 }).notNull(),
+  isActive: boolean("is_active").default(true).notNull(),
+  enrolledAt: timestamp("enrolled_at").defaultNow().notNull(),
+  completedAt: timestamp("completed_at"),
+  enrolledBy: int("enrolled_by").references(() => users.id), // Admin who enrolled the student
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type StudentCourse = typeof studentCourses.$inferSelect;
+export type InsertStudentCourse = typeof studentCourses.$inferInsert;

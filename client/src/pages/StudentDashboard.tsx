@@ -23,6 +23,7 @@ import { LeaderboardWidget } from "@/components/LeaderboardWidget";
 import { StudentCalendar } from "@/components/StudentCalendar";
 import { StudentMessages } from "@/components/StudentMessages";
 import { StudentGrades } from "@/components/StudentGrades";
+import { getBookTheme, getBookNumberFromLevel } from "@/lib/book-themes";
 
 // Dados de demonstração - Aluno avançado Book 5
 const DEMO_STUDENT = {
@@ -98,11 +99,27 @@ export default function StudentDashboard() {
     { enabled: isAuthenticated }
   );
 
+  // Buscar cursos extras do aluno logado
+  const { data: myCourses } = trpc.studentCourses.getMyCourses.useQuery(
+    undefined,
+    { enabled: isAuthenticated }
+  );
+
+  // Controle de acesso por cursos
+  const hasReadingClub = myCourses?.includes('reading_club') ?? false;
+  const hasVacationPlus = myCourses?.some(c => c.startsWith('vp')) ?? false;
+  const hasTraveler = myCourses?.includes('traveler') ?? false;
+  const hasOnBusiness = myCourses?.includes('on_business') ?? false;
+
   // Usar dados do dashboard ou dados de demonstração
   const studentData = dashboardData || DEMO_STUDENT;
 
+  // Get book theme based on student level
+  const bookNumber = getBookNumberFromLevel(studentData.currentBook || studentData.level);
+  const theme = getBookTheme(bookNumber);
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 safe-area-bottom">
+    <div className="min-h-screen safe-area-bottom" style={{ background: theme.headerBg }}>
       <InfluxHeader />
       
       {/* Tutorial de Onboarding */}
@@ -118,9 +135,9 @@ export default function StudentDashboard() {
               <h1 className="text-xl sm:text-3xl font-bold text-white">
                 Olá, {user?.name || studentData.name}! 🎉
               </h1>
-              <p className="text-slate-400 text-sm sm:text-base mt-1">
-                Nível <span className="text-green-400 font-semibold">{studentData.level}</span> • 
-                <span className="text-blue-400 font-semibold"> {studentData.currentBook} - Unit {studentData.currentUnit}</span>
+              <p className="text-slate-300 text-sm sm:text-base mt-1">
+                <span className="font-semibold" style={{ color: theme.primary }}>{theme.emoji} {studentData.level}</span> • 
+                <span className="font-semibold" style={{ color: theme.primary }}> {studentData.currentBook} - Unit {studentData.currentUnit}</span>
               </p>
             </div>
             <div className="hidden sm:flex gap-2 flex-wrap">
@@ -232,19 +249,21 @@ export default function StudentDashboard() {
 
           {/* Grid de Action Cards - 2 colunas no mobile, 3 no tablet, 5 no desktop */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3">
-            {/* Reading Club */}
-            <button 
-              onClick={() => {
-                clearNotification('readingClub');
-                const tab = document.querySelector('[value="reading-club"]') as HTMLButtonElement;
-                if (tab) tab.click();
-              }}
-              className="action-card bg-gradient-to-br from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 shadow-lg shadow-orange-500/20 relative"
-            >
-              <BookOpen className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
-              <span className="text-white font-semibold text-xs sm:text-sm">Reading Club</span>
-              <NotificationBadge count={notifications.readingClub} />
-            </button>
+            {/* Reading Club - só aparece se aluno tem acesso */}
+            {hasReadingClub && (
+              <button 
+                onClick={() => {
+                  clearNotification('readingClub');
+                  const tab = document.querySelector('[value="reading-club"]') as HTMLButtonElement;
+                  if (tab) tab.click();
+                }}
+                className="action-card bg-gradient-to-br from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 shadow-lg shadow-orange-500/20 relative"
+              >
+                <BookOpen className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
+                <span className="text-white font-semibold text-xs sm:text-sm">Reading Club</span>
+                <NotificationBadge count={notifications.readingClub} />
+              </button>
+            )}
 
             {/* Chat IA */}
             <button 
@@ -317,15 +336,17 @@ export default function StudentDashboard() {
               <span className="text-[8px] sm:text-[10px] font-semibold">Meu Tutor</span>
             </TabsTrigger>
             
-            <TabsTrigger 
-              value="reading-club" 
-              className="flex flex-col items-center justify-center gap-0.5 py-2 px-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-orange-400 data-[state=active]:to-orange-500 data-[state=active]:text-white data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200 relative"
-              onClick={() => clearNotification('readingClub')}
-            >
-              <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="text-[8px] sm:text-[10px] font-semibold">Reading</span>
-              <NotificationBadge count={notifications.readingClub} />
-            </TabsTrigger>
+            {hasReadingClub && (
+              <TabsTrigger 
+                value="reading-club" 
+                className="flex flex-col items-center justify-center gap-0.5 py-2 px-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-orange-400 data-[state=active]:to-orange-500 data-[state=active]:text-white data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200 relative"
+                onClick={() => clearNotification('readingClub')}
+              >
+                <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span className="text-[8px] sm:text-[10px] font-semibold">Reading</span>
+                <NotificationBadge count={notifications.readingClub} />
+              </TabsTrigger>
+            )}
             
             <TabsTrigger 
               value="chat" 
@@ -471,9 +492,11 @@ export default function StudentDashboard() {
           </TabsContent>
 
           {/* Aba: Reading Club */}
-          <TabsContent value="reading-club" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
-            <ReadingClubIntegrated />
-          </TabsContent>
+          {hasReadingClub && (
+            <TabsContent value="reading-club" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
+              <ReadingClubIntegrated />
+            </TabsContent>
+          )}
 
           {/* Aba: Chat IA */}
           <TabsContent value="chat" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">

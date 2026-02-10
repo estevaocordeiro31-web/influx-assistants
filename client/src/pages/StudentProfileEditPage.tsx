@@ -1,5 +1,6 @@
 import { useAuth } from '@/_core/hooks/useAuth';
 import { StudentProfileForm } from '@/components/StudentProfileForm';
+import { StudentCoursesManager } from '@/components/StudentCoursesManager';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowLeft, Loader2 } from 'lucide-react';
@@ -69,12 +70,18 @@ export default function StudentProfileEditPage({ params }: any) {
             </CardContent>
           </Card>
         ) : (
-          <StudentProfileForm
-            studentId={parsedStudentId}
-            onSuccess={() => {
-              setLocation('/admin');
-            }}
-          />
+          <div className="space-y-6">
+            <StudentProfileForm
+              studentId={parsedStudentId}
+              onSuccess={() => {
+                setLocation('/admin');
+              }}
+            />
+            <StudentCoursesManager
+              studentId={parsedStudentId}
+              studentName={''}
+            />
+          </div>
         )}
       </main>
     </div>

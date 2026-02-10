@@ -1537,3 +1537,42 @@
 - [x] Integrar aba Notas no StudentDashboard
 - [x] Reorganizar navegação com 9 abas + scroll horizontal
 - [x] Testar todas as 3 novas abas - todas funcionando
+
+
+## Fase 98: Geração de Credenciais para Todos os Alunos
+- [ ] Puxar lista completa de alunos ativos do banco central
+- [ ] Gerar senhas seguras para cada aluno
+- [ ] Inserir credenciais no banco central (password_hash)
+- [ ] Criar documento com todas as credenciais
+- [ ] Preparar mensagens para distribuição via WhatsApp
+
+## Fase 99: Templates Visuais por Nível (Book 1-5) - COMPLETO
+- [x] Criar sistema de temas com cores por Book (book-themes.ts)
+- [x] Book 1: Verde limão (#84CC16)
+- [x] Book 2: Azul claro (#38BDF8)
+- [x] Book 3: Roxo (#A855F7)
+- [x] Book 4: Laranja (#F97316)
+- [x] Book 5: Vermelho escuro (#DC2626)
+- [x] Aplicar tema no header/fundo do dashboard do aluno
+- [x] Aplicar tema nos cards e componentes do dashboard
+- [x] Função getBookTheme() e getBookNumberFromLevel()
+- [x] Testar visual - tema verde (Book 1) funcionando
+
+## Fase 100: Aba de Cursos Extras e Controle de Acesso - COMPLETO
+- [x] Criar tabela student_courses no banco de dados
+- [x] Criar lista de cursos extras (VP1, VP2, VP3, VP4, Traveler, On Business, Reading Club)
+- [x] Criar router tRPC studentCourses com CRUD completo
+- [x] Criar componente StudentCoursesManager na edição do aluno (admin)
+- [x] Implementar scroll down com checkboxes para cada curso
+- [x] Salvar cursos do aluno no banco
+- [x] Implementar controle de acesso no dashboard do aluno (hasReadingClub, hasVacationPlus, etc)
+- [x] Ocultar action card e aba Reading Club quando aluno não tem acesso
+- [x] Testar controle de acesso - Reading Club oculto quando não tem acesso
+- [x] Escrever 19 testes unitários (todos passando)
+
+## Fase 101: Conteúdo Adaptado por Nível
+- [ ] Filtrar chunks e exercícios por Book do aluno
+- [ ] Adaptar sugestões do tutor ao nível do aluno
+- [ ] Personalizar dicas e recomendações por Book
+- [ ] Ajustar dificuldade dos quizzes por nível
+- [ ] Testar experiência personalizada por nível
