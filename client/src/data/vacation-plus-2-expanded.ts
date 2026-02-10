@@ -1104,8 +1104,8 @@ export const LESSON_VIDEOS: LessonVideo[] = [
     description: "Lucas at the Airport - JFK, New York",
     character: "lucas",
     city: "nyc",
-    duration: "0:29",
-    videoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/XlCtRstbLoqDlKCx.mp4",
+    duration: "0:24",
+    videoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/piTUCJwoKFdiNDBe.mp4",
   },
   {
     unit: 2,
@@ -1124,8 +1124,8 @@ export const LESSON_VIDEOS: LessonVideo[] = [
     description: "Aiko Explores Downtown Sydney",
     character: "aiko",
     city: "sydney",
-    duration: "0:19",
-    videoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/idiFjoOMQmWLofpx.mp4",
+    duration: "0:21",
+    videoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/cySzjbcxjUfJZjeX.mp4",
   },
   {
     unit: 4,
@@ -1134,8 +1134,8 @@ export const LESSON_VIDEOS: LessonVideo[] = [
     description: "Lucas Describes His Squad - Central Park",
     character: "lucas",
     city: "nyc",
-    duration: "0:21",
-    videoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/LNHQCpAnWjcbWFpP.mp4",
+    duration: "0:20",
+    videoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/DYPngVTUBQUwczrA.mp4",
   },
   {
     unit: 5,
@@ -1144,8 +1144,8 @@ export const LESSON_VIDEOS: LessonVideo[] = [
     description: "Emily Goes Shopping - Oxford Street",
     character: "emily",
     city: "london",
-    duration: "0:18",
-    videoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/uGPcSpRnUkmezPRs.mp4",
+    duration: "0:22",
+    videoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/VJDacYcjbYTWtBYb.mp4",
   },
   {
     unit: 6,
@@ -1154,8 +1154,8 @@ export const LESSON_VIDEOS: LessonVideo[] = [
     description: "Aiko's Life Advice - Bondi Beach",
     character: "aiko",
     city: "sydney",
-    duration: "0:21",
-    videoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/eXWCoukKvDKXastA.mp4",
+    duration: "0:20",
+    videoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/QdQKKZWJNuVOAFBg.mp4",
   },
   {
     unit: 7,
@@ -1164,8 +1164,8 @@ export const LESSON_VIDEOS: LessonVideo[] = [
     description: "Lucas and His Hobbies - NYC",
     character: "lucas",
     city: "nyc",
-    duration: "0:23",
-    videoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/nzhpenBvndqVtZCS.mp4",
+    duration: "0:25",
+    videoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/qbPwqyDsMgIMsVpl.mp4",
   },
   {
     unit: 8,
@@ -1174,8 +1174,8 @@ export const LESSON_VIDEOS: LessonVideo[] = [
     description: "Emily's Future Plans - London Eye",
     character: "emily",
     city: "london",
-    duration: "0:19",
-    videoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/TKTRxXShWotkGaGJ.mp4",
+    duration: "0:32",
+    videoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/fVZgNMSTwgFCOrml.mp4",
   },
 ];
 

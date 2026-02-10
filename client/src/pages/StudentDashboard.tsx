@@ -7,7 +7,8 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { 
   BookOpen, MessageCircle, Zap, TrendingUp, Award, RotateCcw, 
-  Trophy, Star, Target, Clock, CheckCircle2, Flame, Medal, Mic, GraduationCap
+  Trophy, Star, Target, Clock, CheckCircle2, Flame, Medal, Mic, GraduationCap,
+  Calendar, Bell, BarChart3
 } from "lucide-react";
 import { useLocation } from "wouter";
 import { useEffect, useState } from "react";
@@ -19,6 +20,9 @@ import { NotificationBadge } from "@/components/NotificationBadge";
 import { useNotifications } from "@/hooks/useNotifications";
 import { OnboardingTutorial } from "@/components/OnboardingTutorial";
 import { LeaderboardWidget } from "@/components/LeaderboardWidget";
+import { StudentCalendar } from "@/components/StudentCalendar";
+import { StudentMessages } from "@/components/StudentMessages";
+import { StudentGrades } from "@/components/StudentGrades";
 
 // Dados de demonstração - Aluno avançado Book 5
 const DEMO_STUDENT = {
@@ -296,7 +300,7 @@ export default function StudentDashboard() {
         {/* Abas Principais - Escondidas visualmente mas funcionais */}
         <Tabs defaultValue="overview" className="w-full">
           {/* Navegação Principal - Compacta no Mobile */}
-          <TabsList className="grid w-full grid-cols-6 bg-slate-900/80 backdrop-blur-sm border border-slate-700/50 rounded-xl p-1 gap-0.5 sm:gap-1 shadow-lg">
+          <TabsList className="flex w-full overflow-x-auto bg-slate-900/80 backdrop-blur-sm border border-slate-700/50 rounded-xl p-1 gap-0.5 sm:gap-1 shadow-lg scrollbar-hide">
             <TabsTrigger 
               value="overview" 
               className="flex flex-col items-center justify-center gap-0.5 py-2 px-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-green-400 data-[state=active]:to-green-500 data-[state=active]:text-slate-900 data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200"
@@ -344,8 +348,32 @@ export default function StudentDashboard() {
             </TabsTrigger>
             
             <TabsTrigger 
+              value="calendar" 
+              className="flex flex-col items-center justify-center gap-0.5 py-2 px-2 shrink-0 data-[state=active]:bg-gradient-to-br data-[state=active]:from-teal-400 data-[state=active]:to-teal-500 data-[state=active]:text-slate-900 data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200"
+            >
+              <Calendar className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="text-[8px] sm:text-[10px] font-semibold">Agenda</span>
+            </TabsTrigger>
+            
+            <TabsTrigger 
+              value="messages" 
+              className="flex flex-col items-center justify-center gap-0.5 py-2 px-2 shrink-0 data-[state=active]:bg-gradient-to-br data-[state=active]:from-indigo-400 data-[state=active]:to-indigo-500 data-[state=active]:text-white data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200 relative"
+            >
+              <Bell className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="text-[8px] sm:text-[10px] font-semibold">Avisos</span>
+            </TabsTrigger>
+            
+            <TabsTrigger 
+              value="grades" 
+              className="flex flex-col items-center justify-center gap-0.5 py-2 px-2 shrink-0 data-[state=active]:bg-gradient-to-br data-[state=active]:from-pink-400 data-[state=active]:to-pink-500 data-[state=active]:text-white data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200"
+            >
+              <BarChart3 className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="text-[8px] sm:text-[10px] font-semibold">Notas</span>
+            </TabsTrigger>
+            
+            <TabsTrigger 
               value="sponte" 
-              className="flex flex-col items-center justify-center gap-0.5 py-2 px-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:to-cyan-500 data-[state=active]:text-slate-900 data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200"
+              className="flex flex-col items-center justify-center gap-0.5 py-2 px-2 shrink-0 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:to-cyan-500 data-[state=active]:text-slate-900 data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200"
             >
               <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5" />
               <span className="text-[8px] sm:text-[10px] font-semibold">Dados</span>
@@ -530,6 +558,21 @@ export default function StudentDashboard() {
                 </Button>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          {/* Aba: Agenda */}
+          <TabsContent value="calendar" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
+            <StudentCalendar studentName={user?.name || studentData.name} />
+          </TabsContent>
+
+          {/* Aba: Mensagens do Pedagógico */}
+          <TabsContent value="messages" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
+            <StudentMessages studentName={user?.name || studentData.name} />
+          </TabsContent>
+
+          {/* Aba: Notas e Presença */}
+          <TabsContent value="grades" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
+            <StudentGrades studentName={user?.name || studentData.name} />
           </TabsContent>
 
           {/* Aba: Dados do Aluno (sem Sponte) */}

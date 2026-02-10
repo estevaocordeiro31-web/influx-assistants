@@ -1497,3 +1497,43 @@
 - [x] Combinar vídeo + novo áudio britânico
 - [x] Upload para S3 e atualizar URL no código
 - [ ] Testar e validar sotaque correto na plataforma publicada
+
+
+## Fase 94: Auditoria de Sotaques - Todos os Vídeos VP2
+- [x] Verificar Unit 1 (Lucas - Airport) - CORRIGIDO para americano (Adam/ElevenLabs)
+- [x] Verificar Unit 2 (Emily - Eating Out) - CORRIGIDO para britânico (Charlotte/ElevenLabs)
+- [x] Verificar Unit 3 (Aiko - Around Town) - CORRIGIDO para australiano (Jessica/ElevenLabs)
+- [x] Verificar Unit 4 (Lucas - Friends) - CORRIGIDO para americano (Adam/ElevenLabs)
+- [x] Verificar Unit 5 (Emily - Shopping) - CORRIGIDO para britânico (Charlotte/ElevenLabs)
+- [x] Verificar Unit 6 (Aiko - Advice) - CORRIGIDO para australiano (Jessica/ElevenLabs)
+- [x] Verificar Unit 7 (Lucas - Hobbies) - CORRIGIDO para americano (Adam/ElevenLabs)
+- [x] Verificar Unit 8 (Emily - Future Plans) - CORRIGIDO para britânico (Charlotte/ElevenLabs)
+- [x] Todos os 8 vídeos corrigidos com vozes ElevenLabs e URLs atualizadas
+
+## Fase 95: Calendário e Agenda do Aluno - COMPLETO
+- [x] Criar componente StudentCalendar com visão mensal e semanal
+- [x] Implementar navegação entre meses (setas < >)
+- [x] Exibir eventos, aulas e provas no calendário
+- [x] Criar painel lateral com detalhes do dia selecionado
+- [x] Criar seção "Próximos Eventos" com lista de eventos futuros
+- [x] Integrar aba Agenda no StudentDashboard
+- [x] Testar visualização - funcionando corretamente
+
+## Fase 96: Sistema de Mensagens do Pedagógico - COMPLETO
+- [x] Criar componente StudentMessages com inbox de mensagens
+- [x] Implementar filtros (Todas / Não lidas)
+- [x] Criar painel de leitura com conteúdo da mensagem
+- [x] Exibir badge de "2 novas" mensagens
+- [x] Categorizar mensagens por tipo (ícone + cor)
+- [x] Integrar aba Avisos no StudentDashboard
+- [x] Testar visualização - funcionando corretamente
+
+## Fase 97: Notas e Presença - COMPLETO
+- [x] Criar componente StudentGrades com abas Notas/Presença
+- [x] Implementar cards de estatísticas (Média 87%, Maior 95%, Menor 78%)
+- [x] Criar histórico de notas com feedback por avaliação
+- [x] Implementar visualização de presença com barra de progresso
+- [x] Criar calendário de presença com código de cores
+- [x] Integrar aba Notas no StudentDashboard
+- [x] Reorganizar navegação com 9 abas + scroll horizontal
+- [x] Testar todas as 3 novas abas - todas funcionando
