@@ -1114,8 +1114,8 @@ export const LESSON_VIDEOS: LessonVideo[] = [
     description: "Emily's Restaurant Adventure - London",
     character: "emily",
     city: "london",
-    duration: "0:25",
-    videoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/aGcXureUgMCJIlpd.mp4",
+    duration: "0:32",
+    videoUrl: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/HwBJKwPamFtdwVgZ.mp4",
   },
   {
     unit: 3,

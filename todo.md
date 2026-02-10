@@ -1487,3 +1487,13 @@
 - [x] Testar sessão via auth.me - OK
 - [ ] Distribuir credenciais via WhatsApp
 - [ ] Confirmar acesso de todos os alunos na plataforma publicada
+
+
+## Bug: Sotaque Errado no Vídeo Eating Out (Emily)
+- [x] Verificar configuração de voz do vídeo Eating Out da Emily
+- [x] Confirmar que Emily está usando sotaque americano em vez de britânico
+- [x] Corrigir para sotaque britânico (Charlotte - ElevenLabs)
+- [x] Regenerar áudio com voz Charlotte (4 cenas + narração completa)
+- [x] Combinar vídeo + novo áudio britânico
+- [x] Upload para S3 e atualizar URL no código
+- [ ] Testar e validar sotaque correto na plataforma publicada
