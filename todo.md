@@ -1457,3 +1457,33 @@
 - [ ] Usar Framer Motion para animações suaves
 - [ ] Integrar nas seções de dicas, lições e conquistas
 - [ ] Testar em mobile e desktop
+
+
+## Fase 93: Dashboard Integration Router - COMPLETO
+- [x] Criar router dashboard-integration.ts com endpoints de sincronização
+- [x] Implementar syncStudentsFromDashboard (pull de alunos do banco central)
+- [x] Implementar getSyncStats (estatísticas de sincronização)
+- [x] Implementar sendTrackingEvent (enviar eventos de acompanhamento)
+- [x] Implementar sendLearningProfile (enviar perfil de aprendizado)
+- [x] Implementar getStudentCalendar (puxar calendário do Dashboard)
+- [x] Implementar getStudentMessages (puxar mensagens do pedagógico)
+- [x] Implementar getNewsFeed (puxar notícias e eventos)
+- [x] Implementar getStudentGrades (puxar notas)
+- [x] Implementar getStudentAttendance (puxar presença)
+- [x] Implementar healthCheck (verificar saúde da integração)
+- [x] Registrar router no routers.ts principal
+- [x] Testar health check (localDb: true, centralDb: true)
+- [x] Testar sync stats (29 local, 198 central)
+
+## Fase 94: Cadastro de Alunos Teste - COMPLETO
+- [x] Criar Leonardo Cantone no banco local (avançado)
+- [x] Criar Gabriela Cantone no banco local (iniciante Book 1)
+- [x] Criar Vitor Emanuel no banco local (iniciante Book 1)
+- [x] Criar Leonardo Cantone no banco central (ID: 1230028)
+- [x] Criar Gabriela Cantone no banco central (ID: 1230029)
+- [x] Criar Vitor Emanuel no banco central (ID: 1230030)
+- [x] Verificar login via bcrypt no banco central
+- [x] Testar login via tRPC API (authPassword.login) - todos OK
+- [x] Testar sessão via auth.me - OK
+- [ ] Distribuir credenciais via WhatsApp
+- [ ] Confirmar acesso de todos os alunos na plataforma publicada
