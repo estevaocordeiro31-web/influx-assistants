@@ -33,6 +33,7 @@ import { quizLeaderboardRouter } from "./routers/quiz-leaderboard";
 import { dashboardIntegrationRouter } from "./routers/dashboard-integration";
 import { studentCoursesRouter } from "./routers/student-courses";
 import { personalizedContentRouter } from "./routers/personalized-content";
+import { tutorPersonalizedRouter } from "./routers/tutor-personalized";
 
 export const appRouter = router({
   system: systemRouter,
@@ -78,6 +79,7 @@ export const appRouter = router({
   dashboardIntegration: dashboardIntegrationRouter,
   studentCourses: studentCoursesRouter,
   personalizedContent: personalizedContentRouter,
+  tutorPersonalized: tutorPersonalizedRouter,
 });
 
 export type AppRouter = typeof appRouter;
