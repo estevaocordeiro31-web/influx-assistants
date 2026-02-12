@@ -39,6 +39,7 @@ import { dashboardSyncRouter } from "./routers/dashboard-sync";
 import { userManagementRouter } from "./routers/user-management";
 import { progressTrackerRouter } from "./routers/progress-tracker";
 import { webhookSyncRouter } from "./routers/webhook-sync";
+import { tutorPersonalizedV2Router } from "./routers/tutor-personalized-v2";
 
 export const appRouter = router({
   system: systemRouter,
@@ -90,6 +91,7 @@ export const appRouter = router({
   userManagement: userManagementRouter,
   progressTracker: progressTrackerRouter,
   webhookSync: webhookSyncRouter,
+  tutorPersonalizedV2: tutorPersonalizedV2Router,
 });
 
 export type AppRouter = typeof appRouter;

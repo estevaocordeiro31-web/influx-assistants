@@ -1815,3 +1815,40 @@
 - [ ] Implementar indicador visual de acesso permitido/negado
 - [ ] Testar com alunos com diferentes inscrições
 - [ ] Criar testes vitest para validação de acesso
+
+
+## Fase 118: Integração de Personalização no Tutor IA
+- [ ] Ler router tutor.ts para entender fluxo de chat
+- [ ] Integrar trpc.studentPersonalization.getPersonalizedChunks.useQuery()
+- [ ] Adaptar prompt do assistente para usar chunks do nível do aluno
+- [ ] Validar que respostas usam vocabulário apropriado
+- [ ] Criar testes vitest para tutor personalizado
+- [ ] Testar com múltiplos alunos de níveis diferentes
+
+## Fase 119: Implementar Validação de Acesso em MeuTutorTab
+- [ ] Ler componente MeuTutorTab para entender estrutura
+- [ ] Integrar trpc.studentPersonalization.hasAccessToCourse.useQuery()
+- [ ] Filtrar cursos ativos do aluno
+- [ ] Mostrar CTA para inscrição em cursos não inscritos
+- [ ] Implementar fluxo de inscrição em novo curso
+- [ ] Criar testes vitest para validação de acesso
+
+## Fase 120: Adicionar Indicador de Sincronização no StudentDashboard
+- [ ] Adicionar estado de loading no StudentDashboard
+- [ ] Implementar spinner durante fetch de dados
+- [ ] Mostrar badge "Sincronizado" após sucesso
+- [ ] Adicionar timestamp da última sincronização
+- [ ] Criar testes vitest para indicador
+- [ ] Testar em mobile e desktop
+
+
+## Fase 118: Integração de Personalização no Tutor IA - COMPLETO
+- [x] Criar router tutor-personalized-v2 com 3 procedures
+- [x] Implementar chatPersonalized com chunks do aluno
+- [x] Implementar getStudentChunks para buscar chunks por studentId
+- [x] Implementar validateVocabulary para validar mensagens
+- [x] Adaptar prompt com mapeamento CEFR (A1-C2)
+- [x] Adicionar Connected Speech Rules por nível
+- [x] Integrar no appRouter
+- [x] Criar 24 testes vitest (todos passando)
+- [x] Servidor rodando sem erros
