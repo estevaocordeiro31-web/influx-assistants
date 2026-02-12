@@ -712,3 +712,23 @@ export const studentCourses = mysqlTable("student_courses", {
 
 export type StudentCourse = typeof studentCourses.$inferSelect;
 export type InsertStudentCourse = typeof studentCourses.$inferInsert;
+
+
+// Student topic progress table - Rastreia progresso em tópicos específicos
+export const studentTopicProgress = mysqlTable("student_topic_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("student_id").notNull(),
+  topicId: varchar("topic_id", { length: 100 }).notNull(), // ex: "med-1", "travel-cancun-1"
+  topicName: varchar("topic_name", { length: 255 }).notNull(),
+  category: mysqlEnum("category", ["professional", "traveller", "general"]).notNull(),
+  completed: boolean("completed").default(false).notNull(),
+  completedAt: timestamp("completed_at"),
+  progressPercentage: int("progress_percentage").default(0).notNull(), // 0-100
+  timeSpentMinutes: int("time_spent_minutes").default(0).notNull(),
+  lastAccessedAt: timestamp("last_accessed_at").defaultNow().notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type StudentTopicProgress = typeof studentTopicProgress.$inferSelect;
+export type InsertStudentTopicProgress = typeof studentTopicProgress.$inferInsert;

@@ -2,7 +2,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useLocation } from "wouter";
-import { LogOut, Menu, X, Flame, Trophy, HelpCircle } from "lucide-react";
+import { LogOut, Menu, X, Flame, Trophy, HelpCircle, Sparkles } from "lucide-react";
 import { useState } from "react";
 
 // Dados de demonstração
@@ -61,6 +61,19 @@ export default function InfluxHeader({ onOpenTutorial }: InfluxHeaderProps = {})
 
         {/* Menu Desktop */}
         <div className="hidden md:flex items-center gap-4">
+          {/* Link para Tiago se autenticado */}
+          {user?.email === "tiago.laerte@icloud.com" && (
+            <Button
+              onClick={() => setLocation("/tiago")}
+              variant="ghost"
+              size="sm"
+              className="text-slate-300 hover:text-green-400 hover:bg-slate-800 flex items-center gap-2"
+              title="Meu Espaço Personalizado"
+            >
+              <Sparkles className="w-4 h-4" />
+              <span className="hidden lg:inline">Meu Espaço</span>
+            </Button>
+          )}
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center font-bold text-slate-900 text-sm">
               {displayUser.name.charAt(0).toUpperCase()}
@@ -132,6 +145,18 @@ export default function InfluxHeader({ onOpenTutorial }: InfluxHeaderProps = {})
               {DEMO_USER.level}
             </Badge>
           </div>
+          {/* Link para Tiago no mobile */}
+          {user?.email === "tiago.laerte@icloud.com" && (
+            <Button
+              onClick={() => setLocation("/tiago")}
+              variant="outline"
+              size="sm"
+              className="w-full border-green-600 text-green-400 hover:bg-green-600/20 mb-4"
+            >
+              <Sparkles className="w-4 h-4 mr-2" />
+              Meu Espaço Personalizado
+            </Button>
+          )}
           <Button
             onClick={handleLogout}
             variant="outline"
