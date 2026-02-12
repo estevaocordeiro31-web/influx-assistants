@@ -93,8 +93,8 @@ export default function StudentDashboard() {
     setShowOnboarding(false);
   };
 
-  // Buscar dados do dashboard do aluno autenticado
-  const { data: dashboardData, isLoading: dashboardLoading } = trpc.student.getDashboardData.useQuery(
+  // Buscar dados personalizados do dashboard do aluno autenticado
+  const { data: personalizedDashboard, isLoading: personalizedLoading } = trpc.studentPersonalization.getPersonalizedDashboard.useQuery(
     undefined,
     { enabled: isAuthenticated }
   );
@@ -111,11 +111,37 @@ export default function StudentDashboard() {
   const hasTraveler = myCourses?.includes('traveler') ?? false;
   const hasOnBusiness = myCourses?.includes('on_business') ?? false;
 
-  // Usar dados do dashboard ou dados de demonstração
-  const studentData = dashboardData || DEMO_STUDENT;
+  // Usar dados personalizados do dashboard ou dados de demonstração
+  const bookNum = personalizedDashboard?.student ? getBookNumberFromLevel(personalizedDashboard.student.level) : 5;
+  const studentData = personalizedDashboard?.student && personalizedDashboard?.books ? {
+    name: personalizedDashboard.student.name || 'Aluno',
+    email: personalizedDashboard.student.email || '',
+    level: personalizedDashboard.student.level,
+    currentBook: `Book ${bookNum}`,
+    currentBookId: bookNum,
+    currentUnit: personalizedDashboard.books.inProgress[0]?.currentUnit || 1,
+    totalUnits: 12,
+    progressPercentage: Number(personalizedDashboard.books.inProgress[0]?.progressPercentage) || 0,
+    totalHoursLearned: personalizedDashboard.student.hoursLearned,
+    totalChunksLearned: 0,
+    streakDays: personalizedDashboard.student.streak,
+    nextReview: 0,
+    badges: [],
+    completedBooks: personalizedDashboard.books.completed.map((b: any) => ({
+      id: b.bookId,
+      name: `Book ${b.bookId}`,
+      level: 'Completo',
+      completedAt: b.completedAt ? new Date(b.completedAt).toLocaleDateString('pt-BR') : null,
+      hoursSpent: 0,
+      chunksLearned: 0,
+      progress: 100,
+    })),
+    recentChunks: [],
+    weeklyProgress: [],
+  } : DEMO_STUDENT;
 
   // Get book theme based on student level
-  const bookNumber = getBookNumberFromLevel(studentData.currentBook || studentData.level);
+  const bookNumber = getBookNumberFromLevel(studentData.level);
   const theme = getBookTheme(bookNumber);
 
   return (
@@ -585,17 +611,17 @@ export default function StudentDashboard() {
 
           {/* Aba: Agenda */}
           <TabsContent value="calendar" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
-            <StudentCalendar studentName={user?.name || studentData.name} />
+            <StudentCalendar studentName={(user?.name || studentData.name) as string} />
           </TabsContent>
 
           {/* Aba: Mensagens do Pedagógico */}
           <TabsContent value="messages" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
-            <StudentMessages studentName={user?.name || studentData.name} />
+            <StudentMessages studentName={(user?.name || studentData.name) as string} />
           </TabsContent>
 
           {/* Aba: Notas e Presença */}
           <TabsContent value="grades" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
-            <StudentGrades studentName={user?.name || studentData.name} />
+            <StudentGrades studentName={(user?.name || studentData.name) as string} />
           </TabsContent>
 
           {/* Aba: Dados do Aluno (sem Sponte) */}

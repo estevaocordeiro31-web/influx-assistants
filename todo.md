@@ -1788,3 +1788,30 @@
 - [ ] Implementar filtros corretos por nível, livros e cursos
 - [ ] Criar testes para validar personalização por aluno
 - [ ] Testar com múltiplos alunos para confirmar isolamento de dados
+
+
+## Fase 117: Integração de Personalização no StudentDashboard - COMPLETO
+- [x] Ler StudentDashboard.tsx para entender estrutura atual
+- [x] Substituir dados de demonstração (DEMO_STUDENT) por dados reais
+- [x] Integrar trpc.studentPersonalization.getPersonalizedDashboard.useQuery()
+- [x] Remover hardcoded data e usar dados do banco
+- [x] Mapear dados do router para studentData
+- [x] Criar 12 testes vitest para StudentDashboard (todos passando)
+- [x] Servidor rodando sem erros
+
+## Fase 118: Integração de Personalização no Tutor IA
+- [ ] Ler router tutor.ts para entender fluxo de chat
+- [ ] Integrar trpc.studentPersonalization.getPersonalizedChunks.useQuery()
+- [ ] Adaptar prompt do assistente para usar chunks do nível correto
+- [ ] Implementar validação de contexto (objetivo do aluno)
+- [ ] Testar respostas do tutor com diferentes níveis
+- [ ] Criar testes vitest para tutor personalizado
+
+## Fase 119: Validação de Acesso em MeuTutorTab
+- [ ] Ler MeuTutorTab para entender estrutura
+- [ ] Integrar trpc.studentPersonalization.hasAccessToCourse.useQuery()
+- [ ] Mostrar apenas cursos que aluno está inscrito
+- [ ] Adicionar CTA para inscrição em outros cursos
+- [ ] Implementar indicador visual de acesso permitido/negado
+- [ ] Testar com alunos com diferentes inscrições
+- [ ] Criar testes vitest para validação de acesso
