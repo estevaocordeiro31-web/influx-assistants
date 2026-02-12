@@ -32,6 +32,7 @@ import GeminiChat from "./pages/GeminiChat";
 import EditProfile from "./pages/EditProfile";
 import LessonsPage from "./pages/LessonsPage";
 import TiagoPage from "./pages/TiagoPage";
+import AdminTiagoSetup from "./pages/AdminTiagoSetup";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -86,6 +87,7 @@ function Router() {
           <Route path="/admin/gemini-suggestions" component={GeminiSuggestions} />
           <Route path="/admin/gemini-analysis" component={GeminiStrategicAnalysis} />
           <Route path="/admin/gemini-chat" component={GeminiChat} />
+          <Route path="/admin/tiago-setup" component={AdminTiagoSetup} />
         </>
       )}
       {/* Rotas de demonstração admin */}

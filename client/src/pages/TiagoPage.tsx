@@ -5,7 +5,7 @@
  * Médico, Book 2 (Elementary), objetivo: Career
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { TiagoPersonalizedTabs } from '@/components/TiagoPersonalizedTabs';
 import { CreateTiagoUser } from '@/components/CreateTiagoUser';
 import { ProgressTracker, ProgressSummary } from '@/components/ProgressTracker';
@@ -14,6 +14,21 @@ import { trpc } from '@/lib/trpc';
 export function TiagoPage() {
   const { data: user } = trpc.auth.me.useQuery();
   const isTiago = user?.email === 'tiago.laerte@icloud.com';
+  const utils = trpc.useUtils();
+
+  // Polling de progresso a cada 30 segundos
+  useEffect(() => {
+    if (!isTiago) return;
+
+    const interval = setInterval(() => {
+      // Invalidar cache para forçar refetch
+      utils.progressTracker.getProgressSummary.invalidate();
+      utils.progressTracker.getCategoryProgress.invalidate({ category: 'professional' });
+      utils.progressTracker.getCategoryProgress.invalidate({ category: 'traveller' });
+    }, 30000); // 30 segundos
+
+    return () => clearInterval(interval);
+  }, [isTiago, utils]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8">

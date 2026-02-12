@@ -10,6 +10,7 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import { initializeJobs } from "./init-jobs";
+import { handleWebhook, webhookHealthCheck } from "./webhook-handler";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -42,6 +43,9 @@ async function startServer() {
   registerTestLoginRoutes(app);
   // Direct login routes (native Express)
   registerDirectLoginRoutes(app);
+  // Webhook routes
+  app.post("/api/webhooks/sync", handleWebhook);
+  app.get("/api/webhooks/health", webhookHealthCheck);
   // tRPC API
   app.use(
     "/api/trpc",

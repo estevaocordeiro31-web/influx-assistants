@@ -1744,3 +1744,35 @@
 - [x] Integrar router no appRouter
 - [x] Criar 33 testes vitest (todos passando)
 - [x] Servidor rodando sem erros
+
+
+## Fase 113: Criar Usuário Tiago no Banco de Dados - COMPLETO
+- [x] Criar página AdminTiagoSetup com interface intuitiva
+- [x] Pré-preencher todos os dados de Tiago
+- [x] Implementar fluxo de estados (welcome -> creating -> success/error)
+- [x] Integrar rota /admin/tiago-setup no App.tsx
+- [x] Criar 34 testes vitest (todos passando)
+- [x] Servidor rodando sem erros
+- [x] Pronto para acessar via /admin/tiago-setup e criar usuário
+
+## Fase 114: Integrar Endpoint Webhook com Dashboard Real - COMPLETO
+- [x] Criar webhook-handler.ts com validação HMAC-SHA256
+- [x] Implementar handleWebhook para receber eventos
+- [x] Implementar handleStudentAdded
+- [x] Implementar handleGradeUpdated com sincronização de progresso
+- [x] Implementar handleAttendanceRecorded
+- [x] Implementar webhookHealthCheck
+- [x] Adicionar rotas POST /api/webhooks/sync e GET /api/webhooks/health
+- [x] Integrar rotas no servidor principal (_core/index.ts)
+- [x] Criar 36 testes vitest (todos passando)
+- [x] Servidor rodando sem erros
+
+## Fase 115: Implementar Polling de Progresso em Tempo Real - COMPLETO
+- [x] Adicionar useEffect com setInterval no TiagoPage
+- [x] Configurar intervalo de 30 segundos
+- [x] Invalidar cache para forçar refetch de getProgressSummary
+- [x] Invalidar cache para forçar refetch de getCategoryProgress
+- [x] Limpar intervalo ao desmontar componente
+- [x] Adicionar isTiago e utils como dependências
+- [x] Criar 41 testes vitest (todos passando)
+- [x] Servidor rodando sem erros
