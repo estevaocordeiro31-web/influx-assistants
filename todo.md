@@ -1776,3 +1776,15 @@
 - [x] Adicionar isTiago e utils como dependências
 - [x] Criar 41 testes vitest (todos passando)
 - [x] Servidor rodando sem erros
+
+
+## Fase 116: Auditoria e Correção de Personalização de Conteúdo
+- [ ] Verificar se StudentDashboard usa dados reais do aluno ou dados de demonstração
+- [ ] Verificar se PersonalizedContent filtra por nível do aluno autenticado
+- [ ] Verificar se TiagoPersonalizedTabs é exclusivo para Tiago ou acessível a todos
+- [ ] Verificar se MeuTutorTab personaliza por nível e livros cursados
+- [ ] Verificar se cursos extras (reading_club, traveler, on_business) são filtrados por aluno
+- [ ] Identificar quais componentes usam dados hardcoded vs dados do banco
+- [ ] Implementar filtros corretos por nível, livros e cursos
+- [ ] Criar testes para validar personalização por aluno
+- [ ] Testar com múltiplos alunos para confirmar isolamento de dados

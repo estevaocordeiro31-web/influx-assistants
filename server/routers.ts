@@ -34,6 +34,7 @@ import { dashboardIntegrationRouter } from "./routers/dashboard-integration";
 import { studentCoursesRouter } from "./routers/student-courses";
 import { personalizedContentRouter } from "./routers/personalized-content";
 import { tutorPersonalizedRouter } from "./routers/tutor-personalized";
+import { studentPersonalizationRouter } from "./routers/student-personalization";
 import { dashboardSyncRouter } from "./routers/dashboard-sync";
 import { userManagementRouter } from "./routers/user-management";
 import { progressTrackerRouter } from "./routers/progress-tracker";
@@ -84,6 +85,7 @@ export const appRouter = router({
   studentCourses: studentCoursesRouter,
   personalizedContent: personalizedContentRouter,
   tutorPersonalized: tutorPersonalizedRouter,
+  studentPersonalization: studentPersonalizationRouter,
   dashboardSync: dashboardSyncRouter,
   userManagement: userManagementRouter,
   progressTracker: progressTrackerRouter,
