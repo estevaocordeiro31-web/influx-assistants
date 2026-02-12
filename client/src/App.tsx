@@ -31,6 +31,7 @@ import GeminiStrategicAnalysis from "./pages/GeminiStrategicAnalysis";
 import GeminiChat from "./pages/GeminiChat";
 import EditProfile from "./pages/EditProfile";
 import LessonsPage from "./pages/LessonsPage";
+import TiagoPage from "./pages/TiagoPage";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -72,6 +73,10 @@ function Router() {
       <Route path="/student/voice-chat" component={VoiceChatPage} />
       <Route path="/student/blog-tips" component={BlogTips} />
       <Route path="/student/simulator" component={SituationSimulator} />
+      {/* Rota exclusiva para Tiago */}
+      {isAuthenticated && user?.email === "tiago.laerte@icloud.com" && (
+        <Route path="/tiago" component={TiagoPage} />
+      )}
       {isAuthenticated && user?.role === "admin" && (
         <>
           <Route path="/admin/dashboard" component={AdminDashboard} />
