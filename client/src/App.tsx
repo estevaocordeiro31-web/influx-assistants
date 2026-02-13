@@ -33,9 +33,17 @@ import EditProfile from "./pages/EditProfile";
 import LessonsPage from "./pages/LessonsPage";
 import TiagoPage from "./pages/TiagoPage";
 import AdminTiagoSetup from "./pages/AdminTiagoSetup";
+import { AccessBlockedPage } from "./pages/AccessBlockedPage";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
+
+  // Verificar se acesso está bloqueado
+  const isAccessBlocked = () => {
+    const unlockDate = new Date("2026-03-01T00:00:00Z");
+    const now = new Date();
+    return now < unlockDate;
+  };
 
   if (loading) {
     return (
@@ -46,6 +54,11 @@ function Router() {
         </div>
       </div>
     );
+  }
+
+  // Se autenticado e acesso bloqueado, mostrar página de bloqueio
+  if (isAuthenticated && isAccessBlocked()) {
+    return <AccessBlockedPage />;
   }
 
   return (
