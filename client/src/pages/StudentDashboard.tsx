@@ -23,6 +23,7 @@ import { LeaderboardWidget } from "@/components/LeaderboardWidget";
 import { StudentCalendar } from "@/components/StudentCalendar";
 import { StudentMessages } from "@/components/StudentMessages";
 import { StudentGrades } from "@/components/StudentGrades";
+import { SyncIndicator, useSyncStatus } from "@/components/SyncIndicator";
 import { getBookTheme, getBookNumberFromLevel } from "@/lib/book-themes";
 
 // Dados de demonstração - Aluno avançado Book 5
@@ -75,6 +76,7 @@ export default function StudentDashboard() {
   const [, setLocation] = useLocation();
   const { notifications, clearNotification } = useNotifications();
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const { status, message, setSyncing, setSyncSuccess, setSyncError } = useSyncStatus();
 
   // Verificar se é o primeiro acesso do usuário
   useEffect(() => {
@@ -154,6 +156,10 @@ export default function StudentDashboard() {
       )}
       
       <main className="container mx-auto px-4 py-4 sm:py-6 max-w-7xl">
+        {/* Sync Indicator */}
+        <div className="mb-4">
+          <SyncIndicator status={status} message={message} showBadge={true} />
+        </div>
         {/* Header do Aluno - Compacto no Mobile */}
         <div className="mb-4 sm:mb-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">

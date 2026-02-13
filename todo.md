@@ -1892,14 +1892,16 @@
 - [x] Criar 32 testes vitest (todos passando)
 - [x] Servidor rodando sem erros
 
-## Fase 120: Adicionar Indicador de Sincronização no StudentDashboard
-- [ ] Criar componente SyncIndicator com spinner e badge
-- [ ] Integrar indicador no StudentDashboard
-- [ ] Mostrar "Carregando..." durante fetch de dados
-- [ ] Mostrar "Sincronizado" após sucesso
-- [ ] Adicionar animação de spinner
-- [ ] Testar indicador em diferentes estados
-- [ ] Criar testes vitest para SyncIndicator
+## Fase 120: Adicionar Indicador de Sincronização no StudentDashboard - COMPLETO
+- [x] Criar componente SyncIndicator com spinner e badge
+- [x] Criar hook useSyncStatus para gerenciar estados
+- [x] Criar componente SyncStatusBadge compacto
+- [x] Integrar indicador no StudentDashboard com status de loading
+- [x] Mostrar "Sincronizando..." durante fetch de dados
+- [x] Mostrar "Sincronizado" após sucesso
+- [x] Adicionar animação de spinner com Loader2
+- [x] Criar 28 testes vitest para SyncIndicator (todos passando)
+- [x] Servidor rodando sem erros
 
 ## Fase 121: Implementar Polling de Atualização de Chunks
 - [ ] Adicionar useEffect com setInterval no StudentDashboard
@@ -1909,3 +1911,33 @@
 - [ ] Limpar intervalo ao desmontar componente
 - [ ] Testar polling em tempo real
 - [ ] Criar testes vitest para polling
+
+
+## Fase 120: Adicionar Indicador de Sincronização no StudentDashboard - COMPLETO
+- [x] Criar componente SyncIndicator com spinner e badge
+- [x] Criar hook useSyncStatus para gerenciar estados
+- [x] Criar componente SyncStatusBadge compacto
+- [x] Integrar indicador no StudentDashboard com status de loading
+- [x] Mostrar "Sincronizando..." durante fetch de dados
+- [x] Mostrar "Sincronizado" após sucesso
+- [x] Adicionar animação de spinner com Loader2
+- [x] Criar 28 testes vitest para SyncIndicator (todos passando)
+- [x] Servidor rodando sem erros
+
+## Fase 121: Implementar Polling de Atualização de Chunks
+- [ ] Adicionar useEffect com setInterval no StudentDashboard
+- [ ] Configurar intervalo de 60 segundos
+- [ ] Chamar trpc.studentPersonalization.getPersonalizedChunks.useQuery()
+- [ ] Invalidar cache para forçar refetch
+- [ ] Limpar intervalo ao desmontar componente
+- [ ] Testar polling em tempo real
+- [ ] Criar testes vitest para polling
+
+## Fase 122: Criar Sistema de Notificações de Cursos
+- [ ] Criar tabela de notificações de cursos no banco
+- [ ] Implementar router tRPC para gerenciar notificações
+- [ ] Criar componente CourseNotificationBadge
+- [ ] Integrar notificações em MateriaisExtrasTab
+- [ ] Implementar push notifications quando curso é liberado
+- [ ] Criar histórico de notificações
+- [ ] Testar sistema de notificações
