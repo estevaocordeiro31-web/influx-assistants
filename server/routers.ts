@@ -40,6 +40,7 @@ import { userManagementRouter } from "./routers/user-management";
 import { progressTrackerRouter } from "./routers/progress-tracker";
 import { webhookSyncRouter } from "./routers/webhook-sync";
 import { tutorPersonalizedV2Router } from "./routers/tutor-personalized-v2";
+import { bulkStudentSyncRouter } from "./routers/bulk-student-sync";
 
 export const appRouter = router({
   system: systemRouter,
@@ -92,6 +93,7 @@ export const appRouter = router({
   progressTracker: progressTrackerRouter,
   webhookSync: webhookSyncRouter,
   tutorPersonalizedV2: tutorPersonalizedV2Router,
+  bulkStudentSync: bulkStudentSyncRouter,
 });
 
 export type AppRouter = typeof appRouter;

@@ -1941,3 +1941,64 @@
 - [ ] Implementar push notifications quando curso é liberado
 - [ ] Criar histórico de notificações
 - [ ] Testar sistema de notificações
+
+
+## Fase 122: Sincronizar 182 Alunos do Dashboard Central
+- [ ] Criar procedure tRPC para sincronizar alunos do Dashboard
+- [ ] Buscar 182 alunos ativos do banco centralizado
+- [ ] Mapear dados (nome, email, nível, objetivo, telefone)
+- [ ] Criar usuários no banco local com role 'student'
+- [ ] Gerar senhas temporárias para cada aluno
+- [ ] Registrar status de sincronização
+- [ ] Criar testes vitest para sincronização
+
+## Fase 123: Implementar Bloqueio de Acesso até 01/03
+- [ ] Criar middleware de verificação de data
+- [ ] Bloquear acesso a todas as abas até 01/03
+- [ ] Mostrar mensagem de curiosidade personalizada
+- [ ] Exibir timer contando para 01/03
+- [ ] Permitir visualização apenas da página de curiosidade
+- [ ] Criar testes vitest para bloqueio
+
+## Fase 124: Criar Timer na Primeira Página
+- [ ] Implementar countdown timer até 01/03
+- [ ] Exibir em formato HH:MM:SS
+- [ ] Adicionar animação visual
+- [ ] Mostrar mensagem motivacional
+- [ ] Atualizar em tempo real
+- [ ] Criar testes vitest para timer
+
+## Fase 125: Gerar Mensagens Personalizadas por Aluno
+- [ ] Criar template de mensagem com variáveis
+- [ ] Personalizar com nome do aluno
+- [ ] Personalizar com nível (Book)
+- [ ] Personalizar com objetivo
+- [ ] Gerar 182 mensagens únicas
+- [ ] Armazenar no banco de dados
+- [ ] Criar testes vitest
+
+## Fase 126: Implementar Webhook Bidirecional para Dashboard
+- [ ] Criar endpoint POST /api/webhooks/dashboard-sync-status
+- [ ] Enviar status de criação de acesso para Dashboard
+- [ ] Incluir ID do aluno, email, telefone, senha
+- [ ] Incluir timestamp de criação
+- [ ] Implementar retry automático
+- [ ] Criar testes vitest para webhook
+
+## Fase 127: Integrar com WhatsApp para Envio de Credenciais
+- [ ] Usar Z-API para envio de mensagens
+- [ ] Enviar credenciais via WhatsApp após 01/03
+- [ ] Personalizar mensagem com nome do aluno
+- [ ] Incluir link de acesso
+- [ ] Incluir instruções de primeiro acesso
+- [ ] Rastrear entrega de mensagens
+- [ ] Criar testes vitest
+
+## Fase 128: Testar Integração Completa
+- [ ] Testar sincronização de 182 alunos
+- [ ] Testar bloqueio de acesso até 01/03
+- [ ] Testar timer na página
+- [ ] Testar mensagens personalizadas
+- [ ] Testar webhook bidirecional
+- [ ] Testar envio via WhatsApp
+- [ ] Validar fluxo completo
