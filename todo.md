@@ -1852,3 +1852,60 @@
 - [x] Integrar no appRouter
 - [x] Criar 24 testes vitest (todos passando)
 - [x] Servidor rodando sem erros
+
+
+## Fase 119: Integrar Validação de Acesso em MeuTutorTab
+- [ ] Ler componente MeuTutorTab para entender estrutura
+- [ ] Integrar trpc.studentPersonalization.hasAccessToCourse.useQuery()
+- [ ] Filtrar cursos por inscrição do aluno
+- [ ] Adicionar CTA para inscrição em novos cursos
+- [ ] Criar componente CourseAccessValidator
+- [ ] Testar com múltiplos alunos
+- [ ] Criar testes vitest
+
+## Fase 120: Adicionar Indicador de Sincronização no StudentDashboard
+- [ ] Criar componente SyncIndicator com spinner/badge
+- [ ] Integrar no StudentDashboard
+- [ ] Mostrar "Carregando..." durante fetch
+- [ ] Mostrar "Sincronizado" após sucesso
+- [ ] Adicionar timestamp da última sincronização
+- [ ] Testar em desktop e mobile
+- [ ] Criar testes vitest
+
+## Fase 121: Implementar Polling de Atualização de Chunks
+- [ ] Adicionar useEffect com setInterval no TiagoPage
+- [ ] Configurar intervalo de 60 segundos
+- [ ] Invalidar cache de chunks para refetch
+- [ ] Limpar intervalo ao desmontar
+- [ ] Adicionar indicador visual de polling
+- [ ] Testar em tempo real
+- [ ] Criar testes vitest
+
+
+## Fase 119: Integrar Validação de Acesso em MeuTutorTab - COMPLETO
+- [x] Criar componente CourseAccessValidator com 6 cursos
+- [x] Integrar validação de acesso com trpc.studentPersonalization
+- [x] Mostrar apenas cursos inscritos (com CheckCircle2)
+- [x] Adicionar CTA para inscrição em novos cursos (com Plus)
+- [x] Integrar CourseAccessValidator em MateriaisExtrasTab
+- [x] Adicionar abas "Materiais" e "Cursos Extras" em MateriaisExtrasTab
+- [x] Criar 32 testes vitest (todos passando)
+- [x] Servidor rodando sem erros
+
+## Fase 120: Adicionar Indicador de Sincronização no StudentDashboard
+- [ ] Criar componente SyncIndicator com spinner e badge
+- [ ] Integrar indicador no StudentDashboard
+- [ ] Mostrar "Carregando..." durante fetch de dados
+- [ ] Mostrar "Sincronizado" após sucesso
+- [ ] Adicionar animação de spinner
+- [ ] Testar indicador em diferentes estados
+- [ ] Criar testes vitest para SyncIndicator
+
+## Fase 121: Implementar Polling de Atualização de Chunks
+- [ ] Adicionar useEffect com setInterval no StudentDashboard
+- [ ] Configurar intervalo de 60 segundos
+- [ ] Chamar trpc.studentPersonalization.getPersonalizedChunks.useQuery()
+- [ ] Invalidar cache para forçar refetch
+- [ ] Limpar intervalo ao desmontar componente
+- [ ] Testar polling em tempo real
+- [ ] Criar testes vitest para polling
