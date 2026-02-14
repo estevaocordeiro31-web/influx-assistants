@@ -33,6 +33,7 @@ import EditProfile from "./pages/EditProfile";
 import LessonsPage from "./pages/LessonsPage";
 import TiagoPage from "./pages/TiagoPage";
 import AdminTiagoSetup from "./pages/AdminTiagoSetup";
+import AdminBulkSyncPage from "./pages/AdminBulkSyncPage";
 import { AccessBlockedPage } from "./pages/AccessBlockedPage";
 
 function Router() {
@@ -101,6 +102,7 @@ function Router() {
           <Route path="/admin/gemini-analysis" component={GeminiStrategicAnalysis} />
           <Route path="/admin/gemini-chat" component={GeminiChat} />
           <Route path="/admin/tiago-setup" component={AdminTiagoSetup} />
+          <Route path="/admin/bulk-sync" component={AdminBulkSyncPage} />
         </>
       )}
       {/* Rotas de demonstração admin */}
