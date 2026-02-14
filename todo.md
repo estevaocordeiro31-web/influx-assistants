@@ -227,3 +227,33 @@ Cada um dos 182 alunos receberá uma experiência completamente personalizada ba
 - [ ] Dashboard dispara credenciais via WhatsApp
 - [ ] Monitorar sucesso de sincronização
 - [ ] Criar relatório final de implementação
+
+## Fase 131: Gerar 182 Mensagens Personalizadas por WhatsApp - COMPLETO
+- [x] Criar router whatsappMessages.ts com 4 procedures
+- [x] Implementar generatePersonalizedMessages() para gerar todas as mensagens
+- [x] Implementar generateMessageForStudent() para aluno específico
+- [x] Implementar validateMessages() para validar qualidade
+- [x] Implementar exportAsCSV() para exportar em CSV
+- [x] Template de mensagem com nome, nível, objetivo, data desbloqueio
+- [x] Validação de comprimento (50-700 caracteres)
+- [x] Validação de conteúdo (data e "Acesso liberado")
+- [x] 28 testes vitest - TODOS PASSANDO
+- [x] Integrado no appRouter como whatsappMessages
+
+## Fase 132: Webhook Bidirecional de Retorno ao Dashboard - PRÓXIMA
+- [ ] Criar endpoint POST /api/webhooks/credential-status
+- [ ] Implementar validação HMAC-SHA256 do Dashboard
+- [ ] Enviar status de criação de acesso (success, pending, error)
+- [ ] Incluir email e senha temporária na resposta
+- [ ] Implementar retry logic com exponential backoff
+- [ ] Criar 30 testes vitest para webhook de retorno
+- [ ] Documentar formato de payload esperado
+
+## Fase 133: Testar com 5 Alunos Piloto - PRÓXIMA
+- [ ] Sincronizar 5 alunos piloto (Ana, Bruno, Carla, Diego, Eduarda)
+- [ ] Testar login com credenciais temporárias geradas
+- [ ] Validar dashboard personalizado por nível
+- [ ] Testar tutor IA com chunks corretos
+- [ ] Validar materiais extras por inscrição
+- [ ] Testar timer de desbloqueio até 01/03
+- [ ] Gerar relatório de testes piloto
