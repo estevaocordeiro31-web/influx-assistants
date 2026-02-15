@@ -41,6 +41,10 @@ function Router() {
 
   // Verificar se acesso está bloqueado
   const isAccessBlocked = () => {
+    // Admin sempre tem acesso
+    if (user?.role === "admin") {
+      return false;
+    }
     const unlockDate = new Date("2026-03-01T00:00:00Z");
     const now = new Date();
     return now < unlockDate;
