@@ -43,6 +43,7 @@ import { tutorPersonalizedV2Router } from "./routers/tutor-personalized-v2";
 import { bulkStudentSyncRouter } from "./routers/bulk-student-sync";
 import { whatsappMessagesRouter } from "./routers/whatsapp-messages";
 import { elliesSupportRouter } from "./routers/ellies-support";
+import { backToSchoolRouter } from "./routers/back-to-school";
 
 export const appRouter = router({
   system: systemRouter,
@@ -98,6 +99,7 @@ export const appRouter = router({
   bulkStudentSync: bulkStudentSyncRouter,
   whatsappMessages: whatsappMessagesRouter,
   elliesSupport: elliesSupportRouter,
+  backToSchool: backToSchoolRouter,
 });
 
 export type AppRouter = typeof appRouter;

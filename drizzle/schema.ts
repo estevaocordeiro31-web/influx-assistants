@@ -732,3 +732,73 @@ export const studentTopicProgress = mysqlTable("student_topic_progress", {
 
 export type StudentTopicProgress = typeof studentTopicProgress.$inferSelect;
 export type InsertStudentTopicProgress = typeof studentTopicProgress.$inferInsert;
+
+
+// ==================== VOLTA ÀS AULAS - BACK TO SCHOOL ====================
+// Student book history - registro de todos os books que o aluno já cursou
+export const studentBookHistory = mysqlTable("student_book_history", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("student_id").notNull().references(() => users.id),
+  bookId: int("book_id").notNull().references(() => books.id),
+  status: mysqlEnum("status", ["completed", "in_progress", "paused", "abandoned"]).notNull(),
+  startedAt: timestamp("started_at").notNull(),
+  completedAt: timestamp("completed_at"),
+  finalGrade: decimal("final_grade", { precision: 3, scale: 1 }),
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type StudentBookHistory = typeof studentBookHistory.$inferSelect;
+export type InsertStudentBookHistory = typeof studentBookHistory.$inferInsert;
+
+// Back to school campaign - dados da campanha de volta às aulas
+export const backToSchoolCampaign = mysqlTable("back_to_school_campaign", {
+  id: int("id").autoincrement().primaryKey(),
+  campaignId: varchar("campaign_id", { length: 50 }).notNull().unique(),
+  name: varchar("name", { length: 255 }).notNull(),
+  description: text("description"),
+  startDate: timestamp("start_date").notNull(),
+  endDate: timestamp("end_date").notNull(),
+  status: mysqlEnum("status", ["planning", "active", "completed", "archived"]).default("planning").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type BackToSchoolCampaign = typeof backToSchoolCampaign.$inferSelect;
+export type InsertBackToSchoolCampaign = typeof backToSchoolCampaign.$inferInsert;
+
+// Student enrollment in back to school - matrícula do aluno na campanha
+export const studentBackToSchoolEnrollment = mysqlTable("student_back_to_school_enrollment", {
+  id: int("id").autoincrement().primaryKey(),
+  campaignId: int("campaign_id").notNull().references(() => backToSchoolCampaign.id),
+  studentId: int("student_id").notNull().references(() => users.id),
+  currentBook: int("current_book").references(() => books.id),
+  previousBooks: json("previous_books"), // [{bookId, name, completedAt}, ...]
+  enrollmentStatus: mysqlEnum("enrollment_status", ["enrolled", "pending", "completed", "cancelled"]).default("enrolled").notNull(),
+  tempPassword: varchar("temp_password", { length: 255 }),
+  accessGrantedAt: timestamp("access_granted_at"),
+  accessExpiresAt: timestamp("access_expires_at"),
+  enrolledAt: timestamp("enrolled_at").defaultNow().notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type StudentBackToSchoolEnrollment = typeof studentBackToSchoolEnrollment.$inferSelect;
+export type InsertStudentBackToSchoolEnrollment = typeof studentBackToSchoolEnrollment.$inferInsert;
+
+// Back to school sync log - log de sincronização
+export const backToSchoolSyncLog = mysqlTable("back_to_school_sync_log", {
+  id: int("id").autoincrement().primaryKey(),
+  campaignId: int("campaign_id").notNull().references(() => backToSchoolCampaign.id),
+  syncType: mysqlEnum("sync_type", ["initial_sync", "update", "verification", "report_generation"]).notNull(),
+  totalStudents: int("total_students").notNull(),
+  successCount: int("success_count").notNull(),
+  errorCount: int("error_count").default(0).notNull(),
+  errors: json("errors"), // [{studentId, error}, ...]
+  syncedAt: timestamp("synced_at").defaultNow().notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type BackToSchoolSyncLog = typeof backToSchoolSyncLog.$inferSelect;
+export type InsertBackToSchoolSyncLog = typeof backToSchoolSyncLog.$inferInsert;

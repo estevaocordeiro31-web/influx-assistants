@@ -372,3 +372,53 @@ Cada um dos 182 alunos receberá uma experiência completamente personalizada ba
 - [x] Implementar modal de detalhes de atividades
 - [x] Adicionar rota /student/passport no App.tsx
 - [x] TypeScript validado sem erros
+
+## Fase 147: Integrar Conteúdo Multimedia nas Atividades - EM PROGRESSO
+- [ ] Adicionar vídeos dos personagens (Lucas, Emily, Aiko) nas atividades
+- [ ] Integrar áudios com pronuncia das palavras-chave
+- [ ] Adicionar imagens dos cenários das atividades
+- [ ] Criar componente VideoPlayer para reprodução
+- [ ] Implementar legendas em português e inglês
+- [ ] Adicionar botão de download de recursos
+- [ ] Criar 12 testes vitest para multimedia
+
+## Fase 148: Implementar Sistema de Progresso e Badges - EM PROGRESSO
+- [ ] Criar tabela progressStudentActivity no banco
+- [ ] Implementar rastreamento de conclusão de atividades
+- [ ] Criar sistema de badges (Bronze, Silver, Gold)
+- [ ] Adicionar pontos por atividade completada
+- [ ] Implementar certificados digitais
+- [ ] Criar página de conquistas do aluno
+- [ ] Adicionar compartilhamento de badges em redes sociais
+- [ ] Criar 15 testes vitest para progresso
+
+## Fase 149: Integração com Dashboard do Aluno - EM PROGRESSO
+- [ ] Criar widget ActivitiesWidget no StudentDashboard
+- [ ] Exibir atividades em progresso
+- [ ] Mostrar recomendações personalizadas por nível
+- [ ] Adicionar progresso visual (barra de conclusão)
+- [ ] Integrar com StudentDashboard
+- [ ] Criar 10 testes vitest para dashboard
+
+
+## Fase 150: Criar Tabelas de Livros e Progresso no Banco - COMPLETO
+- [x] Criar tabelas studentBookHistory, backToSchoolCampaign, studentBackToSchoolEnrollment
+- [x] Adicionar campos de registro de books anteriores
+- [x] Implementar sync log para rastrear sincronização
+- [x] Executar migração do banco de dados
+
+## Fase 151: Sincronizar 182 Alunos com Seus Níveis/Books - COMPLETO
+- [x] Criar router backToSchool com 5 procedures
+- [x] syncStudentsWithBooks() - sincroniza 182 alunos
+- [x] generateReportByBook() - agrupa alunos por book
+- [x] sendReportToCoordinator() - envia relatório para Jennifer
+- [x] getCampaignStats() - estatísticas da campanha
+- [x] exportReportAsCSV() - exporta em CSV
+- [x] Integrado no appRouter como backToSchool
+
+## Fase 152: Gerar Relatório por Book e Enviar para Jennifer - COMPLETO
+- [x] Procedure generateReportByBook() agrupando alunos
+- [x] Procedure sendReportToCoordinator() envia para Jennifer
+- [x] Gerar arquivo CSV com alunos por book
+- [x] Enviar notificação para Jennifer com relatório
+- [x] TypeScript validado sem erros
