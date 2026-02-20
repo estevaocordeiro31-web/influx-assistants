@@ -42,6 +42,7 @@ import { webhookSyncRouter } from "./routers/webhook-sync";
 import { tutorPersonalizedV2Router } from "./routers/tutor-personalized-v2";
 import { bulkStudentSyncRouter } from "./routers/bulk-student-sync";
 import { whatsappMessagesRouter } from "./routers/whatsapp-messages";
+import { elliesSupportRouter } from "./routers/ellies-support";
 
 export const appRouter = router({
   system: systemRouter,
@@ -96,6 +97,7 @@ export const appRouter = router({
   tutorPersonalizedV2: tutorPersonalizedV2Router,
   bulkStudentSync: bulkStudentSyncRouter,
   whatsappMessages: whatsappMessagesRouter,
+  elliesSupport: elliesSupportRouter,
 });
 
 export type AppRouter = typeof appRouter;
