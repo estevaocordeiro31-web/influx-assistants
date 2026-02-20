@@ -335,3 +335,40 @@ Cada um dos 182 alunos receberá uma experiência completamente personalizada ba
 - [x] Implementar detalhes de ticket com histórico
 - [x] Rota /support/tickets adicionada no App.tsx
 - [x] TypeScript validado sem erros
+
+## Fase 143: Integrar Detalhes de Ticket com Modal/P\u00e1gina - EM PROGRESSO
+- [ ] Criar componente TicketDetailsModal ou página de detalhes
+- [ ] Exibir hist\u00f3rico completo da conversa
+- [ ] Implementar campo de resposta com integra\u00e7\u00e3o Ellie
+- [ ] Adicionar bot\u00e3o para mudar status do ticket
+- [ ] Implementar a\u00e7\u00f5es (fechar, atribuir, prioridade)
+- [ ] Criar 10 testes vitest para detalhes
+
+## Fase 144: Implementar Relat\u00f3rios de Atendimento com Gr\u00e1ficos - EM PROGRESSO
+- [ ] Criar p\u00e1gina SupportReportsPage
+- [ ] Gr\u00e1fico de tempo m\u00e9dio de resposta
+- [ ] Gr\u00e1fico de taxa de resolu\u00e7\u00e3o
+- [ ] Gr\u00e1fico de tickets por prioridade
+- [ ] Gr\u00e1fico de performance por coordenador
+- [ ] Filtros por data, coordenador, tipo
+- [ ] Exportar relat\u00f3rio em PDF
+- [ ] Criar 15 testes vitest para relat\u00f3rios
+
+## Fase 145: Automa\u00e7\u00e3o de Respostas com Sugest\u00f5es de Ellie - EM PROGRESSO
+- [ ] Criar procedure suggestResponse() no elliesSupport router
+- [ ] Integrar com LLM para gerar sugest\u00f5es
+- [ ] Exibir sugest\u00f5es na interface de resposta
+- [ ] Permitir revisar e enviar com 1 clique
+- [ ] Implementar feedback de qualidade
+- [ ] Criar 12 testes vitest para sugest\u00f5es
+
+## Fase 146: Criar P\u## Fase 146: Criar Página inFlux's Passport com Material de Volta às Aulas - COMPLETO
+
+## Fase 146: Criar Página inFlux's Passport com Material de Volta às Aulas - COMPLETO
+- [x] Criar arquivo client/src/pages/InfluxPassportPage.tsx
+- [x] Implementar seção de Bem-vindo com Fluxie
+- [x] Adicionar material de volta às aulas
+- [x] Criar 6 cards com atividades (Welcome Quest, Vocabulary, Speaking, Team Games, Achievement, Wellness)
+- [x] Implementar modal de detalhes de atividades
+- [x] Adicionar rota /student/passport no App.tsx
+- [x] TypeScript validado sem erros

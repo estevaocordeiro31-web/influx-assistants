@@ -37,6 +37,7 @@ import AdminBulkSyncPage from "./pages/AdminBulkSyncPage";
 import { AccessBlockedPage } from "./pages/AccessBlockedPage";
 import ElliesSupportPage from "./pages/ElliesSupportPage";
 import SupportTicketsPage from "./pages/SupportTicketsPage";
+import InfluxPassportPage from "./pages/InfluxPassportPage";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -94,6 +95,7 @@ function Router() {
       <Route path="/student/voice-chat" component={VoiceChatPage} />
       <Route path="/student/blog-tips" component={BlogTips} />
       <Route path="/student/simulator" component={SituationSimulator} />
+      <Route path="/student/passport" component={InfluxPassportPage} />
       {/* Rota exclusiva para Tiago */}
       {isAuthenticated && user?.email === "tiago.laerte@icloud.com" && (
         <Route path="/tiago" component={TiagoPage} />
