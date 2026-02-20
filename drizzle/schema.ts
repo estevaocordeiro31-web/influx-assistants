@@ -1,4 +1,4 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, decimal, boolean, json } from "drizzle-orm/mysql-core";
+import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, decimal, boolean, json, date } from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -802,3 +802,61 @@ export const backToSchoolSyncLog = mysqlTable("back_to_school_sync_log", {
 
 export type BackToSchoolSyncLog = typeof backToSchoolSyncLog.$inferSelect;
 export type InsertBackToSchoolSyncLog = typeof backToSchoolSyncLog.$inferInsert;
+
+
+// ==================== ATIVIDADES ESCOLARES - SCHOOL ACTIVITIES ====================
+// Activity tags - tags para categorizar atividades
+export const activityTags = mysqlTable("activity_tags", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 100 }).notNull().unique(), // ex: "Traveler", "OnBusiness", "Extra"
+  color: varchar("color", { length: 7 }).notNull(), // hex color: #FF5733
+  description: text("description"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+export type ActivityTag = typeof activityTags.$inferSelect;
+export type InsertActivityTag = typeof activityTags.$inferInsert;
+
+// School activities - atividades e aulas da escola
+export const schoolActivities = mysqlTable("school_activities", {
+  id: int("id").autoincrement().primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(), // ex: "Traveler - Week 1", "OnBusiness Meeting"
+  description: text("description"),
+  activityDate: date("activity_date").notNull(), // data da atividade
+  startTime: varchar("start_time", { length: 8 }), // HH:MM format
+  endTime: varchar("end_time", { length: 8 }), // HH:MM format
+  location: varchar("location", { length: 255 }), // local da atividade
+  enrollmentLink: varchar("enrollment_link", { length: 500 }), // link para ficha de inscrição/confirmação
+  maxParticipants: int("max_participants"), // limite de participantes (null = ilimitado)
+  createdBy: int("created_by").notNull().references(() => users.id), // admin que criou
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+export type SchoolActivity = typeof schoolActivities.$inferSelect;
+export type InsertSchoolActivity = typeof schoolActivities.$inferInsert;
+
+// Activity tag associations - relacionamento entre atividades e tags
+export const activityTagAssociations = mysqlTable("activity_tag_associations", {
+  id: int("id").autoincrement().primaryKey(),
+  activityId: int("activity_id").notNull().references(() => schoolActivities.id, { onDelete: "cascade" }),
+  tagId: int("tag_id").notNull().references(() => activityTags.id, { onDelete: "cascade" }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type ActivityTagAssociation = typeof activityTagAssociations.$inferSelect;
+export type InsertActivityTagAssociation = typeof activityTagAssociations.$inferInsert;
+
+// Student activity enrollments - inscrição de alunos em atividades
+export const studentActivityEnrollments = mysqlTable("student_activity_enrollments", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("student_id").notNull().references(() => users.id),
+  activityId: int("activity_id").notNull().references(() => schoolActivities.id, { onDelete: "cascade" }),
+  status: mysqlEnum("status", ["pending", "confirmed", "attended", "cancelled", "no_show"]).default("pending").notNull(),
+  enrolledAt: timestamp("enrolled_at").defaultNow().notNull(),
+  confirmedAt: timestamp("confirmed_at"),
+  attendedAt: timestamp("attended_at"),
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+export type StudentActivityEnrollment = typeof studentActivityEnrollments.$inferSelect;
+export type InsertStudentActivityEnrollment = typeof studentActivityEnrollments.$inferInsert;

@@ -469,3 +469,43 @@ Cada um dos 182 alunos receberá uma experiência completamente personalizada ba
 - [x] Integrar com getCampaignStats()
 - [x] Adicionar rota /admin/back-to-school-dashboard
 - [x] TypeScript validado sem erros
+
+
+## Fase 159: Criar Tabelas de Atividades e Tags no Banco - COMPLETO
+- [x] Criar tabela schoolActivities (id, title, description, date, time, type, link, createdAt)
+- [x] Criar tabela activityTags (id, name, color, description)
+- [x] Criar tabela activityTagAssociation (activityId, tagId)
+- [x] Criar tabela studentActivityEnrollments (id, studentId, activityId, status, enrolledAt)
+- [x] Adicionado ao schema.ts com import de date
+
+## Fase 160: Criar Router de Atividades com CRUD - COMPLETO
+- [x] Criar arquivo server/routers/school-activities.ts
+- [x] Implementar procedure createActivity()
+- [x] Implementar procedure updateActivity()
+- [x] Implementar procedure deleteActivity()
+- [x] Implementar procedure getActivitiesByDateRange()
+- [x] Implementar procedure enrollStudent()
+- [x] Implementar procedure getStudentEnrollments()
+- [x] Implementar procedure getAllTags()
+- [x] Implementar procedure createTag()
+- [x] Implementar procedure getActivityStats()
+- [x] Integrado no appRouter como schoolActivities
+- [x] TypeScript validado sem erros
+
+## Fase 161: Criar Página Admin para Gerenciar Atividades - EM PROGRESSO
+- [ ] Criar arquivo client/src/pages/AdminActivitiesPage.tsx
+- [ ] Implementar tabela de atividades com filtros
+- [ ] Adicionar botão "Nova Atividade"
+- [ ] Criar modal/form para adicionar/editar atividade
+- [ ] Implementar seleção de tags
+- [ ] Gerar link de inscrição/confirmação
+- [ ] Adicionar botão para enviar link ao aluno
+- [ ] Integrar com schoolActivities router
+
+## Fase 162: Integrar Calendário de Atividades no Dashboard do Aluno - EM PROGRESSO
+- [ ] Criar componente CalendarView para exibir atividades
+- [ ] Integrar no StudentDashboard
+- [ ] Exibir atividades por data
+- [ ] Adicionar filtros por tipo (Traveler, OnBusiness, Extra)
+- [ ] Exibir link de inscrição/confirmação
+- [ ] Implementar notificações de novas atividades
