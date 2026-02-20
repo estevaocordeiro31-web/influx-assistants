@@ -38,6 +38,7 @@ import { AccessBlockedPage } from "./pages/AccessBlockedPage";
 import ElliesSupportPage from "./pages/ElliesSupportPage";
 import SupportTicketsPage from "./pages/SupportTicketsPage";
 import InfluxPassportPage from "./pages/InfluxPassportPage";
+import { BackToSchoolAdminPage } from "./pages/BackToSchoolAdminPage";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -113,6 +114,7 @@ function Router() {
           <Route path="/admin/bulk-sync" component={AdminBulkSyncPage} />
           <Route path="/support/ellie" component={ElliesSupportPage} />
           <Route path="/support/tickets" component={SupportTicketsPage} />
+          <Route path="/admin/back-to-school" component={BackToSchoolAdminPage} />
         </>
       )}
       {/* Rotas de demonstração admin */}

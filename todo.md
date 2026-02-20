@@ -422,3 +422,26 @@ Cada um dos 182 alunos receberá uma experiência completamente personalizada ba
 - [x] Gerar arquivo CSV com alunos por book
 - [x] Enviar notificação para Jennifer com relatório
 - [x] TypeScript validado sem erros
+
+
+## Fase 153: Criar Página Admin para Executar Sincronização - COMPLETO
+- [x] Criar arquivo client/src/pages/BackToSchoolAdminPage.tsx
+- [x] Implementar botão "Iniciar Sincronização"
+- [x] Exibir progresso em tempo real
+- [x] Mostrar estatísticas de alunos sincronizados
+- [x] Integrar com backToSchool.syncStudentsWithBooks()
+- [x] Adicionar rota /admin/back-to-school no App.tsx
+
+## Fase 154: Executar Sincronização e Gerar Relatório - EM PROGRESSO
+- [ ] Chamar trpc.backToSchool.syncStudentsWithBooks()
+- [ ] Sincronizar 182 alunos do Dashboard
+- [ ] Gerar relatório por book
+- [ ] Enviar relatório para Jennifer via trpc.backToSchool.sendReportToCoordinator()
+- [ ] Validar dados sincronizados
+
+## Fase 155: Criar Dashboard de Acompanhamento da Campanha - EM PROGRESSO
+- [ ] Criar página BackToSchoolDashboard.tsx
+- [ ] Exibir gráficos de alunos por book
+- [ ] Mostrar estatísticas de acesso
+- [ ] Integrar com getCampaignStats()
+- [ ] Adicionar filtros e busca
