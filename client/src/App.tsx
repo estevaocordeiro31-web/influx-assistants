@@ -36,6 +36,7 @@ import AdminTiagoSetup from "./pages/AdminTiagoSetup";
 import AdminBulkSyncPage from "./pages/AdminBulkSyncPage";
 import { AccessBlockedPage } from "./pages/AccessBlockedPage";
 import ElliesSupportPage from "./pages/ElliesSupportPage";
+import SupportTicketsPage from "./pages/SupportTicketsPage";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -109,6 +110,7 @@ function Router() {
           <Route path="/admin/tiago-setup" component={AdminTiagoSetup} />
           <Route path="/admin/bulk-sync" component={AdminBulkSyncPage} />
           <Route path="/support/ellie" component={ElliesSupportPage} />
+          <Route path="/support/tickets" component={SupportTicketsPage} />
         </>
       )}
       {/* Rotas de demonstração admin */}
@@ -117,6 +119,7 @@ function Router() {
       <Route path="/admin/personalized-links" component={PersonalizedLinksManager} />
       <Route path="/admin/upload-materials" component={MaterialUploadPage} />
       <Route path="/support/ellie" component={ElliesSupportPage} />
+      <Route path="/support/tickets" component={SupportTicketsPage} />
       <Route path="/test-login" component={TestLogin} />
       <Route path="/admin/student/:studentId/edit" component={StudentProfileEditPage} />
       <Route path="/admin/student/:studentId/analysis" component={StudentCrossAnalysisPage} />

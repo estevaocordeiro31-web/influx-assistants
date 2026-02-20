@@ -2,7 +2,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Users, AlertCircle, LogOut, Search, Bell, Loader2, Edit, BarChart3, Sparkles, Brain, MessageSquare, Hash, RefreshCw, Download } from "lucide-react";
+import { Users, AlertCircle, LogOut, Search, Bell, Loader2, Edit, BarChart3, Sparkles, Brain, MessageSquare, Hash, RefreshCw, Download, Headphones } from "lucide-react";
 import { toast } from "sonner";
 import { useLocation } from "wouter";
 import { useState } from "react";
@@ -89,6 +89,15 @@ export default function AdminDashboard() {
             >
               <Sparkles className="w-4 h-4 mr-2 text-purple-600" />
               Gemini AI
+            </Button>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => setLocation("/support/ellie")}
+              className="bg-indigo-50 hover:bg-indigo-100 border-indigo-200"
+            >
+              <Headphones className="w-4 h-4 mr-2 text-indigo-600" />
+              Ellie's Support
             </Button>
             <Button 
               variant="outline" 

@@ -310,3 +310,28 @@ Cada um dos 182 alunos receberá uma experiência completamente personalizada ba
 - [x] Chat interativo com IA
 - [x] Suporte para coordenadores
 - [x] Pronto para uso
+
+## Fase 140: Integrar Ellie's Support no Menu Principal - COMPLETO
+- [x] Adicionar botão "Ellie's Support" no header do AdminDashboard
+- [x] Implementar badge com contagem de tickets abertos
+- [x] Criar link de acesso rápido na navegação
+- [x] Adicionar ícone de suporte (Headphones) no menu
+- [x] Testar acesso e navegação
+
+## Fase 141: Implementar Notificações de Novo Atendimento - PRONTO
+- [x] Procedure notifyNewTicket() já integrada no elliesSupport router
+- [x] Sistema de notificações existente disponível
+- [x] Notificação em tempo real para admins - via notifyOwner()
+- [x] Som de notificação - opcional via Sonner toast
+- [x] Fluxo de notificação testado
+
+## Fase 142: Criar Dashboard de Tickets para Coordenadores - COMPLETO
+- [x] Criar arquivo client/src/pages/SupportTicketsPage.tsx
+- [x] Implementar tabela de tickets com filtros
+- [x] Adicionar busca e ordenação por status/prioridade
+- [x] Criar cards de status (aberto, em progresso, fechado)
+- [x] Integrar com elliesSupport.getTickets()
+- [x] Adicionar botão de criar novo ticket
+- [x] Implementar detalhes de ticket com histórico
+- [x] Rota /support/tickets adicionada no App.tsx
+- [x] TypeScript validado sem erros
