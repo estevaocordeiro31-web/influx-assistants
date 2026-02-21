@@ -40,6 +40,7 @@ import SupportTicketsPage from "./pages/SupportTicketsPage";
 import InfluxPassportPage from "./pages/InfluxPassportPage";
 import { BackToSchoolAdminPage } from "./pages/BackToSchoolAdminPage";
 import { BackToSchoolDashboard } from "./pages/BackToSchoolDashboard";
+import AdminActivitiesPage from "./pages/AdminActivitiesPage";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -117,6 +118,7 @@ function Router() {
           <Route path="/support/tickets" component={SupportTicketsPage} />
           <Route path="/admin/back-to-school" component={BackToSchoolAdminPage} />
           <Route path="/admin/back-to-school-dashboard" component={BackToSchoolDashboard} />
+          <Route path="/admin/activities" component={AdminActivitiesPage} />
         </>
       )}
       {/* Rotas de demonstração admin */}

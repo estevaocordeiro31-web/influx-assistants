@@ -509,3 +509,33 @@ Cada um dos 182 alunos receberá uma experiência completamente personalizada ba
 - [ ] Adicionar filtros por tipo (Traveler, OnBusiness, Extra)
 - [ ] Exibir link de inscrição/confirmação
 - [ ] Implementar notificações de novas atividades
+
+
+## Fase 161: Completar Página Admin de Atividades - COMPLETO
+- [x] Criar arquivo client/src/pages/AdminActivitiesPage.tsx
+- [x] Implementar tabela de atividades com filtros
+- [x] Adicionar botão "Nova Atividade"
+- [x] Criar modal/form para adicionar/editar atividade
+- [x] Implementar seleção de tags
+- [x] Gerar link de inscrição/confirmação
+- [x] Adicionar botão para copiar/enviar link ao aluno
+- [x] Integrar com schoolActivities router
+- [x] Adicionar rota /admin/activities no App.tsx
+- [x] TypeScript validado sem erros
+
+## Fase 162: Testar Sincronização Completa de 182 Alunos - EM PROGRESSO
+- [ ] Acessar /admin/back-to-school
+- [ ] Clicar "Iniciar Sincronização"
+- [ ] Validar progresso em tempo real
+- [ ] Verificar 182 alunos sincronizados
+- [ ] Confirmar distribuição por book
+- [ ] Testar export CSV
+- [ ] Validar dados no banco
+
+## Fase 163: Enviar Relatório para Jennifer - EM PROGRESSO
+- [ ] Acessar /admin/back-to-school
+- [ ] Clicar "Enviar Relatório para Jennifer"
+- [ ] Validar notificação enviada
+- [ ] Verificar conteúdo do relatório
+- [ ] Confirmar email com lista de alunos por book
+- [ ] Testar senhas temporárias geradas
