@@ -539,3 +539,36 @@ Cada um dos 182 alunos receberá uma experiência completamente personalizada ba
 - [ ] Verificar conteúdo do relatório
 - [ ] Confirmar email com lista de alunos por book
 - [ ] Testar senhas temporárias geradas
+
+
+## Fase 164: UX Torre de Controle - Ellie Avatar Flutuante no Passaporte - EM PROGRESSO
+- [ ] Criar componente EllieFloatingAvatar com 5 estados (Boas-vindas, Sucesso, Ajuda, Neutro, Celebração)
+- [ ] Integrar avatar flutuante no InfluxPassportPage
+- [ ] Implementar balão de fala personalizado por Book (Fluxie/Junior/Regular/Advanced)
+- [ ] Criar botão "Solicitar Comissário" que abre sistema de tickets
+- [ ] Adicionar animações de entrada/saída do avatar
+- [ ] Criar 10 testes vitest para componente
+
+## Fase 165: Automação de Check-in com 182 Mensagens Personalizadas - EM PROGRESSO
+- [ ] Criar QR Code scanner no Passaporte
+- [ ] Implementar gatilho de check-in ao escanear código
+- [ ] Integrar com 182 mensagens personalizadas geradas
+- [ ] Exibir Flight Plan sincronizado com Sponte
+- [ ] Mencionar desbloqueio em 01/03/2026
+- [ ] Criar 15 testes vitest para automação
+
+## Fase 166: Gamificação de Selos de Visto Digitais - EM PROGRESSO
+- [ ] Criar tabela de selos/badges no banco
+- [ ] Implementar sistema de concessão de selos por atividade
+- [ ] Criar animação de "Carimbo" da Ellie
+- [ ] Categorizar selos por cursos extras (Vacation Plus, Business, Reading Club, etc)
+- [ ] Exibir selos no Passaporte digital
+- [ ] Criar 12 testes vitest para gamificação
+
+## Fase 167: Criar Roteiro para Professores Apresentarem Ellie - EM PROGRESSO
+- [ ] Escrever roteiro de apresentação da Ellie em sala
+- [ ] Incluir script de boas-vindas personalizado
+- [ ] Criar guia de como usar o Passaporte com QR Code
+- [ ] Documentar como solicitar suporte via Comissário
+- [ ] Preparar exemplos de mensagens personalizadas
+- [ ] Criar documento PDF para distribuição aos professores

@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { EllieFloatingAvatar } from '@/components/EllieFloatingAvatar';
 import {
   BookOpen,
   Zap,
@@ -28,6 +30,7 @@ interface Activity {
 
 export default function InfluxPassportPage() {
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
+  const [showEllieSupport, setShowEllieSupport] = useState(false);
 
   const activities: Activity[] = [
     {
@@ -235,8 +238,12 @@ export default function InfluxPassportPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50 p-4 md:p-8">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-6">
+      <EllieFloatingAvatar
+        studentBook="Regular"
+        onRequestSupport={() => setShowEllieSupport(true)}
+      />
+      <div className="max-w-7xl mx-auto md:p-8">
         {/* Header */}
         <div className="mb-12">
           <div className="text-center mb-8">
@@ -376,6 +383,22 @@ export default function InfluxPassportPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Ellie Support Dialog */}
+      <Dialog open={showEllieSupport} onOpenChange={setShowEllieSupport}>
+        <DialogContent className="bg-slate-800 border-green-400">
+          <DialogHeader>
+            <DialogTitle className="text-green-400">Solicitar Suporte - Ellie</DialogTitle>
+            <DialogDescription>Conectando com Jennifer, nossa coordenadora...</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <p className="text-slate-300">Sua solicitacao foi registrada! Jennifer entrará em contato em breve via WhatsApp ou email.</p>
+            <Button onClick={() => setShowEllieSupport(false)} className="w-full bg-green-500 hover:bg-green-600">
+              Fechar
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
