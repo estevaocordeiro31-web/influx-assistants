@@ -572,3 +572,51 @@ Cada um dos 182 alunos receberá uma experiência completamente personalizada ba
 - [ ] Documentar como solicitar suporte via Comissário
 - [ ] Preparar exemplos de mensagens personalizadas
 - [ ] Criar documento PDF para distribuição aos professores
+
+
+## Fase 168: Implementar QR Code Check-in na Capa do Passaporte - EM PROGRESSO
+- [ ] Criar tabela passportQRCodes (id, studentId, qrCode, type, checkInData, createdAt)
+- [ ] Implementar procedure generateCheckInQR() para gerar QR Code da capa
+- [ ] Criar página /passport/checkin para processar QR Code da capa
+- [ ] Integrar com mensagens personalizadas de Ellie (182 mensagens)
+- [ ] Exibir Flight Plan (calendário de atividades da semana)
+- [ ] Botão para confirmar presença na dinâmica
+- [ ] Criar 15 testes vitest
+
+## Fase 169: Implementar QR Code de Sincronização de Objetivos - EM PROGRESSO
+- [ ] Implementar procedure generateObjectivesQR() para gerar QR Code da página interna
+- [ ] Criar página /passport/objectives para processar QR Code de objetivos
+- [ ] Sincronizar objetivos do papel com app (checkboxes)
+- [ ] Ellie oferece sugestões de atividades baseadas nos objetivos
+- [ ] Salvar objetivos no banco de dados
+- [ ] Criar 15 testes vitest
+
+## Fase 170: Criar Página de Geração de QR Codes para Impressão - EM PROGRESSO
+- [ ] Criar página AdminQRCodeGeneratorPage.tsx
+- [ ] Gerar QR Codes para todos os 182 alunos
+- [ ] Exportar QR Codes em PDF para impressão
+- [ ] Integrar com passportQRCodes router
+- [ ] Adicionar rota /admin/qr-codes no App.tsx
+- [ ] Criar 10 testes vitest
+
+
+## Fase 167: Implementar Sistema de QR Code Duplo do Passaporte - EM PROGRESSO
+- [x] Criar router server/routers/passport-qr.ts com 6 procedures
+- [x] Implementar generateCheckInQR() para gerar QR da capa
+- [x] Implementar generateObjectivesQR() para gerar QR da página interna
+- [x] Implementar processCheckIn() para processar check-in com mensagem Ellie
+- [x] Implementar processObjectives() para sincronizar objetivos
+- [x] Implementar generateAllQRCodes() para gerar 182 QR codes
+- [x] Implementar exportQRCodesForPrint() para exportar para impressão
+- [x] Criar tabela passportQRCodes no banco de dados
+- [x] Integrar passportQRRouter no appRouter
+- [x] Instalar package qrcode e @types/qrcode
+- [x] Criar 28 testes unitários (passport-qr-unit.test.ts) - TODOS PASSANDO
+- [ ] Criar página /passport/checkin/:studentId para processar QR da capa
+- [ ] Criar página /passport/sync/:studentId para processar QR da página interna
+- [ ] Integrar EllieFloatingAvatar com mensagens personalizadas por Book
+- [ ] Implementar Flight Plan com atividades semanais bloqueadas
+- [ ] Criar sistema de selos/badges para gamificação
+- [ ] Implementar carimbo de Ellie ao completar atividades
+- [ ] Criar documento PDF com script para professores
+- [ ] Testar QR codes com 182 alunos

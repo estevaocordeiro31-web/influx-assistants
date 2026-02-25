@@ -127,6 +127,13 @@
       "when": 1771620386621,
       "tag": "0017_greedy_wrecker",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "5",
+      "when": 1772062135243,
+      "tag": "0018_plain_human_torch",
+      "breakpoints": true
     }
   ]
 }

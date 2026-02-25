@@ -1,4 +1,4 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, decimal, boolean, json, date } from "drizzle-orm/mysql-core";
+import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, decimal, boolean, json, date, longtext } from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -860,3 +860,29 @@ export const studentActivityEnrollments = mysqlTable("student_activity_enrollmen
 });
 export type StudentActivityEnrollment = typeof studentActivityEnrollments.$inferSelect;
 export type InsertStudentActivityEnrollment = typeof studentActivityEnrollments.$inferInsert;
+
+
+// Passport QR Codes table
+export const passportQRCodes = mysqlTable("passport_qr_codes", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: varchar("student_id", { length: 20 }).notNull(),
+  qrCode: longtext("qr_code").notNull(),
+  type: mysqlEnum("type", ["checkin", "objectives"]).notNull(),
+  checkInData: json("check_in_data"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type PassportQRCode = typeof passportQRCodes.$inferSelect;
+export type InsertPassportQRCode = typeof passportQRCodes.$inferInsert;
+
+// Student Objectives table
+export const studentObjectives = mysqlTable("student_objectives", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: varchar("student_id", { length: 20 }).notNull(),
+  objectives: json("objectives").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type StudentObjective = typeof studentObjectives.$inferSelect;
+export type InsertStudentObjective = typeof studentObjectives.$inferInsert;

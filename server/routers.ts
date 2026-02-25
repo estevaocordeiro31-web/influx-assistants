@@ -45,6 +45,7 @@ import { whatsappMessagesRouter } from "./routers/whatsapp-messages";
 import { elliesSupportRouter } from "./routers/ellies-support";
 import { backToSchoolRouter } from "./routers/back-to-school";
 import { schoolActivitiesRouter } from "./routers/school-activities";
+import { passportQRRouter } from "./routers/passport-qr";
 
 export const appRouter = router({
   system: systemRouter,
@@ -102,6 +103,7 @@ export const appRouter = router({
   elliesSupport: elliesSupportRouter,
   backToSchool: backToSchoolRouter,
   schoolActivities: schoolActivitiesRouter,
+  passportQR: passportQRRouter,
 });
 
 export type AppRouter = typeof appRouter;
