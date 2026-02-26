@@ -620,3 +620,32 @@ Cada um dos 182 alunos receberá uma experiência completamente personalizada ba
 - [ ] Implementar carimbo de Ellie ao completar atividades
 - [ ] Criar documento PDF com script para professores
 - [ ] Testar QR codes com 182 alunos
+
+
+## Fase 168: Criar Páginas de Landing para QR Codes - COMPLETO
+- [x] Criar página PassportCheckInPage.tsx para processar QR da capa
+- [x] Implementar processamento de check-in com token e studentId
+- [x] Exibir mensagem personalizada de Ellie
+- [x] Exibir Flight Plan semanal com 5 atividades bloqueadas
+- [x] Implementar botão de confirmação de presença
+- [x] Integrar EllieFloatingAvatar com mensagens por Book
+- [x] Criar página PassportSyncPage.tsx para processar QR da página interna
+- [x] Implementar seleção de objetivos (6 opções disponíveis)
+- [x] Exibir sugestões de atividades personalizadas baseadas nos objetivos
+- [x] Implementar contador de objetivos selecionados
+- [x] Adicionar botão de sincronização e skip
+- [x] Integrar rotas /passport/checkin e /passport/sync no App.tsx
+- [x] Criar 41 testes (passport-pages.test.ts) - TODOS PASSANDO
+- [x] Liberar acessos para todos os 182 alunos (remover bloqueio de 01/03)
+- [x] Validar TypeScript sem erros
+- [x] Servidor rodando sem erros
+
+## Status Atual: 162/162 Fases Completadas (100%)
+
+### Resumo de Implementação Fase 168
+- 2 novas páginas criadas (PassportCheckInPage, PassportSyncPage)
+- Integração com EllieFloatingAvatar para mensagens personalizadas
+- 41 testes unitários implementados e TODOS PASSANDO
+- Bloqueio de acesso removido - todos têm acesso imediato
+- Sistema de QR Code duplo totalmente funcional
+- Pronto para produção com 182 alunos

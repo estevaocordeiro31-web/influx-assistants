@@ -41,19 +41,15 @@ import InfluxPassportPage from "./pages/InfluxPassportPage";
 import { BackToSchoolAdminPage } from "./pages/BackToSchoolAdminPage";
 import { BackToSchoolDashboard } from "./pages/BackToSchoolDashboard";
 import AdminActivitiesPage from "./pages/AdminActivitiesPage";
+import PassportCheckInPage from "./pages/PassportCheckInPage";
+import PassportSyncPage from "./pages/PassportSyncPage";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
 
-  // Verificar se acesso está bloqueado
+  // Acesso liberado para todos - bloqueio removido
   const isAccessBlocked = () => {
-    // Admin sempre tem acesso
-    if (user?.role === "admin") {
-      return false;
-    }
-    const unlockDate = new Date("2026-03-01T00:00:00Z");
-    const now = new Date();
-    return now < unlockDate;
+    return false; // Todos têm acesso imediato
   };
 
   if (loading) {
@@ -67,10 +63,7 @@ function Router() {
     );
   }
 
-  // Se autenticado e acesso bloqueado, mostrar página de bloqueio
-  if (isAuthenticated && isAccessBlocked()) {
-    return <AccessBlockedPage />;
-  }
+  // Acesso liberado para todos
 
   return (
     <Switch>
@@ -99,6 +92,8 @@ function Router() {
       <Route path="/student/blog-tips" component={BlogTips} />
       <Route path="/student/simulator" component={SituationSimulator} />
       <Route path="/student/passport" component={InfluxPassportPage} />
+      <Route path="/passport/checkin" component={PassportCheckInPage} />
+      <Route path="/passport/sync" component={PassportSyncPage} />
       {/* Rota exclusiva para Tiago */}
       {isAuthenticated && user?.email === "tiago.laerte@icloud.com" && (
         <Route path="/tiago" component={TiagoPage} />
