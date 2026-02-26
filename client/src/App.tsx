@@ -43,6 +43,7 @@ import { BackToSchoolDashboard } from "./pages/BackToSchoolDashboard";
 import AdminActivitiesPage from "./pages/AdminActivitiesPage";
 import PassportCheckInPage from "./pages/PassportCheckInPage";
 import PassportSyncPage from "./pages/PassportSyncPage";
+import StudentStatsPage from "./pages/StudentStatsPage";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -118,6 +119,7 @@ function Router() {
       )}
       {/* Rotas de demonstração admin */}
       <Route path="/admin" component={AdminDashboard} />
+      <Route path="/admin/student-stats" component={StudentStatsPage} />
       <Route path="/admin/notifications" component={AdminNotifications} />
       <Route path="/admin/personalized-links" component={PersonalizedLinksManager} />
       <Route path="/admin/upload-materials" component={MaterialUploadPage} />

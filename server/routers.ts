@@ -46,6 +46,7 @@ import { elliesSupportRouter } from "./routers/ellies-support";
 import { backToSchoolRouter } from "./routers/back-to-school";
 import { schoolActivitiesRouter } from "./routers/school-activities";
 import { passportQRRouter } from "./routers/passport-qr";
+import { adminExportRouter } from "./routers/admin-export";
 
 export const appRouter = router({
   system: systemRouter,
@@ -104,6 +105,7 @@ export const appRouter = router({
   backToSchool: backToSchoolRouter,
   schoolActivities: schoolActivitiesRouter,
   passportQR: passportQRRouter,
+  adminExport: adminExportRouter,
 });
 
 export type AppRouter = typeof appRouter;

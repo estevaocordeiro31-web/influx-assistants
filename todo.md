@@ -649,3 +649,35 @@ Cada um dos 182 alunos receberá uma experiência completamente personalizada ba
 - Bloqueio de acesso removido - todos têm acesso imediato
 - Sistema de QR Code duplo totalmente funcional
 - Pronto para produção com 182 alunos
+
+
+## Fase 169: Criar Rota de Exportação de Dados de Alunos Ativos - COMPLETO
+- [x] Criar router server/routers/admin-export.ts com 3 procedures
+- [x] Implementar exportActiveStudentsJSON() para exportar em JSON
+- [x] Implementar exportActiveStudentsCSV() para exportar em CSV
+- [x] Implementar getActiveStudentsStats() para obter estatísticas
+- [x] Integrar dados de perfil e livro atual dos alunos
+- [x] Criar tabela com campos: ID, Student ID, Nome, Email, Role, Status, Objetivo, Nível Atual, Horas Aprendidas, Dias de Streak, Última Atividade, Livro Atual, Nível do Livro, Status do Livro, Início do Livro, Data de Criação, Último Acesso
+- [x] Implementar escape de valores CSV (commas, quotes, newlines)
+- [x] Implementar formatação de datas (YYYY-MM-DD)
+- [x] Integrar adminExportRouter no appRouter
+- [x] Criar 29 testes unitários (admin-export.test.ts) - TODOS PASSANDO
+- [x] Adicionar botões no AdminDashboard para exportar CSV e JSON
+- [x] Implementar download automático dos arquivos
+- [x] Adicionar toast de sucesso com contagem de alunos exportados
+- [x] Validar TypeScript sem erros
+
+
+## Fase 170: Criar Página de Estatísticas de Alunos com Gráficos - COMPLETO
+- [x] Criar página StudentStatsPage.tsx com visualizações de dados
+- [x] Integrar com procedure getActiveStudentsStats()
+- [x] Implementar gráfico de barras para distribuição por nível (Recharts)
+- [x] Implementar gráfico de pizza para distribuição por livro (Recharts)
+- [x] Implementar gráfico de linhas para horas médias por nível (Recharts)
+- [x] Criar 4 cartões de resumo: Total Ativos, Livros Ativos, Níveis Representados, Total de Horas
+- [x] Implementar tabelas detalhadas com percentuais por nível e livro
+- [x] Adicionar rota /admin/student-stats no App.tsx
+- [x] Criar 24 testes unitários (student-stats.test.ts) - TODOS PASSANDO
+- [x] Implementar tratamento de loading e erro
+- [x] Validar TypeScript sem erros
+- [x] Integrar com AdminDashboard (botão "Estatísticas de Alunos")

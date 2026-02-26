@@ -40,6 +40,10 @@ export default function AdminDashboard() {
     },
   });
 
+  // Mutation para exportar dados de alunos ativos
+  const exportStudentsJSONMutation = trpc.adminExport.exportActiveStudentsJSON.useQuery();
+  const exportStudentsCSVMutation = trpc.adminExport.exportActiveStudentsCSV.useQuery();
+
   const students = studentsData?.students || [];
 
   const handleLogout = async () => {
@@ -212,34 +216,64 @@ export default function AdminDashboard() {
                 </Button>
                 <Button 
                   variant="outline"
-                  onClick={() => {
-                    // Exportar lista de alunos em CSV
-                    const headers = ['ID', 'Nome', 'Email', 'Nível', 'Objetivo', 'Horas', 'Streak', 'Última Atividade', 'Status'];
-                    const csvContent = [
-                      headers.join(','),
-                      ...filteredStudents.map(s => [
-                        (s as any).studentId || '-',
-                        `"${s.name}"`,
-                        s.email,
-                        levelMap[s.level] || s.level,
-                        objectiveMap[s.objective] || s.objective,
-                        `${s.hoursLearned}h`,
-                        `${s.streakDays}d`,
-                        s.lastActivity,
-                        s.status === 'active' ? 'Ativo' : s.status === 'inactive' ? 'Inativo' : 'Em Risco'
-                      ].join(','))
-                    ].join('\n');
-                    
-                    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-                    const link = document.createElement('a');
-                    link.href = URL.createObjectURL(blob);
-                    link.download = `alunos_influx_${new Date().toISOString().split('T')[0]}.csv`;
-                    link.click();
-                    toast.success('Lista exportada com sucesso!');
-                  }}
+                  onClick={() => setLocation("/admin/dashboard")}
+                  className="bg-blue-50 hover:bg-blue-100 border-blue-200"
                 >
-                  <Download className="w-4 h-4 mr-2" />
-                  Exportar CSV
+                  <BarChart3 className="w-4 h-4 mr-2 text-blue-600" />
+                  Estatísticas de Alunos
+                </Button>
+                <Button 
+                  variant="outline"
+                  onClick={async () => {
+                    try {
+                      const result = await exportStudentsCSVMutation.refetch();
+                      if (result.data?.csv) {
+                        const blob = new Blob([result.data.csv], { type: 'text/csv;charset=utf-8;' });
+                        const link = document.createElement('a');
+                        link.href = URL.createObjectURL(blob);
+                        link.download = `alunos_ativos_${new Date().toISOString().split('T')[0]}.csv`;
+                        link.click();
+                        toast.success(`${result.data.count} alunos exportados com sucesso!`);
+                      }
+                    } catch (error) {
+                      toast.error('Erro ao exportar dados de alunos ativos');
+                    }
+                  }}
+                  disabled={exportStudentsCSVMutation.isLoading}
+                >
+                  {exportStudentsCSVMutation.isLoading ? (
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  ) : (
+                    <Download className="w-4 h-4 mr-2" />
+                  )}
+                  Exportar Alunos Ativos (CSV)
+                </Button>
+                <Button 
+                  variant="outline"
+                  onClick={async () => {
+                    try {
+                      const result = await exportStudentsJSONMutation.refetch();
+                      if (result.data?.data) {
+                        const json = JSON.stringify(result.data.data, null, 2);
+                        const blob = new Blob([json], { type: 'application/json;charset=utf-8;' });
+                        const link = document.createElement('a');
+                        link.href = URL.createObjectURL(blob);
+                        link.download = `alunos_ativos_${new Date().toISOString().split('T')[0]}.json`;
+                        link.click();
+                        toast.success(`${result.data.count} alunos exportados com sucesso!`);
+                      }
+                    } catch (error) {
+                      toast.error('Erro ao exportar dados de alunos ativos');
+                    }
+                  }}
+                  disabled={exportStudentsJSONMutation.isLoading}
+                >
+                  {exportStudentsJSONMutation.isLoading ? (
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  ) : (
+                    <Download className="w-4 h-4 mr-2" />
+                  )}
+                  Exportar Alunos Ativos (JSON)
                 </Button>
               </div>
             </div>
