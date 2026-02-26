@@ -743,3 +743,14 @@ Cada um dos 182 alunos receberá uma experiência completamente personalizada ba
 - [x] Criar 17 testes unitários (extra-exercises-page.test.ts) - TODOS PASSANDO
 - [x] TypeScript sem erros, servidor rodando
 - [ ] Garantir volta às aulas e passaporte funcionando
+
+
+## Fase 175: Catalogar Conteúdo Real das 28 Imagens do Book 1 e Atualizar Exercícios - COMPLETO
+- [x] Analisar todas as 28 imagens e extrair conteúdo real (expressões, vocabulário, gramática)
+- [x] Criar catálogo completo BOOK1_IMAGE_NOTES.md com dados estruturados
+- [x] Criar BOOK1_COMPLETE_STRUCTURE.json com estrutura completa
+- [x] Atualizar exercícios existentes no banco com conteúdo correto
+- [x] Adicionar 18 exercícios para Unit 2 (Lessons 6-10) - total: 38 exercícios
+- [x] Garantir que volta às aulas e passaporte estejam funcionando (66 tabelas, servidor ok)
+- [x] 90 testes passando (26 Unit 2 + 36 Extra Exercises + 28 Passport QR)
+- [x] TypeScript sem erros, servidor rodando
