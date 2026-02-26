@@ -45,6 +45,7 @@ import PassportCheckInPage from "./pages/PassportCheckInPage";
 import PassportSyncPage from "./pages/PassportSyncPage";
 import StudentStatsPage from "./pages/StudentStatsPage";
 import TestLoginDebug from "./pages/TestLoginDebug";
+import ExtraExercisesPage from "./pages/ExtraExercisesPage";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -94,6 +95,8 @@ function Router() {
       <Route path="/student/blog-tips" component={BlogTips} />
       <Route path="/student/simulator" component={SituationSimulator} />
       <Route path="/student/passport" component={InfluxPassportPage} />
+      <Route path="/student/extra-exercises/:bookId/:lessonNumber" component={ExtraExercisesPage} />
+      <Route path="/student/extra-exercises" component={ExtraExercisesPage} />
       <Route path="/passport/checkin" component={PassportCheckInPage} />
       <Route path="/passport/sync" component={PassportSyncPage} />
       {/* Rota exclusiva para Tiago */}

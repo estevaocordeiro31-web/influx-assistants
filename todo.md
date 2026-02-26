@@ -727,3 +727,19 @@ Cada um dos 182 alunos receberá uma experiência completamente personalizada ba
 - [ ] Implementar diálogos com os 3 personagens
 - [ ] Adicionar áudio com vozes corretas (Lucas=USA, Emily=UK, Aiko=Australia)
 - [ ] Criar exercícios baseados nas histórias
+
+
+## Fase 174: Exercícios Extras com Contexto dos Personagens - Book 1 - COMPLETO
+- [x] Criar exercícios Lesson 1 (Greetings) com Lucas/Emily/Aiko - 5 exercícios
+- [x] Criar exercícios Lesson 2 (Professions) com Lucas/Emily/Aiko - 5 exercícios
+- [x] Criar exercícios Lesson 3 (Food & Drinks) com Lucas/Emily/Aiko - 4 exercícios
+- [x] Criar exercícios Lesson 4 (Classroom Objects) com Lucas/Emily/Aiko - 4 exercícios
+- [x] Criar história comunicativa Lesson 5 com contexto cultural real - 2 exercícios
+- [x] Integrar 20 exercícios no banco de dados via seed script
+- [x] Criar página ExtraExercisesPage.tsx com interface visual interativa
+- [x] Implementar 4 tipos de exercícios (Dialogue, Matching, Fill-in-the-Blank, Story)
+- [x] Adicionar rotas /student/extra-exercises e /student/extra-exercises/:bookId/:lessonNumber
+- [x] Criar 14 tabelas faltantes no banco de dados (total: 66 tabelas)
+- [x] Criar 17 testes unitários (extra-exercises-page.test.ts) - TODOS PASSANDO
+- [x] TypeScript sem erros, servidor rodando
+- [ ] Garantir volta às aulas e passaporte funcionando
