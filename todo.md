@@ -754,3 +754,17 @@ Cada um dos 182 alunos receberá uma experiência completamente personalizada ba
 - [x] Garantir que volta às aulas e passaporte estejam funcionando (66 tabelas, servidor ok)
 - [x] 90 testes passando (26 Unit 2 + 36 Extra Exercises + 28 Passport QR)
 - [x] TypeScript sem erros, servidor rodando
+
+
+## Fase 176: Catalogar Book 2 + Exercícios + TTS + Login - COMPLETO
+- [x] Analisar 23 imagens do Book 2 e catalogar conteúdo real (BOOK2_IMAGE_NOTES.md)
+- [x] Criar 27 exercícios extras Book 2 com Lucas/Emily/Aiko
+- [x] Inserir exercícios no banco de dados (total: 65 exercícios)
+- [x] Testar login e navegação dos exercícios no browser
+- [x] Adicionar seletor de Book (Book 1 / Book 2) na página de exercícios
+- [x] Corrigir nomes das lições por book (dinâmico)
+- [x] Integrar botões de áudio TTS em cada fala do diálogo
+- [x] Adicionar botão 'Ouvir Diálogo Completo'
+- [x] Mapear vozes: Lucas=American, Emily=British, Aiko=Australian
+- [x] Criar 20 testes unitários TTS (extra-exercises-tts.test.ts) - TODOS PASSANDO
+- [x] TypeScript sem erros, servidor rodando
