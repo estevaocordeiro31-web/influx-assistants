@@ -134,6 +134,13 @@
       "when": 1772062135243,
       "tag": "0018_plain_human_torch",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "5",
+      "when": 1772102858391,
+      "tag": "0019_useful_ultragirl",
+      "breakpoints": true
     }
   ]
 }

@@ -44,6 +44,7 @@ import AdminActivitiesPage from "./pages/AdminActivitiesPage";
 import PassportCheckInPage from "./pages/PassportCheckInPage";
 import PassportSyncPage from "./pages/PassportSyncPage";
 import StudentStatsPage from "./pages/StudentStatsPage";
+import TestLoginDebug from "./pages/TestLoginDebug";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -126,6 +127,7 @@ function Router() {
       <Route path="/support/ellie" component={ElliesSupportPage} />
       <Route path="/support/tickets" component={SupportTicketsPage} />
       <Route path="/test-login" component={TestLogin} />
+      <Route path="/test-login-debug" component={TestLoginDebug} />
       <Route path="/admin/student/:studentId/edit" component={StudentProfileEditPage} />
       <Route path="/admin/student/:studentId/analysis" component={StudentCrossAnalysisPage} />
       <Route path="/admin/import-student-data" component={ImportStudentDataPage} />

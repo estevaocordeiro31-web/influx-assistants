@@ -886,3 +886,38 @@ export const studentObjectives = mysqlTable("student_objectives", {
 
 export type StudentObjective = typeof studentObjectives.$inferSelect;
 export type InsertStudentObjective = typeof studentObjectives.$inferInsert;
+
+
+// Extra Exercises table
+export const extraExercises = mysqlTable("extra_exercises", {
+  id: int("id").autoincrement().primaryKey(),
+  bookId: int("book_id").notNull().references(() => books.id, { onDelete: "cascade" }),
+  lessonNumber: int("lesson_number").notNull(),
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description"),
+  type: mysqlEnum("type", ["vocabulary", "grammar", "listening", "reading", "writing", "speaking", "communicative"]).notNull(),
+  content: longtext("content").notNull(), // JSON or HTML content
+  imageUrl: varchar("image_url", { length: 512 }),
+  difficulty: mysqlEnum("difficulty", ["beginner", "elementary", "intermediate", "upper_intermediate", "advanced", "proficient"]).default("beginner").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type ExtraExercise = typeof extraExercises.$inferSelect;
+export type InsertExtraExercise = typeof extraExercises.$inferInsert;
+
+// Student Exercise Progress table
+export const studentExerciseProgress = mysqlTable("student_exercise_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("student_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  exerciseId: int("exercise_id").notNull().references(() => extraExercises.id, { onDelete: "cascade" }),
+  status: mysqlEnum("status", ["not_started", "in_progress", "completed", "reviewed"]).default("not_started").notNull(),
+  score: decimal("score", { precision: 5, scale: 2 }), // 0-100
+  attempts: int("attempts").default(0).notNull(),
+  completedAt: timestamp("completed_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type StudentExerciseProgress = typeof studentExerciseProgress.$inferSelect;
+export type InsertStudentExerciseProgress = typeof studentExerciseProgress.$inferInsert;

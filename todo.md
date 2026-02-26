@@ -681,3 +681,49 @@ Cada um dos 182 alunos receberá uma experiência completamente personalizada ba
 - [x] Implementar tratamento de loading e erro
 - [x] Validar TypeScript sem erros
 - [x] Integrar com AdminDashboard (botão "Estatísticas de Alunos")
+
+
+## Fase 171: Corrigir Sistema de Login e Autenticação - COMPLETO
+- [x] Debugar fluxo de autenticação OAuth
+- [x] Testar login/logout funcionando
+- [x] Validar cookies de sessão
+- [x] Criar página de teste de login (/test-login-debug)
+- [x] Implementar tratamento de erros de autenticação
+
+## Fase 172: Criar Sistema de Exercícios Extras no Banco de Dados - COMPLETO
+- [x] Criar tabela extraExercises no schema
+- [x] Adicionar campos: id, bookId, lessonNumber, title, description, type, content, imageUrl, difficulty, createdAt, updatedAt
+- [x] Criar tabela studentExerciseProgress para rastrear progresso
+- [x] Adicionar relacionamentos com users e extraExercises
+- [ ] Executar db:push para sincronizar schema
+
+## Fase 173: Implementar CRUD de Exercícios Extras com tRPC - COMPLETO
+- [x] Criar router extraExercisesRouter com 7 procedures
+- [x] Implementar procedure getExercisesByLesson()
+- [x] Implementar procedure getExercisesByBook()
+- [x] Implementar procedure getStudentProgress()
+- [x] Implementar procedure updateProgress()
+- [x] Implementar procedure createExercise()
+- [x] Implementar procedure updateExercise()
+- [x] Implementar procedure deleteExercise()
+- [x] Integrar router no appRouter
+- [x] Criar 36 testes unitários (TODOS PASSANDO)
+- [ ] Criar testes unitários para CRUD
+
+## Fase 174: Processar e Organizar Imagens do Book 1 - PENDENTE
+- [ ] Processar 28 imagens das lições lexicais
+- [ ] Fazer upload para S3
+- [ ] Organizar por lição e tipo (lexical/communicative)
+- [ ] Criar índice de imagens
+
+## Fase 175: Criar Lições Estruturadas com Vocabulário - PENDENTE
+- [ ] Extrair vocabulário das imagens do Book 1
+- [ ] Criar estrutura de lições com vocabulário
+- [ ] Integrar imagens nas lições
+- [ ] Criar exercícios de vocabulário baseados no material
+
+## Fase 176: Gerar Histórias Comunicativas com Lucas, Emily e Aiko - PENDENTE
+- [ ] Criar histórias comunicativas baseadas em vocabulário lexical
+- [ ] Implementar diálogos com os 3 personagens
+- [ ] Adicionar áudio com vozes corretas (Lucas=USA, Emily=UK, Aiko=Australia)
+- [ ] Criar exercícios baseados nas histórias
