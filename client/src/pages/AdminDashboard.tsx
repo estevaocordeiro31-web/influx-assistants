@@ -27,6 +27,9 @@ export default function AdminDashboard() {
   const [, setLocation] = useLocation();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStudent, setSelectedStudent] = useState<StudentData | null>(null);
+  const [filterLevel, setFilterLevel] = useState<string>("");
+  const [filterObjective, setFilterObjective] = useState<string>("");
+  const [filterStatus, setFilterStatus] = useState<string>("");
 
   // Buscar alunos do banco de dados
   const { data: studentsData, isLoading, refetch } = trpc.adminStudents.getStudents.useQuery({
@@ -63,11 +66,24 @@ export default function AdminDashboard() {
     setLocation("/");
   };
 
-  const filteredStudents = students.filter(
-    (student) =>
+  const filteredStudents = students.filter((student) => {
+    const matchesSearch =
       student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      student.email.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+      student.email.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesLevel = !filterLevel || student.level === filterLevel;
+    const matchesObjective = !filterObjective || student.objective === filterObjective;
+    const matchesStatus = !filterStatus || student.status === filterStatus;
+    return matchesSearch && matchesLevel && matchesObjective && matchesStatus;
+  });
+
+  const handleClearFilters = () => {
+    setSearchTerm("");
+    setFilterLevel("");
+    setFilterObjective("");
+    setFilterStatus("");
+  };
+
+  const hasActiveFilters = filterLevel || filterObjective || filterStatus || searchTerm;
 
   const activeStudents = students.filter((s: StudentData) => s.status === "ativo").length;
   const atRiskStudents = students.filter((s: StudentData) => s.status === "desistente" || s.status === "trancado").length;
@@ -320,6 +336,69 @@ export default function AdminDashboard() {
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10"
                 />
+              </div>
+            </div>
+
+            {/* Filtros Avançados */}
+            <div className="mb-6 p-4 bg-muted/30 rounded-lg border border-border">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-semibold text-sm">Filtros Avançados</h3>
+                {hasActiveFilters && (
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={handleClearFilters}
+                    className="text-xs"
+                  >
+                    Limpar Filtros
+                  </Button>
+                )}
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label className="text-xs font-medium mb-2 block">Nível</label>
+                  <select
+                    value={filterLevel}
+                    onChange={(e) => setFilterLevel(e.target.value)}
+                    className="w-full px-3 py-2 border border-border rounded-md bg-background text-sm"
+                  >
+                    <option value="">Todos os níveis</option>
+                    <option value="beginner">Iniciante</option>
+                    <option value="elementary">Elementar</option>
+                    <option value="intermediate">Intermediário</option>
+                    <option value="upper_intermediate">Intermediário Superior</option>
+                    <option value="advanced">Avançado</option>
+                    <option value="proficient">Proficiente</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-xs font-medium mb-2 block">Objetivo</label>
+                  <select
+                    value={filterObjective}
+                    onChange={(e) => setFilterObjective(e.target.value)}
+                    className="w-full px-3 py-2 border border-border rounded-md bg-background text-sm"
+                  >
+                    <option value="">Todos os objetivos</option>
+                    <option value="career">Carreira</option>
+                    <option value="travel">Viagens</option>
+                    <option value="studies">Estudos</option>
+                    <option value="other">Outro</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-xs font-medium mb-2 block">Status</label>
+                  <select
+                    value={filterStatus}
+                    onChange={(e) => setFilterStatus(e.target.value)}
+                    className="w-full px-3 py-2 border border-border rounded-md bg-background text-sm"
+                  >
+                    <option value="">Todos os status</option>
+                    <option value="ativo">Ativo</option>
+                    <option value="inativo">Inativo</option>
+                    <option value="desistente">Desistente</option>
+                    <option value="trancado">Trancado</option>
+                  </select>
+                </div>
               </div>
             </div>
 
