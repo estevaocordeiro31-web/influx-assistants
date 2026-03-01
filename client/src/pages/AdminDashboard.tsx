@@ -7,6 +7,7 @@ import { useLocation } from "wouter";
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { CreateStudentDialog } from "@/components/CreateStudentDialog";
 
 interface StudentData {
   id: number;
@@ -109,93 +110,71 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="bg-white border-b border-border shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between flex-wrap gap-4">
-          <h1 className="text-xl sm:text-2xl font-bold text-foreground">Dashboard Administrativo</h1>
-          <div className="flex items-center gap-2 sm:gap-4 flex-wrap justify-end w-full sm:w-auto">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => setLocation("/admin/gemini-chat")}
-              className="bg-purple-50 hover:bg-purple-100 border-purple-200"
-            >
-              <Sparkles className="w-4 h-4 mr-2 text-purple-600" />
-              Gemini AI
-            </Button>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => setLocation("/support/ellie")}
-              className="bg-indigo-50 hover:bg-indigo-100 border-indigo-200"
-            >
-              <Headphones className="w-4 h-4 mr-2 text-indigo-600" />
-              Ellie's Support
-            </Button>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => setLocation("/admin/notifications")}
-              className="relative"
-            >
-              <Bell className="w-4 h-4 mr-2" />
-              Notificações
-              <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
-                3
-              </span>
-            </Button>
-            <span className="text-sm text-muted-foreground">{user?.name}</span>
-            <Button variant="ghost" size="sm" onClick={handleLogout}>
-              <LogOut className="w-4 h-4 mr-2" />
-              Sair
-            </Button>
+      {/* Header */}
+      <header className="border-b border-border bg-card">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Users className="w-6 h-6 text-primary" />
+            <h1 className="text-xl sm:text-2xl font-bold">Dashboard Administrativo</h1>
+          </div>
+          <div className="flex items-center gap-4">
+            <button className="relative p-2 text-muted-foreground hover:text-foreground transition-colors">
+              <Bell className="w-5 h-5" />
+              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+            </button>
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground">{user?.name || "Admin"}</span>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleLogout}
+                className="gap-2"
+              >
+                <LogOut className="w-4 h-4" />
+                Sair
+              </Button>
+            </div>
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 py-8">
-        {/* Métricas */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Total de Alunos
-              </CardTitle>
+      {/* Main Content */}
+      <main className="container mx-auto px-4 py-8 space-y-6">
+        {/* KPI Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <Card className="bg-card border-border">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium text-muted-foreground">Total de Alunos</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold">{students.length}</div>
+              <div className="text-2xl sm:text-3xl font-bold">{students.length}</div>
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Alunos Ativos
-              </CardTitle>
+          <Card className="bg-card border-border">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium text-green-600">Alunos Ativos</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-green-600">{activeStudents}</div>
+              <div className="text-2xl sm:text-3xl font-bold text-green-600">{activeStudents}</div>
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Em Risco
-              </CardTitle>
+          <Card className="bg-card border-border">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium text-red-600">Em Risco</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-red-600">{atRiskStudents}</div>
+              <div className="text-2xl sm:text-3xl font-bold text-red-600">{atRiskStudents}</div>
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Total de Horas
-              </CardTitle>
+          <Card className="bg-card border-border">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium text-blue-600">Total de Horas</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-blue-600">{totalHours}h</div>
+              <div className="text-2xl sm:text-3xl font-bold text-blue-600">{totalHours}h</div>
             </CardContent>
           </Card>
         </div>
@@ -203,34 +182,36 @@ export default function AdminDashboard() {
         {/* Lista de Alunos */}
         <Card>
           <CardHeader>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between flex-col sm:flex-row gap-4">
               <div>
                 <CardTitle>Alunos</CardTitle>
                 <CardDescription>
                   Visualize e gerencie todos os alunos da plataforma
                 </CardDescription>
               </div>
-              <div className="flex gap-2 flex-wrap lg:flex-nowrap">
-                <Button 
-                  variant="outline"
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 flex-wrap">
+                <CreateStudentDialog onSuccess={() => refetch()} />
+                <Button
                   onClick={async () => {
                     try {
-                      const result = await assignAllIdsMutation.mutateAsync();
-                      toast.success(result.message);
-                    } catch (error) {
-                      toast.error("Erro ao gerar IDs");
+                      await assignAllIdsMutation.mutateAsync();
+                      refetch();
+                      toast.success('IDs de alunos gerados com sucesso!');
+                    } catch (error: any) {
+                      toast.error(`Erro ao gerar IDs: ${error.message}`);
                     }
                   }}
                   disabled={assignAllIdsMutation.isPending}
+                  className="gap-2"
                 >
                   {assignAllIdsMutation.isPending ? (
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    <Loader2 className="w-4 h-4 animate-spin" />
                   ) : (
-                    <Hash className="w-4 h-4 mr-2" />
+                    <Hash className="w-4 h-4" />
                   )}
                   Gerar IDs
                 </Button>
-                <Button 
+                <Button
                   variant="outline"
                   onClick={async () => {
                     try {
@@ -249,53 +230,7 @@ export default function AdminDashboard() {
                   )}
                   Sincronizar Alunos
                 </Button>
-                <Button 
-                  variant="outline"
-                  onClick={() => setLocation("/admin/personalized-links")}
-                >
-                  Gerar Links
-                </Button>
-                <Button 
-                  variant="outline"
-                  onClick={() => setLocation("/admin/upload-materials")}
-                >
-                  Compartilhar Materiais
-                </Button>
-                <Button 
-                  variant="outline"
-                  onClick={() => setLocation("/admin/dashboard")}
-                  className="bg-blue-50 hover:bg-blue-100 border-blue-200"
-                >
-                  <BarChart3 className="w-4 h-4 mr-2 text-blue-600" />
-                  Estatísticas de Alunos
-                </Button>
-                <Button 
-                  variant="outline"
-                  onClick={async () => {
-                    try {
-                      const result = await exportStudentsCSVMutation.refetch();
-                      if (result.data?.csv) {
-                        const blob = new Blob([result.data.csv], { type: 'text/csv;charset=utf-8;' });
-                        const link = document.createElement('a');
-                        link.href = URL.createObjectURL(blob);
-                        link.download = `alunos_ativos_${new Date().toISOString().split('T')[0]}.csv`;
-                        link.click();
-                        toast.success(`${result.data.count} alunos exportados com sucesso!`);
-                      }
-                    } catch (error) {
-                      toast.error('Erro ao exportar dados de alunos ativos');
-                    }
-                  }}
-                  disabled={exportStudentsCSVMutation.isLoading}
-                >
-                  {exportStudentsCSVMutation.isLoading ? (
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  ) : (
-                    <Download className="w-4 h-4 mr-2" />
-                  )}
-                  Exportar Alunos Ativos (CSV)
-                </Button>
-                <Button 
+                <Button
                   variant="outline"
                   onClick={async () => {
                     try {
@@ -405,50 +340,42 @@ export default function AdminDashboard() {
             {/* Tabela de Alunos */}
             {isLoading ? (
               <div className="flex items-center justify-center py-12">
-                <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+                <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
               </div>
             ) : filteredStudents.length === 0 ? (
               <div className="text-center py-12">
-                <Users className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                <AlertCircle className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
                 <p className="text-muted-foreground">Nenhum aluno encontrado</p>
               </div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full">
+                <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-border">
-                      <th className="text-left py-3 px-4 font-semibold text-sm hidden sm:table-cell">ID</th>
-                      <th className="text-left py-3 px-4 font-semibold text-sm">Nome</th>
-                      <th className="text-left py-3 px-4 font-semibold text-sm hidden md:table-cell">Email</th>
-                      <th className="text-left py-3 px-4 font-semibold text-sm hidden lg:table-cell">Nível</th>
-                      <th className="text-left py-3 px-4 font-semibold text-sm hidden lg:table-cell">Objetivo</th>
-                      <th className="text-left py-3 px-4 font-semibold text-sm hidden xl:table-cell">Horas</th>
-                      <th className="text-left py-3 px-4 font-semibold text-sm hidden xl:table-cell">Streak</th>
-                      <th className="text-left py-3 px-4 font-semibold text-sm hidden lg:table-cell">Última Atividade</th>
-                      <th className="text-left py-3 px-4 font-semibold text-sm">Status</th>
-                      <th className="text-left py-3 px-4 font-semibold text-sm">Ações</th>
+                      <th className="text-left py-3 px-4 font-semibold">ID</th>
+                      <th className="text-left py-3 px-4 font-semibold">Nome</th>
+                      <th className="text-left py-3 px-4 font-semibold hidden sm:table-cell">Email</th>
+                      <th className="text-left py-3 px-4 font-semibold">Nível</th>
+                      <th className="text-left py-3 px-4 font-semibold hidden md:table-cell">Objetivo</th>
+                      <th className="text-left py-3 px-4 font-semibold hidden lg:table-cell">Horas</th>
+                      <th className="text-left py-3 px-4 font-semibold hidden xl:table-cell">Streak</th>
+                      <th className="text-left py-3 px-4 font-semibold">Status</th>
+                      <th className="text-left py-3 px-4 font-semibold">Ações</th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredStudents.map((student) => (
-                      <tr
-                        key={student.id}
-                        className="border-b border-border hover:bg-muted/50 cursor-pointer"
-                        onClick={() => setSelectedStudent(student as StudentData)}
-                      >
-                        <td className="py-3 px-4 text-sm font-mono text-xs hidden sm:table-cell">
-                          {(student as any).studentId || <span className="text-muted-foreground">-</span>}
-                        </td>
-                        <td className="py-3 px-4 text-sm font-medium">{student.name}</td>
-                        <td className="py-3 px-4 text-sm text-muted-foreground hidden md:table-cell">{student.email}</td>
-                        <td className="py-3 px-4 text-sm hidden lg:table-cell">{levelMap[student.level] || student.level}</td>
-                        <td className="py-3 px-4 text-sm hidden lg:table-cell">{objectiveMap[student.objective] || student.objective}</td>
-                        <td className="py-3 px-4 text-sm hidden xl:table-cell">{student.hoursLearned}h</td>
-                        <td className="py-3 px-4 text-sm hidden xl:table-cell">{student.streakDays}d</td>
-                        <td className="py-3 px-4 text-sm text-muted-foreground hidden lg:table-cell">{student.lastActivity}</td>
-                        <td className="py-3 px-4 text-sm">
+                      <tr key={student.id} className="border-b border-border hover:bg-muted/50">
+                        <td className="py-3 px-4 text-xs">{student.studentId || "-"}</td>
+                        <td className="py-3 px-4 font-medium">{student.name}</td>
+                        <td className="py-3 px-4 text-xs hidden sm:table-cell">{student.email}</td>
+                        <td className="py-3 px-4 text-xs">{levelMap[student.level] || student.level}</td>
+                        <td className="py-3 px-4 text-xs hidden md:table-cell">{objectiveMap[student.objective] || student.objective}</td>
+                        <td className="py-3 px-4 text-xs hidden lg:table-cell">{student.hoursLearned}h</td>
+                        <td className="py-3 px-4 text-xs hidden xl:table-cell">{student.streakDays} dias</td>
+                        <td className="py-3 px-4">
                           <span
-                            className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                            className={`inline-block px-2 py-1 text-xs rounded-full font-medium ${
                               student.status === "ativo"
                                 ? "bg-green-100 text-green-800"
                                 : student.status === "inativo"
@@ -456,37 +383,18 @@ export default function AdminDashboard() {
                                 : "bg-red-100 text-red-800"
                             }`}
                           >
-                            {student.status === "ativo"
-                              ? "Ativo"
-                              : student.status === "inativo"
-                              ? "Inativo"
-                              : "Em Risco"}
+                            {student.status}
                           </span>
                         </td>
-                        <td className="py-3 px-4 text-sm flex gap-2">
+                        <td className="py-3 px-4">
                           <Button
-                            size="sm"
                             variant="ghost"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setLocation(`/admin/student/${student.id}/edit`);
-                            }}
-                            className="text-blue-600 hover:text-blue-800 hover:bg-blue-50"
-                          >
-                            <Edit className="w-4 h-4 mr-1" />
-                            Editar
-                          </Button>
-                          <Button
                             size="sm"
-                            variant="ghost"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setLocation(`/admin/student/${student.id}/analysis`);
-                            }}
-                            className="text-purple-600 hover:text-purple-800 hover:bg-purple-50"
+                            onClick={() => setSelectedStudent(student)}
+                            className="gap-1"
                           >
-                            <BarChart3 className="w-4 h-4 mr-1" />
-                            Análise
+                            <Edit className="w-4 h-4" />
+                            <span className="hidden sm:inline">Editar</span>
                           </Button>
                         </td>
                       </tr>
@@ -497,62 +405,6 @@ export default function AdminDashboard() {
             )}
           </CardContent>
         </Card>
-
-        {/* Detalhes do Aluno Selecionado */}
-        {selectedStudent && (
-          <Card className="mt-8">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle>{selectedStudent.name}</CardTitle>
-                  <CardDescription>{selectedStudent.email}</CardDescription>
-                </div>
-                <Button
-                  variant="ghost"
-                  onClick={() => setSelectedStudent(null)}
-                >
-                  ✕
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                <div>
-                  <p className="text-sm text-muted-foreground">Nível</p>
-                  <p className="font-semibold">{levelMap[selectedStudent.level]}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Objetivo</p>
-                  <p className="font-semibold">{objectiveMap[selectedStudent.objective]}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Horas Aprendidas</p>
-                  <p className="font-semibold">{selectedStudent.hoursLearned}h</p>
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Streak</p>
-                  <p className="font-semibold">{selectedStudent.streakDays} dias</p>
-                </div>
-              </div>
-              <div className="flex gap-2">
-                <Button
-                  onClick={() => setLocation(`/admin/student/${selectedStudent.id}/edit`)}
-                  className="bg-blue-600 hover:bg-blue-700 text-white"
-                >
-                  <Edit className="w-4 h-4 mr-2" />
-                  Editar Perfil Detalhado
-                </Button>
-                <Button
-                  onClick={() => setLocation(`/admin/student/${selectedStudent.id}/analysis`)}
-                  className="bg-purple-600 hover:bg-purple-700 text-white"
-                >
-                  <BarChart3 className="w-4 h-4 mr-2" />
-                  Ver Análise Cruzada
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        )}
       </main>
     </div>
   );

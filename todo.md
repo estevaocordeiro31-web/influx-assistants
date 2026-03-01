@@ -28,6 +28,7 @@
 - [ ] Criar menu com ícones no StudentDashboard
 - [x] Adicionar validação de entrada (Zod) - COMPLETO (27 testes passando, integrado no login)
 - [x] Implementar filtros avançados no AdminDashboard - COMPLETO (17 testes passando)
+- [x] Integrar validação Zod em formulários de criação de alunos - COMPLETO (19 testes passando, CreateStudentDialog integrado)
 
 ### PROBLEMAS MENORES
 - [ ] Melhorar contraste de cores (WCAG AA)
