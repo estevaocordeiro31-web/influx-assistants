@@ -768,3 +768,17 @@ Cada um dos 182 alunos receberá uma experiência completamente personalizada ba
 - [x] Mapear vozes: Lucas=American, Emily=British, Aiko=Australian
 - [x] Criar 20 testes unitários TTS (extra-exercises-tts.test.ts) - TODOS PASSANDO
 - [x] TypeScript sem erros, servidor rodando
+
+
+## Fase 177: Relatório do Que Falta + Sistema de Selos da Ellie - COMPLETO
+- [x] Verificar catálogos existentes (Books 1, 2, 4, 5) e identificar lacunas
+- [x] Criar relatório completo RELATORIO_CONTEUDO_BOOKS.md
+- [x] Criar tabelas ellie_badge_definitions e student_badges no schema
+- [x] Inserir 12 badges no banco via seed (seed-badges.mjs)
+- [x] Implementar badgesRouter tRPC com 6 procedures
+- [x] Criar página visual BadgesPage.tsx com 20 selos
+- [x] Implementar animação de carimbo da Ellie ao desbloquear selo
+- [x] Integrar ranking de alunos e barra de progresso
+- [x] Adicionar seção 'Como Ganhar Selos' com 4 passos
+- [x] Criar 33 testes unitários (badges.test.ts) - TODOS PASSANDO
+- [x] TypeScript sem erros, servidor rodando, página testada no browser

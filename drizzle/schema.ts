@@ -921,3 +921,51 @@ export const studentExerciseProgress = mysqlTable("student_exercise_progress", {
 
 export type StudentExerciseProgress = typeof studentExerciseProgress.$inferSelect;
 export type InsertStudentExerciseProgress = typeof studentExerciseProgress.$inferInsert;
+
+
+// ============================================
+// BADGE/SEAL SYSTEM - Ellie's Stamps
+// ============================================
+
+// Badge definitions - the types of badges available
+export const badgeDefinitions = mysqlTable("badge_definitions", {
+  id: int("id").autoincrement().primaryKey(),
+  slug: varchar("slug", { length: 64 }).notNull().unique(), // e.g. "welcome_seal", "speaking_master"
+  name: varchar("name", { length: 128 }).notNull(), // Display name
+  nameEn: varchar("name_en", { length: 128 }).notNull(), // English name
+  description: text("description").notNull(), // Description in Portuguese
+  descriptionEn: text("description_en").notNull(), // Description in English
+  ellieMessage: text("ellie_message").notNull(), // Ellie's congratulation message
+  ellieMessageEn: text("ellie_message_en").notNull(), // Ellie's message in English
+  category: mysqlEnum("category", [
+    "welcome",      // First-time achievements
+    "exercise",     // Exercise completion
+    "streak",       // Streak milestones
+    "vocabulary",   // Vocabulary mastery
+    "speaking",     // Speaking practice
+    "cultural",     // Cultural knowledge
+    "book",         // Book completion
+    "special"       // Special/seasonal badges
+  ]).notNull(),
+  icon: varchar("icon", { length: 64 }).notNull(), // Emoji or icon name
+  color: varchar("color", { length: 7 }).notNull().default("#6B21A8"), // Hex color
+  requirement: text("requirement").notNull(), // JSON describing unlock conditions
+  influxcoinsReward: int("influxcoins_reward").default(0).notNull(), // Influxcoins earned
+  sortOrder: int("sort_order").default(0).notNull(),
+  isActive: boolean("is_active").default(true).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type BadgeDefinition = typeof badgeDefinitions.$inferSelect;
+export type InsertBadgeDefinition = typeof badgeDefinitions.$inferInsert;
+
+// Student badges - which badges each student has earned
+export const studentBadges = mysqlTable("student_badges", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("student_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  badgeId: int("badge_id").notNull().references(() => badgeDefinitions.id, { onDelete: "cascade" }),
+  earnedAt: timestamp("earned_at").defaultNow().notNull(),
+  seenByStudent: boolean("seen_by_student").default(false).notNull(), // For animation trigger
+  influxcoinsAwarded: int("influxcoins_awarded").default(0).notNull(),
+});
+export type StudentBadge = typeof studentBadges.$inferSelect;
+export type InsertStudentBadge = typeof studentBadges.$inferInsert;
