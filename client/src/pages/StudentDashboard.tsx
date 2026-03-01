@@ -260,6 +260,7 @@ export default function StudentDashboard() {
                   <img 
                     src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/UpLMiMaLftZmSfqa.png" 
                     alt="Fluxie Tech Tutor" 
+                    loading="lazy"
                     className="w-16 h-16 sm:w-20 sm:h-20 object-contain rounded-xl"
                   />
                   {/* Neon glow around image */}
