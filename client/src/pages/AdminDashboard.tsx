@@ -1,4 +1,3 @@
-import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -7,18 +6,20 @@ import { toast } from "sonner";
 import { useLocation } from "wouter";
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 interface StudentData {
   id: number;
   studentId: string | null;
   name: string;
   email: string;
-  level: string;
-  objective: string;
+  level: "beginner" | "elementary" | "intermediate" | "upper_intermediate" | "advanced" | "proficient";
+  objective: "career" | "travel" | "studies" | "other";
   hoursLearned: number;
   streakDays: number;
   lastActivity: string;
-  status: "active" | "inactive" | "at_risk";
+  status: string;
+  createdAt: Date;
 }
 
 export default function AdminDashboard() {
@@ -30,7 +31,7 @@ export default function AdminDashboard() {
   // Buscar alunos do banco de dados
   const { data: studentsData, isLoading, refetch } = trpc.adminStudents.getStudents.useQuery({
     search: searchTerm || undefined,
-    limit: 50,
+    limit: 100,
   });
 
   // Mutation para gerar IDs de todos os alunos
@@ -43,6 +44,17 @@ export default function AdminDashboard() {
   // Mutation para exportar dados de alunos ativos
   const exportStudentsJSONMutation = trpc.adminExport.exportActiveStudentsJSON.useQuery();
   const exportStudentsCSVMutation = trpc.adminExport.exportActiveStudentsCSV.useQuery();
+
+  // Mutation para sincronizar todos os alunos
+  const syncAllStudentsMutation = trpc.bulkStudentSync.syncAllStudents.useMutation({
+    onSuccess: (result: any) => {
+      toast.success(`${result.synced} alunos sincronizados com sucesso!`);
+      refetch();
+    },
+    onError: (error: any) => {
+      toast.error(`Erro ao sincronizar alunos: ${error.message}`);
+    },
+  });
 
   const students = studentsData?.students || [];
 
@@ -57,9 +69,9 @@ export default function AdminDashboard() {
       student.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const activeStudents = students.filter((s) => s.status === "active").length;
-  const atRiskStudents = students.filter((s) => s.status === "at_risk").length;
-  const totalHours = students.reduce((sum, s) => sum + s.hoursLearned, 0);
+  const activeStudents = students.filter((s: StudentData) => s.status === "active").length;
+  const atRiskStudents = students.filter((s: StudentData) => s.status === "at_risk").length;
+  const totalHours = students.reduce((sum: number, s: StudentData) => sum + s.hoursLearned, 0);
 
   // Mapeamento de níveis
   const levelMap: Record<string, string> = {
@@ -201,6 +213,25 @@ export default function AdminDashboard() {
                     <Hash className="w-4 h-4 mr-2" />
                   )}
                   Gerar IDs
+                </Button>
+                <Button 
+                  variant="outline"
+                  onClick={async () => {
+                    try {
+                      await syncAllStudentsMutation.mutateAsync({});
+                    } catch (error) {
+                      toast.error("Erro ao sincronizar alunos");
+                    }
+                  }}
+                  disabled={syncAllStudentsMutation.isPending}
+                  className="bg-green-50 hover:bg-green-100 border-green-200"
+                >
+                  {syncAllStudentsMutation.isPending ? (
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  ) : (
+                    <RefreshCw className="w-4 h-4 mr-2" />
+                  )}
+                  Sincronizar Alunos
                 </Button>
                 <Button 
                   variant="outline"
