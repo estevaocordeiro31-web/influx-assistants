@@ -34,6 +34,7 @@ export const adminStudentsRouter = router({
             studentId: users.studentId,
             name: users.name,
             email: users.email,
+            status: users.status,
             createdAt: users.createdAt,
             lastSignedIn: users.lastSignedIn,
           })
@@ -83,7 +84,7 @@ export const adminStudentsRouter = router({
               lastActivity: student.lastSignedIn
                 ? new Date(student.lastSignedIn).toLocaleDateString('pt-BR')
                 : 'Nunca',
-              status: 'active', // Todos os usuários são considerados ativos por padrão
+              status: student.status || 'ativo',
               createdAt: student.createdAt,
             };
           })

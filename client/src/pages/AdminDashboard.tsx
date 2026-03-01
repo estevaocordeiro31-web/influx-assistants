@@ -31,7 +31,7 @@ export default function AdminDashboard() {
   // Buscar alunos do banco de dados
   const { data: studentsData, isLoading, refetch } = trpc.adminStudents.getStudents.useQuery({
     search: searchTerm || undefined,
-    limit: 100,
+    limit: 500,
   });
 
   // Mutation para gerar IDs de todos os alunos
@@ -69,8 +69,8 @@ export default function AdminDashboard() {
       student.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const activeStudents = students.filter((s: StudentData) => s.status === "active").length;
-  const atRiskStudents = students.filter((s: StudentData) => s.status === "at_risk").length;
+  const activeStudents = students.filter((s: StudentData) => s.status === "ativo").length;
+  const atRiskStudents = students.filter((s: StudentData) => s.status === "desistente" || s.status === "trancado").length;
   const totalHours = students.reduce((sum: number, s: StudentData) => sum + s.hoursLearned, 0);
 
   // Mapeamento de níveis
@@ -94,9 +94,9 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-background">
       <header className="bg-white border-b border-border shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-foreground">Dashboard Administrativo</h1>
-          <div className="flex items-center gap-4">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between flex-wrap gap-4">
+          <h1 className="text-xl sm:text-2xl font-bold text-foreground">Dashboard Administrativo</h1>
+          <div className="flex items-center gap-2 sm:gap-4 flex-wrap justify-end w-full sm:w-auto">
             <Button 
               variant="outline" 
               size="sm" 
@@ -194,7 +194,7 @@ export default function AdminDashboard() {
                   Visualize e gerencie todos os alunos da plataforma
                 </CardDescription>
               </div>
-              <div className="flex gap-2 flex-wrap">
+              <div className="flex gap-2 flex-wrap lg:flex-nowrap">
                 <Button 
                   variant="outline"
                   onClick={async () => {
@@ -338,14 +338,14 @@ export default function AdminDashboard() {
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-border">
-                      <th className="text-left py-3 px-4 font-semibold text-sm">ID</th>
+                      <th className="text-left py-3 px-4 font-semibold text-sm hidden sm:table-cell">ID</th>
                       <th className="text-left py-3 px-4 font-semibold text-sm">Nome</th>
-                      <th className="text-left py-3 px-4 font-semibold text-sm">Email</th>
-                      <th className="text-left py-3 px-4 font-semibold text-sm">Nível</th>
-                      <th className="text-left py-3 px-4 font-semibold text-sm">Objetivo</th>
-                      <th className="text-left py-3 px-4 font-semibold text-sm">Horas</th>
-                      <th className="text-left py-3 px-4 font-semibold text-sm">Streak</th>
-                      <th className="text-left py-3 px-4 font-semibold text-sm">Última Atividade</th>
+                      <th className="text-left py-3 px-4 font-semibold text-sm hidden md:table-cell">Email</th>
+                      <th className="text-left py-3 px-4 font-semibold text-sm hidden lg:table-cell">Nível</th>
+                      <th className="text-left py-3 px-4 font-semibold text-sm hidden lg:table-cell">Objetivo</th>
+                      <th className="text-left py-3 px-4 font-semibold text-sm hidden xl:table-cell">Horas</th>
+                      <th className="text-left py-3 px-4 font-semibold text-sm hidden xl:table-cell">Streak</th>
+                      <th className="text-left py-3 px-4 font-semibold text-sm hidden lg:table-cell">Última Atividade</th>
                       <th className="text-left py-3 px-4 font-semibold text-sm">Status</th>
                       <th className="text-left py-3 px-4 font-semibold text-sm">Ações</th>
                     </tr>
@@ -357,29 +357,29 @@ export default function AdminDashboard() {
                         className="border-b border-border hover:bg-muted/50 cursor-pointer"
                         onClick={() => setSelectedStudent(student as StudentData)}
                       >
-                        <td className="py-3 px-4 text-sm font-mono text-xs">
+                        <td className="py-3 px-4 text-sm font-mono text-xs hidden sm:table-cell">
                           {(student as any).studentId || <span className="text-muted-foreground">-</span>}
                         </td>
                         <td className="py-3 px-4 text-sm font-medium">{student.name}</td>
-                        <td className="py-3 px-4 text-sm text-muted-foreground">{student.email}</td>
-                        <td className="py-3 px-4 text-sm">{levelMap[student.level] || student.level}</td>
-                        <td className="py-3 px-4 text-sm">{objectiveMap[student.objective] || student.objective}</td>
-                        <td className="py-3 px-4 text-sm">{student.hoursLearned}h</td>
-                        <td className="py-3 px-4 text-sm">{student.streakDays}d</td>
-                        <td className="py-3 px-4 text-sm text-muted-foreground">{student.lastActivity}</td>
+                        <td className="py-3 px-4 text-sm text-muted-foreground hidden md:table-cell">{student.email}</td>
+                        <td className="py-3 px-4 text-sm hidden lg:table-cell">{levelMap[student.level] || student.level}</td>
+                        <td className="py-3 px-4 text-sm hidden lg:table-cell">{objectiveMap[student.objective] || student.objective}</td>
+                        <td className="py-3 px-4 text-sm hidden xl:table-cell">{student.hoursLearned}h</td>
+                        <td className="py-3 px-4 text-sm hidden xl:table-cell">{student.streakDays}d</td>
+                        <td className="py-3 px-4 text-sm text-muted-foreground hidden lg:table-cell">{student.lastActivity}</td>
                         <td className="py-3 px-4 text-sm">
                           <span
                             className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                              student.status === "active"
+                              student.status === "ativo"
                                 ? "bg-green-100 text-green-800"
-                                : student.status === "inactive"
+                                : student.status === "inativo"
                                 ? "bg-gray-100 text-gray-800"
                                 : "bg-red-100 text-red-800"
                             }`}
                           >
-                            {student.status === "active"
+                            {student.status === "ativo"
                               ? "Ativo"
-                              : student.status === "inactive"
+                              : student.status === "inativo"
                               ? "Inativo"
                               : "Em Risco"}
                           </span>
