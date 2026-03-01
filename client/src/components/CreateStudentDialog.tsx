@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 import { trpc } from '@/lib/trpc';
 import { createStudentSchema, getValidationErrors } from '@shared/validation-schemas';
 import { z } from 'zod';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface CreateStudentDialogProps {
   onSuccess?: () => void;
@@ -65,6 +66,19 @@ export function CreateStudentDialog({ onSuccess }: CreateStudentDialogProps) {
     }
   };
 
+  // Keyboard navigation
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      setOpen(false);
+    }
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+      const form = e.currentTarget.closest('form');
+      if (form) {
+        form.dispatchEvent(new Event('submit', { bubbles: true }));
+      }
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -111,9 +125,21 @@ export function CreateStudentDialog({ onSuccess }: CreateStudentDialogProps) {
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <motion.form 
+          onSubmit={handleSubmit} 
+          onKeyDown={handleKeyDown}
+          className="space-y-4"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+        >
           {/* Nome */}
-          <div className="space-y-2">
+          <motion.div 
+            className="space-y-2"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.1, duration: 0.3 }}
+          >
             <label className="text-sm font-medium">Nome *</label>
             <Input
               name="name"
@@ -123,16 +149,29 @@ export function CreateStudentDialog({ onSuccess }: CreateStudentDialogProps) {
               disabled={isLoading}
               className={errors.name ? 'border-red-500' : ''}
             />
-            {errors.name && (
-              <div className="flex items-center gap-2 text-sm text-red-600">
-                <AlertCircle className="w-4 h-4" />
-                {errors.name}
-              </div>
-            )}
-          </div>
+            <AnimatePresence>
+              {errors.name && (
+                <motion.div 
+                  className="flex items-center gap-2 text-sm text-red-600"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <AlertCircle className="w-4 h-4" />
+                  {errors.name}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
 
           {/* Email */}
-          <div className="space-y-2">
+          <motion.div 
+            className="space-y-2"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.15, duration: 0.3 }}
+          >
             <label className="text-sm font-medium">Email *</label>
             <Input
               name="email"
@@ -143,13 +182,21 @@ export function CreateStudentDialog({ onSuccess }: CreateStudentDialogProps) {
               disabled={isLoading}
               className={errors.email ? 'border-red-500' : ''}
             />
-            {errors.email && (
-              <div className="flex items-center gap-2 text-sm text-red-600">
-                <AlertCircle className="w-4 h-4" />
-                {errors.email}
-              </div>
-            )}
-          </div>
+            <AnimatePresence>
+              {errors.email && (
+                <motion.div 
+                  className="flex items-center gap-2 text-sm text-red-600"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <AlertCircle className="w-4 h-4" />
+                  {errors.email}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
 
           {/* Nível */}
           <div className="space-y-2">
@@ -217,7 +264,12 @@ export function CreateStudentDialog({ onSuccess }: CreateStudentDialogProps) {
           </div>
 
           {/* Botões */}
-          <div className="flex gap-3 pt-4">
+          <motion.div 
+            className="flex gap-3 pt-4"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.3 }}
+          >
             <Button
               type="button"
               variant="outline"
@@ -231,8 +283,8 @@ export function CreateStudentDialog({ onSuccess }: CreateStudentDialogProps) {
               {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
               {isLoading ? 'Criando...' : 'Criar Aluno'}
             </Button>
-          </div>
-        </form>
+          </motion.div>
+        </motion.form>
       </DialogContent>
     </Dialog>
   );

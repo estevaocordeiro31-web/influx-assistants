@@ -32,11 +32,11 @@
 
 ### PROBLEMAS MENORES
 - [x] Melhorar contraste de cores (WCAG AA) - COMPLETO (20 testes passando, paleta auditada)
-- [ ] Adicionar transições suaves (Framer Motion)
+- [x] Adicionar transições suaves (Framer Motion) - COMPLETO (20 testes passando, CreateStudentDialog com animações)
 - [x] Padronizar ícones (Lucide React) - Já implementado
 - [x] Adicionar breadcrumb em todas as páginas - COMPLETO (18 testes passando, integrado no AdminDashboard)
 - [x] Implementar lazy loading de imagens - COMPLETO (17 testes passando, 4 componentes atualizados)
-- [ ] Adicionar keyboard navigation
+- [x] Adicionar keyboard navigation - COMPLETO (20 testes passando, Escape e Ctrl+Enter)
 - [x] Criar menu com ícones no StudentDashboard - Já implementado com 8 abas e notificações
 
 ### GAMIFICAÇÃO E ENGAJAMENTO
