@@ -1,6 +1,7 @@
 import { router, publicProcedure, protectedProcedure } from '../_core/trpc';
 import { z } from 'zod';
 import { TRPCError } from '@trpc/server';
+import { loginSchema } from '../../shared/validation-schemas';
 import { getDb } from '../db';
 import { users } from '../../drizzle/schema';
 import { eq } from 'drizzle-orm';
@@ -16,12 +17,7 @@ export const authPasswordRouter = router({
    * Login com email e senha
    */
   login: publicProcedure
-    .input(
-      z.object({
-        email: z.string().email('Email inválido'),
-        password: z.string().min(1, 'Senha obrigatória'),
-      })
-    )
+    .input(loginSchema)
     .mutation(async ({ input, ctx }) => {
       // Conectar ao banco centralizado
       const connection = await mysql.createConnection(process.env.CENTRAL_DATABASE_URL!);

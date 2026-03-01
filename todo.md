@@ -26,7 +26,7 @@
 - [x] Adicionar toast notifications para feedback - Já implementado
 - [x] Adicionar loading spinners em operações longas - Já implementado
 - [ ] Criar menu com ícones no StudentDashboard
-- [ ] Adicionar validação de entrada (Zod)
+- [x] Adicionar validação de entrada (Zod) - COMPLETO (27 testes passando, integrado no login)
 - [x] Implementar filtros avançados no AdminDashboard - COMPLETO (17 testes passando)
 
 ### PROBLEMAS MENORES
