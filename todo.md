@@ -31,7 +31,7 @@
 - [x] Integrar validação Zod em formulários de criação de alunos - COMPLETO (19 testes passando, CreateStudentDialog integrado)
 
 ### PROBLEMAS MENORES
-- [ ] Melhorar contraste de cores (WCAG AA)
+- [x] Melhorar contraste de cores (WCAG AA) - COMPLETO (20 testes passando, paleta auditada)
 - [ ] Adicionar transições suaves (Framer Motion)
 - [x] Padronizar ícones (Lucide React) - Já implementado
 - [x] Adicionar breadcrumb em todas as páginas - COMPLETO (18 testes passando, integrado no AdminDashboard)
