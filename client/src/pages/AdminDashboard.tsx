@@ -8,6 +8,7 @@ import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { CreateStudentDialog } from "@/components/CreateStudentDialog";
+import { Breadcrumb } from "@/components/Breadcrumb";
 
 interface StudentData {
   id: number;
@@ -140,6 +141,12 @@ export default function AdminDashboard() {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8 space-y-6">
+        {/* Breadcrumb */}
+        <Breadcrumb items={[
+          { label: 'Dashboard', href: '/admin', current: false },
+          { label: 'Alunos', current: true },
+        ]} />
+
         {/* KPI Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <Card className="bg-card border-border">

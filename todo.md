@@ -33,10 +33,11 @@
 ### PROBLEMAS MENORES
 - [ ] Melhorar contraste de cores (WCAG AA)
 - [ ] Adicionar transições suaves (Framer Motion)
-- [ ] Padronizar ícones (Lucide React)
-- [ ] Adicionar breadcrumb em todas as páginas
+- [x] Padronizar ícones (Lucide React) - Já implementado
+- [x] Adicionar breadcrumb em todas as páginas - COMPLETO (18 testes passando, integrado no AdminDashboard)
 - [ ] Implementar lazy loading de imagens
 - [ ] Adicionar keyboard navigation
+- [x] Criar menu com ícones no StudentDashboard - Já implementado com 8 abas e notificações
 
 ### GAMIFICAÇÃO E ENGAJAMENTO
 - [ ] Melhorar página de selos com animações
