@@ -57,3 +57,16 @@
 - [ ] Testar fluxo completo de login
 - [ ] Validar sincronização de dados
 - [ ] Checkpoint final
+
+
+## Fase 187-188: SINCRONIZAÇÃO COM DASHBOARD CENTRAL - COMPLETO
+
+- [x] Inspecionar tabelas do banco central (students: 2834, users: 213)
+- [x] Mapear campos: name, email, phone, status, book_level, matricula
+- [x] Reescrever daily-sync.ts com sincronização real (cria usuários para alunos Ativos)
+- [x] Reescrever bulk-student-sync.ts para usar banco central real (sem mock)
+- [x] Adicionar getSyncStats() para estatísticas em tempo real
+- [x] Adicionar barra de status de sincronização no AdminDashboard
+- [x] Botão "Sincronizar com Dashboard" mostra alunos ativos do Dashboard Central
+- [x] Job automático às 18h (Brasília) já configurado
+- [x] Dashboard mostra: 1818 alunos no Central, 179 ativos, 201 usuários no inFlux

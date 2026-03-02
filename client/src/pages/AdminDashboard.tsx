@@ -50,14 +50,23 @@ export default function AdminDashboard() {
   const exportStudentsJSONMutation = trpc.adminExport.exportActiveStudentsJSON.useQuery();
   const exportStudentsCSVMutation = trpc.adminExport.exportActiveStudentsCSV.useQuery();
 
+  // Query para estatísticas de sincronização
+  const syncStatsQuery = trpc.bulkStudentSync.getSyncStatus.useQuery(undefined, {
+    refetchInterval: false,
+  });
+
   // Mutation para sincronizar todos os alunos
   const syncAllStudentsMutation = trpc.bulkStudentSync.syncAllStudents.useMutation({
     onSuccess: (result: any) => {
-      toast.success(`${result.synced} alunos sincronizados com sucesso!`);
+      const msg = result.created > 0
+        ? `✅ ${result.created} novos alunos criados, ${result.updated} atualizados!`
+        : `✅ Sincronização concluída: ${result.updated} alunos atualizados`;
+      toast.success(msg);
       refetch();
+      syncStatsQuery.refetch();
     },
     onError: (error: any) => {
-      toast.error(`Erro ao sincronizar alunos: ${error.message}`);
+      toast.error(`Erro ao sincronizar: ${error.message}`);
     },
   });
 
@@ -147,6 +156,21 @@ export default function AdminDashboard() {
           { label: 'Alunos', current: true },
         ]} />
 
+        {/* Card de Status de Sincronização */}
+        {syncStatsQuery.data && (
+          <div className="flex items-center gap-2 p-3 rounded-lg bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 text-sm">
+            <RefreshCw className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+            <span className="text-green-700 dark:text-green-300">
+              <strong>Dashboard Central:</strong> {syncStatsQuery.data.centralTotal} alunos ({syncStatsQuery.data.centralAtivos} ativos)
+              &nbsp;&bull;&nbsp;
+              <strong>inFlux:</strong> {syncStatsQuery.data.totalStudents} usuários ({syncStatsQuery.data.linkedTotal} vinculados)
+              {syncStatsQuery.data.unlinked > 0 && (
+                <span className="text-amber-600 dark:text-amber-400">&nbsp;&bull;&nbsp;{syncStatsQuery.data.unlinked} sem vínculo</span>
+              )}
+            </span>
+          </div>
+        )}
+
         {/* KPI Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <Card className="bg-card border-border">
@@ -228,14 +252,20 @@ export default function AdminDashboard() {
                     }
                   }}
                   disabled={syncAllStudentsMutation.isPending}
-                  className="bg-green-50 hover:bg-green-100 border-green-200"
+                  className="bg-green-50 hover:bg-green-100 border-green-200 dark:bg-green-950 dark:hover:bg-green-900 dark:border-green-800"
+                  title={syncStatsQuery.data ? `Dashboard Central: ${syncStatsQuery.data.centralTotal} alunos (${syncStatsQuery.data.centralAtivos} ativos) | inFlux: ${syncStatsQuery.data.totalStudents} usuários` : 'Sincronizar com Dashboard Central'}
                 >
                   {syncAllStudentsMutation.isPending ? (
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                   ) : (
                     <RefreshCw className="w-4 h-4 mr-2" />
                   )}
-                  Sincronizar Alunos
+                  Sincronizar com Dashboard
+                  {syncStatsQuery.data && (
+                    <span className="ml-1 text-xs text-green-600 dark:text-green-400">
+                      ({syncStatsQuery.data.centralAtivos} ativos)
+                    </span>
+                  )}
                 </Button>
                 <Button
                   variant="outline"
