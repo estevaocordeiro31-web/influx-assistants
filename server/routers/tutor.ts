@@ -252,6 +252,31 @@ export const tutorRouter = router({
         const content = response.choices[0].message.content;
         const parsedResponse = JSON.parse(typeof content === 'string' ? content : JSON.stringify(content)) as TutorResponse;
 
+        // Sincronizar conversa com o banco central (assíncrono, não bloqueia resposta)
+        try {
+          const mysql = await import('mysql2/promise');
+          const conn = await mysql.default.createConnection(process.env.CENTRAL_DATABASE_URL!);
+          const [userRows] = await conn.execute(
+            'SELECT student_id FROM users WHERE id = ? AND student_id IS NOT NULL',
+            [ctx.user.id]
+          );
+          const users = userRows as any[];
+          if (users.length > 0) {
+            const studentIdCentral = users[0].student_id;
+            // Atualizar last_tutor_sync na tabela student_intelligence
+            await conn.execute(
+              `INSERT INTO student_intelligence (student_id, confidence_score, last_tutor_sync, created_at, updated_at)
+               VALUES (?, 50, NOW(), NOW(), NOW())
+               ON DUPLICATE KEY UPDATE last_tutor_sync = NOW(), updated_at = NOW()`,
+              [studentIdCentral]
+            );
+          }
+          await conn.end();
+        } catch (syncError) {
+          // Não falhar a resposta do tutor por erro de sincronização
+          console.error('[Tutor] Erro ao sincronizar com Dashboard Central:', syncError);
+        }
+
         return parsedResponse;
       } catch (error) {
         console.error('Error in tutor chat:', error);
