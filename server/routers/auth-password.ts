@@ -33,6 +33,7 @@ export const authPasswordRouter = router({
             email: users.email,
             passwordHash: users.passwordHash,
             role: users.role,
+            mustChangePassword: users.mustChangePassword,
           })
           .from(users)
           .where(eq(users.email, input.email))
@@ -150,6 +151,7 @@ export const authPasswordRouter = router({
 
         return {
           success: true,
+          mustChangePassword: user.mustChangePassword ?? false,
           user: {
             id: user.id,
             name: user.name,
@@ -227,11 +229,23 @@ export const authPasswordRouter = router({
       // Gerar hash da nova senha
       const newPasswordHash = await hashPassword(input.newPassword);
 
-      // Atualizar senha no banco
+      // Atualizar senha no banco e limpar flag mustChangePassword
       await db
         .update(users)
-        .set({ passwordHash: newPasswordHash })
+        .set({ passwordHash: newPasswordHash, mustChangePassword: false })
         .where(eq(users.id, ctx.user.id));
+
+      // Atualizar no banco central também
+      try {
+        const centralConn = await mysql.createConnection(process.env.CENTRAL_DATABASE_URL!);
+        await centralConn.execute(
+          'UPDATE users SET password_hash = ?, must_change_password = FALSE WHERE id = ?',
+          [newPasswordHash, ctx.user.id]
+        );
+        await centralConn.end();
+      } catch (centralError) {
+        console.error('[Auth] Erro ao atualizar banco central:', centralError);
+      }
 
       console.log(`[Auth] Senha alterada: ${user.name} (${user.email})`);
 

@@ -89,8 +89,28 @@
 - [ ] 7. Expandir syncStudentIntelligence em elie-sync.ts com novos campos
 - [ ] 8. Criar student-data.ts com getMyStudentData e integrar no StudentDashboard
 
-## Fase 191: RESET DE SENHA PELO ADMIN
-- [ ] Criar procedure resetStudentPassword no backend
+## Fase 191: RESET DE SENHA PELO ADMIN - COMPLETO
+- [x] Criar procedure resetStudentPassword no backend
 - [ ] Envio de email com novas credenciais
-- [ ] Componente ResetPasswordDialog no frontend
-- [ ] Botão de reset na tabela de alunos do AdminDashboard
+- [x] Componente ResetPasswordDialog no frontend
+- [x] Botão de reset na tabela de alunos do AdminDashboard
+
+## Fase 192: ENVIO DE EMAIL DE CREDENCIAIS - COMPLETO
+- [x] Integrar serviço de notificação (notifyOwner - Manus Notification)
+- [x] Envio automático de notificação ao owner com credenciais após reset
+- [x] Campo sendEmail no resetStudentPassword (default: true)
+- [x] Mensagem formatada com nome, email, senha e link de acesso
+
+## Fase 193: RECONCILIAÇÃO DE USUÁRIOS SEM VÍNCULO - COMPLETO
+- [x] Criar modal ReconcileUsersDialog no AdminDashboard
+- [x] Listar usuários sem student_id (procedure getUnlinkedUsers)
+- [x] Buscar candidatos no banco central por nome/email/matrícula
+- [x] Procedure linkUserToStudent no backend
+- [x] Botão laranja "Reconciliar" aparece quando há usuários sem vínculo
+
+## Fase 194: TROCA DE SENHA NO PRIMEIRO LOGIN - COMPLETO
+- [x] Adicionar campo mustChangePassword no banco local e central
+- [x] Redirecionar para /change-password?required=true após login
+- [x] Componente ChangePasswordPage com UI completa
+- [x] changePassword limpa flag mustChangePassword no banco local e central
+- [x] 17 testes passando para reconciliação e troca de senha

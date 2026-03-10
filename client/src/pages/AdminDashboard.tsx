@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Users, AlertCircle, LogOut, Search, Bell, Loader2, Edit, BarChart3, Sparkles, Brain, MessageSquare, Hash, RefreshCw, Download, Headphones, KeyRound } from "lucide-react";
+import { Users, AlertCircle, LogOut, Search, Bell, Loader2, Edit, BarChart3, Sparkles, Brain, MessageSquare, Hash, RefreshCw, Download, Headphones, KeyRound, LinkIcon } from "lucide-react";
 import { toast } from "sonner";
 import { useLocation } from "wouter";
 import { useState } from "react";
@@ -9,6 +9,7 @@ import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { CreateStudentDialog } from "@/components/CreateStudentDialog";
 import { ResetPasswordDialog } from "@/components/ResetPasswordDialog";
+import { ReconcileUsersDialog } from "@/components/ReconcileUsersDialog";
 import { Breadcrumb } from "@/components/Breadcrumb";
 
 interface StudentData {
@@ -34,6 +35,7 @@ export default function AdminDashboard() {
   const [filterObjective, setFilterObjective] = useState<string>("");
   const [filterStatus, setFilterStatus] = useState<string>("");
   const [resetStudent, setResetStudent] = useState<{ id: number; name: string; email: string } | null>(null);
+  const [showReconcile, setShowReconcile] = useState(false);
 
   // Buscar alunos do banco de dados
   const { data: studentsData, isLoading, refetch } = trpc.adminStudents.getStudents.useQuery({
@@ -296,6 +298,17 @@ export default function AdminDashboard() {
                   )}
                   Exportar Alunos Ativos (JSON)
                 </Button>
+                {syncStatsQuery.data && syncStatsQuery.data.unlinked > 0 && (
+                  <Button
+                    variant="outline"
+                    onClick={() => setShowReconcile(true)}
+                    className="bg-orange-50 hover:bg-orange-100 border-orange-300 text-orange-700 dark:bg-orange-950 dark:hover:bg-orange-900 dark:border-orange-800 dark:text-orange-300"
+                    title="Vincular usuários sem student_id ao Dashboard Central"
+                  >
+                    <LinkIcon className="w-4 h-4 mr-2" />
+                    Reconciliar ({syncStatsQuery.data.unlinked} sem vínculo)
+                  </Button>
+                )}
               </div>
             </div>
           </CardHeader>
@@ -463,6 +476,16 @@ export default function AdminDashboard() {
         open={!!resetStudent}
         onOpenChange={(open) => !open && setResetStudent(null)}
         student={resetStudent}
+      />
+
+      {/* Reconcile Users Dialog */}
+      <ReconcileUsersDialog
+        open={showReconcile}
+        onOpenChange={setShowReconcile}
+        onSuccess={() => {
+          syncStatsQuery.refetch();
+          refetch();
+        }}
       />
     </div>
   );

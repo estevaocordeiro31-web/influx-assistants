@@ -35,6 +35,12 @@ export default function Login() {
           // LIMPAR CACHE E STORAGE
           sessionStorage.clear();
           localStorage.clear();
+
+          // Se o admin resetou a senha, redirecionar para troca obrigatória
+          if (data.mustChangePassword) {
+            window.location.replace('/change-password?required=true');
+            return;
+          }
           
           // Redirecionar baseado no role COM RELOAD FORÇADO
           if (data.user.role === 'admin') {

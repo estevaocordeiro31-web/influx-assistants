@@ -1,4 +1,5 @@
 import { router, adminProcedure } from '../_core/trpc';
+import { notifyOwner } from '../_core/notification';
 import mysql from 'mysql2/promise';
 import { z } from 'zod';
 import { TRPCError } from '@trpc/server';
@@ -342,17 +343,17 @@ export const adminStudentsRouter = router({
         const newPassword = `${firstName}@2026`;
         const passwordHash = await hashPassword(newPassword);
 
-        // Atualizar senha no banco local
+        // Atualizar senha no banco local e marcar para troca obrigatória
         await database
           .update(users)
-          .set({ passwordHash })
+          .set({ passwordHash, mustChangePassword: true })
           .where(eq(users.id, input.userId));
 
         // Atualizar senha no banco central também
         try {
           const centralConn = await mysql.createConnection(process.env.CENTRAL_DATABASE_URL!);
           await centralConn.execute(
-            'UPDATE users SET password_hash = ? WHERE email = ?',
+            'UPDATE users SET password_hash = ?, must_change_password = TRUE WHERE email = ?',
             [passwordHash, user.email]
           );
           await centralConn.end();
@@ -363,6 +364,18 @@ export const adminStudentsRouter = router({
 
         console.log(`[Admin] Senha resetada para: ${user.name} (${user.email})`);
 
+        // Enviar notificação ao owner com as credenciais (fallback enquanto email real não está configurado)
+        if (input.sendEmail && user.email) {
+          try {
+            await notifyOwner({
+              title: `[inFlux] Senha resetada: ${user.name}`,
+              content: `Credenciais resetadas para o aluno:\n\nNome: ${user.name}\nEmail: ${user.email}\nNova senha: ${newPassword}\n\nLink de acesso: https://influxassist-2anfqga4.manus.space/login`,
+            });
+          } catch (notifyError) {
+            console.error('[Reset] Erro ao notificar:', notifyError);
+          }
+        }
+
         return {
           success: true,
           user: {
@@ -371,6 +384,7 @@ export const adminStudentsRouter = router({
             email: user.email,
           },
           newPassword,
+          emailSent: input.sendEmail && !!user.email,
           message: `Senha resetada com sucesso para ${user.name}. Nova senha: ${newPassword}`,
         };
       } catch (error) {
@@ -378,6 +392,106 @@ export const adminStudentsRouter = router({
         throw new TRPCError({
           code: 'INTERNAL_SERVER_ERROR',
           message: `Erro ao resetar senha: ${error}`,
+        });
+      }
+    }),
+
+  /**
+   * Buscar usuários sem vínculo com student_id (para reconciliação)
+   */
+  getUnlinkedUsers: adminProcedure.query(async () => {
+    try {
+      const centralConn = await mysql.createConnection(process.env.CENTRAL_DATABASE_URL!);
+      try {
+        // Buscar usuários sem student_id no banco central
+        const [rows] = await centralConn.execute(`
+          SELECT u.id, u.name, u.email, u.created_at, u.status
+          FROM users u
+          WHERE u.student_id IS NULL
+          AND u.role = 'user'
+          ORDER BY u.name ASC
+          LIMIT 50
+        `);
+        return { users: rows as any[] };
+      } finally {
+        await centralConn.end();
+      }
+    } catch (error) {
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: `Erro ao buscar usuários sem vínculo: ${error}`,
+      });
+    }
+  }),
+
+  /**
+   * Buscar candidatos no banco central para reconciliação
+   */
+  searchStudentCandidates: adminProcedure
+    .input(z.object({ query: z.string().min(2) }))
+    .query(async ({ input }) => {
+      try {
+        const centralConn = await mysql.createConnection(process.env.CENTRAL_DATABASE_URL!);
+        try {
+          const searchTerm = `%${input.query}%`;
+          const [rows] = await centralConn.execute(`
+            SELECT s.id, s.name, s.email, s.book_level, s.status, s.matricula
+            FROM students s
+            WHERE (s.name LIKE ? OR s.email LIKE ? OR s.matricula LIKE ?)
+            AND s.status = 'Ativo'
+            ORDER BY s.name ASC
+            LIMIT 20
+          `, [searchTerm, searchTerm, searchTerm]);
+          return { students: rows as any[] };
+        } finally {
+          await centralConn.end();
+        }
+      } catch (error) {
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: `Erro ao buscar candidatos: ${error}`,
+        });
+      }
+    }),
+
+  /**
+   * Vincular usuário a um student_id do banco central
+   */
+  linkUserToStudent: adminProcedure
+    .input(z.object({
+      userId: z.number(),
+      studentId: z.string(),
+    }))
+    .mutation(async ({ input }) => {
+      try {
+        const centralConn = await mysql.createConnection(process.env.CENTRAL_DATABASE_URL!);
+        try {
+          // Verificar se o student_id já está vinculado
+          const [existing] = await centralConn.execute(
+            'SELECT id FROM users WHERE student_id = ? AND id != ?',
+            [input.studentId, input.userId]
+          );
+          if (Array.isArray(existing) && existing.length > 0) {
+            throw new TRPCError({
+              code: 'CONFLICT',
+              message: 'Este student_id já está vinculado a outro usuário',
+            });
+          }
+          // Atualizar o student_id do usuário
+          await centralConn.execute(
+            'UPDATE users SET student_id = ? WHERE id = ?',
+            [input.studentId, input.userId]
+          );
+          console.log(`[Admin] Usuário ${input.userId} vinculado ao student ${input.studentId}`);
+          return { success: true, message: 'Usuário vinculado com sucesso' };
+        } finally {
+          await centralConn.end();
+        }
+      } catch (error) {
+        if (error instanceof TRPCError) throw error;
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: `Erro ao vincular usuário: ${error}`,
         });
       }
     }),

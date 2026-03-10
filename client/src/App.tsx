@@ -47,6 +47,7 @@ import StudentStatsPage from "./pages/StudentStatsPage";
 import TestLoginDebug from "./pages/TestLoginDebug";
 import ExtraExercisesPage from "./pages/ExtraExercisesPage";
 import BadgesPage from "./pages/BadgesPage";
+import ChangePassword from "./pages/ChangePassword";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -73,6 +74,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/login" component={Login} />
+      <Route path="/change-password" component={ChangePassword} />
       <Route path="/logout" component={ForceLogout} />
       <Route path="/login-direct/:token" component={DirectLogin} />
       {/* Rotas de demonstração - acessíveis sem autenticação para teste */}
