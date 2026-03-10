@@ -1,4 +1,5 @@
 import { router, adminProcedure } from '../_core/trpc';
+import mysql from 'mysql2/promise';
 import { z } from 'zod';
 import { TRPCError } from '@trpc/server';
 import { getDb, assignStudentId, assignStudentIdsToAllUsers } from '../db';
@@ -296,6 +297,87 @@ export const adminStudentsRouter = router({
         throw new TRPCError({
           code: 'INTERNAL_SERVER_ERROR',
           message: `Erro ao criar aluno: ${error}`,
+        });
+      }
+    }),
+
+  /**
+   * Resetar senha de um aluno (admin only)
+   */
+  resetStudentPassword: adminProcedure
+    .input(
+      z.object({
+        userId: z.number(),
+        sendEmail: z.boolean().default(true),
+      })
+    )
+    .mutation(async ({ input }) => {
+      try {
+        const database = await getDb();
+        if (!database) {
+          throw new TRPCError({
+            code: 'INTERNAL_SERVER_ERROR',
+            message: 'Banco de dados não disponível',
+          });
+        }
+
+        // Buscar usuário
+        const userResult = await database
+          .select()
+          .from(users)
+          .where(eq(users.id, input.userId))
+          .limit(1);
+
+        if (!userResult || userResult.length === 0) {
+          throw new TRPCError({
+            code: 'NOT_FOUND',
+            message: 'Aluno não encontrado',
+          });
+        }
+
+        const user = userResult[0];
+        const firstName = user.name?.split(' ')[0] || 'Aluno';
+
+        // Gerar nova senha no padrão PrimeiroNome@2026
+        const newPassword = `${firstName}@2026`;
+        const passwordHash = await hashPassword(newPassword);
+
+        // Atualizar senha no banco local
+        await database
+          .update(users)
+          .set({ passwordHash })
+          .where(eq(users.id, input.userId));
+
+        // Atualizar senha no banco central também
+        try {
+          const centralConn = await mysql.createConnection(process.env.CENTRAL_DATABASE_URL!);
+          await centralConn.execute(
+            'UPDATE users SET password_hash = ? WHERE email = ?',
+            [passwordHash, user.email]
+          );
+          await centralConn.end();
+        } catch (centralError) {
+          console.error('[Reset] Erro ao atualizar banco central:', centralError);
+          // Não falhar se banco central não atualizar
+        }
+
+        console.log(`[Admin] Senha resetada para: ${user.name} (${user.email})`);
+
+        return {
+          success: true,
+          user: {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+          },
+          newPassword,
+          message: `Senha resetada com sucesso para ${user.name}. Nova senha: ${newPassword}`,
+        };
+      } catch (error) {
+        if (error instanceof TRPCError) throw error;
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: `Erro ao resetar senha: ${error}`,
         });
       }
     }),

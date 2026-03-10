@@ -1,13 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Users, AlertCircle, LogOut, Search, Bell, Loader2, Edit, BarChart3, Sparkles, Brain, MessageSquare, Hash, RefreshCw, Download, Headphones } from "lucide-react";
+import { Users, AlertCircle, LogOut, Search, Bell, Loader2, Edit, BarChart3, Sparkles, Brain, MessageSquare, Hash, RefreshCw, Download, Headphones, KeyRound } from "lucide-react";
 import { toast } from "sonner";
 import { useLocation } from "wouter";
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { CreateStudentDialog } from "@/components/CreateStudentDialog";
+import { ResetPasswordDialog } from "@/components/ResetPasswordDialog";
 import { Breadcrumb } from "@/components/Breadcrumb";
 
 interface StudentData {
@@ -32,6 +33,7 @@ export default function AdminDashboard() {
   const [filterLevel, setFilterLevel] = useState<string>("");
   const [filterObjective, setFilterObjective] = useState<string>("");
   const [filterStatus, setFilterStatus] = useState<string>("");
+  const [resetStudent, setResetStudent] = useState<{ id: number; name: string; email: string } | null>(null);
 
   // Buscar alunos do banco de dados
   const { data: studentsData, isLoading, refetch } = trpc.adminStudents.getStudents.useQuery({
@@ -424,15 +426,27 @@ export default function AdminDashboard() {
                           </span>
                         </td>
                         <td className="py-3 px-4">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => setSelectedStudent(student)}
-                            className="gap-1"
-                          >
-                            <Edit className="w-4 h-4" />
-                            <span className="hidden sm:inline">Editar</span>
-                          </Button>
+                          <div className="flex items-center gap-1">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => setSelectedStudent(student)}
+                              className="gap-1"
+                            >
+                              <Edit className="w-4 h-4" />
+                              <span className="hidden sm:inline">Editar</span>
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => setResetStudent({ id: student.id, name: student.name, email: student.email })}
+                              className="gap-1 text-yellow-600 hover:text-yellow-700 hover:bg-yellow-50 dark:hover:bg-yellow-950"
+                              title="Resetar senha"
+                            >
+                              <KeyRound className="w-4 h-4" />
+                              <span className="hidden lg:inline">Senha</span>
+                            </Button>
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -443,6 +457,13 @@ export default function AdminDashboard() {
           </CardContent>
         </Card>
       </main>
+
+      {/* Reset Password Dialog */}
+      <ResetPasswordDialog
+        open={!!resetStudent}
+        onOpenChange={(open) => !open && setResetStudent(null)}
+        student={resetStudent}
+      />
     </div>
   );
 }

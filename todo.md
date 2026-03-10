@@ -88,3 +88,9 @@
 - [ ] 6. Adicionar hook onStreakUpdated() onde streak é calculado
 - [ ] 7. Expandir syncStudentIntelligence em elie-sync.ts com novos campos
 - [ ] 8. Criar student-data.ts com getMyStudentData e integrar no StudentDashboard
+
+## Fase 191: RESET DE SENHA PELO ADMIN
+- [ ] Criar procedure resetStudentPassword no backend
+- [ ] Envio de email com novas credenciais
+- [ ] Componente ResetPasswordDialog no frontend
+- [ ] Botão de reset na tabela de alunos do AdminDashboard
