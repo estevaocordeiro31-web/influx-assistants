@@ -50,6 +50,7 @@ import { adminExportRouter } from "./routers/admin-export";
 import { extraExercisesRouter } from "./routers/extra-exercises";
 import { badgesRouter } from "./routers/badges";
 import { elieSyncRouter } from "./routers/elie-sync";
+import { studentDataRouter } from "./routers/student-data";
 
 export const appRouter = router({
   system: systemRouter,
@@ -112,6 +113,7 @@ export const appRouter = router({
   extraExercises: extraExercisesRouter,
   badges: badgesRouter,
   elieSync: elieSyncRouter,
+  studentData: studentDataRouter,
 });
 
 export type AppRouter = typeof appRouter;

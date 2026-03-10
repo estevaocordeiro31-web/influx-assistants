@@ -101,6 +101,12 @@ export default function StudentDashboard() {
     { enabled: isAuthenticated }
   );
 
+  // Buscar dados consolidados do Dashboard Central (spec v1.0)
+  const { data: centralData } = trpc.studentData.getMyStudentData.useQuery(
+    undefined,
+    { enabled: isAuthenticated }
+  );
+
   // Buscar cursos extras do aluno logado
   const { data: myCourses } = trpc.studentCourses.getMyCourses.useQuery(
     undefined,
@@ -181,6 +187,39 @@ export default function StudentDashboard() {
             </div>
           </div>
         </div>
+
+        {/* Card de dados do Dashboard Central - exibido apenas se vinculado */}
+        {centralData && (
+          <div className="mb-4 p-3 rounded-xl bg-slate-800/60 border border-slate-700 flex flex-wrap gap-3 items-center text-sm">
+            <span className="text-slate-400 font-medium">📊 Dashboard Central:</span>
+            {centralData.bookLevel && (
+              <span className="text-white">📚 <strong>{centralData.bookLevel}</strong></span>
+            )}
+            {centralData.className && (
+              <span className="text-white">🏫 <strong>{centralData.className}</strong></span>
+            )}
+            {centralData.schedule && (
+              <span className="text-white">🕐 <strong>{centralData.schedule}</strong></span>
+            )}
+            {centralData.healthScore !== null && centralData.healthScore !== undefined && (
+              <span className={`font-semibold ${
+                centralData.healthScore >= 70 ? 'text-green-400' :
+                centralData.healthScore >= 40 ? 'text-yellow-400' : 'text-red-400'
+              }`}>
+                ❤️ Saúde: {centralData.healthScore}%
+              </span>
+            )}
+            {centralData.paConfidenceScore !== null && centralData.paConfidenceScore !== undefined && (
+              <span className="text-purple-400">🤖 Confiança IA: <strong>{centralData.paConfidenceScore}%</strong></span>
+            )}
+            {centralData.currentStreakDays > 0 && (
+              <span className="text-orange-400">🔥 Streak: <strong>{centralData.currentStreakDays}d</strong></span>
+            )}
+            {centralData.totalBadges > 0 && (
+              <span className="text-yellow-400">🏅 Badges: <strong>{centralData.totalBadges}</strong></span>
+            )}
+          </div>
+        )}
 
         {/* Stats Cards - Grid 2x2 no Mobile */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 mb-4 sm:mb-6">

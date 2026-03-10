@@ -3,7 +3,6 @@ import { router, protectedProcedure } from "../_core/trpc";
 import { getDb } from "../db";
 import { invokeLLM } from "../_core/llm";
 import { sql } from "drizzle-orm";
-
 export const gamificationRouter = router({
   getProgress: protectedProcedure
     .input(z.object({ lessonId: z.number().optional() }))
@@ -68,6 +67,14 @@ export const gamificationRouter = router({
         INSERT INTO practice_activity_log (user_id, activity_type, lesson_id, chunk_expression, points_earned)
         VALUES (${userId}, 'quiz', ${input.lessonId}, ${input.chunkExpression}, ${pointsEarned})
       `);
+
+      // Hook: propagar exercício e streak para o banco central (fire-and-forget)
+      if (input.isCorrect) {
+        import('../utils/sync').then(async ({ getStudentId, onExerciseCompleted }) => {
+          const studentId = await getStudentId(ctx.user.id);
+          if (studentId) await onExerciseCompleted(studentId, 100);
+        }).catch(() => {});
+      }
       
       return { pointsEarned, isCorrect: input.isCorrect };
     }),

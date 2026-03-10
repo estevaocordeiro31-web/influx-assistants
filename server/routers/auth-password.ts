@@ -140,6 +140,14 @@ export const authPasswordRouter = router({
 
         console.log(`[Auth] Login bem-sucedido: ${user.name} (${user.email})`);
 
+        // Hook: propagar last_activity_at para o banco central (fire-and-forget)
+        if (user.id) {
+          import('../utils/sync').then(async ({ getStudentId, updateLastActivity }) => {
+            const studentId = await getStudentId(user.id);
+            if (studentId) await updateLastActivity(studentId);
+          }).catch(() => { /* não falhar o login */ });
+        }
+
         return {
           success: true,
           user: {

@@ -77,3 +77,14 @@
 - [ ] Vincular usuários existentes aos registros do Dashboard Central
 - [ ] Implementar sincronização de dados da Elie para o banco central
 - [ ] Testar e salvar checkpoint final
+
+## Fase 190: SPEC DE SINCRONIZAÇÃO v1.0
+
+- [ ] 1. Verificar/adicionar colunas no banco central (last_activity_at, total_exercises_completed, avg_exercise_score, total_badges, current_streak_days, pa_confidence_score, last_elie_session)
+- [ ] 2. Criar server/utils/sync.ts com triggerHealthScoreRecalc() e getStudentId()
+- [ ] 3. Adicionar hook onStudentLogin() em auth.ts
+- [ ] 4. Adicionar hook onExerciseCompleted() em exercises.ts
+- [ ] 5. Adicionar hook onBadgeAwarded() em badges.ts
+- [ ] 6. Adicionar hook onStreakUpdated() onde streak é calculado
+- [ ] 7. Expandir syncStudentIntelligence em elie-sync.ts com novos campos
+- [ ] 8. Criar student-data.ts com getMyStudentData e integrar no StudentDashboard

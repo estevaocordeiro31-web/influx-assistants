@@ -181,6 +181,12 @@ export const badgesRouter = router({
         influxcoinsAwarded: badge.influxcoinsReward,
       });
 
+      // Hook: propagar total_badges para o banco central (fire-and-forget)
+      import('../utils/sync').then(async ({ getStudentId, onBadgeAwarded }) => {
+        const studentId = await getStudentId(targetStudentId);
+        if (studentId) await onBadgeAwarded(studentId);
+      }).catch(() => {});
+
       return {
         success: true,
         message: `Badge "${badge.name}" awarded!`,

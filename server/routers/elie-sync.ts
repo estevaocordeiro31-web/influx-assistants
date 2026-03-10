@@ -101,6 +101,23 @@ export const elieSyncRouter = router({
           );
         }
 
+        // Propagar pa_confidence_score e last_elie_session para a tabela students (spec v1.0)
+        if (input.confidenceScore !== undefined) {
+          await conn.execute(
+            `UPDATE students SET 
+              pa_confidence_score = ?,
+              last_elie_session = NOW(),
+              last_activity_at = NOW()
+            WHERE id = ?`,
+            [input.confidenceScore, studentId]
+          ).catch(() => {}); // Silencia se colunas ainda não existirem
+        } else {
+          await conn.execute(
+            `UPDATE students SET last_elie_session = NOW(), last_activity_at = NOW() WHERE id = ?`,
+            [studentId]
+          ).catch(() => {});
+        }
+
         return { success: true, message: "Perfil de inteligência sincronizado com sucesso", studentId };
       } finally {
         await conn.end();
