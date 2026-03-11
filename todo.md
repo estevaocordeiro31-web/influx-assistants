@@ -115,3 +115,12 @@
 - [x] Componente ChangePasswordPage com UI completa
 - [x] changePassword limpa flag mustChangePassword no banco local e central
 - [x] 17 testes passando para reconciliação e troca de senha
+
+## Fase 195: AVALIAÇÃO DE IA EM TEMPO REAL NOS DIÁLOGOS - COMPLETO
+- [x] Procedure evaluateResponse no backend com LLM + JSON Schema estruturado
+- [x] Avaliação de: gramática, naturalidade, chunks, connected speech, fluência
+- [x] Painel de feedback visual inline após cada mensagem do aluno (FeedbackPanel)
+- [x] Modo "Prática Guiada" (toggle) para ativar/desativar avaliação automática
+- [x] Indicadores visuais: score bar, erros corrigidos, chunk sugerido, dica de connected speech
+- [x] Integrar hook onExerciseCompleted quando avaliação for concluída (score >= 60)
+- [x] 9 testes passando (evaluate-response.test.ts)
