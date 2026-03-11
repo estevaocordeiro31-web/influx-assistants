@@ -182,77 +182,74 @@ export const authPasswordRouter = router({
         });
       }
 
-      const db = await getDb();
-      if (!db) {
-        throw new TRPCError({
-          code: 'INTERNAL_SERVER_ERROR',
-          message: 'Database not available',
-        });
-      }
-
-      // Buscar usuário atual
-      const userResult = await db
-        .select()
-        .from(users)
-        .where(eq(users.id, ctx.user.id))
-        .limit(1);
-
-      if (!userResult || userResult.length === 0) {
-        throw new TRPCError({
-          code: 'NOT_FOUND',
-          message: 'Usuário não encontrado',
-        });
-      }
-
-      const user = userResult[0];
-
-      // Verificar senha atual
-      if (!user.passwordHash) {
-        throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'Usuário não possui senha cadastrada',
-        });
-      }
-
-      const isCurrentPasswordValid = await verifyPassword(
-        input.currentPassword,
-        user.passwordHash
-      );
-
-      if (!isCurrentPasswordValid) {
-        throw new TRPCError({
-          code: 'UNAUTHORIZED',
-          message: 'Senha atual incorreta',
-        });
-      }
-
-      // Gerar hash da nova senha
-      const newPasswordHash = await hashPassword(input.newPassword);
-
-      // Atualizar senha no banco e limpar flag mustChangePassword
-      await db
-        .update(users)
-        .set({ passwordHash: newPasswordHash, mustChangePassword: false })
-        .where(eq(users.id, ctx.user.id));
-
-      // Atualizar no banco central também
+      // CORREÇÃO: buscar e verificar senha no banco CENTRAL (onde ela é armazenada)
+      const centralConn = await mysql.createConnection(process.env.CENTRAL_DATABASE_URL!);
       try {
-        const centralConn = await mysql.createConnection(process.env.CENTRAL_DATABASE_URL!);
+        const [centralRows] = await centralConn.execute(
+          'SELECT id, name, email, password_hash FROM users WHERE id = ?',
+          [ctx.user.id]
+        ) as any;
+
+        if (!centralRows || centralRows.length === 0) {
+          throw new TRPCError({
+            code: 'NOT_FOUND',
+            message: 'Usuário não encontrado',
+          });
+        }
+
+        const centralUser = centralRows[0];
+
+        // Verificar se tem senha no banco central
+        if (!centralUser.password_hash) {
+          throw new TRPCError({
+            code: 'BAD_REQUEST',
+            message: 'Usuário não possui senha cadastrada. Entre em contato com o coordenador.',
+          });
+        }
+
+        const isCurrentPasswordValid = await verifyPassword(
+          input.currentPassword,
+          centralUser.password_hash
+        );
+
+        if (!isCurrentPasswordValid) {
+          throw new TRPCError({
+            code: 'UNAUTHORIZED',
+            message: 'Senha temporária incorreta',
+          });
+        }
+
+        // Gerar hash da nova senha
+        const newPasswordHash = await hashPassword(input.newPassword);
+
+        // Atualizar senha e limpar mustChangePassword no banco CENTRAL
         await centralConn.execute(
           'UPDATE users SET password_hash = ?, must_change_password = FALSE WHERE id = ?',
           [newPasswordHash, ctx.user.id]
         );
+
+        // Atualizar também no banco local (se existir o campo)
+        try {
+          const localDb = await getDb();
+          if (localDb) {
+            await localDb
+              .update(users)
+              .set({ passwordHash: newPasswordHash, mustChangePassword: false })
+              .where(eq(users.id, ctx.user.id));
+          }
+        } catch (localError) {
+          console.warn('[Auth] Aviso ao atualizar banco local:', localError);
+        }
+
+        console.log(`[Auth] Senha alterada: ${centralUser.name} (${centralUser.email})`);
+
+        return {
+          success: true,
+          message: 'Senha alterada com sucesso',
+        };
+      } finally {
         await centralConn.end();
-      } catch (centralError) {
-        console.error('[Auth] Erro ao atualizar banco central:', centralError);
       }
-
-      console.log(`[Auth] Senha alterada: ${user.name} (${user.email})`);
-
-      return {
-        success: true,
-        message: 'Senha alterada com sucesso',
-      };
     }),
 
   /**
