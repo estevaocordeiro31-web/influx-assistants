@@ -122,6 +122,17 @@ export const gamificationRouter = router({
         INSERT INTO practice_activity_log (user_id, activity_type, lesson_id, chunk_expression, points_earned)
         VALUES (${userId}, 'flashcard', ${input.lessonId}, ${input.chunkExpression}, ${pointsEarned})
       `);
+
+      // Hook: propagar streak para o banco central (fire-and-forget)
+      import('../utils/sync').then(async ({ getStudentId, onStreakUpdated }) => {
+        const studentId = await getStudentId(ctx.user.id);
+        if (studentId) {
+          const streakResult2 = await db!.execute(sql`SELECT current_streak FROM daily_streaks WHERE user_id = ${userId}`);
+          const sRows = Array.isArray(streakResult2) ? streakResult2[0] : [];
+          const streak = (sRows as any[])?.[0]?.current_streak || 0;
+          await onStreakUpdated(studentId, streak);
+        }
+      }).catch(() => {});
       
       return { pointsEarned };
     }),
@@ -149,6 +160,17 @@ export const gamificationRouter = router({
         INSERT INTO practice_activity_log (user_id, activity_type, lesson_id, chunk_expression, points_earned)
         VALUES (${userId}, 'pronunciation', ${input.lessonId}, ${input.chunkExpression}, ${pointsEarned})
       `);
+
+      // Hook: propagar streak para o banco central (fire-and-forget)
+      import('../utils/sync').then(async ({ getStudentId, onStreakUpdated }) => {
+        const studentId = await getStudentId(ctx.user.id);
+        if (studentId) {
+          const streakResult2 = await db!.execute(sql`SELECT current_streak FROM daily_streaks WHERE user_id = ${userId}`);
+          const sRows = Array.isArray(streakResult2) ? streakResult2[0] : [];
+          const streak = (sRows as any[])?.[0]?.current_streak || 0;
+          await onStreakUpdated(studentId, streak);
+        }
+      }).catch(() => {});
       
       return { pointsEarned };
     }),

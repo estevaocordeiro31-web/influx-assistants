@@ -71,23 +71,24 @@
 - [x] Job automático às 18h (Brasília) já configurado
 - [x] Dashboard mostra: 1818 alunos no Central, 179 ativos, 201 usuários no inFlux
 
-## Fase 189: SINCRONIZAÇÃO COMPLETA - EM PROGRESSO
+## Fase 189: SINCRONIZAÇÃO COMPLETA - COMPLETO
 
-- [ ] Executar sincronização manual (criar contas para 179 alunos ativos)
-- [ ] Vincular usuários existentes aos registros do Dashboard Central
-- [ ] Implementar sincronização de dados da Elie para o banco central
-- [ ] Testar e salvar checkpoint final
+- [x] Executar sincronização manual (4 novos usuários criados para alunos sem conta)
+- [x] Vincular usuários existentes aos registros do Dashboard Central (3 vinculados por nome)
+- [x] Implementar sincronização de dados da Elie para o banco central
+- [x] 228 usuários vinculados, 5 requerem reconciliação manual (Jennifer, Leonardo Cantone, Vitória Lang)
 
-## Fase 190: SPEC DE SINCRONIZAÇÃO v1.0
+## Fase 190: SPEC DE SINCRONIZAÇÃO v1.0 - COMPLETO
 
-- [ ] 1. Verificar/adicionar colunas no banco central (last_activity_at, total_exercises_completed, avg_exercise_score, total_badges, current_streak_days, pa_confidence_score, last_elie_session)
-- [ ] 2. Criar server/utils/sync.ts com triggerHealthScoreRecalc() e getStudentId()
-- [ ] 3. Adicionar hook onStudentLogin() em auth.ts
-- [ ] 4. Adicionar hook onExerciseCompleted() em exercises.ts
-- [ ] 5. Adicionar hook onBadgeAwarded() em badges.ts
-- [ ] 6. Adicionar hook onStreakUpdated() onde streak é calculado
-- [ ] 7. Expandir syncStudentIntelligence em elie-sync.ts com novos campos
-- [ ] 8. Criar student-data.ts com getMyStudentData e integrar no StudentDashboard
+- [x] 1. Colunas no banco central (7 campos já existentes: last_activity_at, total_exercises_completed, avg_exercise_score, total_badges, current_streak_days, pa_confidence_score, last_elie_session)
+- [x] 2. server/utils/sync.ts com triggerHealthScoreRecalc(), getStudentId(), onExerciseCompleted(), onBadgeAwarded(), onStreakUpdated()
+- [x] 3. Hook onStudentLogin() em auth-password.ts
+- [x] 4. Hook onExerciseCompleted() em gamification.ts (saveQuizAttempt)
+- [x] 5. Hook onBadgeAwarded() em badges.ts
+- [x] 6. Hook onStreakUpdated() em gamification.ts (flashcard + pronunciação)
+- [x] 7. syncStudentIntelligence expandido em elie-sync.ts (propaga pa_confidence_score e last_elie_session)
+- [x] 8. student-data.ts com getMyStudentData integrado no StudentDashboard
+- [x] 31 testes passando (sync-spec-v1 + reconcile-change-password)
 
 ## Fase 191: RESET DE SENHA PELO ADMIN - COMPLETO
 - [x] Criar procedure resetStudentPassword no backend
