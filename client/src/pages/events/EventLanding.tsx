@@ -30,6 +30,9 @@ export default function EventLanding() {
       const result = await joinAsStudent.mutateAsync({ eventId: event.id });
       localStorage.setItem("event_participant_id", String(result.participantId));
       localStorage.setItem("event_id", event.id);
+      if (user?.id) localStorage.setItem("event_user_id", String(user.id));
+      // Clear any old guest token
+      localStorage.removeItem("event_guest_token");
       navigate("/events/hub");
     } catch (e) {
       console.error(e);

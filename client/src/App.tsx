@@ -56,6 +56,7 @@ import ChunkListening from "./pages/events/ChunkListening";
 import SpeakingChallenge from "./pages/events/SpeakingChallenge";
 import FoodChallenge from "./pages/events/FoodChallenge";
 import EventLeaderboard from "./pages/events/Leaderboard";
+import EventScore from "./pages/events/EventScore";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -150,6 +151,7 @@ function Router() {
       <Route path="/events/speaking-challenge" component={SpeakingChallenge} />
       <Route path="/events/food-challenge" component={FoodChallenge} />
       <Route path="/events/leaderboard" component={EventLeaderboard} />
+      <Route path="/events/score" component={EventScore} />
       <Route path="/test-login" component={TestLogin} />
       <Route path="/test-login-debug" component={TestLoginDebug} />
       <Route path="/admin/student/:studentId/edit" component={StudentProfileEditPage} />

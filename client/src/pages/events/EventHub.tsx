@@ -54,9 +54,15 @@ export default function EventHub() {
   const eventId = localStorage.getItem("event_id") ?? "";
   const guestToken = localStorage.getItem("event_guest_token") ?? undefined;
 
+  // Get userId from auth context if available
+  const storedUserId = parseInt(localStorage.getItem("event_user_id") ?? "0") || undefined;
+
   const { data: participant, isLoading } = trpc.culturalEvents.getParticipant.useQuery(
-    { eventId, token: guestToken, userId: guestToken ? undefined : undefined },
-    { enabled: !!eventId && !!participantId }
+    { eventId: eventId || "stpatricks_2026", token: guestToken, userId: storedUserId },
+    {
+      enabled: !!(guestToken || storedUserId),
+      refetchInterval: 15000, // Refresh every 15s to pick up mission completions
+    }
   );
 
   const { data: event } = trpc.culturalEvents.getActive.useQuery();
@@ -100,8 +106,8 @@ export default function EventHub() {
         <div className="flex flex-col gap-3 mb-6">
           {MISSIONS.map((mission, idx) => {
             const completed = !!missionsCompleted[mission.id];
-            // First mission always unlocked, others unlock after previous
-            const locked = idx > 0 && !missionsCompleted[MISSIONS[idx - 1].id];
+            // All missions are unlocked for the live event — no sequential lock
+            const locked = false;
 
             return (
               <MissionCard
@@ -130,6 +136,17 @@ export default function EventHub() {
           <Trophy size={18} className="mr-2" />
           Ver Ranking
         </Button>
+
+        {/* Final score button when all missions completed */}
+        {completedCount >= MISSIONS.length && (
+          <Button
+            onClick={() => navigate("/events/score")}
+            className="w-full h-14 rounded-xl font-black text-base mt-2"
+            style={{ background: "linear-gradient(135deg, #f4a923, #e8890c)" }}
+          >
+            🏆 Ver Resultado Final
+          </Button>
+        )}
 
         {/* Share */}
         {completedCount >= 3 && (

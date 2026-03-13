@@ -33,6 +33,14 @@ export default function SpeakingChallenge() {
   const info = CHARACTER_INFO[scenario.character];
 
   const startRecording = async () => {
+    // Check if getUserMedia is available
+    if (!navigator.mediaDevices?.getUserMedia) {
+      // No mic support — go straight to text fallback
+      setRecording(false);
+      setTranscript("");
+      setStep("recording");
+      return;
+    }
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const mr = new MediaRecorder(stream);
@@ -41,16 +49,18 @@ export default function SpeakingChallenge() {
       mr.onstop = async () => {
         stream.getTracks().forEach(t => t.stop());
         // Simulate transcription for demo (in production, use Whisper)
-        setTranscript("I'd love to join the pub crawl tonight! The craic is mighty here!");
+        const demoText = "I'd love to join the pub crawl tonight! The craic is mighty here!";
+        setTranscript(demoText);
         setStep("evaluating");
-        await handleEvaluate("I'd love to join the pub crawl tonight! The craic is mighty here!");
+        await handleEvaluate(demoText);
       };
       mr.start();
       mediaRecorderRef.current = mr;
       setRecording(true);
       setStep("recording");
     } catch (e) {
-      // Fallback: use text input
+      // Mic permission denied or unavailable — show text fallback
+      setRecording(false);
       setTranscript("");
       setStep("recording");
     }
@@ -195,19 +205,29 @@ export default function SpeakingChallenge() {
               </>
             ) : (
               <div className="w-full">
-                <p className="text-gray-400 text-sm mb-2">Ou digite sua resposta em inglês:</p>
+                <div className="rounded-xl p-3 mb-3" style={{ background: "rgba(244,169,35,0.1)", border: "1px solid #f4a92344" }}>
+                  <p className="text-yellow-400 text-xs font-bold mb-1">✍️ Digite sua resposta em inglês</p>
+                  <p className="text-gray-400 text-xs">Sem microfone? Sem problema! Escreva sua resposta abaixo e a IA vai avaliar.</p>
+                </div>
                 <textarea
                   value={transcript}
                   onChange={e => setTranscript(e.target.value)}
-                  placeholder="Type your answer in English..."
+                  placeholder="Type your answer in English... (use the chunks you learned!)"
                   className="w-full bg-gray-800 border border-gray-600 rounded-xl p-3 text-white text-sm resize-none"
-                  rows={3}
+                  rows={4}
+                  autoFocus
                 />
-                <Button onClick={() => handleEvaluate(transcript)} disabled={!transcript.trim()}
-                  className="w-full h-12 mt-3 rounded-xl font-bold"
-                  style={{ background: "linear-gradient(135deg, #e53935, #c62828)" }}>
-                  Avaliar Resposta
-                </Button>
+                <div className="flex gap-2 mt-3">
+                  <Button onClick={() => setStep("intro")} variant="outline"
+                    className="flex-1 h-12 rounded-xl border-gray-600 text-gray-300">
+                    Voltar
+                  </Button>
+                  <Button onClick={() => handleEvaluate(transcript)} disabled={!transcript.trim()}
+                    className="flex-[2] h-12 rounded-xl font-bold"
+                    style={{ background: "linear-gradient(135deg, #e53935, #c62828)" }}>
+                    <Star size={16} className="mr-2" /> Avaliar Resposta
+                  </Button>
+                </div>
               </div>
             )}
           </div>

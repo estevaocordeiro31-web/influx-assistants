@@ -159,3 +159,12 @@
 - [x] Design system St. Patrick's (paleta verde/dourado, fundo escuro)
 - [x] Personagens com imagens do CDN (Lucas NYC, Emily London, Aiko Sydney)
 - [x] 16 testes passando (cultural-events.test.ts)
+
+## Fase 201: CORREÇÕES DAS ATIVIDADES DO EVENTO
+- [ ] Corrigir desbloqueio sequencial das missões no EventHub (todas aparecem bloqueadas)
+- [ ] Speaking Challenge: adicionar fallback de texto para quem não tem microfone
+- [ ] Criar página EventScore (score final + pódio + CTA matrícula)
+- [ ] Corrigir navegação: após completar cada missão, voltar ao Hub com missão marcada
+- [ ] Chunk Lesson: mostrar tela de conclusão ao terminar os 10 cards
+- [ ] Culture Quiz: mostrar tela de resultado com score ao terminar as 8 perguntas
+- [ ] Chunk Listening: banco de palavras clicável (arrastar/clicar para preencher lacuna)
