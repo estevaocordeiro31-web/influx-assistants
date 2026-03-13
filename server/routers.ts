@@ -51,6 +51,7 @@ import { extraExercisesRouter } from "./routers/extra-exercises";
 import { badgesRouter } from "./routers/badges";
 import { elieSyncRouter } from "./routers/elie-sync";
 import { studentDataRouter } from "./routers/student-data";
+import { culturalEventsRouter } from "./routers/cultural-events";
 
 export const appRouter = router({
   system: systemRouter,
@@ -114,6 +115,7 @@ export const appRouter = router({
   badges: badgesRouter,
   elieSync: elieSyncRouter,
   studentData: studentDataRouter,
+  culturalEvents: culturalEventsRouter,
 });
 
 export type AppRouter = typeof appRouter;

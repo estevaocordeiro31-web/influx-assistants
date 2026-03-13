@@ -124,3 +124,38 @@
 - [x] Indicadores visuais: score bar, erros corrigidos, chunk sugerido, dica de connected speech
 - [x] Integrar hook onExerciseCompleted quando avaliação for concluída (score >= 60)
 - [x] 9 testes passando (evaluate-response.test.ts)
+
+## Módulo Cultural Events — St. Patrick's Night (21/03/2026) - COMPLETO
+
+### Fase 196: SCHEMA E INFRAESTRUTURA - COMPLETO
+- [x] Tabelas cultural_events, event_participants, event_mission_progress criadas via SQL
+- [x] Seed: evento stpatricks_2026 inserido
+- [x] Router culturalEventsRouter (getActive, joinAsGuest, joinAsStudent, getParticipant, saveMissionProgress, getLeaderboard, foodChallengeChat, evaluateSpeaking)
+- [x] Guest flow: participante criado no banco local ao entrar como guest
+
+### Fase 197: DADOS PEDAGÓGICOS - COMPLETO
+- [x] client/src/data/stpatricks/chunks.ts (10 chunks completos com CHARACTER_INFO e CHARACTER_IMAGES)
+- [x] client/src/data/stpatricks/quiz.ts (8 perguntas de cultura irlandesa)
+- [x] client/src/data/stpatricks/listening.ts (script com 7 gaps + respostas)
+- [x] client/src/data/stpatricks/speaking.ts (3 cenários + FOOD_CHALLENGE_SYSTEM_PROMPT)
+
+### Fase 198: COMPONENTES BASE - COMPLETO
+- [x] FlipCard.tsx (frente EN / verso PT com equivalência social + animação CSS 3D)
+- [x] CharacterBubble.tsx (avatar + typewriter effect + sotaque)
+- [x] EventUI.tsx (InfluxCoinsDisplay + EventProgressBar)
+
+### Fase 199: PÁGINAS - COMPLETO
+- [x] EventLanding.tsx (splash + entrada login/guest + personagens)
+- [x] EventHub.tsx (5 missões + pontuação + progresso)
+- [x] ChunkLesson.tsx (FlipCards interativos + pontos por card)
+- [x] CultureQuiz.tsx (quiz com feedback dos personagens + score)
+- [x] ChunkListening.tsx (player + fill in the gaps + 7 lacunas)
+- [x] SpeakingChallenge.tsx (3 cenários + avaliação IA + score)
+- [x] FoodChallenge.tsx (chat IA com Lucas/Emily/Aiko + 5 trocas mínimas)
+- [x] Leaderboard.tsx (ranking ao vivo + pódio top 3 + atualiza a cada 30s)
+
+### Fase 200: INTEGRAÇÕES E ROTAS - COMPLETO
+- [x] Rotas /events/* no App.tsx (8 rotas públicas)
+- [x] Design system St. Patrick's (paleta verde/dourado, fundo escuro)
+- [x] Personagens com imagens do CDN (Lucas NYC, Emily London, Aiko Sydney)
+- [x] 16 testes passando (cultural-events.test.ts)

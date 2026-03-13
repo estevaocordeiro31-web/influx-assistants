@@ -48,6 +48,14 @@ import TestLoginDebug from "./pages/TestLoginDebug";
 import ExtraExercisesPage from "./pages/ExtraExercisesPage";
 import BadgesPage from "./pages/BadgesPage";
 import ChangePassword from "./pages/ChangePassword";
+import EventLanding from "./pages/events/EventLanding";
+import EventHub from "./pages/events/EventHub";
+import ChunkLesson from "./pages/events/ChunkLesson";
+import CultureQuiz from "./pages/events/CultureQuiz";
+import ChunkListening from "./pages/events/ChunkListening";
+import SpeakingChallenge from "./pages/events/SpeakingChallenge";
+import FoodChallenge from "./pages/events/FoodChallenge";
+import EventLeaderboard from "./pages/events/Leaderboard";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -133,6 +141,15 @@ function Router() {
       <Route path="/admin/upload-materials" component={MaterialUploadPage} />
       <Route path="/support/ellie" component={ElliesSupportPage} />
       <Route path="/support/tickets" component={SupportTicketsPage} />
+      {/* Rotas do módulo Cultural Events — acessíveis sem login */}
+      <Route path="/events" component={EventLanding} />
+      <Route path="/events/hub" component={EventHub} />
+      <Route path="/events/chunk-lesson" component={ChunkLesson} />
+      <Route path="/events/culture-quiz" component={CultureQuiz} />
+      <Route path="/events/chunk-listening" component={ChunkListening} />
+      <Route path="/events/speaking-challenge" component={SpeakingChallenge} />
+      <Route path="/events/food-challenge" component={FoodChallenge} />
+      <Route path="/events/leaderboard" component={EventLeaderboard} />
       <Route path="/test-login" component={TestLogin} />
       <Route path="/test-login-debug" component={TestLoginDebug} />
       <Route path="/admin/student/:studentId/edit" component={StudentProfileEditPage} />

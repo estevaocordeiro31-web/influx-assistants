@@ -971,3 +971,49 @@ export const studentBadges = mysqlTable("student_badges", {
 });
 export type StudentBadge = typeof studentBadges.$inferSelect;
 export type InsertStudentBadge = typeof studentBadges.$inferInsert;
+
+// ============================================
+// CULTURAL EVENTS MODULE — St. Patrick's Night
+// ============================================
+
+// Cultural event definition
+export const culturalEvents = mysqlTable("cultural_events", {
+  id: varchar("id", { length: 50 }).primaryKey(), // 'stpatricks_2026'
+  name: varchar("name", { length: 100 }).notNull(),
+  eventDate: date("event_date").notNull(),
+  active: boolean("active").default(true).notNull(),
+  config: json("config"), // cores, personagens ativos, missões
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type CulturalEvent = typeof culturalEvents.$inferSelect;
+export type InsertCulturalEvent = typeof culturalEvents.$inferInsert;
+
+// Event participants (authenticated students OR guests)
+export const eventParticipants = mysqlTable("event_participants", {
+  id: int("id").autoincrement().primaryKey(),
+  eventId: varchar("event_id", { length: 50 }).notNull().references(() => culturalEvents.id),
+  userId: int("user_id").references(() => users.id),
+  guestName: varchar("guest_name", { length: 100 }),
+  guestWhatsapp: varchar("guest_whatsapp", { length: 20 }),
+  guestToken: varchar("guest_token", { length: 100 }),
+  totalPoints: int("total_points").default(0).notNull(),
+  missionsCompleted: json("missions_completed"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type EventParticipant = typeof eventParticipants.$inferSelect;
+export type InsertEventParticipant = typeof eventParticipants.$inferInsert;
+
+// Mission progress per participant
+export const eventMissionProgress = mysqlTable("event_mission_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  participantId: int("participant_id").notNull().references(() => eventParticipants.id, { onDelete: "cascade" }),
+  missionId: varchar("mission_id", { length: 50 }).notNull(),
+  score: int("score").default(0).notNull(),
+  completed: boolean("completed").default(false).notNull(),
+  timeSpentSeconds: int("time_spent_seconds").default(0).notNull(),
+  answers: json("answers"),
+  completedAt: timestamp("completed_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type EventMissionProgress = typeof eventMissionProgress.$inferSelect;
+export type InsertEventMissionProgress = typeof eventMissionProgress.$inferInsert;
