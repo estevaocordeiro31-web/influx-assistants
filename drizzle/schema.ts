@@ -1017,3 +1017,75 @@ export const eventMissionProgress = mysqlTable("event_mission_progress", {
 });
 export type EventMissionProgress = typeof eventMissionProgress.$inferSelect;
 export type InsertEventMissionProgress = typeof eventMissionProgress.$inferInsert;
+
+// ============================================
+// VIP PROFILES — Memória e Tom Personalizado
+// ============================================
+export const vipProfiles = mysqlTable("vip_profiles", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").references(() => users.id, { onDelete: "set null" }),
+  name: varchar("name", { length: 100 }).notNull(),
+  email: varchar("email", { length: 320 }),
+  phone: varchar("phone", { length: 30 }),
+  relationship: varchar("relationship", { length: 100 }),
+  role: varchar("role", { length: 100 }),
+  bio: text("bio"),
+  toneInstructions: text("tone_instructions"),
+  personalContext: json("personal_context"),
+  active: boolean("active").default(true).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+export type VipProfile = typeof vipProfiles.$inferSelect;
+export type InsertVipProfile = typeof vipProfiles.$inferInsert;
+
+export const chatMemory = mysqlTable("chat_memory", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  memoryKey: varchar("memory_key", { length: 100 }).notNull(),
+  memoryValue: text("memory_value").notNull(),
+  source: varchar("source", { length: 50 }).default("conversation"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+export type ChatMemory = typeof chatMemory.$inferSelect;
+export type InsertChatMemory = typeof chatMemory.$inferInsert;
+
+// ============================================
+// MINERAÇÃO DE HISTÓRICO — Celular do Retiro
+// ============================================
+export const miningProgress = mysqlTable("mining_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  phone: varchar("phone", { length: 30 }).notNull().unique(),
+  status: mysqlEnum("status", ["pending", "processing", "done", "error", "ignored"]).default("pending").notNull(),
+  analiseJson: json("analise_json"),
+  nome: varchar("nome", { length: 100 }),
+  interesse: varchar("interesse", { length: 255 }),
+  leadStatus: varchar("lead_status", { length: 50 }),
+  temperatura: int("temperatura").default(0),
+  urgencia: varchar("urgencia", { length: 20 }),
+  melhorAbordagem: text("melhor_abordagem"),
+  resumo: text("resumo"),
+  acao: varchar("acao", { length: 50 }),
+  processadoEm: timestamp("processado_em"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type MiningProgress = typeof miningProgress.$inferSelect;
+export type InsertMiningProgress = typeof miningProgress.$inferInsert;
+
+export const miningSession = mysqlTable("mining_session", {
+  id: int("id").autoincrement().primaryKey(),
+  status: mysqlEnum("status", ["idle", "running", "paused", "completed", "error"]).default("idle").notNull(),
+  totalChats: int("total_chats").default(0).notNull(),
+  processados: int("processados").default(0).notNull(),
+  novosContatos: int("novos_contatos").default(0).notNull(),
+  contatosAtualizados: int("contatos_atualizados").default(0).notNull(),
+  followsCriados: int("follows_criados").default(0).notNull(),
+  leadsQuentes: int("leads_quentes").default(0).notNull(),
+  lastPhone: varchar("last_phone", { length: 30 }),
+  startedAt: timestamp("started_at"),
+  completedAt: timestamp("completed_at"),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+export type MiningSession = typeof miningSession.$inferSelect;
+export type InsertMiningSession = typeof miningSession.$inferInsert;

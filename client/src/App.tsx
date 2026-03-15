@@ -57,6 +57,7 @@ import SpeakingChallenge from "./pages/events/SpeakingChallenge";
 import FoodChallenge from "./pages/events/FoodChallenge";
 import EventLeaderboard from "./pages/events/Leaderboard";
 import EventScore from "./pages/events/EventScore";
+import MineracaoHistoricoPage from "./pages/MineracaoHistoricoPage";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -132,6 +133,7 @@ function Router() {
           <Route path="/admin/back-to-school" component={BackToSchoolAdminPage} />
           <Route path="/admin/back-to-school-dashboard" component={BackToSchoolDashboard} />
           <Route path="/admin/activities" component={AdminActivitiesPage} />
+          <Route path="/admin/mineracao-historico" component={MineracaoHistoricoPage} />
         </>
       )}
       {/* Rotas de demonstração admin */}

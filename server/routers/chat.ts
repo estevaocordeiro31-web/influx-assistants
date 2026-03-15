@@ -9,6 +9,7 @@ import {
   getChunksByContext,
 } from "../db";
 import { TRPCError } from "@trpc/server";
+import { getVipProfileForUser, getChatMemoriesForUser, saveChatMemory } from "./vip-profiles";
 
 const INFLUX_SYSTEM_PROMPT = `Você é um assistente de ensino de inglês especializado na metodologia inFlux de Chunks e Equivalência.
 
@@ -78,10 +79,42 @@ export const chatRouter = router({
           .map(c => `- "${c.englishChunk}" (${c.portugueseEquivalent}): ${c.example || 'Exemplo não disponível'}`)
           .join("\n");
 
+        // Buscar perfil VIP e memória do usuário (em paralelo)
+        const [vipProfile, chatMemories] = await Promise.all([
+          getVipProfileForUser(ctx.user.id).catch(() => null),
+          getChatMemoriesForUser(ctx.user.id).catch(() => ({} as Record<string, string>)),
+        ]);
+
+        // Construir contexto personalizado
+        let personalizedContext = '';
+        if (vipProfile) {
+          personalizedContext += `\n\n🌟 PERFIL VIP — CONTEXTO ESPECIAL:\n`;
+          personalizedContext += `Nome: ${vipProfile.name}\n`;
+          if (vipProfile.relationship) personalizedContext += `Relação com o dono da escola: ${vipProfile.relationship}\n`;
+          if (vipProfile.role) personalizedContext += `Papel/Função: ${vipProfile.role}\n`;
+          if (vipProfile.bio) personalizedContext += `Contexto pessoal: ${vipProfile.bio}\n`;
+          if (vipProfile.toneInstructions) personalizedContext += `\nINSTRUÇÕES DE TOM:\n${vipProfile.toneInstructions}\n`;
+        }
+
+        // Adicionar memórias relevantes
+        const memoryKeys = Object.keys(chatMemories);
+        if (memoryKeys.length > 0) {
+          personalizedContext += `\n📝 MEMÓRIA DE CONVERSAS ANTERIORES:\n`;
+          memoryKeys.slice(0, 10).forEach(key => {
+            personalizedContext += `- ${key}: ${chatMemories[key]}\n`;
+          });
+        }
+
+        // Adicionar nome do usuário se disponível
+        const userName = ctx.user.name || (vipProfile?.name);
+        if (userName && !vipProfile) {
+          personalizedContext += `\nNome do aluno: ${userName}`;
+        }
+
         const llmMessages = [
           {
             role: "system" as const,
-            content: `${INFLUX_SYSTEM_PROMPT}\n\nChunks relevantes para este aluno:\n${chunksContext}`,
+            content: `${INFLUX_SYSTEM_PROMPT}\n\nChunks relevantes para este aluno:\n${chunksContext}${personalizedContext}`,
           },
           ...previousMessages.map(msg => ({
             role: msg.role as "user" | "assistant",

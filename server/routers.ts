@@ -52,6 +52,8 @@ import { badgesRouter } from "./routers/badges";
 import { elieSyncRouter } from "./routers/elie-sync";
 import { studentDataRouter } from "./routers/student-data";
 import { culturalEventsRouter } from "./routers/cultural-events";
+import { vipProfilesRouter } from "./routers/vip-profiles";
+import { historicoMinerRouter } from "./routers/historico-miner";
 
 export const appRouter = router({
   system: systemRouter,
@@ -116,6 +118,8 @@ export const appRouter = router({
   elieSync: elieSyncRouter,
   studentData: studentDataRouter,
   culturalEvents: culturalEventsRouter,
+  vipProfiles: vipProfilesRouter,
+  historicoMiner: historicoMinerRouter,
 });
 
 export type AppRouter = typeof appRouter;
