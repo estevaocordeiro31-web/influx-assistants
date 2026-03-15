@@ -10,11 +10,26 @@ const t = initTRPC.context<TrpcContext>().create({
 export const router = t.router;
 export const publicProcedure = t.procedure;
 
+// Procedures que devem funcionar mesmo com mustChangePassword=true
+const ALLOWED_WHEN_MUST_CHANGE = [
+  "authPassword.changePassword",
+  "auth.me",
+  "auth.logout",
+];
+
 const requireUser = t.middleware(async opts => {
-  const { ctx, next } = opts;
+  const { ctx, next, path } = opts;
 
   if (!ctx.user) {
     throw new TRPCError({ code: "UNAUTHORIZED", message: UNAUTHED_ERR_MSG });
+  }
+
+  // Bloquear acesso quando senha precisa ser trocada
+  if (ctx.user.mustChangePassword && !ALLOWED_WHEN_MUST_CHANGE.includes(path)) {
+    throw new TRPCError({
+      code: "FORBIDDEN",
+      message: "MUST_CHANGE_PASSWORD",
+    });
   }
 
   return next({

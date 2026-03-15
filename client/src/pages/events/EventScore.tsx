@@ -166,7 +166,7 @@ export default function EventScore() {
             </p>
             <div className="flex flex-col gap-2">
               <a
-                href="https://wa.me/5511999999999?text=Oi!%20Participei%20do%20St.%20Patrick's%20Night%20e%20quero%20saber%20mais%20sobre%20as%20aulas%20da%20inFlux!"
+                href="https://wa.me/5511913162024?text=Oi!%20Participei%20do%20St.%20Patrick's%20Night%20e%20quero%20saber%20mais%20sobre%20as%20aulas%20da%20inFlux!"
                 target="_blank"
                 rel="noopener noreferrer"
               >

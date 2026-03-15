@@ -168,3 +168,11 @@
 - [ ] Chunk Lesson: mostrar tela de conclusão ao terminar os 10 cards
 - [ ] Culture Quiz: mostrar tela de resultado com score ao terminar as 8 perguntas
 - [ ] Chunk Listening: banco de palavras clicável (arrastar/clicar para preencher lacuna)
+
+## Fase 202: CORREÇÕES DA AUDITORIA
+- [ ] Corrigir reconhecimento de voz no Chat IA (erro ao gravar/transcrever)
+- [ ] Verificar mustChangePassword no servidor (middleware tRPC)
+- [ ] Configurar número de WhatsApp real no EventScore
+- [ ] Redesign da tela de Login (assimétrico + Fluxie + Aurora gradient)
+- [ ] Remover console.log do código cliente
+- [ ] Instrução visual mais clara no Chunk Listening

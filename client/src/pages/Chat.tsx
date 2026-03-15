@@ -243,6 +243,8 @@ export default function Chat() {
 
   const sendMessageMutation = trpc.chat.sendMessage.useMutation();
   const evaluateResponseMutation = trpc.chat.evaluateResponse.useMutation();
+  const uploadAudioMutation = trpc.pronunciation.uploadAudio.useMutation();
+  const transcribeAndEvaluateMutation = trpc.pronunciation.transcribeAndEvaluate.useMutation();
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -312,9 +314,64 @@ export default function Chat() {
     }
 
     try {
+      // 1. Converter blob para base64
       const reader = new FileReader();
       reader.readAsDataURL(audioBlob);
-      reader.onloadend = async () => await simulateAudioProcessing(audioUrl);
+      reader.onloadend = async () => {
+        try {
+          const base64Data = (reader.result as string).split(",")[1];
+          if (!base64Data) throw new Error("Falha ao converter áudio");
+
+          // 2. Upload para S3
+          toast.loading("Enviando áudio...", { id: "audio-upload" });
+          const { url: s3Url } = await uploadAudioMutation.mutateAsync({
+            audioBase64: base64Data,
+            mimeType: audioBlob.type || "audio/webm",
+          });
+          toast.dismiss("audio-upload");
+
+          // 3. Transcrever + avaliar pronúncia
+          toast.loading("Transcrevendo e avaliando pronúncia...", { id: "audio-transcribe" });
+          const result = await transcribeAndEvaluateMutation.mutateAsync({
+            audioUrl: s3Url,
+            conversationId: conversationId || 0,
+            language: "en",
+          });
+          toast.dismiss("audio-transcribe");
+
+          const { transcribedText, evaluation, feedbackMessage } = result;
+
+          // 4. Atualizar mensagem do usuário com transcrição real
+          setMessages(prev => {
+            const updated = [...prev];
+            const idx = updated.findLastIndex(m => m.role === "user" && m.isAudio);
+            if (idx !== -1) {
+              updated[idx] = {
+                ...updated[idx],
+                content: `🎤 "${transcribedText}"`,
+                transcription: transcribedText,
+                pronunciationScore: evaluation?.score,
+              };
+            }
+            return updated;
+          });
+
+          // 5. Exibir feedback do assistente
+          const assistantMessage: Message = {
+            role: "assistant",
+            content: feedbackMessage,
+            timestamp: new Date(),
+          };
+          setMessages(prev => [...prev, assistantMessage]);
+          toast.success(`Pronúncia avaliada: ${evaluation?.score || 0}/100`);
+        } catch (err: any) {
+          toast.dismiss("audio-upload");
+          toast.dismiss("audio-transcribe");
+          toast.error(err?.message || "Erro ao processar áudio. Tente novamente.");
+        } finally {
+          setAudioProcessing(false);
+        }
+      };
     } catch {
       toast.error("Erro ao processar áudio");
       setAudioProcessing(false);
