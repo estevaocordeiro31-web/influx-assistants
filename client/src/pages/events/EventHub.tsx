@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { EventHeader, MissionCard } from "@/components/events/EventUI";
-import { Loader2, BookOpen, HelpCircle, Headphones, Mic, Utensils, Trophy, Wind, UserSearch, Music, Beer } from "lucide-react";
+import { Loader2, BookOpen, HelpCircle, Headphones, Mic, Utensils, Trophy, Wind, UserSearch, Music, Beer, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const MISSIONS = [
@@ -72,6 +72,14 @@ const DRINKING_GAMES = [
     icon: <Music size={18} className="text-pink-400" />,
     points: 120,
     path: "/events/finish-lyrics",
+  },
+  {
+    id: "hot-seat",
+    title: "Hot Seat 🔥",
+    description: "Modo grupo! Um jogador fecha os olhos, o grupo vê o personagem e dá dicas em inglês. 60 segundos!",
+    icon: <Users size={18} className="text-orange-400" />,
+    points: 200,
+    path: "/events/hot-seat",
   },
 ];
 

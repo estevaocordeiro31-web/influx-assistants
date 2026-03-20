@@ -113,7 +113,7 @@ export const LEVEL_CONFIG = {
 export interface WhoAmICharacter {
   id: string;
   name: string;
-  category: "celebrity" | "movie" | "history" | "irish" | "sports";
+  category: "celebrity" | "movie" | "history" | "irish" | "sports" | "brazilian" | "fiction";
   categoryLabel: string;
   hints: string[]; // progressive hints if player is stuck
   difficulty: "easy" | "medium" | "hard";
@@ -159,6 +159,50 @@ export const WHO_AM_I_CHARACTERS: WhoAmICharacter[] = [
     hints: ["I'm a political leader", "I'm from Russia", "I'm known for being in power for a very long time"] },
   { id: "w18", name: "Oprah Winfrey", category: "celebrity", categoryLabel: "📺 TV/Media", difficulty: "hard",
     hints: ["I'm American", "I'm a woman", "I had one of the most famous talk shows in history"] },
+
+  // 🇧🇷 BRASILEIROS
+  { id: "b1", name: "Pelé", category: "brazilian", categoryLabel: "🇧🇷 Brasileiro", difficulty: "easy",
+    hints: ["I'm Brazilian", "I played football", "I'm considered the greatest footballer of all time"] },
+  { id: "b2", name: "Xuxa", category: "brazilian", categoryLabel: "🇧🇷 Brasileiro", difficulty: "easy",
+    hints: ["I'm Brazilian", "I'm a woman", "I was a famous TV presenter for children in the 80s and 90s"] },
+  { id: "b3", name: "Lula", category: "brazilian", categoryLabel: "🇧🇷 Brasileiro", difficulty: "easy",
+    hints: ["I'm Brazilian", "I'm a politician", "I've been president of Brazil more than once"] },
+  { id: "b4", name: "Bolsonaro", category: "brazilian", categoryLabel: "🇧🇷 Brasileiro", difficulty: "easy",
+    hints: ["I'm Brazilian", "I'm a politician", "I was president of Brazil and known for controversial statements"] },
+  { id: "b5", name: "Silvio Santos", category: "brazilian", categoryLabel: "🇧🇷 Brasileiro", difficulty: "medium",
+    hints: ["I'm Brazilian", "I'm a man", "I had a very long-running TV show on Sundays and said 'Vem pra cá!'"] },
+  { id: "b6", name: "Ayrton Senna", category: "brazilian", categoryLabel: "🇧🇷 Brasileiro", difficulty: "medium",
+    hints: ["I'm Brazilian", "I'm no longer alive", "I was a racing driver and Formula 1 world champion"] },
+  { id: "b7", name: "Anitta", category: "brazilian", categoryLabel: "🇧🇷 Brasileiro", difficulty: "easy",
+    hints: ["I'm Brazilian", "I'm a singer", "I'm known internationally for funk and pop music"] },
+  { id: "b8", name: "Galvão Bueno", category: "brazilian", categoryLabel: "🇧🇷 Brasileiro", difficulty: "hard",
+    hints: ["I'm Brazilian", "I'm a man", "I'm a sports commentator known for talking too much during broadcasts"] },
+
+  // 🎬 SÉRIES & FILMES
+  { id: "f1", name: "Walter White", category: "fiction", categoryLabel: "🎬 Série/Filme", difficulty: "easy",
+    hints: ["I'm a fictional character", "I'm a chemistry teacher turned criminal", "My show is called Breaking Bad"] },
+  { id: "f2", name: "Tony Stark", category: "fiction", categoryLabel: "🎬 Série/Filme", difficulty: "easy",
+    hints: ["I'm a fictional character", "I'm a superhero", "I wear an iron suit and say 'I am Iron Man'"] },
+  { id: "f3", name: "Hermione Granger", category: "fiction", categoryLabel: "🎬 Série/Filme", difficulty: "easy",
+    hints: ["I'm a fictional character", "I'm a witch", "I'm the smartest friend of Harry Potter"] },
+  { id: "f4", name: "Jack Sparrow", category: "fiction", categoryLabel: "🎬 Série/Filme", difficulty: "easy",
+    hints: ["I'm a fictional character", "I'm a pirate", "I sail the seas in Pirates of the Caribbean"] },
+  { id: "f5", name: "Darth Vader", category: "fiction", categoryLabel: "🎬 Série/Filme", difficulty: "easy",
+    hints: ["I'm a fictional character", "I breathe very loudly", "I'm from Star Wars and I'm Luke's father"] },
+  { id: "f6", name: "The Joker", category: "fiction", categoryLabel: "🎬 Série/Filme", difficulty: "medium",
+    hints: ["I'm a fictional character", "I'm a villain", "I'm Batman's most famous enemy and I love chaos"] },
+  { id: "f7", name: "Sherlock Holmes", category: "fiction", categoryLabel: "🎬 Série/Filme", difficulty: "medium",
+    hints: ["I'm a fictional character", "I'm British", "I solve impossible mysteries with pure logic"] },
+  { id: "f8", name: "Forrest Gump", category: "fiction", categoryLabel: "🎬 Série/Filme", difficulty: "medium",
+    hints: ["I'm a fictional character", "I'm American", "I ran across America and said 'Life is like a box of chocolates'"] },
+];
+
+export const WHO_AM_I_CATEGORIES_EXTENDED = [
+  { id: "all",       label: "🎲 Aleatório",      color: "#6c757d" },
+  { id: "celebrity", label: "🎤 Celebrity",      color: "#e9c46a" },
+  { id: "sports",    label: "⚽ Sports",         color: "#e76f51" },
+  { id: "brazilian", label: "🇧🇷 Brasileiros",   color: "#009c3b" },
+  { id: "fiction",   label: "🎬 Séries & Filmes", color: "#4cc9f0" },
 ];
 
 export const WHO_AM_I_DRINK_RULES = [

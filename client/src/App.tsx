@@ -60,6 +60,7 @@ import EventScore from "./pages/events/EventScore";
 import TongueTwisterChallenge from "./pages/events/TongueTwisterChallenge";
 import WhoAmIGame from "./pages/events/WhoAmIGame";
 import FinishTheLyrics from "./pages/events/FinishTheLyrics";
+import HotSeatGame from "./pages/events/HotSeatGame";
 import MineracaoHistoricoPage from "./pages/MineracaoHistoricoPage";
 
 function Router() {
@@ -160,6 +161,7 @@ function Router() {
       <Route path="/events/tongue-twister" component={TongueTwisterChallenge} />
       <Route path="/events/who-am-i" component={WhoAmIGame} />
       <Route path="/events/finish-lyrics" component={FinishTheLyrics} />
+      <Route path="/events/hot-seat" component={HotSeatGame} />
       <Route path="/test-login" component={TestLogin} />
       <Route path="/test-login-debug" component={TestLoginDebug} />
       <Route path="/admin/student/:studentId/edit" component={StudentProfileEditPage} />

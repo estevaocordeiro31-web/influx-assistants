@@ -4,17 +4,11 @@ import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChevronLeft, HelpCircle, Loader2, RefreshCw, Beer, Send, UserSearch } from "lucide-react";
-import { WHO_AM_I_CHARACTERS, type WhoAmICharacter } from "@/data/stpatricks/drinking-games";
+import { WHO_AM_I_CHARACTERS, WHO_AM_I_CATEGORIES_EXTENDED, type WhoAmICharacter } from "@/data/stpatricks/drinking-games";
 
 type GameStep = "select-category" | "playing" | "guessing" | "result";
 
-const CATEGORIES = [
-  { id: "all",       label: "🎲 Aleatório",     color: "#6c757d" },
-  { id: "celebrity", label: "🎤 Celebrity",     color: "#e9c46a" },
-  { id: "movie",     label: "🎬 Movie/Series",  color: "#4cc9f0" },
-  { id: "irish",     label: "🍀 Irish Icons",   color: "#40916c" },
-  { id: "sports",    label: "⚽ Sports",        color: "#e76f51" },
-];
+const CATEGORIES = WHO_AM_I_CATEGORIES_EXTENDED;
 
 const MAX_QUESTIONS = 10;
 
