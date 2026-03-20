@@ -100,6 +100,115 @@ export const TONGUE_TWISTERS: TongueTwister[] = [
     tip: "Pure Celtic chaos. Say it 3x fast without stopping!",
     irishTheme: true,
   },
+  // EASY — novos
+  {
+    id: "tt13",
+    text: "Betty Botter bought some butter, but the butter was bitter.",
+    level: "easy",
+    tip: "Focus on the 'b' and 'tt' sounds — don't rush!",
+    irishTheme: false,
+  },
+  {
+    id: "tt14",
+    text: "I saw Susie sitting in a shoeshine shop.",
+    level: "easy",
+    tip: "'sh' vs 's' again — classic English trap!",
+    irishTheme: false,
+  },
+  {
+    id: "tt15",
+    text: "Shamrocks shimmer, shamrocks shine, seven shiny shamrocks shine.",
+    level: "easy",
+    tip: "Pure St. Patrick's! Keep the 'sh' crisp and bright.",
+    irishTheme: true,
+  },
+  // MEDIUM — novos
+  {
+    id: "tt16",
+    text: "A proper copper coffee pot.",
+    level: "medium",
+    tip: "Short but deadly. Say it 5 times fast!",
+    irishTheme: false,
+  },
+  {
+    id: "tt17",
+    text: "Can you can a can as a canner can can a can?",
+    level: "medium",
+    tip: "The word 'can' has 3 different meanings here. Mind = blown!",
+    irishTheme: false,
+  },
+  {
+    id: "tt18",
+    text: "Eleven benevolent elephants.",
+    level: "medium",
+    tip: "Sounds easy? Try it 3x fast. The 'el' and 'en' will get you!",
+    irishTheme: false,
+  },
+  {
+    id: "tt19",
+    text: "Clancy's fancy dancing in County Clare.",
+    level: "medium",
+    tip: "Irish county name! The 'cl', 'fl' and 'nc' blend is tricky.",
+    irishTheme: true,
+  },
+  // HARD — novos
+  {
+    id: "tt20",
+    text: "Whether the weather is warm, whether the weather is hot, we have to put up with the weather, whether we like it or not.",
+    level: "hard",
+    tip: "'Whether' vs 'weather' — sounds identical but means different things!",
+    irishTheme: false,
+  },
+  {
+    id: "tt21",
+    text: "Unique New York, unique New York, you know you need unique New York.",
+    level: "hard",
+    tip: "The 'ny' and 'un' sounds will trip you up at speed!",
+    irishTheme: false,
+  },
+  {
+    id: "tt22",
+    text: "The great Greek grape growers grow great Greek grapes.",
+    level: "hard",
+    tip: "'Gr' cluster overload! Keep each word distinct.",
+    irishTheme: false,
+  },
+  {
+    id: "tt23",
+    text: "Galway girls giggle gleefully, giving green gifts generously.",
+    level: "hard",
+    tip: "All 'G' sounds — very Irish! Say it like you're at a Galway pub.",
+    irishTheme: true,
+  },
+  // INSANE — novos
+  {
+    id: "tt24",
+    text: "Brisk brave brigadiers brandished broad bright blades, blunderbusses, and bludgeons.",
+    level: "insane",
+    tip: "'Br' and 'bl' clusters back to back. This is a tongue workout!",
+    irishTheme: false,
+  },
+  {
+    id: "tt25",
+    text: "Through three cheese trees three free fleas flew.",
+    level: "insane",
+    tip: "'Thr', 'fr', 'fl' — three different clusters in one sentence. Brutal!",
+    irishTheme: false,
+  },
+  {
+    id: "tt26",
+    text: "Six sick hicks nick six slick bricks with picks and sticks.",
+    level: "insane",
+    tip: "Short vowels + consonant clusters. Say it 3x fast if you dare! ☠️",
+    irishTheme: false,
+  },
+  {
+    id: "tt27",
+    text: "St. Patrick's prickly shamrocks pricked Patrick's thick wrist thrice.",
+    level: "insane",
+    tip: "'Pr', 'thr', 'ck' — and it's Irish themed! The ultimate St. Patrick's challenge! ☘️☠️",
+    irishTheme: true,
+  },
 ];
 
 export const LEVEL_CONFIG = {
@@ -178,7 +287,50 @@ export const WHO_AM_I_CHARACTERS: WhoAmICharacter[] = [
   { id: "b8", name: "Galvão Bueno", category: "brazilian", categoryLabel: "🇧🇷 Brasileiro", difficulty: "hard",
     hints: ["I'm Brazilian", "I'm a man", "I'm a sports commentator known for talking too much during broadcasts"] },
 
-  // 🎬 SÉRIES & FILMES
+  // MEDIUM — novos
+  { id: "w19", name: "Lady Gaga", category: "celebrity", categoryLabel: "🎤 Celebrity", difficulty: "medium",
+    hints: ["I'm a singer", "I'm American", "I wore a dress made of meat and starred in A Star Is Born"] },
+  { id: "w20", name: "Kylian Mbappé", category: "sports", categoryLabel: "⚽ Sports", difficulty: "medium",
+    hints: ["I'm an athlete", "I play football", "I'm French and one of the fastest players in the world"] },
+  { id: "w21", name: "Kim Kardashian", category: "celebrity", categoryLabel: "🎤 Celebrity", difficulty: "medium",
+    hints: ["I'm American", "I'm a woman", "I'm famous for reality TV and my family has a show called Keeping Up with the Kardashians"] },
+  { id: "w22", name: "Dwayne Johnson", category: "celebrity", categoryLabel: "🎥 Actor", difficulty: "medium",
+    hints: ["I'm American", "I'm an actor", "I was a wrestler called The Rock before becoming a movie star"] },
+  { id: "w23", name: "Billie Eilish", category: "celebrity", categoryLabel: "🎤 Celebrity", difficulty: "medium",
+    hints: ["I'm a singer", "I'm American", "I sang the James Bond theme 'No Time to Die' and I'm known for my green hair"] },
+  { id: "w24", name: "Serena Williams", category: "sports", categoryLabel: "🎾 Sports", difficulty: "medium",
+    hints: ["I'm an athlete", "I play tennis", "I'm considered the greatest female tennis player of all time"] },
+  // HARD — novos
+  { id: "w25", name: "Nelson Mandela", category: "celebrity", categoryLabel: "🏦 History", difficulty: "hard",
+    hints: ["I'm no longer alive", "I was a political leader", "I was imprisoned for 27 years and became president of South Africa"] },
+  { id: "w26", name: "Albert Einstein", category: "celebrity", categoryLabel: "🔬 Science", difficulty: "hard",
+    hints: ["I'm no longer alive", "I was a scientist", "I created the theory of relativity and the formula E=mc²"] },
+  { id: "w27", name: "Marilyn Monroe", category: "celebrity", categoryLabel: "🎥 Actor", difficulty: "hard",
+    hints: ["I'm no longer alive", "I was an actress", "I sang 'Happy Birthday' to President Kennedy and was married to Joe DiMaggio"] },
+  { id: "w28", name: "Steve Jobs", category: "celebrity", categoryLabel: "💻 Tech", difficulty: "hard",
+    hints: ["I'm no longer alive", "I was a businessman", "I co-founded Apple and introduced the iPhone to the world"] },
+
+  // 🇮🇪 IRISH — especiais para a noite
+  { id: "i1", name: "Bono", category: "irish", categoryLabel: "☘️ Irish", difficulty: "medium",
+    hints: ["I'm Irish", "I'm a singer", "I'm the lead singer of U2 and known for my sunglasses"] },
+  { id: "i2", name: "Cillian Murphy", category: "irish", categoryLabel: "☘️ Irish", difficulty: "hard",
+    hints: ["I'm Irish", "I'm an actor", "I play Tommy Shelby in Peaky Blinders"] },
+  { id: "i3", name: "Colin Farrell", category: "irish", categoryLabel: "☘️ Irish", difficulty: "hard",
+    hints: ["I'm Irish", "I'm an actor", "I starred in The Banshees of Inisherin and won a Golden Globe"] },
+  { id: "i4", name: "Ed Sheeran", category: "irish", categoryLabel: "☘️ Irish", difficulty: "easy",
+    hints: ["I'm a singer", "I'm British but love Ireland", "I sang Galway Girl and Shape of You"] },
+
+  // 🇮🇪 BRASILEIROS — novos
+  { id: "b9", name: "Robinho", category: "brazilian", categoryLabel: "🇮🇪🇧🇷 Brasileiro", difficulty: "hard",
+    hints: ["I'm Brazilian", "I played football", "I was once the most expensive player in the world when I moved to Manchester City"] },
+  { id: "b10", name: "Gugu Liberato", category: "brazilian", categoryLabel: "🇮🇪🇧🇷 Brasileiro", difficulty: "hard",
+    hints: ["I'm Brazilian", "I'm no longer alive", "I was a famous TV presenter known for crazy stunts and games"] },
+  { id: "b11", name: "Caetano Veloso", category: "brazilian", categoryLabel: "🇮🇪🇧🇷 Brasileiro", difficulty: "hard",
+    hints: ["I'm Brazilian", "I'm a musician", "I'm one of the founders of Tropicália movement in Brazilian music"] },
+  { id: "b12", name: "Ivete Sangalo", category: "brazilian", categoryLabel: "🇮🇪🇧🇷 Brasileiro", difficulty: "medium",
+    hints: ["I'm Brazilian", "I'm a singer", "I'm from Bahia and famous for axé music and my energy on stage"] },
+
+  // 🎥 SÉRIES & FILMES — novos
   { id: "f1", name: "Walter White", category: "fiction", categoryLabel: "🎬 Série/Filme", difficulty: "easy",
     hints: ["I'm a fictional character", "I'm a chemistry teacher turned criminal", "My show is called Breaking Bad"] },
   { id: "f2", name: "Tony Stark", category: "fiction", categoryLabel: "🎬 Série/Filme", difficulty: "easy",
@@ -193,16 +345,34 @@ export const WHO_AM_I_CHARACTERS: WhoAmICharacter[] = [
     hints: ["I'm a fictional character", "I'm a villain", "I'm Batman's most famous enemy and I love chaos"] },
   { id: "f7", name: "Sherlock Holmes", category: "fiction", categoryLabel: "🎬 Série/Filme", difficulty: "medium",
     hints: ["I'm a fictional character", "I'm British", "I solve impossible mysteries with pure logic"] },
-  { id: "f8", name: "Forrest Gump", category: "fiction", categoryLabel: "🎬 Série/Filme", difficulty: "medium",
+  { id: "f8", name: "Forrest Gump", category: "fiction", categoryLabel: "🎥 Série/Filme", difficulty: "medium",
     hints: ["I'm a fictional character", "I'm American", "I ran across America and said 'Life is like a box of chocolates'"] },
+  // Séries & Filmes — novos
+  { id: "f9", name: "Jon Snow", category: "fiction", categoryLabel: "🎥 Série/Filme", difficulty: "medium",
+    hints: ["I'm a fictional character", "I'm in a fantasy series", "I know nothing, according to a famous line in Game of Thrones"] },
+  { id: "f10", name: "Homer Simpson", category: "fiction", categoryLabel: "🎥 Série/Filme", difficulty: "easy",
+    hints: ["I'm a fictional character", "I'm a cartoon", "I love donuts and beer and say 'D'oh!'"] },
+  { id: "f11", name: "James Bond", category: "fiction", categoryLabel: "🎥 Série/Filme", difficulty: "easy",
+    hints: ["I'm a fictional character", "I'm a British spy", "I introduce myself as 'Bond, James Bond'"] },
+  { id: "f12", name: "Elsa", category: "fiction", categoryLabel: "🎥 Série/Filme", difficulty: "easy",
+    hints: ["I'm a fictional character", "I'm a princess", "I have ice powers and sang 'Let It Go' in Frozen"] },
+  { id: "f13", name: "Tyrion Lannister", category: "fiction", categoryLabel: "🎥 Série/Filme", difficulty: "hard",
+    hints: ["I'm a fictional character", "I'm in Game of Thrones", "I'm a dwarf known for drinking wine and being very clever"] },
+  { id: "f14", name: "Michael Scott", category: "fiction", categoryLabel: "🎥 Série/Filme", difficulty: "hard",
+    hints: ["I'm a fictional character", "I'm the boss of a paper company", "I'm from The Office and I say 'That's what she said'"] },
+  { id: "f15", name: "SpongeBob", category: "fiction", categoryLabel: "🎥 Série/Filme", difficulty: "easy",
+    hints: ["I'm a fictional character", "I'm a cartoon", "I live under the sea in Bikini Bottom and work at the Krusty Krab"] },
+  { id: "f16", name: "Indiana Jones", category: "fiction", categoryLabel: "🎥 Série/Filme", difficulty: "medium",
+    hints: ["I'm a fictional character", "I'm an archaeologist and adventurer", "I'm afraid of snakes and wear a famous hat"] },
 ];
 
 export const WHO_AM_I_CATEGORIES_EXTENDED = [
-  { id: "all",       label: "🎲 Aleatório",      color: "#6c757d" },
-  { id: "celebrity", label: "🎤 Celebrity",      color: "#e9c46a" },
-  { id: "sports",    label: "⚽ Sports",         color: "#e76f51" },
-  { id: "brazilian", label: "🇧🇷 Brasileiros",   color: "#009c3b" },
-  { id: "fiction",   label: "🎬 Séries & Filmes", color: "#4cc9f0" },
+  { id: "all",       label: "🎲 Aleatório",        color: "#6c757d" },
+  { id: "celebrity", label: "🎤 Celebrity",        color: "#e9c46a" },
+  { id: "sports",    label: "⚽ Sports",           color: "#e76f51" },
+  { id: "brazilian", label: "🇧🇷 Brasileiros",     color: "#009c3b" },
+  { id: "fiction",   label: "🎥 Séries & Filmes",  color: "#4cc9f0" },
+  { id: "irish",     label: "☘️ Irish Special",   color: "#40916c" },
 ];
 
 export const WHO_AM_I_DRINK_RULES = [
@@ -222,7 +392,7 @@ export interface LyricsChallenge {
   verse: string;       // shown to player (with blank)
   answer: string;      // correct answer for the blank
   fullLine: string;    // full line for reveal
-  difficulty: "easy" | "medium" | "hard";
+  difficulty: "easy" | "medium" | "hard" | "insane";
   points: number;
 }
 
@@ -314,6 +484,108 @@ export const LYRICS_CHALLENGES: LyricsChallenge[] = [
     verse: "See the stone set in your eyes\nSee the thorn twist in your ___",
     answer: "side",
     fullLine: "See the thorn twist in your side",
+  },
+  // IRISH — novos
+  {
+    id: "l13", song: "Sunday Bloody Sunday", artist: "U2",
+    category: "irish", categoryLabel: "🍀 Irish Hits", difficulty: "hard", points: 130,
+    verse: "I can't believe the news today\nOh, I can't close my ___ and make it go away",
+    answer: "eyes",
+    fullLine: "Oh, I can't close my eyes and make it go away",
+  },
+  {
+    id: "l14", song: "Zombie", artist: "The Cranberries",
+    category: "irish", categoryLabel: "🍀 Irish Hits", difficulty: "hard", points: 130,
+    verse: "Another head hangs lowly\nChild is slowly ___",
+    answer: "taken",
+    fullLine: "Child is slowly taken",
+  },
+  {
+    id: "l15", song: "Fairytale of New York", artist: "The Pogues ft. Kirsty MacColl",
+    category: "irish", categoryLabel: "🍀 Irish Hits", difficulty: "insane", points: 200,
+    verse: "It was Christmas Eve babe\nIn the ___ on Broadway",
+    answer: "drunk tank",
+    fullLine: "In the drunk tank on Broadway",
+  },
+  // POP — novos
+  {
+    id: "l16", song: "Bad Guy", artist: "Billie Eilish",
+    category: "pop", categoryLabel: "🎤 Pop Hits", difficulty: "medium", points: 80,
+    verse: "White shirt now red, my bloody nose\n___ on your tippy toes",
+    answer: "Sleeping",
+    fullLine: "Sleeping on your tippy toes",
+  },
+  {
+    id: "l17", song: "Shape of You", artist: "Ed Sheeran",
+    category: "pop", categoryLabel: "🎤 Pop Hits", difficulty: "easy", points: 50,
+    verse: "I'm in love with the shape of ___\nWe push and pull like a magnet do",
+    answer: "you",
+    fullLine: "I'm in love with the shape of you",
+  },
+  {
+    id: "l18", song: "Flowers", artist: "Miley Cyrus",
+    category: "pop", categoryLabel: "🎤 Pop Hits", difficulty: "easy", points: 50,
+    verse: "I can buy myself ___\nI can hold my own hand",
+    answer: "flowers",
+    fullLine: "I can buy myself flowers",
+  },
+  {
+    id: "l19", song: "As It Was", artist: "Harry Styles",
+    category: "pop", categoryLabel: "🎤 Pop Hits", difficulty: "medium", points: 75,
+    verse: "Holdin' me back\nGravity's holdin' me back\nI want you to hold ___ tonight",
+    answer: "out",
+    fullLine: "I want you to hold out tonight",
+  },
+  // 80s — novos
+  {
+    id: "l20", song: "Take On Me", artist: "a-ha",
+    category: "80s", categoryLabel: "🎸 80s Classics", difficulty: "easy", points: 60,
+    verse: "Take on me, take me on\nI'll be ___ in a day or two",
+    answer: "gone",
+    fullLine: "I'll be gone in a day or two",
+  },
+  {
+    id: "l21", song: "Girls Just Want to Have Fun", artist: "Cyndi Lauper",
+    category: "80s", categoryLabel: "🎸 80s Classics", difficulty: "easy", points: 60,
+    verse: "I come home in the morning light\nMy mother says when you gonna live your life ___",
+    answer: "right",
+    fullLine: "My mother says when you gonna live your life right",
+  },
+  {
+    id: "l22", song: "Africa", artist: "Toto",
+    category: "80s", categoryLabel: "🎸 80s Classics", difficulty: "hard", points: 110,
+    verse: "I stopped an old man along the way\nHoping to find some long ___ words",
+    answer: "forgotten",
+    fullLine: "Hoping to find some long forgotten words",
+  },
+  // ROCK — novos
+  {
+    id: "l23", song: "Smells Like Teen Spirit", artist: "Nirvana",
+    category: "rock", categoryLabel: "🤘 Rock", difficulty: "medium", points: 90,
+    verse: "Load up on guns, bring your ___\nIt's fun to lose and to pretend",
+    answer: "friends",
+    fullLine: "Load up on guns, bring your friends",
+  },
+  {
+    id: "l24", song: "We Will Rock You", artist: "Queen",
+    category: "rock", categoryLabel: "🤘 Rock", difficulty: "easy", points: 50,
+    verse: "Buddy you're a boy make a big ___\nShouting in the street gonna be a big man someday",
+    answer: "noise",
+    fullLine: "Buddy you're a boy make a big noise",
+  },
+  {
+    id: "l25", song: "Highway to Hell", artist: "AC/DC",
+    category: "rock", categoryLabel: "🤘 Rock", difficulty: "easy", points: 60,
+    verse: "Living easy, living free\nSeason ticket on a ___ ride",
+    answer: "one-way",
+    fullLine: "Season ticket on a one-way ride",
+  },
+  {
+    id: "l26", song: "November Rain", artist: "Guns N' Roses",
+    category: "rock", categoryLabel: "🤘 Rock", difficulty: "hard", points: 120,
+    verse: "When I look into your eyes\nI can see a love ___ by time",
+    answer: "restrained",
+    fullLine: "I can see a love restrained by time",
   },
 ];
 
