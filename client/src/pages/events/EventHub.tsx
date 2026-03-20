@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { EventHeader, MissionCard } from "@/components/events/EventUI";
-import { Loader2, BookOpen, HelpCircle, Headphones, Mic, Utensils, Trophy } from "lucide-react";
+import { Loader2, BookOpen, HelpCircle, Headphones, Mic, Utensils, Trophy, Wind, UserSearch, Music, Beer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const MISSIONS = [
@@ -45,6 +45,33 @@ const MISSIONS = [
     icon: <Utensils size={18} className="text-green-400" />,
     points: 100,
     path: "/events/food-challenge",
+  },
+];
+
+const DRINKING_GAMES = [
+  {
+    id: "tongue-twister",
+    title: "Tongue Twister 🌀",
+    description: "Grave sua voz dizendo trava-línguas em inglês. A IA avalia. Errou? Bebe!",
+    icon: <Wind size={18} className="text-cyan-400" />,
+    points: 200,
+    path: "/events/tongue-twister",
+  },
+  {
+    id: "who-am-i",
+    title: "Who Am I? 🕵️",
+    description: "A IA vira um personagem famoso. Descubra quem é fazendo perguntas em inglês!",
+    icon: <UserSearch size={18} className="text-purple-400" />,
+    points: 150,
+    path: "/events/who-am-i",
+  },
+  {
+    id: "finish-lyrics",
+    title: "Finish the Lyrics 🎵",
+    description: "Complete a letra da música em inglês. Errou? Bebe! Acertou? Escolhe quem bebe!",
+    icon: <Music size={18} className="text-pink-400" />,
+    points: 120,
+    path: "/events/finish-lyrics",
   },
 ];
 
@@ -121,6 +148,34 @@ export default function EventHub() {
                 locked={locked}
                 score={completed ? mission.points : undefined}
                 onClick={() => navigate(mission.path)}
+              />
+            );
+          })}
+        </div>
+
+        {/* Drinking Games Section */}
+        <div className="mt-2 mb-2 rounded-2xl p-3 flex items-center gap-2" style={{ background: "rgba(231,111,81,0.1)", border: "1px solid #e76f5133" }}>
+          <Beer size={18} className="text-orange-400" />
+          <div>
+            <p className="text-sm font-bold text-orange-300">🍺 Drinking Games</p>
+            <p className="text-xs text-gray-400">Jogos extras para a noite! Pontos bônus e muito inglês.</p>
+          </div>
+        </div>
+        <div className="flex flex-col gap-3 mb-6">
+          {DRINKING_GAMES.map((game) => {
+            const completed = !!missionsCompleted[game.id];
+            return (
+              <MissionCard
+                key={game.id}
+                id={game.id}
+                title={game.title}
+                description={game.description}
+                icon={game.icon}
+                points={game.points}
+                completed={completed}
+                locked={false}
+                score={completed ? game.points : undefined}
+                onClick={() => navigate(game.path)}
               />
             );
           })}

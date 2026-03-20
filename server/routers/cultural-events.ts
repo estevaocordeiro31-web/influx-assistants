@@ -233,6 +233,117 @@ export const culturalEventsRouter = router({
       return { content };
     }),
 
+  // ─── DRINKING GAMES ────────────────────────────────────────────────────────
+
+  // Evaluate tongue twister pronunciation attempt
+  evaluateTongueTwister: publicProcedure
+    .input(z.object({
+      twister: z.string(),
+      attempt: z.string(),
+      level: z.enum(['easy', 'medium', 'hard', 'insane']),
+    }))
+    .mutation(async ({ input }) => {
+      const response = await invokeLLM({
+        messages: [
+          {
+            role: 'system' as const,
+            content: `You are a fun English pronunciation judge at a St. Patrick's Night drinking game event in Brazil. Evaluate how well the student attempted the tongue twister. Be encouraging but honest. Consider: did they get the key sounds right? Did they maintain the rhythm? Return JSON with score (0-100) and a short fun feedback in Portuguese (1-2 sentences). For text-based attempts, evaluate based on spelling accuracy and likely pronunciation.`,
+          },
+          {
+            role: 'user' as const,
+            content: `Tongue twister: "${input.twister}"\nStudent attempt: "${input.attempt}"\nLevel: ${input.level}\n\nEvaluate and return JSON with:\n- score: number (0-100)\n- feedback: string (Portuguese, 1-2 sentences, fun and encouraging)`,
+          },
+        ],
+        response_format: {
+          type: 'json_schema',
+          json_schema: {
+            name: 'twister_eval',
+            strict: true,
+            schema: {
+              type: 'object',
+              properties: {
+                score: { type: 'number' },
+                feedback: { type: 'string' },
+              },
+              required: ['score', 'feedback'],
+              additionalProperties: false,
+            },
+          },
+        },
+      });
+      const raw = (response.choices[0]?.message?.content as string) ?? '{}';
+      return JSON.parse(raw) as { score: number; feedback: string };
+    }),
+
+  // Who Am I — AI answers Yes/No as the character
+  whoAmIAnswer: publicProcedure
+    .input(z.object({
+      characterName: z.string(),
+      question: z.string(),
+      history: z.array(z.object({ q: z.string(), a: z.string() })),
+    }))
+    .mutation(async ({ input }) => {
+      const historyText = input.history.length > 0
+        ? input.history.map(h => `Q: ${h.q}\nA: ${h.a}`).join('\n')
+        : 'No questions yet.';
+      const response = await invokeLLM({
+        messages: [
+          {
+            role: 'system' as const,
+            content: `You are playing "Who Am I?" at a St. Patrick's Night event. You ARE ${input.characterName}. Answer ONLY with "Yes!", "No!", or "Kind of..." (for partial truths). Never reveal your name. Be consistent with previous answers. If the question is not a yes/no question, respond: "Only yes or no questions, please! 😄"`,
+          },
+          {
+            role: 'user' as const,
+            content: `Previous Q&A:\n${historyText}\n\nNew question: ${input.question}`,
+          },
+        ],
+      });
+      const rawAnswer = response.choices[0]?.message?.content;
+      const answer = (typeof rawAnswer === 'string' ? rawAnswer : 'No!').trim();
+      return { answer };
+    }),
+
+  // Check lyrics answer
+  checkLyrics: publicProcedure
+    .input(z.object({
+      song: z.string(),
+      artist: z.string(),
+      correctAnswer: z.string(),
+      playerAnswer: z.string(),
+    }))
+    .mutation(async ({ input }) => {
+      const response = await invokeLLM({
+        messages: [
+          {
+            role: 'system' as const,
+            content: `You are a music trivia judge at a St. Patrick's Night drinking game. Check if the player's answer matches the correct lyric (allow minor spelling variations, case insensitive). Return JSON with: correct (boolean), feedback (Portuguese, 1 sentence with a fun fact about the song).`,
+          },
+          {
+            role: 'user' as const,
+            content: `Song: "${input.song}" by ${input.artist}\nCorrect answer: "${input.correctAnswer}"\nPlayer answered: "${input.playerAnswer}"\n\nReturn JSON with correct (boolean) and feedback (Portuguese, fun fact about the song/artist).`,
+          },
+        ],
+        response_format: {
+          type: 'json_schema',
+          json_schema: {
+            name: 'lyrics_check',
+            strict: true,
+            schema: {
+              type: 'object',
+              properties: {
+                correct: { type: 'boolean' },
+                feedback: { type: 'string' },
+              },
+              required: ['correct', 'feedback'],
+              additionalProperties: false,
+            },
+          },
+        },
+      });
+      const raw = (response.choices[0]?.message?.content as string) ?? '{}';
+      return JSON.parse(raw) as { correct: boolean; feedback: string };
+    }),
+
   // Evaluate speaking response
   evaluateSpeaking: publicProcedure
     .input(z.object({

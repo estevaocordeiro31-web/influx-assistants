@@ -57,6 +57,9 @@ import SpeakingChallenge from "./pages/events/SpeakingChallenge";
 import FoodChallenge from "./pages/events/FoodChallenge";
 import EventLeaderboard from "./pages/events/Leaderboard";
 import EventScore from "./pages/events/EventScore";
+import TongueTwisterChallenge from "./pages/events/TongueTwisterChallenge";
+import WhoAmIGame from "./pages/events/WhoAmIGame";
+import FinishTheLyrics from "./pages/events/FinishTheLyrics";
 import MineracaoHistoricoPage from "./pages/MineracaoHistoricoPage";
 
 function Router() {
@@ -154,6 +157,9 @@ function Router() {
       <Route path="/events/food-challenge" component={FoodChallenge} />
       <Route path="/events/leaderboard" component={EventLeaderboard} />
       <Route path="/events/score" component={EventScore} />
+      <Route path="/events/tongue-twister" component={TongueTwisterChallenge} />
+      <Route path="/events/who-am-i" component={WhoAmIGame} />
+      <Route path="/events/finish-lyrics" component={FinishTheLyrics} />
       <Route path="/test-login" component={TestLogin} />
       <Route path="/test-login-debug" component={TestLoginDebug} />
       <Route path="/admin/student/:studentId/edit" component={StudentProfileEditPage} />

@@ -1,0 +1,270 @@
+// ============================================================
+// ST. PATRICK'S NIGHT — DRINKING GAMES DATA
+// ============================================================
+
+// ─── TONGUE TWISTERS ────────────────────────────────────────
+export interface TongueTwister {
+  id: string;
+  text: string;
+  level: "easy" | "medium" | "hard" | "insane";
+  tip: string;
+  irishTheme: boolean;
+}
+
+export const TONGUE_TWISTERS: TongueTwister[] = [
+  // EASY
+  {
+    id: "tt1",
+    text: "She sells seashells by the seashore.",
+    level: "easy",
+    tip: "Focus on the 'sh' vs 's' sounds!",
+    irishTheme: false,
+  },
+  {
+    id: "tt2",
+    text: "Red lorry, yellow lorry.",
+    level: "easy",
+    tip: "Try to speed it up each time!",
+    irishTheme: false,
+  },
+  {
+    id: "tt3",
+    text: "Green glass globes glow greenly.",
+    level: "easy",
+    tip: "St. Patrick's green! Keep the 'gl' crisp.",
+    irishTheme: true,
+  },
+  // MEDIUM
+  {
+    id: "tt4",
+    text: "How much wood would a woodchuck chuck if a woodchuck could chuck wood?",
+    level: "medium",
+    tip: "The 'w' and 'ch' sounds are the tricky part!",
+    irishTheme: false,
+  },
+  {
+    id: "tt5",
+    text: "Peter Piper picked a peck of pickled peppers.",
+    level: "medium",
+    tip: "Explosive 'p' sounds — don't spray the person next to you! 😄",
+    irishTheme: false,
+  },
+  {
+    id: "tt6",
+    text: "Lucky leprechauns leap lightly, leaving laughter lingering long.",
+    level: "medium",
+    tip: "All 'L' sounds — very Irish! Keep your tongue light.",
+    irishTheme: true,
+  },
+  // HARD
+  {
+    id: "tt7",
+    text: "The thirty-three thieves thought that they thrilled the throne throughout Thursday.",
+    level: "hard",
+    tip: "The 'th' sound is the enemy here. Bite your tongue gently!",
+    irishTheme: false,
+  },
+  {
+    id: "tt8",
+    text: "Irish wristwatch, Swiss wristwatch.",
+    level: "hard",
+    tip: "This one is deceptively short. Try saying it 3 times fast!",
+    irishTheme: true,
+  },
+  {
+    id: "tt9",
+    text: "Six slippery snails slid slowly seaward.",
+    level: "hard",
+    tip: "The 's' and 'sl' blend is brutal at speed!",
+    irishTheme: false,
+  },
+  // INSANE
+  {
+    id: "tt10",
+    text: "The seething sea ceaseth and thus the seething sea sufficeth us.",
+    level: "insane",
+    tip: "You'll need a pint after this one. 'th', 'ss', 'ea' — all at once!",
+    irishTheme: false,
+  },
+  {
+    id: "tt11",
+    text: "Pad kid poured curd pulled cod.",
+    level: "insane",
+    tip: "MIT scientists say this is the hardest tongue twister in English. Good luck! 🔥",
+    irishTheme: false,
+  },
+  {
+    id: "tt12",
+    text: "Crispy, crunchy, crackling, crumbling Celtic crosses carved carefully.",
+    level: "insane",
+    tip: "Pure Celtic chaos. Say it 3x fast without stopping!",
+    irishTheme: true,
+  },
+];
+
+export const LEVEL_CONFIG = {
+  easy:   { label: "Easy 🍀",   color: "#40916c", drinkRule: "Abaixo de 60%? Dê um gole!", points: 50  },
+  medium: { label: "Medium 🍺", color: "#e9c46a", drinkRule: "Abaixo de 70%? Dois goles!",  points: 80  },
+  hard:   { label: "Hard 🔥",   color: "#e76f51", drinkRule: "Abaixo de 75%? Três goles!",  points: 120 },
+  insane: { label: "Insane ☠️", color: "#9b2226", drinkRule: "Abaixo de 80%? ESCOLHA QUEM BEBE!", points: 200 },
+};
+
+// ─── WHO AM I — CHARACTERS ──────────────────────────────────
+export interface WhoAmICharacter {
+  id: string;
+  name: string;
+  category: "celebrity" | "movie" | "history" | "irish" | "sports";
+  categoryLabel: string;
+  hints: string[]; // progressive hints if player is stuck
+  difficulty: "easy" | "medium" | "hard";
+}
+
+export const WHO_AM_I_CHARACTERS: WhoAmICharacter[] = [
+  // EASY
+  { id: "w1", name: "Taylor Swift", category: "celebrity", categoryLabel: "🎤 Celebrity", difficulty: "easy",
+    hints: ["I'm a singer", "I'm American", "I have many albums named after eras"] },
+  { id: "w2", name: "Harry Potter", category: "movie", categoryLabel: "🎬 Movie/Series", difficulty: "easy",
+    hints: ["I'm a fictional character", "I go to a special school", "I have a lightning bolt scar"] },
+  { id: "w3", name: "Lionel Messi", category: "sports", categoryLabel: "⚽ Sports", difficulty: "easy",
+    hints: ["I'm an athlete", "I play with a ball", "I'm from Argentina"] },
+  { id: "w4", name: "Beyoncé", category: "celebrity", categoryLabel: "🎤 Celebrity", difficulty: "easy",
+    hints: ["I'm a performer", "I'm American", "My husband is also famous in music"] },
+  // MEDIUM
+  { id: "w5", name: "St. Patrick", category: "irish", categoryLabel: "🍀 Irish", difficulty: "medium",
+    hints: ["I'm a historical figure", "I'm associated with Ireland", "I'm celebrated on March 17th"] },
+  { id: "w6", name: "Bono", category: "irish", categoryLabel: "🍀 Irish", difficulty: "medium",
+    hints: ["I'm Irish", "I'm a musician", "My band is named after a spy plane"] },
+  { id: "w7", name: "Sherlock Holmes", category: "movie", categoryLabel: "🎬 Movie/Series", difficulty: "medium",
+    hints: ["I'm a fictional character", "I'm British", "I solve mysteries with logic"] },
+  { id: "w8", name: "Elon Musk", category: "celebrity", categoryLabel: "💼 Business", difficulty: "medium",
+    hints: ["I'm a businessman", "I own a social media platform", "I also make electric cars and rockets"] },
+  // HARD
+  { id: "w9", name: "Oscar Wilde", category: "irish", categoryLabel: "🍀 Irish", difficulty: "hard",
+    hints: ["I'm Irish", "I was a writer", "I'm famous for witty quotes and a portrait that aged for me"] },
+  { id: "w10", name: "James Joyce", category: "irish", categoryLabel: "🍀 Irish", difficulty: "hard",
+    hints: ["I'm Irish", "I wrote a very complex novel", "My most famous book is about a single day in Dublin"] },
+  { id: "w11", name: "Conor McGregor", category: "irish", categoryLabel: "🍀 Irish", difficulty: "medium",
+    hints: ["I'm Irish", "I fight for a living", "I'm known for my trash talk and precision left hand"] },
+  { id: "w12", name: "Colin Farrell", category: "irish", categoryLabel: "🍀 Irish", difficulty: "hard",
+    hints: ["I'm Irish", "I'm an actor", "I starred in The Banshees of Inisherin"] },
+];
+
+export const WHO_AM_I_DRINK_RULES = [
+  "Acertou em menos de 5 perguntas? Escolha alguém para beber! 🍺",
+  "Usou mais de 8 perguntas? Você bebe! 😅",
+  "Não acertou? Bebe e tenta de novo! 🍻",
+  "Acertou em 3 perguntas ou menos? Todo mundo bebe! 🥂",
+];
+
+// ─── FINISH THE LYRICS ──────────────────────────────────────
+export interface LyricsChallenge {
+  id: string;
+  song: string;
+  artist: string;
+  category: "80s" | "pop" | "irish" | "rock" | "classics";
+  categoryLabel: string;
+  verse: string;       // shown to player (with blank)
+  answer: string;      // correct answer for the blank
+  fullLine: string;    // full line for reveal
+  difficulty: "easy" | "medium" | "hard";
+  points: number;
+}
+
+export const LYRICS_CHALLENGES: LyricsChallenge[] = [
+  // IRISH / ST. PATRICK'S THEME
+  {
+    id: "l1", song: "Galway Girl", artist: "Ed Sheeran",
+    category: "irish", categoryLabel: "🍀 Irish Hits", difficulty: "easy", points: 60,
+    verse: "She played the fiddle in an Irish band\nBut she fell in love with an ___ man",
+    answer: "English",
+    fullLine: "She played the fiddle in an Irish band / But she fell in love with an English man",
+  },
+  {
+    id: "l2", song: "Whiskey in the Jar", artist: "Thin Lizzy",
+    category: "irish", categoryLabel: "🍀 Irish Hits", difficulty: "medium", points: 80,
+    verse: "As I was going over the far-famous Kerry mountains\nI met with Captain Farrell and his ___ were shining",
+    answer: "money",
+    fullLine: "I met with Captain Farrell and his money was shining",
+  },
+  {
+    id: "l3", song: "The Irish Rover", artist: "The Pogues & The Dubliners",
+    category: "irish", categoryLabel: "🍀 Irish Hits", difficulty: "hard", points: 120,
+    verse: "In the year of our Lord, eighteen hundred and six\nWe set sail from the ___ quay",
+    answer: "Cobh",
+    fullLine: "We set sail from the Cobh quay",
+  },
+  // POP
+  {
+    id: "l4", song: "Shake It Off", artist: "Taylor Swift",
+    category: "pop", categoryLabel: "🎤 Pop Hits", difficulty: "easy", points: 50,
+    verse: "I stay out too late\nGot nothing in my ___\nI go on too many dates",
+    answer: "brain",
+    fullLine: "Got nothing in my brain",
+  },
+  {
+    id: "l5", song: "Uptown Funk", artist: "Mark Ronson ft. Bruno Mars",
+    category: "pop", categoryLabel: "🎤 Pop Hits", difficulty: "easy", points: 50,
+    verse: "Don't believe me, just ___\nDon't believe me, just watch",
+    answer: "watch",
+    fullLine: "Don't believe me, just watch",
+  },
+  {
+    id: "l6", song: "Blinding Lights", artist: "The Weeknd",
+    category: "pop", categoryLabel: "🎤 Pop Hits", difficulty: "medium", points: 70,
+    verse: "I've been running through the night\nAnd I just can't stop calling your ___",
+    answer: "name",
+    fullLine: "And I just can't stop calling your name",
+  },
+  // 80s CLASSICS
+  {
+    id: "l7", song: "Don't Stop Believin'", artist: "Journey",
+    category: "80s", categoryLabel: "🎸 80s Classics", difficulty: "easy", points: 60,
+    verse: "Just a small town girl\nLiving in a ___ world",
+    answer: "lonely",
+    fullLine: "Living in a lonely world",
+  },
+  {
+    id: "l8", song: "Sweet Child O' Mine", artist: "Guns N' Roses",
+    category: "80s", categoryLabel: "🎸 80s Classics", difficulty: "medium", points: 80,
+    verse: "She's got a smile that it seems to me\nReminds me of ___ memories",
+    answer: "childhood",
+    fullLine: "Reminds me of childhood memories",
+  },
+  {
+    id: "l9", song: "Livin' on a Prayer", artist: "Bon Jovi",
+    category: "80s", categoryLabel: "🎸 80s Classics", difficulty: "easy", points: 60,
+    verse: "Whoa, we're halfway there\nWhoa, livin' on a ___",
+    answer: "prayer",
+    fullLine: "Whoa, livin' on a prayer",
+  },
+  // ROCK
+  {
+    id: "l10", song: "Bohemian Rhapsody", artist: "Queen",
+    category: "rock", categoryLabel: "🤘 Rock", difficulty: "medium", points: 80,
+    verse: "Is this the real life?\nIs this just ___?",
+    answer: "fantasy",
+    fullLine: "Is this just fantasy?",
+  },
+  {
+    id: "l11", song: "Mr. Brightside", artist: "The Killers",
+    category: "rock", categoryLabel: "🤘 Rock", difficulty: "hard", points: 100,
+    verse: "Coming out of my cage\nAnd I've been doing just ___",
+    answer: "fine",
+    fullLine: "And I've been doing just fine",
+  },
+  {
+    id: "l12", song: "With or Without You", artist: "U2",
+    category: "irish", categoryLabel: "🍀 Irish Hits", difficulty: "medium", points: 80,
+    verse: "See the stone set in your eyes\nSee the thorn twist in your ___",
+    answer: "side",
+    fullLine: "See the thorn twist in your side",
+  },
+];
+
+export const LYRICS_CATEGORIES = [
+  { id: "all",     label: "🎲 Aleatório",     color: "#6c757d" },
+  { id: "irish",   label: "🍀 Irish Hits",    color: "#40916c" },
+  { id: "pop",     label: "🎤 Pop Hits",      color: "#e9c46a" },
+  { id: "80s",     label: "🎸 80s Classics",  color: "#e76f51" },
+  { id: "rock",    label: "🤘 Rock",          color: "#9b2226" },
+];
