@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChevronLeft, Music, Loader2, RefreshCw, Beer, CheckCircle2, XCircle } from "lucide-react";
-import { LYRICS_CHALLENGES, LYRICS_CATEGORIES, type LyricsChallenge } from "@/data/stpatricks/drinking-games";
+import { LYRICS_CHALLENGES, LYRICS_CATEGORIES, ENGLISH_FORFEITS, type LyricsChallenge } from "@/data/stpatricks/drinking-games";
 
 type GameStep = "select-category" | "playing" | "result";
 
@@ -20,6 +20,7 @@ export default function FinishTheLyrics() {
   const [score, setScore] = useState(0);
   const [round, setRound] = useState(0);
   const [streak, setStreak] = useState(0);
+  const randomForfeit = useMemo(() => ENGLISH_FORFEITS[Math.floor(Math.random() * ENGLISH_FORFEITS.length)], [isCorrect]);
 
   const participantId = parseInt(localStorage.getItem("event_participant_id") ?? "0");
   const checkLyrics = trpc.culturalEvents.checkLyrics.useMutation();
@@ -211,6 +212,14 @@ export default function FinishTheLyrics() {
                   : "😅 Errou! Você bebe! 🍺"}
               </p>
             </div>
+
+            {/* Forfait alternativo quando errar */}
+            {!isCorrect && (
+              <div className="rounded-2xl p-4" style={{ background: "rgba(233,196,106,0.1)", border: "1.5px solid rgba(233,196,106,0.3)" }}>
+                <p className="text-xs text-yellow-400 font-bold mb-1">✨ Alternativa a beber (desafio em inglês):</p>
+                <p className="text-sm text-white">{randomForfeit.emoji} {randomForfeit.text}</p>
+              </div>
+            )}
 
             {/* AI Feedback */}
             {aiFeedback && (

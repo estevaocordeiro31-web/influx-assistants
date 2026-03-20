@@ -317,6 +317,21 @@ export const LYRICS_CHALLENGES: LyricsChallenge[] = [
   },
 ];
 
+// ─── FORFAITS EM INGLÊS ─────────────────────────────────────
+// Alternativa para quem não bebe — desafios em inglês
+export const ENGLISH_FORFEITS = [
+  { id: "f1", text: "Say 'She sells seashells by the seashore' 3 times fast!", emoji: "🌊" },
+  { id: "f2", text: "Sing the first verse of 'Happy Birthday' in an Irish accent!", emoji: "🎂" },
+  { id: "f3", text: "Say 'I love Irish music and green beer!' with your best Irish accent!", emoji: "🍀" },
+  { id: "f4", text: "Introduce yourself as if you're from Dublin — full Irish accent!", emoji: "🏰" },
+  { id: "f5", text: "Say 5 words that rhyme with 'green' as fast as you can!", emoji: "🟢" },
+  { id: "f6", text: "Do your best impression of a leprechaun saying 'You'll never catch me lucky charms!'", emoji: "☘️" },
+  { id: "f7", text: "Say the alphabet backwards — you have 30 seconds!", emoji: "🔤" },
+  { id: "f8", text: "Tell us one thing you love about learning English — in English!", emoji: "💚" },
+  { id: "f9", text: "Describe your day in English using only 10 words!", emoji: "📅" },
+  { id: "f10", text: "Say 'Irish wristwatch, Swiss wristwatch' 5 times without stopping!", emoji: "⌚" },
+];
+
 export const LYRICS_CATEGORIES = [
   { id: "all",     label: "🎲 Aleatório",     color: "#6c757d" },
   { id: "irish",   label: "🍀 Irish Hits",    color: "#40916c" },
