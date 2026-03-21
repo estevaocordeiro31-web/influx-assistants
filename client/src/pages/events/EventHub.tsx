@@ -226,7 +226,25 @@ export default function EventHub() {
           >
             📺 TV
           </Button>
+          <Button
+            onClick={() => window.open("/events/reception-tv", "_blank")}
+            variant="outline"
+            className="h-12 px-4 rounded-xl border-cyan-400/30 text-cyan-400 font-bold"
+            style={{ background: "rgba(6,182,212,0.08)" }}
+            title="Tela de Recepção para TV"
+          >
+            🎯 QR
+          </Button>
         </div>
+        {/* Teacher Dashboard */}
+        <Button
+          onClick={() => navigate("/events/teacher")}
+          variant="outline"
+          className="w-full h-11 rounded-xl border-purple-400/30 text-purple-300 font-bold text-sm mt-2"
+          style={{ background: "rgba(168,85,247,0.08)" }}
+        >
+          👩‍🏫 Painel do Professor — Roteiro, Dicas e Controles
+        </Button>
 
         {/* Final score button when all missions completed */}
         {completedCount >= MISSIONS.length && (

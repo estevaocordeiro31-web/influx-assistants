@@ -68,6 +68,8 @@ import EventRegister from "./pages/events/EventRegister";
 import EventWelcome from "./pages/events/EventWelcome";
 import MineracaoHistoricoPage from "./pages/MineracaoHistoricoPage";
 import LeaderboardTV from "./pages/events/LeaderboardTV";
+import ReceptionTV from "./pages/events/ReceptionTV";
+import TeacherDashboard from "./pages/events/TeacherDashboard";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -174,6 +176,8 @@ function Router() {
       <Route path="/events/register" component={EventRegister} />
       <Route path="/events/welcome" component={EventWelcome} />
       <Route path="/events/leaderboard-tv" component={LeaderboardTV} />
+      <Route path="/events/reception-tv" component={ReceptionTV} />
+      <Route path="/events/teacher" component={TeacherDashboard} />
       <Route path="/test-login" component={TestLogin} />
       <Route path="/test-login-debug" component={TestLoginDebug} />
       <Route path="/admin/student/:studentId/edit" component={StudentProfileEditPage} />

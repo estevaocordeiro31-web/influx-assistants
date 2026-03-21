@@ -27,14 +27,35 @@ export default function LeaderboardTV() {
     { refetchInterval: REFRESH_INTERVAL, staleTime: 0 }
   );
 
-  // Detect rank changes and flash
+  // Detect rank changes, flash and play celebration sound
   useEffect(() => {
     if (!leaderboard) return;
     const currentIds = leaderboard.map(p => p.name);
     const changed = currentIds.filter((id, i) => prevRanking[i] !== id);
-    if (changed.length > 0) {
+    if (changed.length > 0 && prevRanking.length > 0) {
       setFlashIds(new Set(changed));
       setTimeout(() => setFlashIds(new Set()), 1500);
+      // Play fanfare using Web Audio API
+      try {
+        const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+        const playNote = (freq: number, start: number, dur: number, vol = 0.25) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.frequency.value = freq;
+          osc.type = 'sine';
+          gain.gain.setValueAtTime(vol, ctx.currentTime + start);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + start + dur);
+          osc.start(ctx.currentTime + start);
+          osc.stop(ctx.currentTime + start + dur + 0.05);
+        };
+        // Ascending fanfare: C-E-G-C
+        playNote(523, 0, 0.12);
+        playNote(659, 0.13, 0.12);
+        playNote(784, 0.26, 0.12);
+        playNote(1047, 0.39, 0.35, 0.35);
+      } catch { /* AudioContext not supported */ }
     }
     setPrevRanking(currentIds);
   }, [leaderboard]);
