@@ -71,8 +71,10 @@ const TV_SCREENS = [
   { label: "\ud83d\udcfa Tela de Recep\u00e7\u00e3o (QR)", path: "/events/reception-tv", desc: "Deixar projetada na chegada dos alunos", color: "#22c55e" },
   { label: "\ud83c\udfc6 Leaderboard ao Vivo", path: "/events/leaderboard-tv", desc: "Ranking em tempo real dos jogadores", color: "#f59e0b" },
   { label: "\ud83d\udd25 Hot Seat TV", path: "/events/hot-seat-tv", desc: "Modo grupo \u2014 personagem na tela grande", color: "#ef4444" },
-  { label: "\u2618\ufe0f Introdu\u00e7\u00e3o", path: "/events/intro", desc: "Lucas, Emily e Aiko contam a hist\u00f3ria", color: "#a855f7" },
-  { label: "\ud83c\udf89 Tela de Encerramento", path: "/events/closing", desc: "P\u00f3dio animado + confetes + ranking final (22h00)", color: "#eab308" },
+  { label: "☘️ Introdução", path: "/events/intro", desc: "Lucas, Emily e Aiko contam a história", color: "#a855f7" },
+  { label: "📺 Intro TV (fullscreen)", path: "/events/intro-tv", desc: "Versão TV com timer 18s — projetar na tela grande", color: "#06b6d4" },
+  { label: "🧒 Intro Kids", path: "/events/kids/intro", desc: "Versão infantil com cartoons para turmas 7-12 anos", color: "#f97316" },
+  { label: "🎉 Tela de Encerramento", path: "/events/closing", desc: "P\u00f3dio animado + confetes + ranking final (22h00)", color: "#eab308" },
 ];
 
 const TEACHER_PIN = "456123";

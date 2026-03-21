@@ -106,6 +106,18 @@ function FallingShamrocks() {
           92%  { opacity: 0.85; }
           100% { transform: translateY(105vh) rotate(400deg); opacity: 0; }
         }
+        @keyframes slideInLeft {
+          from { transform: translateX(-80px) scale(0.92); opacity: 0; }
+          60%  { transform: translateX(8px) scale(1.02); opacity: 1; }
+          80%  { transform: translateX(-3px) scale(0.99); }
+          to   { transform: translateX(0) scale(1); opacity: 1; }
+        }
+        @keyframes slideInRight {
+          from { transform: translateX(80px) scale(0.92); opacity: 0; }
+          60%  { transform: translateX(-8px) scale(1.02); opacity: 1; }
+          80%  { transform: translateX(3px) scale(0.99); }
+          to   { transform: translateX(0) scale(1); opacity: 1; }
+        }
       `}</style>
     </div>
   );
@@ -275,14 +287,15 @@ export default function StPatricksIntro() {
       {/* ── Slide content ── */}
       <div
         className="relative z-10 flex-1 flex flex-col md:flex-row items-center justify-center gap-6 px-4 pb-4"
-        style={{
-          opacity: slideVisible ? 1 : 0,
-          transform: slideVisible ? "translateY(0)" : "translateY(16px)",
-          transition: "opacity 0.35s ease, transform 0.35s ease",
-        }}
       >
         {/* Character portrait */}
-        <div className="flex flex-col items-center gap-3 flex-shrink-0">
+        <div
+          className="flex flex-col items-center gap-3 flex-shrink-0"
+          style={{
+            animation: slideVisible ? "slideInLeft 0.55s cubic-bezier(0.34,1.56,0.64,1) forwards" : "none",
+            opacity: slideVisible ? 1 : 0,
+          }}
+        >
           <div
             className="relative rounded-2xl overflow-hidden border-4"
             style={{
@@ -343,7 +356,13 @@ export default function StPatricksIntro() {
         </div>
 
         {/* Speech bubble */}
-        <div className="flex-1 max-w-xl flex flex-col gap-4">
+        <div
+          className="flex-1 max-w-xl flex flex-col gap-4"
+          style={{
+            animation: slideVisible ? "slideInRight 0.55s 0.1s cubic-bezier(0.34,1.56,0.64,1) both" : "none",
+            opacity: slideVisible ? 1 : 0,
+          }}
+        >
           {/* Shamrock accent */}
           <div className="text-4xl">☘️</div>
 

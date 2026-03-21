@@ -63,6 +63,8 @@ import FinishTheLyrics from "./pages/events/FinishTheLyrics";
 import HotSeatGame from "./pages/events/HotSeatGame";
 import HotSeatPresenter from "./pages/events/HotSeatPresenter";
 import StPatricksIntro from "./pages/events/StPatricksIntro";
+import StPatricksIntroTV from "./pages/events/StPatricksIntroTV";
+import StPatricksIntroKids from "./pages/events/StPatricksIntroKids";
 import WelcomeScreen from "./pages/events/WelcomeScreen";
 import EventRegister from "./pages/events/EventRegister";
 import EventWelcome from "./pages/events/EventWelcome";
@@ -177,6 +179,8 @@ function Router() {
       <Route path="/events/hot-seat" component={HotSeatGame} />
       <Route path="/events/hot-seat-tv" component={HotSeatPresenter} />
       <Route path="/events/intro" component={StPatricksIntro} />
+      <Route path="/events/intro-tv" component={StPatricksIntroTV} />
+      <Route path="/events/kids/intro" component={StPatricksIntroKids} />
       <Route path="/events/welcome-screen" component={WelcomeScreen} />
       <Route path="/events/register" component={EventRegister} />
       <Route path="/events/welcome" component={EventWelcome} />

@@ -176,3 +176,13 @@
 - [ ] Redesign da tela de Login (assimétrico + Fluxie + Aurora gradient)
 - [ ] Remover console.log do código cliente
 - [ ] Instrução visual mais clara no Chunk Listening
+
+## Fase 203: MELHORIAS DA INTRODUÇÃO ST. PATRICK'S
+- [x] Criar /events/intro-tv (versão TV fullscreen, timer 18s, fonte grande)
+- [x] Animação slide-in bounce na troca de personagens
+- [x] Criar /events/kids/intro (versão Kids com cartoons e frases curtas)
+
+## Fase 204: RELATÓRIO E PLANEJAMENTO DA EXPERIÊNCIA DO ALUNO
+- [x] Gerar relatório completo de funcionalidades e rotas
+- [x] Plano de redesenho da experiência do aluno
+- [x] Templates customizáveis para a jornada do aluno (planejados no relatório)
