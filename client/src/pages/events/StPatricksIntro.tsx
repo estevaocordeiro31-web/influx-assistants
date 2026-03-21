@@ -3,9 +3,12 @@ import { useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
 
 // ─── CDN Images ──────────────────────────────────────────────────────────────
-const LUCAS_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/lucas-front-final_7b689295.jpg";
-const EMILY_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/emily-front_12e1474d.jpg";
-const AIKO_IMG  = "https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/aiko-front_62d23556.jpg";
+const LUCAS_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/lucas-front_cf8484a0.jpg";
+const EMILY_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/emily-front_0daf3cbe.jpg";
+const AIKO_IMG  = "https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/aiko-front_4d46e4a6.jpg";
+const LUCAS_SCENE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/lucas-nyc_23052758.jpg";
+const EMILY_SCENE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/emily-london_af529e0e.jpg";
+const AIKO_SCENE  = "https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/aiko-sydney_9b11df80.jpg";
 
 // ─── Script ──────────────────────────────────────────────────────────────────
 const INTRO_SCRIPT = [
@@ -15,11 +18,13 @@ const INTRO_SCRIPT = [
     flag: "🇺🇸",
     accent: "American English",
     image: LUCAS_IMG,
+    sceneImage: LUCAS_SCENE,
     accentColor: "#3b82f6",
     glowColor: "rgba(59,130,246,0.5)",
     situation: "excited" as const,
     text: "Hey everyone! Happy St. Patrick's Day! 🍀 I'm Lucas, from New York City. In the US, St. Patrick's Day is HUGE — we're talking green beer, massive parades, and everyone wearing green. If you're NOT wearing green, someone will pinch you! The biggest parade is right here in New York, with over two million people watching. It's wild!",
-    fact: "🗽 In New York, the St. Patrick's Day parade has been happening since 1762 — before the USA even existed!",
+    translation: "Ei pessoal! Feliz Dia de São Patrício! Sou o Lucas, de Nova York. Nos EUA, o St. Patrick's Day é ENORME — cerveja verde, desfiles gigantes e todo mundo de verde. Se você NÃO estiver de verde, alguém vai te beliscar! O maior desfile fica aqui em Nova York, com mais de dois milhões de pessoas. É incrível!",
+    fact: "🗽 Em Nova York, o desfile do St. Patrick's Day acontece desde 1762 — antes dos EUA existirem!",
   },
   {
     character: "emily" as const,
@@ -27,11 +32,13 @@ const INTRO_SCRIPT = [
     flag: "🇬🇧",
     accent: "British English",
     image: EMILY_IMG,
+    sceneImage: EMILY_SCENE,
     accentColor: "#ec4899",
     glowColor: "rgba(236,72,153,0.5)",
     situation: "explaining" as const,
     text: "Hello, lovely! I'm Emily, from London. Now, St. Patrick's Day is actually an Irish holiday — Saint Patrick was the patron saint of Ireland. He's famous for driving all the snakes out of Ireland and using the shamrock to explain the Holy Trinity. In the UK, we celebrate it too, especially in cities with large Irish communities. Pubs go absolutely mad with Guinness and Irish music!",
-    fact: "☘️ The shamrock became a symbol of Ireland because St. Patrick used it to explain Christianity — three leaves, one plant!",
+    translation: "Olá, queridos! Sou a Emily, de Londres. O St. Patrick's Day é um feriado irlandês — São Patrício era o santo padroeiro da Irlanda. Famoso por expulsar as cobras da Irlanda e usar o trevo para explicar a Santíssima Trindade. No Reino Unido também celebramos, especialmente nos pubs com música irlandesa!",
+    fact: "☘️ O trevo virou símbolo da Irlanda porque São Patrício o usou para explicar o Cristianismo — três folhas, uma planta!",
   },
   {
     character: "aiko" as const,
@@ -39,11 +46,13 @@ const INTRO_SCRIPT = [
     flag: "🇦🇺",
     accent: "Australian English",
     image: AIKO_IMG,
+    sceneImage: AIKO_SCENE,
     accentColor: "#a855f7",
     glowColor: "rgba(168,85,247,0.5)",
     situation: "casual" as const,
     text: "G'day! I'm Aiko, from Sydney! You know what's funny? Australia has one of the biggest Irish communities outside of Ireland! In Sydney and Melbourne, St. Patrick's Day is a massive celebration. We've got Irish pubs everywhere, and people go all out with green outfits. The Irish came to Australia during the Gold Rush in the 1850s, and they never really left — cheers to that! 🍺",
-    fact: "🦘 Australia has over 2.4 million people with Irish ancestry — that's nearly 10% of the population!",
+    translation: "Oi! Sou a Aiko, de Sydney! Sabia que a Austrália tem uma das maiores comunidades irlandesas fora da Irlanda? Em Sydney e Melbourne, o St. Patrick's Day é uma festa enorme. Temos pubs irlandeses em todo lugar e as pessoas capricham nos looks verdes. Os irlandeses vieram durante a Corrida do Ouro nos anos 1850 e nunca foram embora!",
+    fact: "🦘 A Austrália tem mais de 2,4 milhões de pessoas com ancestralidade irlandesa — quase 10% da população!",
   },
   {
     character: "lucas" as const,
@@ -51,11 +60,13 @@ const INTRO_SCRIPT = [
     flag: "🇺🇸",
     accent: "American English",
     image: LUCAS_IMG,
+    sceneImage: LUCAS_SCENE,
     accentColor: "#22c55e",
     glowColor: "rgba(34,197,94,0.5)",
     situation: "excited" as const,
     text: "So tonight, we're going to celebrate St. Patrick's Day inFlux style! We've got tongue twisters, music challenges, and the famous Who Am I game — all in English! Are you ready to test your English AND have a great time? Let's go! Sláinte — that means 'cheers' in Irish! 🥂",
-    fact: "🎉 'Sláinte' (pronounced SLAWN-cha) is the Irish toast — it means 'health' and is used like 'cheers'!",
+    translation: "Então esta noite vamos celebrar o St. Patrick's Day no estilo inFlux! Temos trava-línguas, desafios musicais e o famoso jogo Who Am I — tudo em inglês! Estão prontos para testar o inglês e se divertir muito? Vamos lá! Sláinte — isso significa 'saúde' em irlandês, tipo 'cheers'!",
+    fact: "🎉 'Sláinte' (pronuncia-se SLAWN-cha) é o brinde irlandês — significa 'saúde' e é usado como 'cheers'!",
   },
 ];
 
@@ -132,6 +143,7 @@ export default function StPatricksIntro() {
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [autoAdvance, setAutoAdvance] = useState(false);
   const [slideVisible, setSlideVisible] = useState(true);
+  const [showTranslation, setShowTranslation] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const speakMutation = trpc.tts.speak.useMutation({
@@ -175,6 +187,7 @@ export default function StPatricksIntro() {
     if (audioRef.current) audioRef.current.pause();
     setIsPlaying(false);
     setAudioUrl(null);
+    setShowTranslation(false);
     setSlideVisible(false);
     setTimeout(() => {
       setCurrentSlide(next);
@@ -354,6 +367,24 @@ export default function StPatricksIntro() {
             <p className="text-white leading-relaxed font-medium" style={{ fontSize: "clamp(0.9rem, 2vw, 1.15rem)" }}>
               {slide.text}
             </p>
+            {/* Translation toggle */}
+            <button
+              onClick={() => setShowTranslation(t => !t)}
+              className="mt-3 w-full text-xs py-1.5 rounded-xl text-center transition-colors"
+              style={{ background: "rgba(255,255,255,0.07)", color: "rgba(255,255,255,0.5)" }}
+            >
+              {showTranslation ? "▲ Ocultar tradução" : "🇧🇷 Ver tradução em português"}
+            </button>
+            {showTranslation && (
+              <p className="mt-2 text-green-200 text-sm leading-relaxed italic">
+                {slide.translation}
+              </p>
+            )}
+          </div>
+
+          {/* Scene image */}
+          <div className="rounded-2xl overflow-hidden" style={{ height: 90, border: `1px solid ${slide.accentColor}33` }}>
+            <img src={slide.sceneImage} alt="scene" className="w-full h-full object-cover" style={{ objectPosition: "center 25%" }} />
           </div>
 
           {/* Fun fact */}
