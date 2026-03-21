@@ -4,6 +4,8 @@ import { getDb } from "../db";
 import { culturalEvents, eventParticipants, eventMissionProgress } from "../../drizzle/schema";
 import { eq, desc, and, isNull, sql } from "drizzle-orm";
 import { invokeLLM } from "../_core/llm";
+import { transcribeAudio } from "../_core/voiceTranscription";
+import { storagePut } from "../storage";
 // FOOD_CHALLENGE_SYSTEM_PROMPT defined inline to avoid cross-boundary import
 const FOOD_CHALLENGE_SYSTEM_PROMPT = `You are three Brazilian friends who grew up abroad and came back to help at inFlux school's St. Patrick's Night event. You rotate naturally in the conversation:
 
@@ -234,6 +236,38 @@ export const culturalEventsRouter = router({
     }),
 
   // ─── DRINKING GAMES ────────────────────────────────────────────────────────
+
+  // Upload de áudio do evento (sem login necessário)
+  uploadEventAudio: publicProcedure
+    .input(z.object({
+      audioBase64: z.string().min(1),
+      mimeType: z.string().default('audio/webm'),
+    }))
+    .mutation(async ({ input }) => {
+      const buffer = Buffer.from(input.audioBase64, 'base64');
+      if (buffer.length > 16 * 1024 * 1024) {
+        throw new Error('Áudio muito grande. Máximo: 16MB');
+      }
+      const ext = input.mimeType.includes('webm') ? 'webm' : input.mimeType.includes('mp4') ? 'mp4' : 'mp3';
+      const fileKey = `event-audio/${Date.now()}-${Math.random().toString(36).substring(7)}.${ext}`;
+      const { url } = await storagePut(fileKey, buffer, input.mimeType);
+      return { url };
+    }),
+
+  // Transcrever áudio do evento com Whisper (otimizado para sotaque brasileiro)
+  transcribeEventAudio: publicProcedure
+    .input(z.object({
+      audioUrl: z.string().url(),
+    }))
+    .mutation(async ({ input }) => {
+      const result = await transcribeAudio({
+        audioUrl: input.audioUrl,
+        language: 'en',
+        prompt: 'Brazilian student speaking English at an inFlux language school event. The student may have a Brazilian accent. Common phrases: I like, my name is, let me try, that is correct, I think, I want to say. Transcribe exactly what is said in English.',
+      });
+      const text = (result as any)?.text ?? '';
+      return { text };
+    }),
 
   // Evaluate tongue twister pronunciation attempt
   evaluateTongueTwister: publicProcedure
