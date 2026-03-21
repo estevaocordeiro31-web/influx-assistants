@@ -474,11 +474,13 @@ export default function Chat() {
     }
 
     try {
+      const eventBook = localStorage.getItem('event_book') || undefined;
       const result = await sendMessageMutation.mutateAsync({
         conversationId: conversationId || undefined,
         message: messageText,
         objective: studentData.objective,
         level: studentData.level,
+        book: eventBook,
       });
 
       setConversationId(result.conversationId);

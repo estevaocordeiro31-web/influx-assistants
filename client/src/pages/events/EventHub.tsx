@@ -206,16 +206,27 @@ export default function EventHub() {
           })}
         </div>
 
-        {/* Leaderboard button */}
-        <Button
-          onClick={() => navigate("/events/leaderboard")}
-          variant="outline"
-          className="w-full h-12 rounded-xl border-yellow-400/30 text-yellow-400 font-bold"
-          style={{ background: "rgba(244,169,35,0.08)" }}
-        >
-          <Trophy size={18} className="mr-2" />
-          Ver Ranking
-        </Button>
+        {/* Leaderboard buttons */}
+        <div className="flex gap-2">
+          <Button
+            onClick={() => navigate("/events/leaderboard")}
+            variant="outline"
+            className="flex-1 h-12 rounded-xl border-yellow-400/30 text-yellow-400 font-bold"
+            style={{ background: "rgba(244,169,35,0.08)" }}
+          >
+            <Trophy size={18} className="mr-2" />
+            Ver Ranking
+          </Button>
+          <Button
+            onClick={() => window.open("/events/leaderboard-tv", "_blank")}
+            variant="outline"
+            className="h-12 px-4 rounded-xl border-green-400/30 text-green-400 font-bold"
+            style={{ background: "rgba(34,197,94,0.08)" }}
+            title="Abrir Leaderboard para TV"
+          >
+            📺 TV
+          </Button>
+        </div>
 
         {/* Final score button when all missions completed */}
         {completedCount >= MISSIONS.length && (

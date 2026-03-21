@@ -41,6 +41,7 @@ export const chatRouter = router({
         conversationId: z.number().optional(),
         objective: z.string().optional(),
         level: z.string().optional(),
+        book: z.string().optional(),
         message: z.string().min(1),
       })
     )
@@ -109,6 +110,13 @@ export const chatRouter = router({
         const userName = ctx.user.name || (vipProfile?.name);
         if (userName && !vipProfile) {
           personalizedContext += `\nNome do aluno: ${userName}`;
+        }
+
+        // Adicionar livro/nível do evento (St. Patrick's ou outro)
+        const localBook = input.book;
+        if (localBook) {
+          personalizedContext += `\n\n📚 LIVRO/NÍVEL DO ALUNO (registrado no evento): ${localBook}`;
+          personalizedContext += `\nAdapte o vocabulário, chunks e complexidade das respostas para este nível.`;
         }
 
         const llmMessages = [

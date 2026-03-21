@@ -67,6 +67,7 @@ import WelcomeScreen from "./pages/events/WelcomeScreen";
 import EventRegister from "./pages/events/EventRegister";
 import EventWelcome from "./pages/events/EventWelcome";
 import MineracaoHistoricoPage from "./pages/MineracaoHistoricoPage";
+import LeaderboardTV from "./pages/events/LeaderboardTV";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -172,6 +173,7 @@ function Router() {
       <Route path="/events/welcome-screen" component={WelcomeScreen} />
       <Route path="/events/register" component={EventRegister} />
       <Route path="/events/welcome" component={EventWelcome} />
+      <Route path="/events/leaderboard-tv" component={LeaderboardTV} />
       <Route path="/test-login" component={TestLogin} />
       <Route path="/test-login-debug" component={TestLoginDebug} />
       <Route path="/admin/student/:studentId/edit" component={StudentProfileEditPage} />
