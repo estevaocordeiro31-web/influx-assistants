@@ -400,7 +400,7 @@ Evaluate this response. Return JSON with:
     }),
 
   // Pause/resume event (teacher control) — uses a simple key-value in the event name field
-  pauseEvent: protectedProcedure
+  pauseEvent: publicProcedure
     .input(z.object({ eventId: z.string(), paused: z.boolean() }))
     .mutation(async ({ input }) => {
       const db = await getDb();
@@ -427,7 +427,7 @@ Evaluate this response. Return JSON with:
     }),
 
   // Get all participants for export
-  getAllParticipants: protectedProcedure
+  getAllParticipants: publicProcedure
     .input(z.object({ eventId: z.string() }))
     .query(async ({ input }) => {
       const db = await getDb();
