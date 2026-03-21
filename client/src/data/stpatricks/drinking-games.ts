@@ -611,3 +611,157 @@ export const LYRICS_CATEGORIES = [
   { id: "80s",     label: "🎸 80s Classics",  color: "#e76f51" },
   { id: "rock",    label: "🤘 Rock",          color: "#9b2226" },
 ];
+
+// ─── KIDS CONTENT ───────────────────────────────────────────
+// Versão Kids — sem álcool, forfaits divertidos, personagens de desenho
+
+export interface KidsTongueTwister {
+  id: string;
+  text: string;
+  level: "super_easy" | "easy" | "medium";
+  tip: string;
+  emoji: string;
+}
+
+export const KIDS_TONGUE_TWISTERS: KidsTongueTwister[] = [
+  // SUPER EASY
+  { id: "k1", text: "Big black bug.", level: "super_easy", tip: "Say it 3 times fast!", emoji: "🐛" },
+  { id: "k2", text: "Toy boat. Toy boat. Toy boat.", level: "super_easy", tip: "Don't say 'toy vote'!", emoji: "⛵" },
+  { id: "k3", text: "Red bed. Red bed. Red bed.", level: "super_easy", tip: "Speed it up each time!", emoji: "🛏️" },
+  { id: "k4", text: "Six sick sheep.", level: "super_easy", tip: "Focus on the 's' sound!", emoji: "🐑" },
+  { id: "k5", text: "Unique New York.", level: "super_easy", tip: "Say it 5 times — harder than it looks!", emoji: "🗽" },
+  // EASY
+  { id: "k6", text: "I saw a kitten eating chicken in the kitchen.", level: "easy", tip: "Listen for the 'k' sounds!", emoji: "🐱" },
+  { id: "k7", text: "A proper copper coffee pot.", level: "easy", tip: "The 'p' and 'c' sounds are tricky!", emoji: "☕" },
+  { id: "k8", text: "Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair.", level: "easy", tip: "Say it as fast as you can!", emoji: "🐻" },
+  { id: "k9", text: "A big black bear sat on a big black rug.", level: "easy", tip: "All the 'b' sounds — don't mix them up!", emoji: "🐾" },
+  { id: "k10", text: "Green glass globes glow greenly.", level: "easy", tip: "St. Patrick's green! Keep the 'gl' crisp.", emoji: "🟢" },
+  // MEDIUM
+  { id: "k11", text: "How much wood would a woodchuck chuck if a woodchuck could chuck wood?", level: "medium", tip: "The 'w' and 'ch' sounds — say it slowly first!", emoji: "🪵" },
+  { id: "k12", text: "She sells seashells by the seashore.", level: "medium", tip: "Focus on 'sh' vs 's' — they're different!", emoji: "🐚" },
+  { id: "k13", text: "Peter Piper picked a peck of pickled peppers.", level: "medium", tip: "Explosive 'p' sounds — don't spray anyone! 😄", emoji: "🌶️" },
+  { id: "k14", text: "I scream, you scream, we all scream for ice cream!", level: "medium", tip: "Say it like you really want ice cream!", emoji: "🍦" },
+  { id: "k15", text: "Betty Botter bought some butter, but the butter was bitter.", level: "medium", tip: "All the 'b' sounds — go slow then fast!", emoji: "🧈" },
+];
+
+export interface KidsCharacter {
+  id: string;
+  name: string;
+  category: "cartoon" | "superhero" | "animal" | "movie";
+  difficulty: "easy" | "medium";
+  hints: string[];
+  emoji: string;
+}
+
+export const KIDS_CHARACTERS: KidsCharacter[] = [
+  // CARTOON
+  { id: "kc1", name: "SpongeBob", category: "cartoon", difficulty: "easy", emoji: "🧽",
+    hints: ["I live under the sea", "I work at a restaurant", "My best friend is a pink starfish"] },
+  { id: "kc2", name: "Mickey Mouse", category: "cartoon", difficulty: "easy", emoji: "🐭",
+    hints: ["I have big round ears", "I live in a magical place", "I wear white gloves"] },
+  { id: "kc3", name: "Peppa Pig", category: "cartoon", difficulty: "easy", emoji: "🐷",
+    hints: ["I love jumping in muddy puddles", "I have a little brother named George", "I am a pink pig"] },
+  { id: "kc4", name: "Bluey", category: "cartoon", difficulty: "easy", emoji: "🐕",
+    hints: ["I am a blue dog from Australia", "I love playing games with my family", "My sister is called Bingo"] },
+  { id: "kc5", name: "Paw Patrol — Chase", category: "cartoon", difficulty: "easy", emoji: "🚔",
+    hints: ["I am a police dog", "I wear a blue uniform", "I am part of a rescue team"] },
+  { id: "kc6", name: "Elsa", category: "movie", difficulty: "easy", emoji: "❄️",
+    hints: ["I can make ice and snow", "I have a sister named Anna", "I sing 'Let It Go'"] },
+  { id: "kc7", name: "Moana", category: "movie", difficulty: "easy", emoji: "🌊",
+    hints: ["I love the ocean", "I am a princess from a Pacific island", "I go on a big adventure"] },
+  { id: "kc8", name: "Simba", category: "movie", difficulty: "easy", emoji: "🦁",
+    hints: ["I am a lion cub", "My dad is the king", "I grow up to be king of the Pride Lands"] },
+  // SUPERHERO
+  { id: "kc9", name: "Spider-Man", category: "superhero", difficulty: "easy", emoji: "🕷️",
+    hints: ["I shoot webs", "I swing between buildings", "I was bitten by a spider"] },
+  { id: "kc10", name: "Batman", category: "superhero", difficulty: "easy", emoji: "🦇",
+    hints: ["I wear a black cape", "I live in a cave", "I don't have superpowers — just gadgets"] },
+  { id: "kc11", name: "Wonder Woman", category: "superhero", difficulty: "easy", emoji: "⭐",
+    hints: ["I have a golden lasso", "I am a princess from an island of warriors", "I fight for truth and justice"] },
+  { id: "kc12", name: "Iron Man", category: "superhero", difficulty: "medium", emoji: "🤖",
+    hints: ["I wear a red and gold suit", "I am a genius inventor", "My real name is Tony"] },
+  // ANIMAL CHARACTERS
+  { id: "kc13", name: "Dumbo", category: "animal", difficulty: "easy", emoji: "🐘",
+    hints: ["I am an elephant", "I can fly", "My big ears are my superpower"] },
+  { id: "kc14", name: "Nemo", category: "movie", difficulty: "easy", emoji: "🐠",
+    hints: ["I am a little orange fish", "My dad travels across the ocean to find me", "I live in a coral reef"] },
+  { id: "kc15", name: "Pikachu", category: "cartoon", difficulty: "easy", emoji: "⚡",
+    hints: ["I am yellow and small", "I can produce electricity", "I say my own name when I talk"] },
+  { id: "kc16", name: "Shrek", category: "movie", difficulty: "medium", emoji: "🟢",
+    hints: ["I am a big green creature", "I live in a swamp", "I have a donkey as my best friend"] },
+  { id: "kc17", name: "Woody", category: "movie", difficulty: "medium", emoji: "🤠",
+    hints: ["I am a cowboy toy", "I have a pull-string on my back", "My best friend is a space ranger"] },
+  { id: "kc18", name: "Buzz Lightyear", category: "movie", difficulty: "medium", emoji: "🚀",
+    hints: ["I am a space ranger toy", "My catchphrase is 'To infinity and beyond!'", "I have wings that pop out"] },
+];
+
+export interface KidsSong {
+  id: string;
+  title: string;
+  artist: string;
+  verse: string;
+  answer: string;
+  fullLine: string;
+  difficulty: "easy" | "medium";
+  emoji: string;
+}
+
+export const KIDS_SONGS: KidsSong[] = [
+  { id: "ks1", title: "Let It Go", artist: "Frozen", emoji: "❄️", difficulty: "easy",
+    verse: "Let it go, let it go\nCan't hold it ___ anymore",
+    answer: "back", fullLine: "Can't hold it back anymore" },
+  { id: "ks2", title: "Happy", artist: "Pharrell Williams", emoji: "😊", difficulty: "easy",
+    verse: "Because I'm happy\nClap along if you feel like a ___ without a roof",
+    answer: "room", fullLine: "Clap along if you feel like a room without a roof" },
+  { id: "ks3", title: "You've Got a Friend in Me", artist: "Toy Story", emoji: "🤠", difficulty: "easy",
+    verse: "You've got a friend in me\nYou've got a friend in ___",
+    answer: "me", fullLine: "You've got a friend in me" },
+  { id: "ks4", title: "Under the Sea", artist: "The Little Mermaid", emoji: "🐠", difficulty: "easy",
+    verse: "Under the sea\nUnder the sea\nDarling it's ___, down where it's wet",
+    answer: "better", fullLine: "Darling it's better, down where it's wet" },
+  { id: "ks5", title: "Can't Stop the Feeling", artist: "Justin Timberlake", emoji: "🕺", difficulty: "easy",
+    verse: "I got that sunshine in my pocket\nGot that good soul in my ___",
+    answer: "feet", fullLine: "Got that good soul in my feet" },
+  { id: "ks6", title: "Roar", artist: "Katy Perry", emoji: "🦁", difficulty: "easy",
+    verse: "I used to bite my tongue and hold my breath\nScared to rock the boat and make a ___",
+    answer: "mess", fullLine: "Scared to rock the boat and make a mess" },
+  { id: "ks7", title: "What Does the Fox Say?", artist: "Ylvis", emoji: "🦊", difficulty: "easy",
+    verse: "Dog goes woof, cat goes meow\nBird goes tweet and mouse goes ___",
+    answer: "squeak", fullLine: "Bird goes tweet and mouse goes squeak" },
+  { id: "ks8", title: "Baby Shark", artist: "Pinkfong", emoji: "🦈", difficulty: "easy",
+    verse: "Baby shark, doo doo doo\nMommy shark, doo doo ___",
+    answer: "doo", fullLine: "Mommy shark, doo doo doo" },
+  { id: "ks9", title: "Surface Pressure", artist: "Encanto", emoji: "💪", difficulty: "medium",
+    verse: "Under the surface\nI hide my ___ and I grin",
+    answer: "nerves", fullLine: "I hide my nerves and I grin" },
+  { id: "ks10", title: "We Don't Talk About Bruno", artist: "Encanto", emoji: "🎭", difficulty: "medium",
+    verse: "We don't talk about Bruno, no, no, no\nWe don't talk about ___",
+    answer: "Bruno", fullLine: "We don't talk about Bruno" },
+  { id: "ks11", title: "Into the Unknown", artist: "Frozen 2", emoji: "🌌", difficulty: "medium",
+    verse: "Into the unknown\nInto the ___",
+    answer: "unknown", fullLine: "Into the unknown" },
+  { id: "ks12", title: "How Far I'll Go", artist: "Moana", emoji: "🌊", difficulty: "medium",
+    verse: "I've been staring at the edge of the water\n'Long as I can remember, never really ___",
+    answer: "knowing", fullLine: "'Long as I can remember, never really knowing why" },
+];
+
+export const KIDS_FORFEITS = [
+  { id: "kf1", text: "Jump 10 times while saying 'I love English!'", emoji: "🦘" },
+  { id: "kf2", text: "Make a funny face for 10 seconds!", emoji: "😜" },
+  { id: "kf3", text: "Do your best animal impression — the group guesses what animal!", emoji: "🐾" },
+  { id: "kf4", text: "Spin around 3 times and say 'Shamrock!' without falling!", emoji: "☘️" },
+  { id: "kf5", text: "Say 'I am a lucky leprechaun!' in your silliest voice!", emoji: "🎩" },
+  { id: "kf6", text: "Do 5 star jumps while counting in English: one, two, three, four, five!", emoji: "⭐" },
+  { id: "kf7", text: "Teach everyone one word in English that you know!", emoji: "📚" },
+  { id: "kf8", text: "Roar like a lion 3 times — louder each time!", emoji: "🦁" },
+  { id: "kf9", text: "Do a silly dance for 10 seconds!", emoji: "🕺" },
+  { id: "kf10", text: "Say the colors of the rainbow in English as fast as you can!", emoji: "🌈" },
+];
+
+export const KIDS_CHARACTER_CATEGORIES = [
+  { id: "all", label: "🎲 All Characters", color: "#6c757d" },
+  { id: "cartoon", label: "📺 Cartoons", color: "#4cc9f0" },
+  { id: "superhero", label: "🦸 Superheroes", color: "#f72585" },
+  { id: "movie", label: "🎬 Movies", color: "#7209b7" },
+  { id: "animal", label: "🐾 Animals", color: "#06d6a0" },
+];

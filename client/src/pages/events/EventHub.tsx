@@ -245,6 +245,15 @@ export default function EventHub() {
         >
           👩‍🏫 Painel do Professor — Roteiro, Dicas e Controles
         </Button>
+        {/* Kids Zone */}
+        <Button
+          onClick={() => navigate("/events/kids")}
+          variant="outline"
+          className="w-full h-11 rounded-xl border-cyan-400/30 text-cyan-300 font-bold text-sm mt-2"
+          style={{ background: "rgba(76,201,240,0.08)" }}
+        >
+          🧒 Kids Zone — Versão para Crianças
+        </Button>
 
         {/* Final score button when all missions completed */}
         {completedCount >= MISSIONS.length && (
