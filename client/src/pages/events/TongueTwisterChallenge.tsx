@@ -2,8 +2,16 @@ import { useState, useRef } from "react";
 import { useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, Mic, MicOff, Loader2, RefreshCw, Trophy, Beer } from "lucide-react";
+import { ChevronLeft, Mic, MicOff, Loader2, RefreshCw, Trophy, Beer, Volume2 } from "lucide-react";
 import { TONGUE_TWISTERS, LEVEL_CONFIG, type TongueTwister } from "@/data/stpatricks/drinking-games";
+import LevelSelector, { type LevelConfig } from "@/components/events/LevelSelector";
+
+// Mapeia nível do jogo para personagem TTS
+function getCharacterForLevel(level: string): "lucas" | "emily" | "aiko" {
+  if (level === "easy" || level === "beginner") return "lucas"; // American
+  if (level === "medium" || level === "intermediate") return "emily"; // British
+  return "aiko"; // Australian for hard/insane/advanced/master
+}
 
 type GameStep = "select-level" | "ready" | "recording" | "evaluating" | "result";
 
@@ -24,9 +32,29 @@ export default function TongueTwisterChallenge() {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
 
+  const [levelConfig, setLevelConfig] = useState<LevelConfig | null>(null);
+  const [ttsAudioUrl, setTtsAudioUrl] = useState<string | null>(null);
+  const [ttsPlaying, setTtsPlaying] = useState(false);
+  const ttsAudioRef = useRef<HTMLAudioElement | null>(null);
   const participantId = parseInt(localStorage.getItem("event_participant_id") ?? "0");
   const evaluateTwister = trpc.culturalEvents.evaluateTongueTwister.useMutation();
   const saveMission = trpc.culturalEvents.saveMissionProgress.useMutation();
+  const ttsMutation = trpc.tts.speak.useMutation({
+    onSuccess: (data) => {
+      setTtsAudioUrl(data.audioUrl);
+      setTtsPlaying(true);
+      if (ttsAudioRef.current) {
+        ttsAudioRef.current.src = data.audioUrl;
+        ttsAudioRef.current.play().catch(() => {});
+        ttsAudioRef.current.onended = () => setTtsPlaying(false);
+      }
+    },
+  });
+
+  const playTTS = (text: string, lvl: string) => {
+    const character = getCharacterForLevel(lvl);
+    ttsMutation.mutate({ text, character, situation: "explaining" });
+  };
 
   const pickTwister = (lvl: keyof typeof LEVEL_CONFIG) => {
     const options = TONGUE_TWISTERS.filter(t => t.level === lvl);
@@ -114,8 +142,30 @@ export default function TongueTwisterChallenge() {
 
   const cfg = level ? LEVEL_CONFIG[level] : null;
 
+  // Show level selector first if no level config
+  if (!levelConfig && step === "select-level") {
+    return (
+      <LevelSelector
+        title="🌀 Tongue Twister Challenge"
+        subtitle="Choose your level to start the drinking game!"
+        onSelect={(cfg) => {
+          setLevelConfig(cfg);
+          // Map audience+level to game difficulty
+          const diffMap: Record<string, Record<string, keyof typeof LEVEL_CONFIG>> = {
+            kids: { beginner: "easy", intermediate: "easy", advanced: "medium", master: "medium" },
+            teens: { beginner: "easy", intermediate: "medium", advanced: "hard", master: "insane" },
+            adults: { beginner: "medium", intermediate: "hard", advanced: "hard", master: "insane" },
+          };
+          const gameDiff = diffMap[cfg.audience]?.[cfg.level] ?? "easy";
+          pickTwister(gameDiff);
+        }}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col" style={{ background: "linear-gradient(180deg, #0a1f0e 0%, #1a3a1e 100%)" }}>
+      <audio ref={ttsAudioRef} />
       {/* Header */}
       <div className="flex items-center gap-3 px-4 pt-6 pb-4">
         <button onClick={() => navigate("/events/hub")} className="text-gray-400 hover:text-white">
@@ -166,6 +216,24 @@ export default function TongueTwisterChallenge() {
               <p className="text-2xl font-bold text-white leading-relaxed mb-3">"{twister.text}"</p>
               <p className="text-xs text-gray-400">💡 {twister.tip}</p>
               {twister.irishTheme && <p className="text-xs text-green-400 mt-1">🍀 Tema irlandês!</p>}
+            </div>
+            {/* TTS Button */}
+            <div className="flex justify-center">
+              <Button
+                onClick={() => playTTS(twister.text, twister.level)}
+                disabled={ttsMutation.isPending || ttsPlaying}
+                size="sm"
+                variant="outline"
+                className="border-green-600 text-green-400 hover:bg-green-900/30 gap-2"
+              >
+                {ttsMutation.isPending ? (
+                  <><Loader2 size={14} className="animate-spin" /> Loading audio...</>
+                ) : ttsPlaying ? (
+                  <><Volume2 size={14} className="animate-pulse" /> Playing...</>
+                ) : (
+                  <><Volume2 size={14} /> 🔊 Hear it first!</>
+                )}
+              </Button>
             </div>
             <p className="text-center text-sm text-gray-400">Leia em voz alta 3 vezes e depois grave!</p>
             <Button

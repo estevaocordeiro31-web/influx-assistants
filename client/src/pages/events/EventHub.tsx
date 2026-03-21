@@ -136,6 +136,23 @@ export default function EventHub() {
           totalMissions={MISSIONS.length}
         />
 
+        {/* Intro button */}
+        <button
+          onClick={() => navigate("/events/intro")}
+          className="w-full mb-5 rounded-2xl p-4 flex items-center gap-3 text-left transition-all active:scale-95"
+          style={{ background: "linear-gradient(135deg, #1a4a2e, #2d6a4f)", border: "1.5px solid #40916c66" }}
+        >
+          <div className="flex -space-x-2">
+            <img src="/characters/lucas-usa.png" alt="Lucas" className="w-9 h-9 rounded-full border-2 border-green-700 object-cover object-top" />
+            <img src="/characters/emily-uk.jpg" alt="Emily" className="w-9 h-9 rounded-full border-2 border-green-700 object-cover object-top" />
+            <img src="/characters/aiko-australia.jpg" alt="Aiko" className="w-9 h-9 rounded-full border-2 border-green-700 object-cover object-top" />
+          </div>
+          <div className="flex-1">
+            <p className="text-white font-bold text-sm">☘️ What is St. Patrick's Day?</p>
+            <p className="text-green-300 text-xs">Lucas, Emily & Aiko explain — with audio! 🔊</p>
+          </div>
+          <span className="text-green-400 text-xl">▶</span>
+        </button>
         {/* Missions */}
         <h2 className="text-white font-bold text-base mb-3">Missões</h2>
         <div className="flex flex-col gap-3 mb-6">
