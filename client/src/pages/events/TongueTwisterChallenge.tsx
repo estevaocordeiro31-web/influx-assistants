@@ -39,6 +39,8 @@ export default function TongueTwisterChallenge() {
   const participantId = parseInt(localStorage.getItem("event_participant_id") ?? "0");
   const evaluateTwister = trpc.culturalEvents.evaluateTongueTwister.useMutation();
   const saveMission = trpc.culturalEvents.saveMissionProgress.useMutation();
+  const uploadAudio = trpc.culturalEvents.uploadEventAudio.useMutation();
+  const transcribeAudio = trpc.culturalEvents.transcribeEventAudio.useMutation();
   const ttsMutation = trpc.tts.speak.useMutation({
     onSuccess: (data) => {
       setTtsAudioUrl(data.audioUrl);
@@ -82,9 +84,27 @@ export default function TongueTwisterChallenge() {
       mr.ondataavailable = e => chunksRef.current.push(e.data);
       mr.onstop = async () => {
         stream.getTracks().forEach(t => t.stop());
-        // For live event: use text fallback with self-assessment
         setStep("evaluating");
-        await handleEvaluate(twister?.text ?? "");
+        try {
+          // 1. Montar blob do áudio gravado
+          const audioBlob = new Blob(chunksRef.current, { type: 'audio/webm' });
+          // 2. Converter para base64
+          const arrayBuffer = await audioBlob.arrayBuffer();
+          const uint8 = new Uint8Array(arrayBuffer);
+          let binary = '';
+          uint8.forEach(b => binary += String.fromCharCode(b));
+          const base64 = btoa(binary);
+          // 3. Upload para S3
+          const { url } = await uploadAudio.mutateAsync({ audioBase64: base64, mimeType: 'audio/webm' });
+          // 4. Transcrever com Whisper
+          const { text } = await transcribeAudio.mutateAsync({ audioUrl: url });
+          // 5. Avaliar com IA
+          await handleEvaluate(text || twister?.text || '');
+        } catch {
+          // Fallback: modo texto
+          setUseTextMode(true);
+          setStep('recording');
+        }
       };
       mr.start();
       mediaRecorderRef.current = mr;
