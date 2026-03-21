@@ -1,9 +1,9 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ChevronLeft, Music, Loader2, RefreshCw, Beer, CheckCircle2, XCircle } from "lucide-react";
+import { ChevronLeft, Music, Loader2, RefreshCw, Beer, CheckCircle2, XCircle, Volume2 } from "lucide-react";
 import { LYRICS_CHALLENGES, LYRICS_CATEGORIES, ENGLISH_FORFEITS, type LyricsChallenge } from "@/data/stpatricks/drinking-games";
 
 type GameStep = "select-category" | "playing" | "result";
@@ -25,6 +25,23 @@ export default function FinishTheLyrics() {
   const participantId = parseInt(localStorage.getItem("event_participant_id") ?? "0");
   const checkLyrics = trpc.culturalEvents.checkLyrics.useMutation();
   const saveMission = trpc.culturalEvents.saveMissionProgress.useMutation();
+  const ttsAudioRef = useRef<HTMLAudioElement | null>(null);
+  const [ttsPlaying, setTtsPlaying] = useState(false);
+  const ttsMutation = trpc.tts.speak.useMutation({
+    onSuccess: (data: { audioUrl: string }) => {
+      if (ttsAudioRef.current) {
+        ttsAudioRef.current.src = data.audioUrl;
+        ttsAudioRef.current.play().catch(() => {});
+        ttsAudioRef.current.onended = () => setTtsPlaying(false);
+        setTtsPlaying(true);
+      }
+    },
+  });
+  const handleListenVerse = () => {
+    if (!challenge) return;
+    const cleanVerse = challenge.verse.replace(/___/g, "...");
+    ttsMutation.mutate({ text: cleanVerse, character: "emily", situation: "explaining", preferredProvider: "google" });
+  };
 
   const pickChallenge = (cat: string) => {
     const pool = cat === "all" ? LYRICS_CHALLENGES : LYRICS_CHALLENGES.filter(l => l.category === cat);
@@ -137,6 +154,22 @@ export default function FinishTheLyrics() {
               </span>
             </div>
 
+            {/* Listen button */}
+            <button
+              onClick={handleListenVerse}
+              disabled={ttsMutation.isPending || ttsPlaying}
+              className="w-full flex items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-bold transition-all active:scale-95 disabled:opacity-50"
+              style={{ background: "rgba(59,130,246,0.15)", border: "1px solid rgba(59,130,246,0.3)", color: "#93c5fd" }}
+            >
+              {ttsMutation.isPending ? (
+                <><Loader2 size={14} className="animate-spin" /> Loading audio...</>
+              ) : ttsPlaying ? (
+                <><Volume2 size={14} className="animate-pulse" /> Playing with Emily...</>
+              ) : (
+                <><Volume2 size={14} /> 🇬🇧 Listen with Emily</>
+              )}
+            </button>
+            <audio ref={ttsAudioRef} />
             {/* Lyrics with blank */}
             <div className="rounded-2xl p-5" style={{ background: "rgba(0,0,0,0.4)", border: "1px solid #ffffff15" }}>
               <p className="text-lg text-white leading-relaxed font-medium italic text-center">
