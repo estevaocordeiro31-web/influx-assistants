@@ -72,6 +72,7 @@ import ReceptionTV from "./pages/events/ReceptionTV";
 import TeacherDashboard from "./pages/events/TeacherDashboard";
 import KidsHub from "./pages/events/KidsHub";
 import KidsTongueTwister from "./pages/events/KidsTongueTwister";
+import ClosingCeremony from "./pages/events/ClosingCeremony";
 import KidsWhoAmI from "./pages/events/KidsWhoAmI";
 import KidsSingAlong from "./pages/events/KidsSingAlong";
 
@@ -182,6 +183,7 @@ function Router() {
       <Route path="/events/leaderboard-tv" component={LeaderboardTV} />
       <Route path="/events/reception-tv" component={ReceptionTV} />
       <Route path="/events/teacher" component={TeacherDashboard} />
+      <Route path="/events/closing" component={ClosingCeremony} />
       <Route path="/events/kids" component={KidsHub} />
       <Route path="/events/kids/tongue-twister" component={KidsTongueTwister} />
       <Route path="/events/kids/who-am-i" component={KidsWhoAmI} />

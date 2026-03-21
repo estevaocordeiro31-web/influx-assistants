@@ -29,6 +29,7 @@ export default function TongueTwisterChallenge() {
   const [drinkVerdict, setDrinkVerdict] = useState("");
   const [textInput, setTextInput] = useState("");
   const [useTextMode, setUseTextMode] = useState(false);
+  const [processingStep, setProcessingStep] = useState<"uploading" | "transcribing" | "evaluating_ai" | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
 
@@ -95,15 +96,21 @@ export default function TongueTwisterChallenge() {
           uint8.forEach(b => binary += String.fromCharCode(b));
           const base64 = btoa(binary);
           // 3. Upload para S3
+          setProcessingStep('uploading');
           const { url } = await uploadAudio.mutateAsync({ audioBase64: base64, mimeType: 'audio/webm' });
           // 4. Transcrever com Whisper
+          setProcessingStep('transcribing');
           const { text } = await transcribeAudio.mutateAsync({ audioUrl: url });
           // 5. Avaliar com IA
+          setProcessingStep('evaluating_ai');
           await handleEvaluate(text || twister?.text || '');
         } catch {
           // Fallback: modo texto
+          setProcessingStep(null);
           setUseTextMode(true);
           setStep('recording');
+        } finally {
+          setProcessingStep(null);
         }
       };
       mr.start();
@@ -314,10 +321,66 @@ export default function TongueTwisterChallenge() {
 
         {/* EVALUATING */}
         {step === "evaluating" && (
-          <div className="flex flex-col items-center justify-center mt-16 gap-4">
-            <Loader2 size={48} className="animate-spin text-green-400" />
-            <p className="text-white font-semibold">A IA está avaliando sua pronúncia...</p>
-            <p className="text-xs text-gray-400">Aguenta firme! 🍀</p>
+          <div className="flex flex-col items-center justify-center mt-12 gap-6 px-4">
+            <Loader2 size={56} className="animate-spin text-green-400" />
+            <div className="w-full space-y-3">
+              {/* Step 1: Upload */}
+              <div className={`flex items-center gap-3 rounded-xl p-3 transition-all ${
+                processingStep === 'uploading' ? 'bg-green-900/40 border border-green-500/60' :
+                processingStep === 'transcribing' || processingStep === 'evaluating_ai' ? 'bg-gray-800/40 border border-gray-600/40 opacity-60' :
+                'bg-gray-800/20 border border-gray-700/30'
+              }`}>
+                {processingStep === 'uploading' ? (
+                  <Loader2 size={18} className="animate-spin text-green-400 shrink-0" />
+                ) : (processingStep === 'transcribing' || processingStep === 'evaluating_ai') ? (
+                  <div className="w-[18px] h-[18px] rounded-full bg-green-500 shrink-0 flex items-center justify-center">
+                    <span className="text-white text-xs">✓</span>
+                  </div>
+                ) : (
+                  <div className="w-[18px] h-[18px] rounded-full border-2 border-gray-600 shrink-0" />
+                )}
+                <div>
+                  <p className={`text-sm font-semibold ${processingStep === 'uploading' ? 'text-green-300' : 'text-gray-400'}`}>📤 Enviando áudio...</p>
+                  <p className="text-xs text-gray-500">Preparando para análise</p>
+                </div>
+              </div>
+              {/* Step 2: Transcribe */}
+              <div className={`flex items-center gap-3 rounded-xl p-3 transition-all ${
+                processingStep === 'transcribing' ? 'bg-blue-900/40 border border-blue-500/60' :
+                processingStep === 'evaluating_ai' ? 'bg-gray-800/40 border border-gray-600/40 opacity-60' :
+                'bg-gray-800/20 border border-gray-700/30'
+              }`}>
+                {processingStep === 'transcribing' ? (
+                  <Loader2 size={18} className="animate-spin text-blue-400 shrink-0" />
+                ) : processingStep === 'evaluating_ai' ? (
+                  <div className="w-[18px] h-[18px] rounded-full bg-blue-500 shrink-0 flex items-center justify-center">
+                    <span className="text-white text-xs">✓</span>
+                  </div>
+                ) : (
+                  <div className="w-[18px] h-[18px] rounded-full border-2 border-gray-600 shrink-0" />
+                )}
+                <div>
+                  <p className={`text-sm font-semibold ${processingStep === 'transcribing' ? 'text-blue-300' : 'text-gray-400'}`}>🎙️ Transcrevendo com Whisper AI...</p>
+                  <p className="text-xs text-gray-500">Reconhecendo seu inglês</p>
+                </div>
+              </div>
+              {/* Step 3: Evaluate */}
+              <div className={`flex items-center gap-3 rounded-xl p-3 transition-all ${
+                processingStep === 'evaluating_ai' ? 'bg-yellow-900/40 border border-yellow-500/60' :
+                'bg-gray-800/20 border border-gray-700/30'
+              }`}>
+                {processingStep === 'evaluating_ai' ? (
+                  <Loader2 size={18} className="animate-spin text-yellow-400 shrink-0" />
+                ) : (
+                  <div className="w-[18px] h-[18px] rounded-full border-2 border-gray-600 shrink-0" />
+                )}
+                <div>
+                  <p className={`text-sm font-semibold ${processingStep === 'evaluating_ai' ? 'text-yellow-300' : 'text-gray-400'}`}>🤖 IA avaliando pronúncia...</p>
+                  <p className="text-xs text-gray-500">Calculando seu score</p>
+                </div>
+              </div>
+            </div>
+            <p className="text-xs text-gray-500 text-center">Aguenta firme! 🍀 Isso pode levar alguns segundos...</p>
           </div>
         )}
 
