@@ -74,15 +74,73 @@ const TV_SCREENS = [
   { label: "☘️ Introdução", path: "/events/intro", desc: "Lucas, Emily e Aiko contam a história", color: "#a855f7" },
 ];
 
+const TEACHER_PIN = "456123";
+
 export default function TeacherDashboard() {
   const [, navigate] = useLocation();
+  const [pinInput, setPinInput] = useState("");
+  const [pinError, setPinError] = useState(false);
+  const [unlocked, setUnlocked] = useState(() => sessionStorage.getItem("teacher_unlocked") === "1");
   const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
   const [activeTab, setActiveTab] = useState<"timeline" | "tips" | "tv" | "stats">("timeline");
+
+  const handlePin = () => {
+    if (pinInput === TEACHER_PIN) {
+      sessionStorage.setItem("teacher_unlocked", "1");
+      setUnlocked(true);
+      setPinError(false);
+    } else {
+      setPinError(true);
+      setPinInput("");
+    }
+  };
 
   const { data: leaderboard, isLoading } = trpc.culturalEvents.getLeaderboard.useQuery(
     { eventId: "stpatricks_2026", limit: 10 },
     { refetchInterval: 10000 }
   );
+
+  const { data: eventStatus, refetch: refetchStatus } = trpc.culturalEvents.getEventStatus.useQuery(
+    { eventId: "stpatricks_2026" },
+    { refetchInterval: 5000 }
+  );
+
+  const { data: allParticipants } = trpc.culturalEvents.getAllParticipants.useQuery(
+    { eventId: "stpatricks_2026" }
+  );
+
+  const pauseMutation = trpc.culturalEvents.pauseEvent.useMutation({
+    onSuccess: () => refetchStatus(),
+  });
+
+  const isPaused = eventStatus?.paused ?? false;
+
+  const exportPDF = () => {
+    if (!allParticipants || allParticipants.length === 0) return;
+    const lines: string[] = [
+      "St. Patrick's Night 2026 — inFlux Jundiaí",
+      "Sexta-feira, 20 de Março de 2026",
+      "",
+      "RANKING FINAL",
+      "==============",
+      "",
+    ];
+    allParticipants.forEach((p) => {
+      const missions = Object.values(p.missionsCompleted as Record<string, boolean>).filter(Boolean).length;
+      lines.push(`${p.rank}. ${p.name} — ${p.totalPoints} pts — ${missions} missões`);
+      if (p.whatsapp) lines.push(`   WhatsApp: ${p.whatsapp}`);
+    });
+    lines.push("");
+    lines.push(`Total de participantes: ${allParticipants.length}`);
+    lines.push(`Total de pontos distribuídos: ${allParticipants.reduce((s, p) => s + p.totalPoints, 0)}`);
+    const blob = new Blob([lines.join("\n")], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "stpatricks-ranking-2026.txt";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
   const toggleStep = (i: number) => {
     setCompletedSteps(prev => {
@@ -91,6 +149,55 @@ export default function TeacherDashboard() {
       return next;
     });
   };
+
+  if (!unlocked) {
+    return (
+      <div
+        className="min-h-screen flex items-center justify-center px-6"
+        style={{ background: "linear-gradient(180deg, #0a0f1e 0%, #0d1f12 100%)" }}
+      >
+        <div className="w-full max-w-xs">
+          <div className="text-center mb-8">
+            <div className="text-6xl mb-4">👩‍🏫</div>
+            <h1 className="text-white font-black text-2xl">Teacher Dashboard</h1>
+            <p className="text-white/40 text-sm mt-1">St. Patrick's Night · inFlux Jundiaí</p>
+          </div>
+          <div
+            className="rounded-2xl p-6"
+            style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}
+          >
+            <p className="text-white/60 text-sm text-center mb-4">Digite o PIN de acesso</p>
+            <input
+              type="password"
+              inputMode="numeric"
+              maxLength={6}
+              value={pinInput}
+              onChange={e => { setPinInput(e.target.value); setPinError(false); }}
+              onKeyDown={e => e.key === "Enter" && handlePin()}
+              placeholder="••••••"
+              className="w-full h-14 rounded-xl text-center text-2xl font-black tracking-widest text-white outline-none mb-3"
+              style={{
+                background: "rgba(255,255,255,0.08)",
+                border: pinError ? "2px solid #ef4444" : "1px solid rgba(255,255,255,0.15)",
+                letterSpacing: "0.3em",
+              }}
+              autoFocus
+            />
+            {pinError && (
+              <p className="text-red-400 text-xs text-center mb-3">PIN incorreto. Tente novamente.</p>
+            )}
+            <Button
+              onClick={handlePin}
+              className="w-full h-12 rounded-xl font-black text-base"
+              style={{ background: "linear-gradient(135deg, #22c55e, #16a34a)" }}
+            >
+              Entrar ☘️
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -116,6 +223,38 @@ export default function TeacherDashboard() {
           <p className="text-white/40 text-xs mt-2">
             Sexta-feira, 20 de Março · 18h30 às 22h00
           </p>
+          {/* Pause + Export buttons */}
+          <div className="flex gap-2 mt-3">
+            <Button
+              onClick={() => pauseMutation.mutate({ eventId: "stpatricks_2026", paused: !isPaused })}
+              disabled={pauseMutation.isPending}
+              className="flex-1 h-10 rounded-xl font-bold text-sm"
+              style={{
+                background: isPaused
+                  ? "linear-gradient(135deg, #22c55e, #16a34a)"
+                  : "linear-gradient(135deg, #ef4444, #b91c1c)",
+              }}
+            >
+              {isPaused ? "▶️ Retomar Evento" : "⏸️ Pausar Evento"}
+            </Button>
+            <Button
+              onClick={exportPDF}
+              variant="outline"
+              className="h-10 px-4 rounded-xl border-yellow-400/30 text-yellow-400 font-bold text-sm"
+              style={{ background: "rgba(244,169,35,0.08)" }}
+            >
+              📄 Exportar
+            </Button>
+          </div>
+          {isPaused && (
+            <div
+              className="mt-2 rounded-xl p-3 text-center"
+              style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.3)" }}
+            >
+              <p className="text-red-400 font-bold text-sm">⏸️ EVENTO PAUSADO</p>
+              <p className="text-white/50 text-xs">Os alunos vêem uma mensagem de aguardar</p>
+            </div>
+          )}
         </div>
 
         {/* Quick stats */}

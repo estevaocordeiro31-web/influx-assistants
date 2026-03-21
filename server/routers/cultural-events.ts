@@ -398,4 +398,52 @@ Evaluate this response. Return JSON with:
       const raw = (response.choices[0]?.message?.content as string) ?? '{}';
       return JSON.parse(raw);
     }),
+
+  // Pause/resume event (teacher control) — uses a simple key-value in the event name field
+  pauseEvent: protectedProcedure
+    .input(z.object({ eventId: z.string(), paused: z.boolean() }))
+    .mutation(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new Error('DB not available');
+      // Store pause state in active field: false = paused, true = running
+      await db.update(culturalEvents)
+        .set({ active: !input.paused })
+        .where(eq(culturalEvents.id, input.eventId));
+      return { paused: input.paused };
+    }),
+
+  getEventStatus: publicProcedure
+    .input(z.object({ eventId: z.string() }))
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return { paused: false };
+      const rows = await db
+        .select({ active: culturalEvents.active })
+        .from(culturalEvents)
+        .where(eq(culturalEvents.id, input.eventId))
+        .limit(1);
+      const event = rows[0];
+      return { paused: event ? !event.active : false };
+    }),
+
+  // Get all participants for export
+  getAllParticipants: protectedProcedure
+    .input(z.object({ eventId: z.string() }))
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return [];
+      const rows = await db
+        .select()
+        .from(eventParticipants)
+        .where(eq(eventParticipants.eventId, input.eventId))
+        .orderBy(desc(eventParticipants.totalPoints));
+      return rows.map((r: typeof rows[0], i: number) => ({
+        rank: i + 1,
+        name: r.guestName ?? `Aluno #${r.userId}`,
+        whatsapp: r.guestWhatsapp ?? '',
+        totalPoints: r.totalPoints ?? 0,
+        missionsCompleted: r.missionsCompleted as Record<string, boolean> ?? {},
+        joinedAt: r.createdAt,
+      }));
+    }),
 });
