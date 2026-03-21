@@ -85,12 +85,11 @@ const DRINKING_GAMES = [
 
 export default function EventHub() {
   const [, navigate] = useLocation();
-  const participantId = parseInt(localStorage.getItem("event_participant_id") ?? "0");
-  const eventId = localStorage.getItem("event_id") ?? "";
-  const guestToken = localStorage.getItem("event_guest_token") ?? undefined;
-
-  // Get userId from auth context if available
-  const storedUserId = parseInt(localStorage.getItem("event_user_id") ?? "0") || undefined;
+  // Read localStorage once via useState initializer to avoid re-renders on every render
+  const [participantId] = useState(() => parseInt(localStorage.getItem("event_participant_id") ?? "0"));
+  const [eventId] = useState(() => localStorage.getItem("event_id") ?? "");
+  const [guestToken] = useState<string | undefined>(() => localStorage.getItem("event_guest_token") ?? undefined);
+  const [storedUserId] = useState<number | undefined>(() => parseInt(localStorage.getItem("event_user_id") ?? "0") || undefined);
 
   const { data: participant, isLoading } = trpc.culturalEvents.getParticipant.useQuery(
     { eventId: eventId || "stpatricks_2026", token: guestToken, userId: storedUserId },
@@ -106,7 +105,7 @@ export default function EventHub() {
     if (!participantId || !eventId) {
       navigate("/events");
     }
-  }, [participantId, eventId]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (isLoading) {
     return (

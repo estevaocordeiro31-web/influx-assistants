@@ -5,7 +5,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Loader2, Clover, Star, Users, Zap } from "lucide-react";
+import { Loader2, Clover, Star, Users, Zap, AlertCircle, RefreshCw } from "lucide-react";
 
 const LUCAS_IMG = 'https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/lucas-nyc_a016f4f1.jpg';
 const EMILY_IMG = 'https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/emily-london_de6867d2.jpg';
@@ -18,24 +18,30 @@ export default function EventLanding() {
   const [guestWhatsapp, setGuestWhatsapp] = useState("");
   const [step, setStep] = useState<"landing" | "guest-form">("landing");
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  const { data: event } = trpc.culturalEvents.getActive.useQuery();
+  const { data: event, isLoading: eventLoading, error: eventError, refetch } = trpc.culturalEvents.getActive.useQuery(
+    undefined,
+    { retry: 3, retryDelay: 1000 }
+  );
   const joinAsGuest = trpc.culturalEvents.joinAsGuest.useMutation();
   const joinAsStudent = trpc.culturalEvents.joinAsStudent.useMutation();
 
   const handleStudentJoin = async () => {
     if (!event) return;
     setLoading(true);
+    setErrorMsg(null);
     try {
       const result = await joinAsStudent.mutateAsync({ eventId: event.id });
       localStorage.setItem("event_participant_id", String(result.participantId));
       localStorage.setItem("event_id", event.id);
       if (user?.id) localStorage.setItem("event_user_id", String(user.id));
-      // Clear any old guest token
       localStorage.removeItem("event_guest_token");
       navigate("/events/hub");
-    } catch (e) {
+    } catch (e: unknown) {
       console.error(e);
+      const msg = e instanceof Error ? e.message : "Erro ao entrar no evento. Tente novamente.";
+      setErrorMsg(msg.includes("TRPC") || msg.includes("fetch") ? "Erro de conexão. Verifique sua internet e tente novamente." : msg);
     } finally {
       setLoading(false);
     }
@@ -44,6 +50,7 @@ export default function EventLanding() {
   const handleGuestJoin = async () => {
     if (!event || !guestName.trim()) return;
     setLoading(true);
+    setErrorMsg(null);
     try {
       const result = await joinAsGuest.mutateAsync({
         eventId: event.id,
@@ -54,14 +61,17 @@ export default function EventLanding() {
       localStorage.setItem("event_guest_token", result.token);
       localStorage.setItem("event_id", event.id);
       navigate("/events/hub");
-    } catch (e) {
+    } catch (e: unknown) {
       console.error(e);
+      const msg = e instanceof Error ? e.message : "Erro ao entrar no evento. Tente novamente.";
+      setErrorMsg(msg.includes("TRPC") || msg.includes("fetch") ? "Erro de conexão. Verifique sua internet e tente novamente." : msg);
     } finally {
       setLoading(false);
     }
   };
 
-  if (!event) {
+  // Loading state
+  if (eventLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: "#0a0f1e" }}>
         <div className="text-center">
@@ -72,14 +82,39 @@ export default function EventLanding() {
     );
   }
 
+  // Error loading event
+  if (eventError || !event) {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-6" style={{ background: "#0a0f1e" }}>
+        <div className="text-center max-w-xs">
+          <AlertCircle size={48} className="text-red-400 mx-auto mb-4" />
+          <p className="text-white text-lg font-bold mb-2">Não foi possível carregar o evento</p>
+          <p className="text-gray-400 text-sm mb-6">
+            {eventError ? "Erro de conexão. Verifique sua internet." : "Nenhum evento ativo no momento."}
+          </p>
+          {eventError && (
+            <Button
+              onClick={() => refetch()}
+              className="rounded-xl px-6"
+              style={{ background: "linear-gradient(135deg, #2d6a4f, #40916c)" }}
+            >
+              <RefreshCw size={16} className="mr-2" />
+              Tentar novamente
+            </Button>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col" style={{ background: "linear-gradient(180deg, #0a0f1e 0%, #0d1f12 100%)" }}>
       {/* Hero */}
       <div className="relative overflow-hidden pt-12 pb-8 px-6">
-        {/* Decorative shamrocks */}
-        <div className="absolute top-4 left-4 text-green-400 opacity-20 text-5xl">☘</div>
-        <div className="absolute top-8 right-6 text-green-400 opacity-15 text-3xl">☘</div>
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-green-400 opacity-10 text-7xl">☘</div>
+        {/* Decorative shamrocks - static, no Math.random */}
+        <div className="absolute top-4 left-4 text-green-400 opacity-20 text-5xl select-none pointer-events-none">☘</div>
+        <div className="absolute top-8 right-6 text-green-400 opacity-15 text-3xl select-none pointer-events-none">☘</div>
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-green-400 opacity-10 text-7xl select-none pointer-events-none">☘</div>
 
         <div className="relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-4 text-xs font-bold text-green-300"
@@ -108,6 +143,7 @@ export default function EventLanding() {
                   alt={c.name}
                   className="w-16 h-16 rounded-full object-cover border-2 shadow-lg"
                   style={{ borderColor: c.color }}
+                  loading="eager"
                 />
                 <span className="text-xs text-white font-semibold">{c.name} {c.flag}</span>
               </div>
@@ -134,6 +170,15 @@ export default function EventLanding() {
 
       {/* Join section */}
       <div className="flex-1 px-6 pb-10">
+        {/* Error message */}
+        {errorMsg && (
+          <div className="max-w-sm mx-auto mb-4 rounded-xl p-3 flex items-start gap-2"
+            style={{ background: "rgba(239,68,68,0.15)", border: "1px solid rgba(239,68,68,0.4)" }}>
+            <AlertCircle size={16} className="text-red-400 mt-0.5 shrink-0" />
+            <p className="text-red-300 text-sm">{errorMsg}</p>
+          </div>
+        )}
+
         {step === "landing" ? (
           <div className="flex flex-col gap-3 max-w-sm mx-auto">
             {isAuthenticated ? (
@@ -154,7 +199,7 @@ export default function EventLanding() {
                 </Button>
                 <Button
                   variant="outline"
-                  onClick={() => setStep("guest-form")}
+                  onClick={() => { setStep("guest-form"); setErrorMsg(null); }}
                   className="w-full h-12 text-sm rounded-xl border-gray-600 text-gray-300"
                 >
                   <Users size={16} className="mr-2" />
@@ -164,7 +209,7 @@ export default function EventLanding() {
             ) : (
               <>
                 <Button
-                  onClick={() => setStep("guest-form")}
+                  onClick={() => { setStep("guest-form"); setErrorMsg(null); }}
                   className="w-full h-14 text-base font-bold rounded-xl"
                   style={{ background: "linear-gradient(135deg, #2d6a4f, #40916c)" }}
                 >
@@ -181,7 +226,10 @@ export default function EventLanding() {
           </div>
         ) : (
           <div className="max-w-sm mx-auto">
-            <button onClick={() => setStep("landing")} className="text-gray-400 text-sm mb-4 flex items-center gap-1">
+            <button
+              onClick={() => { setStep("landing"); setErrorMsg(null); }}
+              className="text-gray-400 text-sm mb-4 flex items-center gap-1"
+            >
               ← Voltar
             </button>
             <h2 className="text-xl font-bold text-white mb-4">Criar seu perfil</h2>
@@ -190,10 +238,12 @@ export default function EventLanding() {
                 <Label className="text-gray-300 text-sm mb-1 block">Seu nome *</Label>
                 <Input
                   value={guestName}
-                  onChange={e => setGuestName(e.target.value)}
+                  onChange={e => { setGuestName(e.target.value); setErrorMsg(null); }}
                   placeholder="Como você se chama?"
                   className="bg-gray-800 border-gray-600 text-white"
                   maxLength={60}
+                  autoComplete="given-name"
+                  autoFocus
                 />
               </div>
               <div>
@@ -204,6 +254,7 @@ export default function EventLanding() {
                   placeholder="(11) 99999-9999"
                   className="bg-gray-800 border-gray-600 text-white"
                   type="tel"
+                  autoComplete="tel"
                 />
                 <p className="text-xs text-gray-500 mt-1">Para receber seu resultado e conhecer mais sobre a inFlux</p>
               </div>
@@ -214,7 +265,7 @@ export default function EventLanding() {
                 style={{ background: "linear-gradient(135deg, #2d6a4f, #40916c)" }}
               >
                 {loading ? <Loader2 size={18} className="animate-spin mr-2" /> : <Star size={18} className="mr-2" />}
-                Começar as Missões!
+                {loading ? "Entrando..." : "Começar as Missões!"}
               </Button>
             </div>
           </div>
