@@ -1,0 +1,70 @@
+{
+  "query": "SELECT id, name, email, role FROM users LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T8Mwbb7L99VC4H.e93aa651f00b --database 2aNFQGA4rARocXGp2d4pqb --execute SELECT id, name, email, role FROM users LIMIT 10;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "Estevao Cordeiro",
+      "email": "estevaocordeiro31@gmail.com",
+      "role": "admin"
+    },
+    {
+      "id": "390029",
+      "name": "Fabio",
+      "email": "fabio_hk@hotmail.com",
+      "role": "student"
+    },
+    {
+      "id": "390046",
+      "name": "Adm inFlux",
+      "email": "direcaojundiairetiro@influx.com.br",
+      "role": "admin"
+    },
+    {
+      "id": "390047",
+      "name": "direcaojundiairetiro",
+      "email": "direcaojundiairetiro@influx.com.br",
+      "role": "user"
+    },
+    {
+      "id": "390067",
+      "name": "direcaojundiairetiro",
+      "email": "direcaojundiairetiro@influx.com.br",
+      "role": "user"
+    },
+    {
+      "id": "390074",
+      "name": "João Silva",
+      "email": "joao@example.com",
+      "role": "student"
+    },
+    {
+      "id": "390075",
+      "name": "Maria Santos",
+      "email": "maria@example.com",
+      "role": "student"
+    },
+    {
+      "id": "390076",
+      "name": "Pedro Costa",
+      "email": "pedro@example.com",
+      "role": "student"
+    },
+    {
+      "id": "390077",
+      "name": "Fabio Hk",
+      "email": "fabio_hk@hotmail.com",
+      "role": "student"
+    },
+    {
+      "id": "390195",
+      "name": "Laís Milena Gambini",
+      "email": "lais.gambini@example.com",
+      "role": "user"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\temail\trole\n1\tEstevao Cordeiro\testevaocordeiro31@gmail.com\tadmin\n390029\tFabio\tfabio_hk@hotmail.com\tstudent\n390046\tAdm inFlux\tdirecaojundiairetiro@influx.com.br\tadmin\n390047\tdirecaojundiairetiro\tdirecaojundiairetiro@influx.com.br\tuser\n390067\tdirecaojundiairetiro\tdirecaojundiairetiro@influx.com.br\tuser\n390074\tJoão Silva\tjoao@example.com\tstudent\n390075\tMaria Santos\tmaria@example.com\tstudent\n390076\tPedro Costa\tpedro@example.com\tstudent\n390077\tFabio Hk\tfabio_hk@hotmail.com\tstudent\n390195\tLaís Milena Gambini\tlais.gambini@example.com\tuser\n",
+  "stderr": "",
+  "execution_time_ms": 490
+}
