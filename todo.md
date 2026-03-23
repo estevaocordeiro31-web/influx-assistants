@@ -186,3 +186,8 @@
 - [x] Gerar relatório completo de funcionalidades e rotas
 - [x] Plano de redesenho da experiência do aluno
 - [x] Templates customizáveis para a jornada do aluno (planejados no relatório)
+
+## Fase 205: VÍDEO DE BOAS-VINDAS DA MISS ELIE
+- [x] Criar componente WelcomeVideoModal com vídeo em tela cheia e botão Pular
+- [x] Integrar WelcomeVideoModal no StudentDashboard (apenas no primeiro acesso)
+- [x] Salvar flag de "vídeo já assistido" no localStorage para não repetir

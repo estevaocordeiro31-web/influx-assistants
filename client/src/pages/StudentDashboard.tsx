@@ -19,6 +19,7 @@ import { trpc } from "@/lib/trpc";
 import { NotificationBadge } from "@/components/NotificationBadge";
 import { useNotifications } from "@/hooks/useNotifications";
 import { OnboardingTutorial } from "@/components/OnboardingTutorial";
+import { WelcomeVideoModal, hasSeenWelcomeVideo } from "@/components/WelcomeVideoModal";
 import { LeaderboardWidget } from "@/components/LeaderboardWidget";
 import { StudentCalendar } from "@/components/StudentCalendar";
 import { StudentMessages } from "@/components/StudentMessages";
@@ -76,17 +77,35 @@ export default function StudentDashboard() {
   const [, setLocation] = useLocation();
   const { notifications, clearNotification } = useNotifications();
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [showWelcomeVideo, setShowWelcomeVideo] = useState(false);
   const { status, message, setSyncing, setSyncSuccess, setSyncError } = useSyncStatus();
 
   // Verificar se é o primeiro acesso do usuário
   useEffect(() => {
     if (isAuthenticated && user) {
+      // Mostrar vídeo de boas-vindas ANTES do onboarding (apenas uma vez)
+      if (!hasSeenWelcomeVideo()) {
+        setShowWelcomeVideo(true);
+        return; // Onboarding será exibido após o vídeo
+      }
       const hasSeenOnboarding = localStorage.getItem(`onboarding_completed_${user.id}`);
       if (!hasSeenOnboarding) {
         setShowOnboarding(true);
       }
     }
   }, [isAuthenticated, user]);
+
+  const handleWelcomeVideoClose = () => {
+    setShowWelcomeVideo(false);
+    // Após o vídeo, verificar se deve mostrar o onboarding
+    if (user) {
+      const hasSeenOnboarding = localStorage.getItem(`onboarding_completed_${user.id}`);
+      if (!hasSeenOnboarding) {
+        // Pequeno delay para transição suave
+        setTimeout(() => setShowOnboarding(true), 400);
+      }
+    }
+  };
 
   const handleOnboardingComplete = () => {
     if (user) {
@@ -156,6 +175,11 @@ export default function StudentDashboard() {
     <div className="min-h-screen safe-area-bottom" style={{ background: theme.headerBg }}>
       <InfluxHeader />
       
+      {/* Vídeo de Boas-vindas — apenas no primeiro acesso */}
+      {showWelcomeVideo && (
+        <WelcomeVideoModal onClose={handleWelcomeVideoClose} />
+      )}
+
       {/* Tutorial de Onboarding */}
       {showOnboarding && (
         <OnboardingTutorial onComplete={handleOnboardingComplete} />
