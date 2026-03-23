@@ -297,20 +297,20 @@ export default function StudentDashboard() {
               <div className="flex items-center gap-3 sm:gap-4">
                 <div className="relative">
                   <img 
-                    src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/UpLMiMaLftZmSfqa.png" 
-                    alt="Fluxie Tech Tutor" 
+                    src="https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/miss-elie-uniform-avatar_17347370.jpg" 
+                    alt="Miss Elie - Tutora IA" 
                     loading="lazy"
-                    className="w-16 h-16 sm:w-20 sm:h-20 object-contain rounded-xl"
+                    className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-full border-2 border-green-500/60"
                   />
                   {/* Neon glow around image */}
-                  <div className="absolute inset-0 rounded-xl bg-green-500/20 blur-md -z-10" />
+                  <div className="absolute inset-0 rounded-full bg-green-500/20 blur-md -z-10" />
                 </div>
                 <div className="text-left">
                   <h3 className="text-lg sm:text-2xl font-bold text-white flex items-center gap-2">
                     Meu Tutor
                     <span className="text-xs sm:text-sm bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full border border-green-500/30">AI</span>
                   </h3>
-                  <p className="text-slate-400 text-xs sm:text-sm">Fluxie • Vacation Plus • Materiais</p>
+                  <p className="text-slate-400 text-xs sm:text-sm">Miss Elie • Vacation Plus • Materiais</p>
                 </div>
               </div>
               <div className="hidden sm:block text-right">
@@ -576,7 +576,7 @@ export default function StudentDashboard() {
               <CardHeader className="p-3 sm:p-6">
                 <CardTitle className="text-white flex items-center gap-2 text-base sm:text-lg">
                   <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
-                  Chat com Fluxie
+                  Chat com Miss Elie
                 </CardTitle>
                 <CardDescription className="text-slate-400 text-xs sm:text-sm">
                   Seu assistente pessoal de inglês
@@ -584,11 +584,11 @@ export default function StudentDashboard() {
               </CardHeader>
               <CardContent className="space-y-3 sm:space-y-4 p-3 sm:p-6 pt-0">
                 <div className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl border border-blue-500/30">
-                  <img src="/fluxie-waving.png" alt="Fluxie" className="w-12 h-12 sm:w-16 sm:h-16 object-contain" />
+                  <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/miss-elie-uniform-teaching-2_17347370.jpg" alt="Miss Elie" className="w-12 h-12 sm:w-20 sm:h-20 object-cover rounded-xl border border-blue-400/40 shadow-lg shadow-blue-500/20 flex-shrink-0" />
                   <div>
-                    <h3 className="text-white font-bold text-sm sm:text-lg mb-1">Olá! Sou o Fluxie! 👋</h3>
+                    <h3 className="text-white font-bold text-sm sm:text-lg mb-1">Olá! Sou a Elie! 👋</h3>
                     <p className="text-slate-300 text-xs sm:text-sm">
-                      Como você está no Book 5, posso ajudar com expressões avançadas e prática de conversação!
+                      Como você está no Book 5, posso ajudar com expressões avançadas e prática de conversáo!
                     </p>
                   </div>
                 </div>

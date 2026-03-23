@@ -68,8 +68,7 @@ export default function Login() {
         <div className="relative z-10 flex flex-col justify-between p-12 w-full">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <img src="/logo-influx.png" alt="inFlux" className="h-9 object-contain drop-shadow-lg"
-              onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+            <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/influx-logo_17347370.jpeg" alt="inFlux" className="h-9 w-9 object-cover rounded-lg drop-shadow-lg" />
             <span className="text-white font-black text-xl tracking-tight">inFlux</span>
           </div>
 
@@ -107,8 +106,7 @@ export default function Login() {
 
           {/* Mobile logo */}
           <div className="flex lg:hidden items-center justify-center gap-2 mb-8">
-            <img src="/logo-influx.png" alt="inFlux" className="h-8 object-contain"
-              onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+            <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/influx-logo_17347370.jpeg" alt="inFlux" className="h-8 w-8 object-cover rounded-md" />
             <span className="text-white font-black text-lg">inFlux</span>
           </div>
 

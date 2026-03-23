@@ -536,16 +536,16 @@ export default function Chat() {
           </Button>
 
           <div className="relative">
-            <img src="/fluxie-chat.png" alt="Fluxie"
-              className="w-12 h-12 rounded-full border-2 border-green-500 shadow-lg shadow-green-500/20" />
+            <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/miss-elie-uniform-avatar_17347370.jpg" alt="Miss Elie"
+              className="w-12 h-12 rounded-full border-2 border-green-500 shadow-lg shadow-green-500/20 object-cover" />
             <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-slate-800 flex items-center justify-center">
               <Sparkles className="w-2 h-2 text-white" />
             </div>
           </div>
 
           <div className="flex-1">
-            <h1 className="text-xl font-bold text-white flex items-center gap-2">
-              Fluxie
+                <h1 className="text-xl font-bold text-white flex items-center gap-2">
+              Miss Elie
               <span className="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full">AI Tutor</span>
             </h1>
             <p className="text-sm text-slate-400">{studentData.currentBook} • {studentData.currentUnit}</p>
@@ -602,7 +602,7 @@ export default function Chat() {
             {messages.length === 0 ? (
               /* Welcome screen */
               <div className="flex flex-col items-center justify-center h-full text-center">
-                <img src="/fluxie-chat.png" alt="Fluxie" className="w-32 h-32 mb-6 drop-shadow-2xl" />
+                <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/miss-elie-uniform-teaching-2_17347370.jpg" alt="Miss Elie" className="w-32 h-32 mb-6 drop-shadow-2xl rounded-2xl object-cover border-2 border-green-500/40 shadow-xl shadow-green-500/20" />
                 <h2 className="text-2xl font-bold text-white mb-2">Hey, {studentData.name}! 👋</h2>
                 <p className="text-slate-400 mb-2 max-w-md">
                   Sou seu tutor pessoal de inglês. Vou te ajudar a aprender usando
@@ -663,8 +663,8 @@ export default function Chat() {
                     <div className={`flex gap-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
                       {/* Fluxie avatar */}
                       {msg.role === "assistant" && (
-                        <img src="/fluxie-chat.png" alt="Fluxie"
-                          className="w-8 h-8 rounded-full border border-green-500/50 flex-shrink-0 mt-1" />
+                        <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/miss-elie-uniform-avatar_17347370.jpg" alt="Miss Elie"
+                          className="w-8 h-8 rounded-full border border-green-500/50 flex-shrink-0 mt-1 object-cover" />
                       )}
 
                       <div className={`max-w-[75%] px-4 py-3 rounded-2xl ${
@@ -721,8 +721,8 @@ export default function Chat() {
                 {/* Typing indicator */}
                 {(loading || audioProcessing) && (
                   <div className="flex gap-3 justify-start">
-                    <img src="/fluxie-chat.png" alt="Fluxie"
-                      className="w-8 h-8 rounded-full border border-green-500/50 flex-shrink-0 mt-1 animate-pulse" />
+                    <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/miss-elie-uniform-avatar_17347370.jpg" alt="Miss Elie"
+                      className="w-8 h-8 rounded-full border border-green-500/50 flex-shrink-0 mt-1 animate-pulse object-cover" />
                     <div className="bg-slate-700/80 text-slate-100 px-4 py-3 rounded-2xl rounded-bl-md border border-slate-600">
                       <div className="flex items-center gap-2">
                         {audioProcessing ? (
