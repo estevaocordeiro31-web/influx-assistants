@@ -5,6 +5,12 @@
  * 
  * VOZES DOS PERSONAGENS:
  * 
+ * MISS ELIE - Tutora Pessoal de IA 🎓
+ *    - Voz: "Elie" (mmhTWXIU9zlmbfIMh4y0)
+ *    - Modelo: eleven_multilingual_v2
+ *    - Velocidade: 1.0 (natural, energética)
+ *    - Estilo: Encorajadora, direta, calorosa
+ * 
  * LUCAS - Nova York, EUA 🇺🇸
  *    - Voz: "Adam - Dominant, Firm" (pNInz6obpgDQGcFmaJgB)
  *    - Velocidade: 1.0 (normal, ritmo nova-iorquino)
@@ -29,7 +35,7 @@ import { ENV } from "./env";
 export type TTSProvider = "openai" | "elevenlabs" | "google";
 
 export interface CharacterVoice {
-  id: "lucas" | "emily" | "aiko";
+  id: "lucas" | "emily" | "aiko" | "elie";
   name: string;
   nationality: string;
   city: string;
@@ -50,7 +56,7 @@ export interface CharacterVoice {
 
 export interface SpeechOptions {
   text: string;
-  character: "lucas" | "emily" | "aiko";
+  character: "lucas" | "emily" | "aiko" | "elie";
   situation?: "greeting" | "explaining" | "excited" | "casual" | "formal";
   preferredProvider?: TTSProvider;
 }
@@ -68,6 +74,9 @@ export interface SpeechError {
   code: string;
   provider?: TTSProvider;
 }
+
+// Voice ID dedicado da Miss Elie (tutora pessoal)
+export const ELIE_VOICE_ID = "mmhTWXIU9zlmbfIMh4y0";
 
 export const CHARACTER_VOICES: Record<string, CharacterVoice> = {
   lucas: {
@@ -113,6 +122,28 @@ export const CHARACTER_VOICES: Record<string, CharacterVoice> = {
     ],
     expressions: ["Lovely!", "Brilliant!", "Quite right!", "How delightful!"],
     preferredProvider: "elevenlabs", // ElevenLabs para melhor qualidade
+  },
+  elie: {
+    id: "elie",
+    name: "Miss Elie",
+    nationality: "American",
+    city: "inFlux School",
+    country: "Brazil",
+    flag: "🎓",
+    openaiVoice: "nova",
+    elevenlabsVoice: "mmhTWXIU9zlmbfIMh4y0", // Elie - Personal AI Tutor
+    googleVoice: "en-US-Wavenet-F",
+    speed: 1.0,
+    accent: "American English",
+    style: "Encouraging, direct, warm",
+    characteristics: [
+      "Clear American English pronunciation",
+      "Energetic and motivating tone",
+      "Natural connected speech",
+      "Adapts to student level",
+    ],
+    expressions: ["Let's do this!", "You're doing great!", "Welcome to the future!", "Let's make it happen!"],
+    preferredProvider: "elevenlabs",
   },
   aiko: {
     id: "aiko",
@@ -485,7 +516,7 @@ export async function generateSpeech(
 // ============================================
 export async function generateDialogue(
   lines: Array<{
-    character: "lucas" | "emily" | "aiko";
+    character: "lucas" | "emily" | "aiko" | "elie";
     text: string;
     situation?: "greeting" | "explaining" | "excited" | "casual" | "formal";
   }>

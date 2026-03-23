@@ -19,7 +19,7 @@ import {
 import { storagePut } from "../storage";
 import { TRPCError } from "@trpc/server";
 
-const characterSchema = z.enum(["lucas", "emily", "aiko"]);
+const characterSchema = z.enum(["lucas", "emily", "aiko", "elie"]);
 const situationSchema = z.enum(["greeting", "explaining", "excited", "casual", "formal"]).optional();
 const providerSchema = z.enum(["openai", "elevenlabs", "google"]).optional();
 
