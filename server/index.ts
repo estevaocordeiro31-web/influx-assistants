@@ -1,16 +1,24 @@
 import "dotenv/config";
+
+process.on('uncaughtException', (err) => {
+  console.error('[Server] Uncaught Exception:', err);
+});
+process.on('unhandledRejection', (reason) => {
+  console.error('[Server] Unhandled Rejection:', reason);
+});
+
 import express from "express";
 import { createServer } from "http";
 import net from "net";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
-import { registerOAuthRoutes } from "./oauth";
-import { registerTestLoginRoutes } from "./test-login";
-import { registerDirectLoginRoutes } from "./direct-login-native";
+import { registerOAuthRoutes } from "./_core/oauth";
+import { registerTestLoginRoutes } from "./routers/test-login";
+import { registerDirectLoginRoutes } from "./routers/direct-login-native";
 import { appRouter } from "../routers";
-import { createContext } from "./context";
-import { serveStatic, setupVite } from "./vite";
-import { initializeJobs } from "./init-jobs";
-import { handleWebhook, webhookHealthCheck } from "./webhook-handler";
+import { createContext } from "./_core/context";
+import { serveStatic, setupVite } from "./_core/vite";
+import { initializeJobs } from "./_core/init-jobs";
+import { handleWebhook, webhookHealthCheck } from "./routers/webhook-handler";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -34,19 +42,20 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
 async function startServer() {
   const app = express();
   const server = createServer(app);
-  // Configure body parser with larger size limit for file uploads
+
+  // Trust Nginx reverse proxy
+  app.set('trust proxy', 1);
+
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
-  // OAuth callback under /api/oauth/callback
+
   registerOAuthRoutes(app);
-  // Test login routes (development only)
   registerTestLoginRoutes(app);
-  // Direct login routes (native Express)
   registerDirectLoginRoutes(app);
-  // Webhook routes
+
   app.post("/api/webhooks/sync", handleWebhook);
   app.get("/api/webhooks/health", webhookHealthCheck);
-  // tRPC API
+
   app.use(
     "/api/trpc",
     createExpressMiddleware({
@@ -54,7 +63,7 @@ async function startServer() {
       createContext,
     })
   );
-  // development mode uses Vite, production mode uses static files
+
   if (process.env.NODE_ENV === "development") {
     await setupVite(app, server);
   } else {
@@ -69,9 +78,7 @@ async function startServer() {
   }
 
   server.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}/`);
-    
-    // Inicializar jobs em background
+    console.log(`[Tutor] Server running on http://localhost:${port}/`);
     initializeJobs();
   });
 }
