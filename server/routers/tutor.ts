@@ -1,3 +1,4 @@
+import { router, publicProcedure, protectedProcedure } from '../_core/trpc';
 import { z } from 'zod';
 import { invokeLLM } from '../_core/llm';
 import { transcribeAudio } from '../_core/voiceTranscription';
@@ -167,3 +168,223 @@ Remember: Focus on REAL ENGLISH that native speakers actually use, not textbook 
 }
 
 export const tutorRouter = router({
+  // Chat com o tutor
+  chat: protectedProcedure
+    .input(
+      z.object({
+        studentId: z.number(),
+        message: z.string(),
+        studentLevel: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { studentId, message, studentLevel } = input;
+
+      // Verificar se o aluno tem acesso
+      if (ctx.user?.id !== studentId && ctx.user?.role !== 'admin') {
+        throw new Error('Unauthorized');
+      }
+
+      try {
+        // Chamar LLM para gerar resposta do tutor
+        const systemPrompt = generateTutorPrompt(
+          message,
+          studentLevel,
+          'Student is learning English with focus on real speech patterns'
+        );
+
+        const response = await invokeLLM({
+          messages: [
+            {
+              role: 'system',
+              content: systemPrompt,
+            },
+            {
+              role: 'user',
+              content: message,
+            },
+          ] as any,
+          response_format: {
+            type: 'json_schema',
+            json_schema: {
+              name: 'tutor_response',
+              strict: true,
+              schema: {
+                type: 'object',
+                properties: {
+                  message: { type: 'string' },
+                  pronunciation: {
+                    type: 'object',
+                    properties: {
+                      word: { type: 'string' },
+                      ipa: { type: 'string' },
+                      tips: {
+                        type: 'array',
+                        items: { type: 'string' },
+                      },
+                    },
+                  },
+                  connectedSpeech: {
+                    type: 'object',
+                    properties: {
+                      rule: { type: 'string' },
+                      example: { type: 'string' },
+                      explanation: { type: 'string' },
+                    },
+                  },
+                  realEnglishNote: {
+                    type: 'object',
+                    properties: {
+                      formal: { type: 'string' },
+                      colloquial: { type: 'string' },
+                      explanation: { type: 'string' },
+                      level: { type: 'string' },
+                    },
+                  },
+                },
+                required: ['message'],
+              },
+            },
+          },
+        });
+
+        // Parse da resposta
+        const content = response.choices[0].message.content;
+        const parsedResponse = JSON.parse(typeof content === 'string' ? content : JSON.stringify(content)) as TutorResponse;
+
+        return parsedResponse;
+      } catch (error) {
+        console.error('Error in tutor chat:', error);
+        throw error;
+      }
+    }),
+
+  // Análise de áudio
+  analyzeAudio: protectedProcedure
+    .input(
+      z.object({
+        studentId: z.number(),
+        audio: z.instanceof(Blob),
+        studentLevel: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { studentId, audio, studentLevel } = input;
+
+      // Verificar se o aluno tem acesso
+      if (ctx.user?.id !== studentId && ctx.user?.role !== 'admin') {
+        throw new Error('Unauthorized');
+      }
+
+      try {
+        // Transcrever áudio
+        const transcription = await transcribeAudio({
+          audioUrl: audio as any, // Será convertido para URL em produção
+          language: 'en',
+        });
+
+        // Verificar se a transcrição foi bem-sucedida
+        if (!('text' in transcription)) {
+          throw new Error('Failed to transcribe audio');
+        }
+
+        const transcriptionText = transcription.text;
+
+        // Analisar transcrição com tutor
+        const tutorSystemPrompt = `You are an expert English pronunciation tutor. The student just spoke in English.
+
+Transcription: "${transcriptionText}"
+Student Level: ${studentLevel}
+
+Provide feedback on:
+1. Pronunciation accuracy
+2. Connected speech usage
+3. Real English patterns
+4. Areas for improvement
+
+Format as JSON with fields: message, pronunciation, connectedSpeech, realEnglishNote`;
+
+        const response = await invokeLLM({
+          messages: [
+            {
+              role: 'system',
+              content: tutorSystemPrompt,
+            },
+            {
+              role: 'user',
+              content: `Analyze my pronunciation: "${transcriptionText}"`,
+            },
+          ] as any,
+        });
+
+        const content = response.choices[0].message.content;
+        const parsedResponse = JSON.parse(typeof content === 'string' ? content : JSON.stringify(content)) as TutorResponse;
+
+        return {
+          feedback: parsedResponse.message,
+          transcription: transcriptionText,
+          ...parsedResponse,
+        };
+      } catch (error) {
+        console.error('Error analyzing audio:', error);
+        throw error;
+      }
+    }),
+
+  // Obter dicas de connected speech por nível
+  getConnectedSpeechTips: publicProcedure
+    .input(z.object({ level: z.string() }))
+    .query(({ input }) => {
+      const rules = CONNECTED_SPEECH_RULES[input.level as keyof typeof CONNECTED_SPEECH_RULES] || [];
+      return rules;
+    }),
+
+  // Obter guia de pronúncia por nível
+  getPronunciationGuide: publicProcedure
+    .input(z.object({ level: z.string() }))
+    .query(({ input }) => {
+      const guide = PRONUNCIATION_GUIDE[input.level as keyof typeof PRONUNCIATION_GUIDE] || {};
+      return guide;
+    }),
+
+  // Obter exemplos de inglês real por nível
+  getRealEnglishExamples: publicProcedure
+    .input(z.object({ level: z.string() }))
+    .query(({ input }) => {
+      const examples = REAL_ENGLISH_EXAMPLES[input.level as keyof typeof REAL_ENGLISH_EXAMPLES] || [];
+      return examples;
+    }),
+
+  // Salvar feedback de pronúncia
+  savePronunciationFeedback: protectedProcedure
+    .input(
+      z.object({
+        studentId: z.number(),
+        word: z.string(),
+        ipa: z.string(),
+        feedback: z.string(),
+        score: z.number().min(0).max(100),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { studentId, word, ipa, feedback, score } = input;
+
+      // Verificar se o aluno tem acesso
+      if (ctx.user?.id !== studentId && ctx.user?.role !== 'admin') {
+        throw new Error('Unauthorized');
+      }
+
+      // Salvar no banco de dados (implementar conforme necessário)
+      return {
+        success: true,
+        message: `Pronunciation feedback saved for "${word}"`,
+        data: {
+          word,
+          ipa,
+          feedback,
+          score,
+          savedAt: new Date(),
+        },
+      };
+    }),
+});

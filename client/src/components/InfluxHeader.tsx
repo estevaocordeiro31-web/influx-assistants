@@ -36,11 +36,11 @@ export default function InfluxHeader({ onOpenTutorial }: InfluxHeaderProps = {})
     <header className="bg-slate-900/95 backdrop-blur border-b border-slate-800 text-white sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
         {/* Logo e Marca */}
-        <div className="flex items-center gap-3 cursor-pointer" onClick={() => setLocation("/student/dashboard")}>
+        <div className="flex items-center gap-4 cursor-pointer" onClick={() => setLocation("/student/dashboard")}>
           <img
-            src="https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/influx-logo_17347370.jpeg"
-            alt="inFlux"
-            className="w-10 h-10 rounded-lg object-cover border border-green-500/30"
+            src="/fluxie-chat.png"
+            alt="Fluxie - inFlux Mascot"
+            className="w-10 h-10 rounded-full object-cover"
           />
           <div className="hidden sm:block">
             <h1 className="text-lg font-bold text-white">inFlux <span className="text-green-400">Personal Tutor</span></h1>

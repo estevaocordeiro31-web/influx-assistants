@@ -180,7 +180,7 @@ export function MeuTutorTab({ studentData }: MeuTutorTabProps) {
           <Card className="bg-slate-800/50 border-slate-700">
             <CardContent className="py-6">
               <div className="text-center">
-                <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/miss-elie-uniform-avatar_17347370.jpg" alt="Miss Elie" loading="lazy" className="w-20 h-20 mx-auto mb-3 rounded-full object-cover border-2 border-orange-500/40" />
+                <img src="/fluxie-learning.png" alt="Fluxie" className="w-20 h-20 mx-auto mb-3" />
                 <p className="text-slate-300 mb-4">Explore mais dicas do blog para complementar seus estudos</p>
                 <Button className="bg-orange-500 hover:bg-orange-600 text-white font-bold">
                   <BookOpen className="w-4 h-4 mr-2" />

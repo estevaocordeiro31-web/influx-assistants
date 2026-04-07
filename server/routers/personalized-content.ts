@@ -1,3 +1,4 @@
+import { router, protectedProcedure } from "../_core/trpc";
 import { z } from "zod";
 import { getDb } from "../db";
 import { chunks, studentProfiles } from "../../drizzle/schema";
@@ -147,3 +148,79 @@ export const personalizedContentRouter = router({
           "Pratique conversação sobre tópicos variados",
           "Assista a filmes com legendas em inglês",
           "Aprenda phrasal verbs e expressões idiomáticas",
+        ],
+        upper_intermediate: [
+          "Leia livros em inglês",
+          "Pratique conversação sobre tópicos complexos",
+          "Assista a podcasts e documentários em inglês",
+          "Aprenda nuances de pronúncia e sotaque",
+        ],
+        advanced: [
+          "Leia literatura clássica em inglês",
+          "Pratique discussões profundas sobre temas complexos",
+          "Assista a conferências e palestras em inglês",
+          "Melhore sua pronúncia e sotaque natural",
+        ],
+      };
+
+      return {
+        level,
+        book,
+        suggestions: suggestions[level as keyof typeof suggestions] || [],
+        hoursLearned: student.totalHoursLearned,
+        streakDays: student.streakDays,
+        message: `Você está no nível ${level} (Book ${book}). Continue praticando!`,
+      };
+    }),
+
+  // Obter estatísticas de progresso
+  getProgressStats: protectedProcedure
+    .query(async ({ ctx }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database connection failed");
+
+      const profile = await db
+        .select()
+        .from(studentProfiles)
+        .where(eq(studentProfiles.userId, ctx.user.id))
+        .limit(1);
+
+      const student = profile[0];
+      if (!student) {
+        return {
+          level: "beginner",
+          book: 1,
+          hoursLearned: 0,
+          streakDays: 0,
+          nextMilestone: "Complete 5 horas de estudo",
+        };
+      }
+
+      const level = student.currentLevel || "beginner";
+      const book = LEVEL_TO_BOOK[level as keyof typeof LEVEL_TO_BOOK];
+
+      // Calcular próximo milestone
+      const milestones = [
+        { hours: 5, label: "5 horas de estudo" },
+        { hours: 10, label: "10 horas de estudo" },
+        { hours: 25, label: "25 horas de estudo" },
+        { hours: 50, label: "50 horas de estudo" },
+        { hours: 100, label: "100 horas de estudo" },
+      ];
+
+      const nextMilestone = milestones.find(m => m.hours > student.totalHoursLearned);
+
+      return {
+        level,
+        book,
+        hoursLearned: student.totalHoursLearned,
+        streakDays: student.streakDays,
+        nextMilestone: nextMilestone?.label || "Parabéns! Você alcançou o máximo!",
+        nextMilestoneHours: nextMilestone?.hours || 100,
+        progressPercentage: Math.min(
+          (student.totalHoursLearned / (nextMilestone?.hours || 100)) * 100,
+          100
+        ),
+      };
+    }),
+});

@@ -210,19 +210,15 @@ export function OnboardingTutorial({ onComplete }: OnboardingTutorialProps) {
             </CardContent>
           </Card>
 
-          {/* Imagem da Miss Elie na tela de boas-vindas */}
+          {/* Imagem do Fluxie (se disponível) */}
           {currentStep === 0 && (
             <div className="flex justify-center">
-              <div className="relative">
-                <img 
-                  src="https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/miss-elie-uniform-full_17347370.jpg" 
-                  alt="Miss Elie" 
-                  className="w-40 h-48 object-cover object-top rounded-2xl border-2 border-green-500/50 shadow-xl shadow-green-500/20"
-                />
-                <div className="absolute -bottom-2 -right-2 bg-green-500 text-slate-900 text-xs font-bold px-2 py-1 rounded-full">
-                  AI Tutor
-                </div>
-              </div>
+              <img 
+                src="/fluxie-learning.png" 
+                alt="Fluxie" 
+                className="w-32 h-32 object-contain"
+                onError={(e) => { e.currentTarget.style.display = 'none'; }}
+              />
             </div>
           )}
         </div>

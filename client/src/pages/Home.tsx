@@ -26,7 +26,7 @@ export default function Home() {
       <header className="border-b border-slate-800/50 backdrop-blur-sm bg-slate-900/80 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/influx-logo_17347370.jpeg" alt="inFlux" className="w-10 h-10 rounded-lg object-cover" />
+            <img src="/logo-influx.png" alt="inFlux" className="w-10 h-10" />
             <div>
               <h1 className="text-xl font-bold text-white">inFlux <span className="text-green-400">Personal Tutor</span></h1>
             </div>
@@ -105,10 +105,10 @@ export default function Home() {
             <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-3xl blur-3xl"></div>
             <div className="relative bg-slate-800/50 backdrop-blur border border-slate-700 rounded-3xl p-8">
               <div className="flex items-center gap-4 mb-6">
-                <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/miss-elie-uniform-avatar_17347370.jpg" alt="Miss Elie" className="w-20 h-20 rounded-full object-cover border-2 border-green-500 shadow-lg shadow-green-500/30" />
+                <img src="/fluxie-waving.png" alt="Fluxie" className="w-20 h-20" />
                 <div>
-                  <h3 className="text-white font-bold text-xl">Olá! Eu sou a Elie 👋</h3>
-                  <p className="text-slate-400">Sua tutora pessoal de inglês</p>
+                  <h3 className="text-white font-bold text-xl">Olá! Eu sou o Fluxie 👋</h3>
+                  <p className="text-slate-400">Seu tutor pessoal de inglês</p>
                 </div>
               </div>
               <div className="space-y-4">
@@ -245,7 +245,7 @@ export default function Home() {
       <footer className="border-t border-slate-800 py-8">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/influx-logo_17347370.jpeg" alt="inFlux" className="w-8 h-8 rounded-md object-cover" />
+            <img src="/logo-influx.png" alt="inFlux" className="w-8 h-8" />
             <span className="text-white font-bold">inFlux Personal Tutor</span>
           </div>
           <p className="text-sm text-slate-500">

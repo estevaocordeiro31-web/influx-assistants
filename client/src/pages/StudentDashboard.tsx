@@ -19,7 +19,6 @@ import { trpc } from "@/lib/trpc";
 import { NotificationBadge } from "@/components/NotificationBadge";
 import { useNotifications } from "@/hooks/useNotifications";
 import { OnboardingTutorial } from "@/components/OnboardingTutorial";
-import { WelcomeVideoModal, hasSeenWelcomeVideo } from "@/components/WelcomeVideoModal";
 import { LeaderboardWidget } from "@/components/LeaderboardWidget";
 import { StudentCalendar } from "@/components/StudentCalendar";
 import { StudentMessages } from "@/components/StudentMessages";
@@ -77,35 +76,17 @@ export default function StudentDashboard() {
   const [, setLocation] = useLocation();
   const { notifications, clearNotification } = useNotifications();
   const [showOnboarding, setShowOnboarding] = useState(false);
-  const [showWelcomeVideo, setShowWelcomeVideo] = useState(false);
   const { status, message, setSyncing, setSyncSuccess, setSyncError } = useSyncStatus();
 
   // Verificar se é o primeiro acesso do usuário
   useEffect(() => {
     if (isAuthenticated && user) {
-      // Mostrar vídeo de boas-vindas ANTES do onboarding (apenas uma vez)
-      if (!hasSeenWelcomeVideo()) {
-        setShowWelcomeVideo(true);
-        return; // Onboarding será exibido após o vídeo
-      }
       const hasSeenOnboarding = localStorage.getItem(`onboarding_completed_${user.id}`);
       if (!hasSeenOnboarding) {
         setShowOnboarding(true);
       }
     }
   }, [isAuthenticated, user]);
-
-  const handleWelcomeVideoClose = () => {
-    setShowWelcomeVideo(false);
-    // Após o vídeo, verificar se deve mostrar o onboarding
-    if (user) {
-      const hasSeenOnboarding = localStorage.getItem(`onboarding_completed_${user.id}`);
-      if (!hasSeenOnboarding) {
-        // Pequeno delay para transição suave
-        setTimeout(() => setShowOnboarding(true), 400);
-      }
-    }
-  };
 
   const handleOnboardingComplete = () => {
     if (user) {
@@ -116,12 +97,6 @@ export default function StudentDashboard() {
 
   // Buscar dados personalizados do dashboard do aluno autenticado
   const { data: personalizedDashboard, isLoading: personalizedLoading } = trpc.studentPersonalization.getPersonalizedDashboard.useQuery(
-    undefined,
-    { enabled: isAuthenticated }
-  );
-
-  // Buscar dados consolidados do Dashboard Central (spec v1.0)
-  const { data: centralData } = trpc.studentData.getMyStudentData.useQuery(
     undefined,
     { enabled: isAuthenticated }
   );
@@ -175,11 +150,6 @@ export default function StudentDashboard() {
     <div className="min-h-screen safe-area-bottom" style={{ background: theme.headerBg }}>
       <InfluxHeader />
       
-      {/* Vídeo de Boas-vindas — apenas no primeiro acesso */}
-      {showWelcomeVideo && (
-        <WelcomeVideoModal onClose={handleWelcomeVideoClose} />
-      )}
-
       {/* Tutorial de Onboarding */}
       {showOnboarding && (
         <OnboardingTutorial onComplete={handleOnboardingComplete} />
@@ -211,39 +181,6 @@ export default function StudentDashboard() {
             </div>
           </div>
         </div>
-
-        {/* Card de dados do Dashboard Central - exibido apenas se vinculado */}
-        {centralData && (
-          <div className="mb-4 p-3 rounded-xl bg-slate-800/60 border border-slate-700 flex flex-wrap gap-3 items-center text-sm">
-            <span className="text-slate-400 font-medium">📊 Dashboard Central:</span>
-            {centralData.bookLevel && (
-              <span className="text-white">📚 <strong>{centralData.bookLevel}</strong></span>
-            )}
-            {centralData.className && (
-              <span className="text-white">🏫 <strong>{centralData.className}</strong></span>
-            )}
-            {centralData.schedule && (
-              <span className="text-white">🕐 <strong>{centralData.schedule}</strong></span>
-            )}
-            {centralData.healthScore !== null && centralData.healthScore !== undefined && (
-              <span className={`font-semibold ${
-                centralData.healthScore >= 70 ? 'text-green-400' :
-                centralData.healthScore >= 40 ? 'text-yellow-400' : 'text-red-400'
-              }`}>
-                ❤️ Saúde: {centralData.healthScore}%
-              </span>
-            )}
-            {centralData.paConfidenceScore !== null && centralData.paConfidenceScore !== undefined && (
-              <span className="text-purple-400">🤖 Confiança IA: <strong>{centralData.paConfidenceScore}%</strong></span>
-            )}
-            {centralData.currentStreakDays > 0 && (
-              <span className="text-orange-400">🔥 Streak: <strong>{centralData.currentStreakDays}d</strong></span>
-            )}
-            {centralData.totalBadges > 0 && (
-              <span className="text-yellow-400">🏅 Badges: <strong>{centralData.totalBadges}</strong></span>
-            )}
-          </div>
-        )}
 
         {/* Stats Cards - Grid 2x2 no Mobile */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 mb-4 sm:mb-6">
@@ -321,20 +258,19 @@ export default function StudentDashboard() {
               <div className="flex items-center gap-3 sm:gap-4">
                 <div className="relative">
                   <img 
-                    src="https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/miss-elie-uniform-avatar_17347370.jpg" 
-                    alt="Miss Elie - Tutora IA" 
-                    loading="lazy"
-                    className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-full border-2 border-green-500/60"
+                    src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/UpLMiMaLftZmSfqa.png" 
+                    alt="Fluxie Tech Tutor" 
+                    className="w-16 h-16 sm:w-20 sm:h-20 object-contain rounded-xl"
                   />
                   {/* Neon glow around image */}
-                  <div className="absolute inset-0 rounded-full bg-green-500/20 blur-md -z-10" />
+                  <div className="absolute inset-0 rounded-xl bg-green-500/20 blur-md -z-10" />
                 </div>
                 <div className="text-left">
                   <h3 className="text-lg sm:text-2xl font-bold text-white flex items-center gap-2">
                     Meu Tutor
                     <span className="text-xs sm:text-sm bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full border border-green-500/30">AI</span>
                   </h3>
-                  <p className="text-slate-400 text-xs sm:text-sm">Miss Elie • Vacation Plus • Materiais</p>
+                  <p className="text-slate-400 text-xs sm:text-sm">Fluxie • Vacation Plus • Materiais</p>
                 </div>
               </div>
               <div className="hidden sm:block text-right">
@@ -600,7 +536,7 @@ export default function StudentDashboard() {
               <CardHeader className="p-3 sm:p-6">
                 <CardTitle className="text-white flex items-center gap-2 text-base sm:text-lg">
                   <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
-                  Chat com Miss Elie
+                  Chat com Fluxie
                 </CardTitle>
                 <CardDescription className="text-slate-400 text-xs sm:text-sm">
                   Seu assistente pessoal de inglês
@@ -608,11 +544,11 @@ export default function StudentDashboard() {
               </CardHeader>
               <CardContent className="space-y-3 sm:space-y-4 p-3 sm:p-6 pt-0">
                 <div className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl border border-blue-500/30">
-                  <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/miss-elie-uniform-teaching-2_17347370.jpg" alt="Miss Elie" className="w-12 h-12 sm:w-20 sm:h-20 object-cover rounded-xl border border-blue-400/40 shadow-lg shadow-blue-500/20 flex-shrink-0" />
+                  <img src="/fluxie-waving.png" alt="Fluxie" className="w-12 h-12 sm:w-16 sm:h-16 object-contain" />
                   <div>
-                    <h3 className="text-white font-bold text-sm sm:text-lg mb-1">Olá! Sou a Elie! 👋</h3>
+                    <h3 className="text-white font-bold text-sm sm:text-lg mb-1">Olá! Sou o Fluxie! 👋</h3>
                     <p className="text-slate-300 text-xs sm:text-sm">
-                      Como você está no Book 5, posso ajudar com expressões avançadas e prática de conversáo!
+                      Como você está no Book 5, posso ajudar com expressões avançadas e prática de conversação!
                     </p>
                   </div>
                 </div>

@@ -1,10 +1,10 @@
-import { useState, useMemo, useRef } from "react";
+import { useState, useMemo } from "react";
 import { useRoute, Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, BookOpen, CheckCircle2, ChevronRight, Globe, Loader2, MessageCircle, Pencil, Star, Trophy, Volume2, XCircle } from "lucide-react";
+import { ArrowLeft, BookOpen, CheckCircle2, ChevronRight, Globe, MessageCircle, Pencil, Star, Trophy, XCircle } from "lucide-react";
 
 // Types for exercise content
 interface DialogueLine {
@@ -94,51 +94,9 @@ const characterBg: Record<string, string> = {
   Aiko: "bg-yellow-500/10 border-yellow-500/30",
 };
 
-// Book metadata
-const bookNames: Record<number, string> = {
-  1: "Book 1 - Beginner",
-  2: "Book 2 - Elementary",
-  3: "Book 3 - Pre-Intermediate",
-  4: "Book 4 - Intermediate",
-  5: "Book 5 - Upper-Intermediate",
-};
-
-const bookLessonNames: Record<number, Record<number, string>> = {
-  1: {
-    1: "First Day of Class",
-    2: "A Few Days Later - Professions",
-    3: "At Break - Food & Drinks",
-    4: "At the End of the Class",
-    5: "Communicative - Review Unit 1",
-    6: "At Home - Family",
-    7: "My Neighborhood",
-    8: "Daily Routine",
-    9: "Going Shopping",
-    10: "Communicative - Review Unit 2",
-  },
-  2: {
-    1: "Vacation and Weather",
-    2: "Communicative - Vacation Stories",
-    3: "Location and Directions",
-    4: "Communicative - Getting Around",
-    5: "Sports and Activities",
-    6: "Communicative - Sports Culture",
-    7: "Appearance and Personality",
-    8: "Communicative - Describing People",
-    9: "Food and Drink",
-    10: "Communicative - Food Culture",
-  },
-};
-
-const bookLessonIcons: Record<number, Record<number, string>> = {
-  1: { 1: "👋", 2: "💼", 3: "🍔", 4: "📚", 5: "🌍", 6: "🏠", 7: "🏘️", 8: "⏰", 9: "🛍️", 10: "🌍" },
-  2: { 1: "🌴", 2: "🌍", 3: "🗺️", 4: "🌍", 5: "⚽", 6: "🌍", 7: "👤", 8: "🌍", 9: "🍽️", 10: "🌍" },
-};
-
 // Lesson selector page
-function LessonSelector({ bookId: initialBookId }: { bookId: number }) {
-  const [selectedBook, setSelectedBook] = useState(initialBookId);
-  const { data, isLoading } = trpc.extraExercises.getExercisesByBook.useQuery({ bookId: selectedBook });
+function LessonSelector({ bookId }: { bookId: number }) {
+  const { data, isLoading } = trpc.extraExercises.getExercisesByBook.useQuery({ bookId });
 
   const lessonGroups = useMemo(() => {
     if (!data?.exercises) return {};
@@ -150,8 +108,21 @@ function LessonSelector({ bookId: initialBookId }: { bookId: number }) {
     return groups;
   }, [data]);
 
-  const lessonNames = bookLessonNames[selectedBook] || {};
-  const lessonIcons = bookLessonIcons[selectedBook] || {};
+  const lessonNames: Record<number, string> = {
+    1: "First Day of Class",
+    2: "A Few Days Later - Professions",
+    3: "At Break - Food & Drinks",
+    4: "At the End of the Class",
+    5: "Communicative - Stories",
+  };
+
+  const lessonIcons: Record<number, string> = {
+    1: "👋",
+    2: "💼",
+    3: "🍔",
+    4: "📚",
+    5: "🌍",
+  };
 
   if (isLoading) {
     return (
@@ -173,32 +144,15 @@ function LessonSelector({ bookId: initialBookId }: { bookId: number }) {
             </Button>
           </Link>
           <div>
-            <h1 className="text-2xl font-bold">📖 {bookNames[selectedBook] || `Book ${selectedBook}`} - Extra Exercises</h1>
+            <h1 className="text-2xl font-bold">📖 Book 1 - Extra Exercises</h1>
             <p className="text-slate-400 text-sm">Pratique com Lucas 🇺🇸, Emily 🇬🇧 e Aiko 🇦🇺</p>
           </div>
-        </div>
-
-        {/* Book Selector */}
-        <div className="flex gap-3 mb-6 overflow-x-auto pb-2">
-          {[1, 2].map((bookNum) => (
-            <button
-              key={bookNum}
-              onClick={() => setSelectedBook(bookNum)}
-              className={`px-4 py-2 rounded-lg font-medium text-sm whitespace-nowrap transition-all ${
-                selectedBook === bookNum
-                  ? "bg-green-600 text-white shadow-lg shadow-green-600/30"
-                  : "bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white"
-              }`}
-            >
-              📖 Book {bookNum}
-            </button>
-          ))}
         </div>
 
         {/* Lesson Cards */}
         <div className="space-y-4">
           {Object.entries(lessonGroups).map(([lessonNum, exercises]) => (
-            <Link key={lessonNum} href={`/student/extra-exercises/${selectedBook}/${lessonNum}`}>
+            <Link key={lessonNum} href={`/student/extra-exercises/1/${lessonNum}`}>
               <Card className="bg-slate-800/50 border-slate-700 hover:bg-slate-800 transition-all cursor-pointer group">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
@@ -250,66 +204,11 @@ function LessonSelector({ bookId: initialBookId }: { bookId: number }) {
   );
 }
 
-// Audio player hook for TTS
-function useDialogueAudio() {
-  const speakMutation = trpc.tts.speak.useMutation();
-  const [playingIndex, setPlayingIndex] = useState<number | null>(null);
-  const [loadingIndex, setLoadingIndex] = useState<number | null>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  const playLine = async (index: number, text: string, speaker: string) => {
-    // Stop current audio
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current = null;
-    }
-
-    if (playingIndex === index) {
-      setPlayingIndex(null);
-      return;
-    }
-
-    // Map speaker to character
-    const charMap: Record<string, "lucas" | "emily" | "aiko"> = {
-      Lucas: "lucas",
-      Emily: "emily",
-      Aiko: "aiko",
-    };
-    const character = charMap[speaker] || "lucas";
-
-    setLoadingIndex(index);
-    try {
-      const result = await speakMutation.mutateAsync({
-        text,
-        character,
-        situation: "casual",
-      });
-
-      const audio = new Audio(result.audioUrl);
-      audioRef.current = audio;
-      setPlayingIndex(index);
-      setLoadingIndex(null);
-
-      audio.play();
-      audio.onended = () => {
-        setPlayingIndex(null);
-        audioRef.current = null;
-      };
-    } catch {
-      setLoadingIndex(null);
-      setPlayingIndex(null);
-    }
-  };
-
-  return { playLine, playingIndex, loadingIndex };
-}
-
 // Dialogue Exercise Component
 function DialogueExercise({ content }: { content: DialogueContent }) {
   const [showQuestions, setShowQuestions] = useState(false);
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [showResults, setShowResults] = useState(false);
-  const { playLine, playingIndex, loadingIndex } = useDialogueAudio();
 
   const handleAnswer = (qIndex: number, optIndex: number) => {
     if (showResults) return;
@@ -343,48 +242,12 @@ function DialogueExercise({ content }: { content: DialogueContent }) {
                 ? `bg-gradient-to-r ${characterColors[content.character] || "from-green-600 to-green-800"} text-white`
                 : "bg-slate-700/70 text-slate-200"
             }`}>
-              <div className="flex items-center justify-between gap-2 mb-1">
-                <p className="text-xs font-semibold opacity-70">{line.speaker}</p>
-                <button
-                  onClick={() => playLine(i, line.text, line.speaker)}
-                  className={`p-1 rounded-full transition-all ${
-                    playingIndex === i
-                      ? "bg-white/20 text-white"
-                      : "hover:bg-white/10 text-white/60 hover:text-white"
-                  }`}
-                  title={`Ouvir ${line.speaker}`}
-                >
-                  {loadingIndex === i ? (
-                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                  ) : (
-                    <Volume2 className={`w-3.5 h-3.5 ${playingIndex === i ? "animate-pulse" : ""}`} />
-                  )}
-                </button>
-              </div>
+              <p className="text-xs font-semibold mb-1 opacity-70">{line.speaker}</p>
               <p className="text-sm">{line.text}</p>
             </div>
           </div>
         ))}
       </div>
-
-      {/* Play All Button */}
-      <Button
-        variant="outline"
-        onClick={async () => {
-          for (let i = 0; i < content.dialogue.length; i++) {
-            const line = content.dialogue[i];
-            await new Promise<void>((resolve) => {
-              playLine(i, line.text, line.speaker);
-              // Wait for audio to finish (approx 2s per line + loading)
-              setTimeout(resolve, 3000);
-            });
-          }
-        }}
-        className="w-full border-green-500/50 text-green-400 hover:bg-green-500/10"
-      >
-        <Volume2 className="w-4 h-4 mr-2" />
-        Ouvir Diálogo Completo
-      </Button>
 
       {/* Cultural Note */}
       <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-4">
@@ -782,7 +645,13 @@ function LessonExercises({ bookId, lessonNumber }: { bookId: number; lessonNumbe
     lessonNumber,
   });
 
-  const lessonNames = bookLessonNames[bookId] || {};
+  const lessonNames: Record<number, string> = {
+    1: "First Day of Class",
+    2: "A Few Days Later - Professions",
+    3: "At Break - Food & Drinks",
+    4: "At the End of the Class",
+    5: "Communicative - Stories",
+  };
 
   if (isLoading) {
     return (
@@ -807,7 +676,6 @@ function LessonExercises({ bookId, lessonNumber }: { bookId: number; lessonNumbe
             <h1 className="text-2xl font-bold">
               Lesson {lessonNumber}: {lessonNames[lessonNumber] || `Lesson ${lessonNumber}`}
             </h1>
-            <p className="text-slate-500 text-xs mt-1">{bookNames[bookId] || `Book ${bookId}`}</p>
             <p className="text-slate-400 text-sm">
               {data?.count || 0} exercícios disponíveis
             </p>

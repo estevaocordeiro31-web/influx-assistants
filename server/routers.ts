@@ -48,12 +48,6 @@ import { schoolActivitiesRouter } from "./routers/school-activities";
 import { passportQRRouter } from "./routers/passport-qr";
 import { adminExportRouter } from "./routers/admin-export";
 import { extraExercisesRouter } from "./routers/extra-exercises";
-import { badgesRouter } from "./routers/badges";
-import { elieSyncRouter } from "./routers/elie-sync";
-import { studentDataRouter } from "./routers/student-data";
-import { culturalEventsRouter } from "./routers/cultural-events";
-import { vipProfilesRouter } from "./routers/vip-profiles";
-import { historicoMinerRouter } from "./routers/historico-miner";
 
 export const appRouter = router({
   system: systemRouter,
@@ -114,12 +108,6 @@ export const appRouter = router({
   passportQR: passportQRRouter,
   adminExport: adminExportRouter,
   extraExercises: extraExercisesRouter,
-  badges: badgesRouter,
-  elieSync: elieSyncRouter,
-  studentData: studentDataRouter,
-  culturalEvents: culturalEventsRouter,
-  vipProfiles: vipProfilesRouter,
-  historicoMiner: historicoMinerRouter,
 });
 
 export type AppRouter = typeof appRouter;

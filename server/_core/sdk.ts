@@ -212,15 +212,19 @@ class SDKServer {
       });
       const { openId, appId, name } = payload as Record<string, unknown>;
 
-      if (!isNonEmptyString(openId)) {
+      if (
+        !isNonEmptyString(openId) ||
+        !isNonEmptyString(appId) ||
+        !isNonEmptyString(name)
+      ) {
         console.warn("[Auth] Session payload missing required fields");
         return null;
       }
 
       return {
-        openId: openId as string,
-        appId: (appId as string) || '',
-        name: (name as string) || '',
+        openId,
+        appId,
+        name,
       };
     } catch (error) {
       console.warn("[Auth] Session verification failed", String(error));
