@@ -1,9 +1,0 @@
-{
-  "query": "INSERT INTO student_profiles (user_id, objective, current_level, total_hours_learned, streak_days, last_activity_at, created_at, updated_at)\nSELECT id, 'career', 'advanced', 520, 52, NOW(), NOW(), NOW()\nFROM users WHERE email = 'jenifer.borges@influx.com.br';",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T8Mwbb7L99VC4H.e93aa651f00b --database 2aNFQGA4rARocXGp2d4pqb --execute INSERT INTO student_profiles (user_id, objective, current_level, total_hours_learned, streak_days, last_activity_at, created_at, updated_at)\nSELECT id, 'career', 'advanced', 520, 52, NOW(), NOW(), NOW()\nFROM users WHERE email = 'jenifer.borges@influx.com.br';",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 356
-}

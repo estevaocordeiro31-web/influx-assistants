@@ -1,8 +1,0 @@
-{
-  "query": "ALTER TABLE users ADD COLUMN student_id VARCHAR(20) UNIQUE;",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T8Mwbb7L99VC4H.e93aa651f00b --database 2aNFQGA4rARocXGp2d4pqb --execute ALTER TABLE users ADD COLUMN student_id VARCHAR(20) UNIQUE;",
-  "returncode": 1,
-  "logs": [
-    "ERROR 8200 (HY000) at line 1: unsupported add column 'student_id' constraint UNIQUE KEY when altering '2aNFQGA4rARocXGp2d4pqb.users'"
-  ]
-}

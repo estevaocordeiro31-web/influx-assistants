@@ -1,9 +1,0 @@
-{
-  "query": "\nINSERT INTO student_profiles (user_id, objective, current_level, total_hours_learned, streak_days, created_at, updated_at)\nSELECT id, 'studies', 'intermediate', 0, 0, NOW(), NOW()\nFROM users WHERE email = 'valfsouza16@gmail.com' LIMIT 1;\n\nINSERT INTO student_profiles (user_id, objective, current_level, total_hours_learned, streak_days, created_at, updated_at)\nSELECT id, 'travel', 'intermediate', 0, 0, NOW(), NOW()\nFROM users WHERE email = 'rebecaresende@icloud.com' LIMIT 1;\n",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T8Mwbb7L99VC4H.e93aa651f00b --database 2aNFQGA4rARocXGp2d4pqb --execute \nINSERT INTO student_profiles (user_id, objective, current_level, total_hours_learned, streak_days, created_at, updated_at)\nSELECT id, 'studies', 'intermediate', 0, 0, NOW(), NOW()\nFROM users WHERE email = 'valfsouza16@gmail.com' LIMIT 1;\n\nINSERT INTO student_profiles (user_id, objective, current_level, total_hours_learned, streak_days, created_at, updated_at)\nSELECT id, 'travel', 'intermediate', 0, 0, NOW(), NOW()\nFROM users WHERE email = 'rebecaresende@icloud.com' LIMIT 1;\n",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 82
-}

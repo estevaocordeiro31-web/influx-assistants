@@ -1,8 +1,0 @@
-{
-  "query": "-- Adicionar inFlux Dollars para Jenifer\nINSERT INTO influx_dollars (student_id, balance, total_earned, total_spent, last_earned_at)\nSELECT id, 3200, 5500, 2300, NOW()\nFROM users WHERE email = 'jenifer.borges@influx.com.br';\n\n-- Adicionar dados importados do Sponte\nINSERT INTO sponte_data (student_id, sponte_id, matricula, turma, notas, frequencia, situacao, last_sync_at)\nSELECT id, 'SPT-JB-2024', 'MAT-2024-JB', 'Turma Avançado A', 9.85, 98.5, 'ativo', NOW()\nFROM users WHERE email = 'jenifer.borges@influx.com.br';",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2T8Mwbb7L99VC4H.e93aa651f00b --database 2aNFQGA4rARocXGp2d4pqb --execute -- Adicionar inFlux Dollars para Jenifer\nINSERT INTO influx_dollars (student_id, balance, total_earned, total_spent, last_earned_at)\nSELECT id, 3200, 5500, 2300, NOW()\nFROM users WHERE email = 'jenifer.borges@influx.com.br';\n\n-- Adicionar dados importados do Sponte\nINSERT INTO sponte_data (student_id, sponte_id, matricula, turma, notas, frequencia, situacao, last_sync_at)\nSELECT id, 'SPT-JB-2024', 'MAT-2024-JB', 'Turma Avançado A', 9.85, 98.5, 'ativo', NOW()\nFROM users WHERE email = 'jenifer.borges@influx.com.br';",
-  "returncode": 1,
-  "logs": [
-    "ERROR 1146 (42S02) at line 2: Table '2anfqga4rarocxgp2d4pqb.influx_dollars' doesn't exist"
-  ]
-}
