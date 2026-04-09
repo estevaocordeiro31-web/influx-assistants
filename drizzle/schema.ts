@@ -1,32 +1,25 @@
 import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, decimal, boolean, json, date, longtext } from "drizzle-orm/mysql-core";
 
 /**
- * Core user table backing auth flow.
- * Extend this file with additional tables as your product grows.
- * Columns use camelCase to match both database fields and generated types.
+ * Tabela users compartilhada com o BRAiN — schema compatível.
+ * Campos extras do Tutor (studentId, status) são opcionais.
  */
 export const users = mysqlTable("users", {
-  /**
-   * Surrogate primary key. Auto-incremented numeric value managed by the database.
-   * Use this for relations between tables.
-   */
   id: int("id").autoincrement().primaryKey(),
-  /** Manus OAuth identifier (openId) returned from the OAuth callback. Unique per user. */
   openId: varchar("openId", { length: 64 }).notNull().unique(),
-  /** ID único legível do aluno (ex: INF-2026-0001) */
   studentId: varchar("student_id", { length: 20 }).unique(),
   name: text("name"),
   email: varchar("email", { length: 320 }),
-  /** Hashed password for traditional login (bcrypt) */
-  passwordHash: varchar("password_hash", { length: 255 }),
+  passwordHash: text("passwordHash"),
   loginMethod: varchar("loginMethod", { length: 64 }),
-  role: mysqlEnum("role", ["user", "admin", "owner"]).default("user").notNull(),
-  // Campo status não existe no banco centralizado, mas é usado no código
-  // Adicionado como opcional para compatibilidade
+  avatarUrl: text("avatarUrl"),
+  role: mysqlEnum("role", ["user", "admin", "owner", "teacher"]).default("user").notNull(),
+  unidadeId: int("unidade_id").notNull().default(1),
   status: mysqlEnum("status", ["ativo", "inativo", "desistente", "trancado"]),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
+  mustChangePassword: boolean("must_change_password").default(false).notNull(),
 });
 
 export type User = typeof users.$inferSelect;

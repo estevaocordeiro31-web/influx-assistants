@@ -39,7 +39,7 @@ export const dashboardIntegrationRouter = router({
       try {
         // Buscar alunos ativos do banco central
         const [centralStudents] = await centralConn.query(
-          `SELECT id, openId, name, email, role, password_hash 
+          `SELECT id, openId, name, email, role, passwordHash 
            FROM users 
            WHERE role IN ('user', 'student') 
            ORDER BY name`

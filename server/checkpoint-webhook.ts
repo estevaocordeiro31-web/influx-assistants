@@ -55,7 +55,7 @@ async function collectProjectContext() {
     
     // Contar usuários com acesso
     const [users] = await connection.execute(
-      'SELECT COUNT(*) as count FROM users WHERE password_hash IS NOT NULL'
+      'SELECT COUNT(*) as count FROM users WHERE passwordHash IS NOT NULL'
     );
     const usersWithAccessCount = (users as any[])[0].count;
     

@@ -51,7 +51,7 @@ async function syncStudents() {
         
         // Criar usuário
         await connection.execute(
-          `INSERT INTO users (openId, name, email, password_hash, role, unidade_id, createdAt, updatedAt, lastSignedIn)
+          `INSERT INTO users (openId, name, email, passwordHash, role, unidade_id, createdAt, updatedAt, lastSignedIn)
            VALUES (?, ?, ?, ?, 'user', 1, NOW(), NOW(), NOW())`,
           [openId, s.name, s.email, passwordHash]
         );
