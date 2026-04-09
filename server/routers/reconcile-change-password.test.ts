@@ -178,12 +178,12 @@ describe('Reconciliação de Usuários', () => {
 describe('Notificação de Credenciais', () => {
   it('deve formatar mensagem de credenciais corretamente', () => {
     const formatCredentials = (name: string, email: string, password: string) => {
-      return `🔐 Credenciais de Acesso - inFlux Personal Tutor\n\n🌐 Link: https://influxassist-2anfqga4.manus.space/login\n👤 Email: ${email}\n🔑 Senha: ${password}\n\nAcesse e altere sua senha após o primeiro login.`;
+      return `🔐 Credenciais de Acesso - inFlux Personal Tutor\n\n🌐 Link: https://tutor.imaind.tech/login\n👤 Email: ${email}\n🔑 Senha: ${password}\n\nAcesse e altere sua senha após o primeiro login.`;
     };
     const msg = formatCredentials('João', 'joao@test.com', 'João@2026');
     expect(msg).toContain('joao@test.com');
     expect(msg).toContain('João@2026');
-    expect(msg).toContain('influxassist-2anfqga4.manus.space');
+    expect(msg).toContain('tutor.imaind.tech');
   });
 
   it('deve gerar senha no padrão PrimeiroNome@2026', () => {
@@ -199,7 +199,7 @@ describe('Notificação de Credenciais', () => {
   it('deve enviar notificação ao owner com as credenciais', () => {
     const buildNotification = (name: string, email: string, password: string) => ({
       title: `[inFlux] Senha resetada: ${name}`,
-      content: `Credenciais resetadas para o aluno:\n\nNome: ${name}\nEmail: ${email}\nNova senha: ${password}\n\nLink de acesso: https://influxassist-2anfqga4.manus.space/login`,
+      content: `Credenciais resetadas para o aluno:\n\nNome: ${name}\nEmail: ${email}\nNova senha: ${password}\n\nLink de acesso: https://tutor.imaind.tech/login`,
     });
     const notif = buildNotification('João', 'joao@test.com', 'João@2026');
     expect(notif.title).toContain('João');

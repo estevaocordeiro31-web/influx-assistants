@@ -20,7 +20,7 @@ export const passportQRRouter = router({
       const checkInToken = `checkin_${input.studentId}_${Date.now()}`;
       
       // URL que será escaneada no QR Code
-      const checkInUrl = `${process.env.VITE_FRONTEND_FORGE_API_URL || 'https://app.influx.com'}/passport/checkin?token=${checkInToken}`;
+      const checkInUrl = `${process.env.APP_BASE_URL || 'https://tutor.imaind.tech'}/passport/checkin?token=${checkInToken}`;
       
       // Gerar QR Code
       const qrCodeDataUrl = await QRCode.toDataURL(checkInUrl);
@@ -60,7 +60,7 @@ export const passportQRRouter = router({
       const objectivesToken = `objectives_${input.studentId}_${Date.now()}`;
       
       // URL que será escaneada no QR Code
-      const objectivesUrl = `${process.env.VITE_FRONTEND_FORGE_API_URL || 'https://app.influx.com'}/passport/objectives?token=${objectivesToken}`;
+      const objectivesUrl = `${process.env.APP_BASE_URL || 'https://tutor.imaind.tech'}/passport/objectives?token=${objectivesToken}`;
       
       // Gerar QR Code
       const qrCodeDataUrl = await QRCode.toDataURL(objectivesUrl);
@@ -220,12 +220,12 @@ export const passportQRRouter = router({
       for (const student of students) {
         // Gerar check-in QR
         const checkInToken = `checkin_${student.id}_${Date.now()}`;
-        const checkInUrl = `${process.env.VITE_FRONTEND_FORGE_API_URL || 'https://app.influx.com'}/passport/checkin?token=${checkInToken}&studentId=${student.id}`;
+        const checkInUrl = `${process.env.APP_BASE_URL || 'https://tutor.imaind.tech'}/passport/checkin?token=${checkInToken}&studentId=${student.id}`;
         const checkInQR = await QRCode.toDataURL(checkInUrl);
         
         // Gerar objectives QR
         const objectivesToken = `objectives_${student.id}_${Date.now()}`;
-        const objectivesUrl = `${process.env.VITE_FRONTEND_FORGE_API_URL || 'https://app.influx.com'}/passport/objectives?token=${objectivesToken}&studentId=${student.id}`;
+        const objectivesUrl = `${process.env.APP_BASE_URL || 'https://tutor.imaind.tech'}/passport/objectives?token=${objectivesToken}&studentId=${student.id}`;
         const objectivesQR = await QRCode.toDataURL(objectivesUrl);
         
         // Salvar no banco

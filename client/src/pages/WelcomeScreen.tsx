@@ -40,7 +40,7 @@ export default function WelcomeScreen() {
     return () => clearInterval(interval);
   }, [phase]);
 
-  const qrUrl = `https://influxassist-2anfqga4.manus.space/events`;
+  const qrUrl = `https://tutor.imaind.tech/events`;
   const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(qrUrl)}&bgcolor=0a1f0e&color=40e080&margin=12&qzone=2`;
 
   return (
@@ -219,7 +219,7 @@ export default function WelcomeScreen() {
         <div className="mt-4 text-center">
           <p className="text-green-300 font-bold text-base">📱 Aponte a câmera para entrar</p>
           <p className="text-green-600 text-xs mt-1 font-mono tracking-wider">
-            influxassist-2anfqga4.manus.space/events
+            tutor.imaind.tech/events
           </p>
         </div>
       </div>

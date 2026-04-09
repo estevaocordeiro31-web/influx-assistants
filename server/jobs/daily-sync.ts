@@ -61,7 +61,7 @@ async function syncStudents() {
           studentName: s.name || 'Aluno',
           email: s.email,
           password: defaultPassword,
-          loginUrl: 'https://influxassist-2anfqga4.manus.space/login',
+          loginUrl: 'https://tutor.imaind.tech/login',
         });
 
         created++;

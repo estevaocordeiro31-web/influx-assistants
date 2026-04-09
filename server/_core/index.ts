@@ -11,6 +11,7 @@ import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import { initializeJobs } from "./init-jobs";
 import { handleWebhook, webhookHealthCheck } from "./webhook-handler";
+import { getUploadsDir } from "../storage";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -43,6 +44,8 @@ async function startServer() {
   registerTestLoginRoutes(app);
   // Direct login routes (native Express)
   registerDirectLoginRoutes(app);
+  // Serve uploaded files
+  app.use("/uploads", express.static(getUploadsDir()));
   // Webhook routes
   app.post("/api/webhooks/sync", handleWebhook);
   app.get("/api/webhooks/health", webhookHealthCheck);

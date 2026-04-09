@@ -119,7 +119,7 @@ export default function HotSeatPresenter() {
           </button>
 
           <p className="text-gray-500 text-sm">
-            Acesse em: <span className="text-green-400 font-mono">influxassist-2anfqga4.manus.space/events/hot-seat-tv</span>
+            Acesse em: <span className="text-green-400 font-mono">tutor.imaind.tech/events/hot-seat-tv</span>
           </p>
         </div>
       )}

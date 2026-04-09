@@ -264,7 +264,7 @@ export default function LeaderboardTV() {
             Escaneie o QR Code para entrar na experiência!
           </p>
           <div className="mt-8 text-2xl font-bold text-yellow-400 tracking-widest">
-            influxassist-2anfqga4.manus.space/events/welcome-screen
+            tutor.imaind.tech/events/welcome-screen
           </div>
         </div>
       )}
