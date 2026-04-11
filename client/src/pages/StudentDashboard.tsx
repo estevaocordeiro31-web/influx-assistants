@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import {
   BookOpen, MessageCircle, Zap, TrendingUp, Award,
   Trophy, Star, Target, Clock, Flame, Medal, Mic, GraduationCap,
-  Calendar, Bell, BarChart3, ChevronRight, Sparkles
+  Calendar, Bell, BarChart3, ChevronRight, Sparkles, Palette, Bot
 } from "lucide-react";
 import { useLocation } from "wouter";
 import { useEffect, useState } from "react";
@@ -366,6 +366,22 @@ export default function StudentDashboard() {
             >
               <TrendingUp className="w-6 h-6 text-cyan-400" />
               <span className="text-white/80 font-semibold text-xs sm:text-sm">Meus Dados</span>
+            </button>
+            <button
+              onClick={() => setLocation("/student/elie")}
+              className="action-card"
+              style={{ background: 'linear-gradient(135deg, rgba(236,72,153,0.2), rgba(219,39,119,0.15))', border: '1px solid rgba(236,72,153,0.2)' }}
+            >
+              <Bot className="w-6 h-6 text-pink-400" />
+              <span className="text-white/80 font-semibold text-xs sm:text-sm">Miss Elie</span>
+            </button>
+            <button
+              onClick={() => setLocation("/student/themes")}
+              className="action-card"
+              style={{ background: 'linear-gradient(135deg, rgba(124,58,237,0.2), rgba(109,40,217,0.15))', border: '1px solid rgba(124,58,237,0.2)' }}
+            >
+              <Palette className="w-6 h-6 text-violet-400" />
+              <span className="text-white/80 font-semibold text-xs sm:text-sm">Temas</span>
             </button>
           </div>
         </div>

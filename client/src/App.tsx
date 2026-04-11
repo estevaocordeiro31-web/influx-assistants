@@ -48,6 +48,7 @@ import TestLoginDebug from "./pages/TestLoginDebug";
 import ExtraExercisesPage from "./pages/ExtraExercisesPage";
 import ChangePassword from "./pages/ChangePassword";
 import ThemeSelector from "./pages/ThemeSelector";
+import ElieAvatarPage from "./pages/ElieAvatarPage";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -101,6 +102,7 @@ function Router() {
       <Route path="/student/extra-exercises/:bookId/:lessonNumber" component={ExtraExercisesPage} />
       <Route path="/student/extra-exercises" component={ExtraExercisesPage} />
       <Route path="/student/themes" component={ThemeSelector} />
+      <Route path="/student/elie" component={ElieAvatarPage} />
       <Route path="/passport/checkin" component={PassportCheckInPage} />
       <Route path="/passport/sync" component={PassportSyncPage} />
       {/* Rota exclusiva para Tiago */}
