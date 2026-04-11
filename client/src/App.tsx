@@ -46,6 +46,8 @@ import PassportSyncPage from "./pages/PassportSyncPage";
 import StudentStatsPage from "./pages/StudentStatsPage";
 import TestLoginDebug from "./pages/TestLoginDebug";
 import ExtraExercisesPage from "./pages/ExtraExercisesPage";
+import ChangePassword from "./pages/ChangePassword";
+import ThemeSelector from "./pages/ThemeSelector";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -72,6 +74,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/login" component={Login} />
+      <Route path="/change-password" component={ChangePassword} />
       <Route path="/logout" component={ForceLogout} />
       <Route path="/login-direct/:token" component={DirectLogin} />
       {/* Rotas de demonstração - acessíveis sem autenticação para teste */}
@@ -97,6 +100,7 @@ function Router() {
       <Route path="/student/passport" component={InfluxPassportPage} />
       <Route path="/student/extra-exercises/:bookId/:lessonNumber" component={ExtraExercisesPage} />
       <Route path="/student/extra-exercises" component={ExtraExercisesPage} />
+      <Route path="/student/themes" component={ThemeSelector} />
       <Route path="/passport/checkin" component={PassportCheckInPage} />
       <Route path="/passport/sync" component={PassportSyncPage} />
       {/* Rota exclusiva para Tiago */}

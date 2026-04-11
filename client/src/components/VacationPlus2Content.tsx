@@ -468,35 +468,36 @@ export function VacationPlus2Content() {
   return (
     <div className="space-y-6">
       {/* Banner Header */}
-      <div className="relative rounded-2xl overflow-hidden bg-gradient-to-r from-cyan-600 via-green-500 to-purple-600 p-1">
-        <div className="bg-slate-900 rounded-xl p-6">
-          <div className="flex items-center gap-3 mb-2">
-            <h2 
-              className="text-3xl md:text-4xl font-black tracking-wider text-white"
-              style={{
-                textShadow: "0 0 10px rgba(0,255,136,0.8), 0 0 20px rgba(0,212,255,0.6), 0 0 30px rgba(255,0,255,0.4)",
-              }}
-            >
-              VACATION PLUS 2
-            </h2>
-            <Badge className="bg-gradient-to-r from-cyan-500 to-green-500 text-white border-0">
-              Material Expandido
-            </Badge>
-          </div>
-          <p className="text-slate-300 text-sm md:text-base max-w-2xl">
-            Aprenda ingles com Lucas {CHARACTERS[0].flagEmoji}, Emily {CHARACTERS[1].flagEmoji} e Aiko {CHARACTERS[2].flagEmoji}! 
-            Descubra costumes, vocabulario e expressoes de Nova York, Londres e Sydney.
-          </p>
+      <div className="relative rounded-2xl overflow-hidden p-6 sm:p-8"
+        style={{
+          background: 'linear-gradient(135deg, rgba(6,182,212,0.12) 0%, rgba(124,58,237,0.08) 50%, rgba(34,197,94,0.06) 100%)',
+          border: '1px solid rgba(6,182,212,0.15)',
+          backdropFilter: 'blur(12px)',
+        }}>
+        <div className="flex items-center gap-3 mb-3">
+          <h2
+            className="text-3xl md:text-4xl font-extrabold tracking-tight text-white"
+            style={{ fontFamily: "'Syne', sans-serif" }}
+          >
+            VACATION <span style={{ color: '#06b6d4' }}>PLUS 2</span>
+          </h2>
+          <Badge className="text-white border-0" style={{ background: 'linear-gradient(135deg, #06b6d4, #22c55e)' }}>
+            Material Expandido
+          </Badge>
         </div>
+        <p className="text-white/50 text-sm md:text-base max-w-2xl">
+          Aprenda ingles com Lucas {CHARACTERS[0].flagEmoji}, Emily {CHARACTERS[1].flagEmoji} e Aiko {CHARACTERS[2].flagEmoji}!
+          Descubra costumes, vocabulario e expressoes de Nova York, Londres e Sydney.
+        </p>
       </div>
 
       {/* Characters Section - Cinematic Vertical Panels */}
       <div className="mb-8">
         <div className="flex items-center gap-2 mb-4">
           <Globe className="w-5 h-5 text-cyan-400" />
-          <h3 className="text-xl font-bold text-white">Seus Guias Culturais</h3>
+          <h3 className="text-xl font-bold text-white" style={{ fontFamily: "'Syne', sans-serif" }}>Seus Guias Culturais</h3>
         </div>
-        <p className="text-slate-400 text-sm mb-6">
+        <p className="text-white/40 text-sm mb-6">
           Clique nos personagens para ouvir suas vozes autênticas!
         </p>
         
@@ -582,14 +583,18 @@ export function VacationPlus2Content() {
       <BadgeDisplay completedLessons={completedLessons} />
 
       {/* Animation Stories Section */}
-      <div className="mt-8 bg-white/10 backdrop-blur-sm rounded-xl p-6">
+      <div className="mt-8 rounded-2xl p-6" style={{
+        background: 'rgba(255,255,255,0.04)',
+        border: '1px solid rgba(255,255,255,0.08)',
+        backdropFilter: 'blur(12px)',
+      }}>
         <AnimationScriptsTab />
       </div>
 
       {/* Lessons Grid */}
       <div>
-        <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-          <BookOpen className="w-5 h-5 text-green-400" />
+        <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2" style={{ fontFamily: "'Syne', sans-serif" }}>
+          <BookOpen className="w-5 h-5 text-cyan-400" />
           8 Licoes Interativas
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -653,7 +658,10 @@ export function VacationPlus2Content() {
 
       {/* Lesson Detail Dialog */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-4xl bg-slate-900 border-slate-700 text-white max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-4xl text-white max-h-[90vh] overflow-y-auto" style={{
+          background: 'linear-gradient(135deg, #0f0a1e 0%, #1a1145 50%, #0d2137 100%)',
+          border: '1px solid rgba(255,255,255,0.1)',
+        }}>
           {selectedLesson && (
             <>
               <DialogHeader>

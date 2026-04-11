@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Trophy, Medal, Award } from "lucide-react";
+import { Trophy, Medal, Award, Crown } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 
 interface LeaderboardEntry {
@@ -17,13 +16,11 @@ export function LeaderboardWidget() {
   const [studentRank, setStudentRank] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Buscar leaderboard
   const { data: leaderboardData, isLoading: leaderboardLoading } = trpc.quizLeaderboard.getLeaderboard.useQuery(
     undefined,
     { enabled: true }
   );
 
-  // Buscar ranking do aluno atual
   const { data: rankData } = trpc.quizLeaderboard.getStudentRank.useQuery(undefined, { enabled: true });
 
   useEffect(() => {
@@ -41,91 +38,130 @@ export function LeaderboardWidget() {
 
   const getMedalIcon = (rank: number) => {
     switch (rank) {
-      case 1:
-        return <Trophy className="w-5 h-5 text-yellow-400" />;
-      case 2:
-        return <Medal className="w-5 h-5 text-slate-300" />;
-      case 3:
-        return <Award className="w-5 h-5 text-orange-400" />;
-      default:
-        return <span className="w-5 h-5 flex items-center justify-center text-slate-400 font-bold text-sm">#{rank}</span>;
+      case 1: return <Crown className="w-5 h-5 text-yellow-400" />;
+      case 2: return <Medal className="w-5 h-5 text-slate-300" />;
+      case 3: return <Award className="w-5 h-5 text-orange-400" />;
+      default: return <span className="w-5 h-5 flex items-center justify-center text-white/30 font-bold text-sm">#{rank}</span>;
     }
   };
 
-  const getRankColor = (rank: number) => {
+  const getRankStyle = (rank: number): React.CSSProperties => {
     switch (rank) {
-      case 1:
-        return "bg-gradient-to-r from-yellow-500/20 to-yellow-600/20 border-yellow-500/30";
-      case 2:
-        return "bg-gradient-to-r from-slate-400/20 to-slate-500/20 border-slate-400/30";
-      case 3:
-        return "bg-gradient-to-r from-orange-500/20 to-orange-600/20 border-orange-500/30";
-      default:
-        return "bg-slate-800/30 border-slate-700/50";
+      case 1: return { background: 'rgba(234,179,8,0.08)', border: '1px solid rgba(234,179,8,0.15)' };
+      case 2: return { background: 'rgba(148,163,184,0.08)', border: '1px solid rgba(148,163,184,0.12)' };
+      case 3: return { background: 'rgba(249,115,22,0.08)', border: '1px solid rgba(249,115,22,0.12)' };
+      default: return { background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)' };
     }
   };
 
   return (
-    <Card className="bg-slate-800/50 border-slate-700 backdrop-blur">
-      <CardHeader className="pb-3">
-        <div className="flex items-center justify-between">
-          <div>
-            <CardTitle className="text-white flex items-center gap-2">
-              <Trophy className="w-5 h-5 text-yellow-400" />
-              Ranking
-            </CardTitle>
-            <CardDescription className="text-slate-400 text-xs sm:text-sm">
-              Top 10 Alunos
-            </CardDescription>
-          </div>
-          {studentRank && (
-            <Badge variant="outline" className="bg-green-500/20 border-green-500/50 text-green-400">
-              Você: #{studentRank}
-            </Badge>
-          )}
+    <div className="rounded-2xl p-5" style={{
+      background: 'rgba(255,255,255,0.04)',
+      backdropFilter: 'blur(12px)',
+      border: '1px solid rgba(255,255,255,0.08)',
+    }}>
+      <div className="flex items-center justify-between mb-4">
+        <div>
+          <h3 className="text-white font-bold flex items-center gap-2" style={{ fontFamily: "'Syne', sans-serif" }}>
+            <Trophy className="w-5 h-5 text-yellow-400" />
+            Ranking
+          </h3>
+          <p className="text-white/40 text-xs mt-0.5">Top 10 Alunos</p>
         </div>
-      </CardHeader>
-      <CardContent className="space-y-2">
-        {isLoading || leaderboardLoading ? (
-          <div className="space-y-2">
-            {[...Array(5)].map((_, i) => (
-              <div key={i} className="h-12 bg-slate-700/30 rounded-lg animate-pulse" />
-            ))}
+        {studentRank && (
+          <span className="text-xs px-3 py-1 rounded-full font-semibold"
+            style={{ background: 'rgba(124,58,237,0.15)', color: '#c084fc', border: '1px solid rgba(124,58,237,0.25)' }}>
+            Você: #{studentRank}
+          </span>
+        )}
+      </div>
+
+      {/* Podium for top 3 */}
+      {!isLoading && !leaderboardLoading && leaderboard.length >= 3 && (
+        <div className="flex items-end justify-center gap-3 mb-5 pt-2">
+          {/* 2nd place */}
+          <div className="flex flex-col items-center gap-1.5">
+            <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-black"
+              style={{ background: 'rgba(148,163,184,0.15)', border: '2px solid rgba(148,163,184,0.4)', color: '#94a3b8' }}>
+              {leaderboard[1]?.studentName?.charAt(0).toUpperCase()}
+            </div>
+            <div className="h-14 w-16 rounded-t-xl flex flex-col items-center justify-center"
+              style={{ background: 'rgba(148,163,184,0.1)', border: '1px solid rgba(148,163,184,0.15)', borderBottom: 'none' }}>
+              <span className="text-xs text-slate-300 font-bold">{leaderboard[1]?.totalPoints}</span>
+              <span className="text-[10px] text-white/30">pts</span>
+            </div>
+            <span className="text-[10px] text-white/40 text-center max-w-[60px] truncate">{leaderboard[1]?.studentName?.split(' ')[0]}</span>
           </div>
-        ) : leaderboard.length > 0 ? (
-          <div className="space-y-2 max-h-96 overflow-y-auto">
-            {leaderboard.map((entry, index) => (
-              <div
-                key={index}
-                className={`flex items-center justify-between p-3 rounded-lg border transition-all duration-200 hover:bg-slate-700/40 ${getRankColor(entry.rank)}`}
-              >
-                <div className="flex items-center gap-3 flex-1 min-w-0">
-                  <div className="flex items-center justify-center w-6">
-                    {getMedalIcon(entry.rank)}
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-white font-medium text-sm truncate">{entry.studentName}</p>
-                    <p className="text-slate-400 text-xs">
-                      {entry.quizzesCompleted} quiz{entry.quizzesCompleted !== 1 ? "zes" : ""}
-                    </p>
-                  </div>
+          {/* 1st place */}
+          <div className="flex flex-col items-center gap-1.5">
+            <Crown size={14} className="text-yellow-400" />
+            <div className="w-12 h-12 rounded-full flex items-center justify-center text-base font-black"
+              style={{ background: 'rgba(234,179,8,0.2)', border: '2px solid rgba(234,179,8,0.5)', color: '#eab308' }}>
+              {leaderboard[0]?.studentName?.charAt(0).toUpperCase()}
+            </div>
+            <div className="h-20 w-20 rounded-t-xl flex flex-col items-center justify-center"
+              style={{ background: 'rgba(234,179,8,0.1)', border: '1px solid rgba(234,179,8,0.2)', borderBottom: 'none' }}>
+              <span className="text-sm text-yellow-300 font-black">{leaderboard[0]?.totalPoints}</span>
+              <span className="text-[10px] text-white/30">pts</span>
+            </div>
+            <span className="text-[10px] text-yellow-300 font-bold text-center max-w-[70px] truncate">{leaderboard[0]?.studentName?.split(' ')[0]}</span>
+          </div>
+          {/* 3rd place */}
+          <div className="flex flex-col items-center gap-1.5">
+            <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-black"
+              style={{ background: 'rgba(249,115,22,0.15)', border: '2px solid rgba(249,115,22,0.4)', color: '#f97316' }}>
+              {leaderboard[2]?.studentName?.charAt(0).toUpperCase()}
+            </div>
+            <div className="h-10 w-16 rounded-t-xl flex flex-col items-center justify-center"
+              style={{ background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.15)', borderBottom: 'none' }}>
+              <span className="text-xs text-orange-300 font-bold">{leaderboard[2]?.totalPoints}</span>
+              <span className="text-[10px] text-white/30">pts</span>
+            </div>
+            <span className="text-[10px] text-white/40 text-center max-w-[60px] truncate">{leaderboard[2]?.studentName?.split(' ')[0]}</span>
+          </div>
+        </div>
+      )}
+
+      {/* List */}
+      {isLoading || leaderboardLoading ? (
+        <div className="space-y-2">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="h-12 rounded-xl animate-pulse" style={{ background: 'rgba(255,255,255,0.03)' }} />
+          ))}
+        </div>
+      ) : leaderboard.length > 0 ? (
+        <div className="space-y-2 max-h-96 overflow-y-auto">
+          {leaderboard.map((entry, index) => (
+            <div
+              key={index}
+              className="flex items-center justify-between p-3 rounded-xl transition-all duration-200 hover:bg-white/5"
+              style={getRankStyle(entry.rank)}
+            >
+              <div className="flex items-center gap-3 flex-1 min-w-0">
+                <div className="flex items-center justify-center w-6">
+                  {getMedalIcon(entry.rank)}
                 </div>
-                <div className="text-right">
-                  <p className="text-white font-bold text-sm sm:text-base">
-                    {entry.totalPoints}
+                <div className="min-w-0 flex-1">
+                  <p className="text-white font-medium text-sm truncate">{entry.studentName}</p>
+                  <p className="text-white/30 text-xs">
+                    {entry.quizzesCompleted} quiz{entry.quizzesCompleted !== 1 ? "zes" : ""}
                   </p>
-                  <p className="text-slate-400 text-xs">pontos</p>
                 </div>
               </div>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-8">
-            <p className="text-slate-400 text-sm">Nenhum resultado ainda</p>
-            <p className="text-slate-500 text-xs mt-1">Complete quizzes para aparecer no ranking!</p>
-          </div>
-        )}
-      </CardContent>
-    </Card>
+              <div className="text-right">
+                <p className="text-white font-bold text-sm">{entry.totalPoints}</p>
+                <p className="text-white/30 text-xs">pts</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="text-center py-8">
+          <Trophy className="w-8 h-8 mx-auto mb-2 text-white/10" />
+          <p className="text-white/40 text-sm">Nenhum resultado ainda</p>
+          <p className="text-white/25 text-xs mt-1">Complete quizzes para aparecer no ranking!</p>
+        </div>
+      )}
+    </div>
   );
 }

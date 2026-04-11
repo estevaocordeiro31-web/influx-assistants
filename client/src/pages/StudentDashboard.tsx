@@ -5,10 +5,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { 
-  BookOpen, MessageCircle, Zap, TrendingUp, Award, RotateCcw, 
-  Trophy, Star, Target, Clock, CheckCircle2, Flame, Medal, Mic, GraduationCap,
-  Calendar, Bell, BarChart3
+import {
+  BookOpen, MessageCircle, Zap, TrendingUp, Award,
+  Trophy, Star, Target, Clock, Flame, Medal, Mic, GraduationCap,
+  Calendar, Bell, BarChart3, ChevronRight, Sparkles
 } from "lucide-react";
 import { useLocation } from "wouter";
 import { useEffect, useState } from "react";
@@ -26,7 +26,7 @@ import { StudentGrades } from "@/components/StudentGrades";
 import { SyncIndicator, useSyncStatus } from "@/components/SyncIndicator";
 import { getBookTheme, getBookNumberFromLevel } from "@/lib/book-themes";
 
-// Dados de demonstração - Aluno avançado Book 5
+// Demo data for unauthenticated/demo mode
 const DEMO_STUDENT = {
   name: "Estevao Cordeiro",
   email: "estevao@influxjundiai.com",
@@ -71,14 +71,31 @@ const DEMO_STUDENT = {
   ],
 };
 
+// Glassmorphism card wrapper
+function GlassCard({ children, className = "", style = {} }: { children: React.ReactNode; className?: string; style?: React.CSSProperties }) {
+  return (
+    <div
+      className={`rounded-2xl ${className}`}
+      style={{
+        background: 'rgba(255, 255, 255, 0.05)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        border: '1px solid rgba(255, 255, 255, 0.08)',
+        ...style,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
 export default function StudentDashboard() {
   const { user, isAuthenticated } = useAuth();
   const [, setLocation] = useLocation();
   const { notifications, clearNotification } = useNotifications();
   const [showOnboarding, setShowOnboarding] = useState(false);
-  const { status, message, setSyncing, setSyncSuccess, setSyncError } = useSyncStatus();
+  const { status, message } = useSyncStatus();
 
-  // Verificar se é o primeiro acesso do usuário
   useEffect(() => {
     if (isAuthenticated && user) {
       const hasSeenOnboarding = localStorage.getItem(`onboarding_completed_${user.id}`);
@@ -95,25 +112,18 @@ export default function StudentDashboard() {
     setShowOnboarding(false);
   };
 
-  // Buscar dados personalizados do dashboard do aluno autenticado
   const { data: personalizedDashboard, isLoading: personalizedLoading } = trpc.studentPersonalization.getPersonalizedDashboard.useQuery(
     undefined,
     { enabled: isAuthenticated }
   );
 
-  // Buscar cursos extras do aluno logado
   const { data: myCourses } = trpc.studentCourses.getMyCourses.useQuery(
     undefined,
     { enabled: isAuthenticated }
   );
 
-  // Controle de acesso por cursos
   const hasReadingClub = myCourses?.includes('reading_club') ?? false;
-  const hasVacationPlus = myCourses?.some(c => c.startsWith('vp')) ?? false;
-  const hasTraveler = myCourses?.includes('traveler') ?? false;
-  const hasOnBusiness = myCourses?.includes('on_business') ?? false;
 
-  // Usar dados personalizados do dashboard ou dados de demonstração
   const bookNum = personalizedDashboard?.student ? getBookNumberFromLevel(personalizedDashboard.student.level) : 5;
   const studentData = personalizedDashboard?.student && personalizedDashboard?.books ? {
     name: personalizedDashboard.student.name || 'Aluno',
@@ -142,529 +152,484 @@ export default function StudentDashboard() {
     weeklyProgress: [],
   } : DEMO_STUDENT;
 
-  // Get book theme based on student level
   const bookNumber = getBookNumberFromLevel(studentData.level);
   const theme = getBookTheme(bookNumber);
 
   return (
-    <div className="min-h-screen safe-area-bottom" style={{ background: theme.headerBg }}>
+    <div className="min-h-screen safe-area-bottom"
+      style={{ background: 'linear-gradient(135deg, #0f0a1e 0%, #1a1145 30%, #0d2137 60%, #0a1628 100%)' }}>
       <InfluxHeader />
-      
-      {/* Tutorial de Onboarding */}
+
       {showOnboarding && (
         <OnboardingTutorial onComplete={handleOnboardingComplete} />
       )}
-      
+
       <main className="container mx-auto px-4 py-4 sm:py-6 max-w-7xl">
         {/* Sync Indicator */}
         <div className="mb-4">
           <SyncIndicator status={status} message={message} showBadge={true} />
         </div>
-        {/* Header do Aluno - Compacto no Mobile */}
-        <div className="mb-4 sm:mb-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
-            <div>
-              <h1 className="text-xl sm:text-3xl font-bold text-white">
-                Olá, {user?.name || studentData.name}! 🎉
-              </h1>
-              <p className="text-slate-300 text-sm sm:text-base mt-1">
-                <span className="font-semibold" style={{ color: theme.primary }}>{theme.emoji} {studentData.level}</span> • 
-                <span className="font-semibold" style={{ color: theme.primary }}> {studentData.currentBook} - Unit {studentData.currentUnit}</span>
-              </p>
+
+        {/* ===== HERO BOOK CARD ===== */}
+        <GlassCard className="p-5 sm:p-8 mb-5" style={{
+          background: `linear-gradient(135deg, ${theme.primaryDark}22 0%, rgba(255,255,255,0.03) 50%, ${theme.primary}11 100%)`,
+          borderColor: `${theme.primary}20`,
+        }}>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+            {/* Book visual */}
+            <div className="flex-shrink-0 w-20 h-20 sm:w-28 sm:h-28 rounded-2xl flex items-center justify-center"
+              style={{
+                background: theme.gradient,
+                boxShadow: `0 8px 32px ${theme.primary}40`,
+              }}>
+              <div className="text-center">
+                <span className="text-3xl sm:text-4xl">{theme.emoji}</span>
+                <p className="text-[10px] sm:text-xs font-bold text-white/90 mt-1">Book {bookNumber}</p>
+              </div>
             </div>
-            <div className="hidden sm:flex gap-2 flex-wrap">
-              {studentData.badges.slice(0, 3).map((badge, index) => (
-                <Badge key={index} variant="outline" className="bg-slate-800/50 border-slate-600 text-white">
-                  <span className="mr-1">{badge.icon}</span> {badge.name}
-                </Badge>
-              ))}
+
+            {/* Info */}
+            <div className="flex-1 min-w-0">
+              <p className="text-white/50 text-sm mb-1" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                Bem-vindo de volta,
+              </p>
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-white truncate"
+                style={{ fontFamily: "'Syne', sans-serif" }}>
+                {user?.name || studentData.name}
+              </h1>
+              <div className="flex items-center gap-2 mt-2 flex-wrap">
+                <span className="text-xs px-3 py-1 rounded-full font-semibold"
+                  style={{ background: `${theme.primary}25`, color: theme.primary, border: `1px solid ${theme.primary}30` }}>
+                  {studentData.level}
+                </span>
+                <span className="text-xs text-white/40">
+                  Unit {studentData.currentUnit} de {studentData.totalUnits}
+                </span>
+              </div>
+
+              {/* Progress bar */}
+              <div className="mt-4">
+                <div className="flex justify-between mb-1.5">
+                  <span className="text-xs text-white/50">Progresso do livro</span>
+                  <span className="text-xs font-bold" style={{ color: theme.primary }}>{studentData.progressPercentage}%</span>
+                </div>
+                <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
+                  <div className="h-full rounded-full transition-all duration-1000 ease-out"
+                    style={{ width: `${studentData.progressPercentage}%`, background: theme.gradient }} />
+                </div>
+              </div>
+            </div>
+
+            {/* CTA button */}
+            <div className="sm:flex-shrink-0">
+              <Button
+                onClick={() => {
+                  const tutorTab = document.querySelector('[value="tutor"]') as HTMLButtonElement;
+                  if (tutorTab) tutorTab.click();
+                }}
+                className="w-full sm:w-auto h-12 px-6 rounded-xl text-sm font-semibold"
+                style={{
+                  background: theme.gradient,
+                  color: '#fff',
+                  boxShadow: `0 4px 20px ${theme.primary}30`,
+                }}>
+                <Zap className="w-4 h-4 mr-2" />
+                Continuar Estudando
+              </Button>
             </div>
           </div>
+        </GlassCard>
+
+        {/* ===== STATS GRID ===== */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
+          {[
+            { icon: Flame, label: 'Streak', value: `${studentData.streakDays}`, unit: 'dias', color: '#f97316', bg: 'rgba(249,115,22,0.1)' },
+            { icon: Clock, label: 'Horas', value: `${studentData.totalHoursLearned}`, unit: 'horas', color: '#06b6d4', bg: 'rgba(6,182,212,0.1)' },
+            { icon: BookOpen, label: 'Chunks', value: `${studentData.totalChunksLearned}`, unit: 'aprendidos', color: '#22c55e', bg: 'rgba(34,197,94,0.1)' },
+            { icon: Trophy, label: 'Livros', value: `${studentData.completedBooks.filter(b => b.progress === 100).length}`, unit: 'completos', color: '#a855f7', bg: 'rgba(168,85,247,0.1)' },
+          ].map((stat, i) => (
+            <GlassCard key={i} className="p-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-xl" style={{ background: stat.bg }}>
+                  <stat.icon className="w-5 h-5" style={{ color: stat.color }} />
+                </div>
+                <div>
+                  <p className="text-xl sm:text-2xl font-bold text-white" style={{ fontFamily: "'Syne', sans-serif" }}>
+                    {stat.value}
+                  </p>
+                  <p className="text-[10px] sm:text-xs text-white/40">{stat.unit}</p>
+                </div>
+              </div>
+            </GlassCard>
+          ))}
         </div>
 
-        {/* Stats Cards - Grid 2x2 no Mobile */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 mb-4 sm:mb-6">
-          <Card className="bg-slate-800/50 border-slate-700 backdrop-blur">
-            <CardContent className="p-3 sm:p-4">
-              <div className="flex items-center gap-2 sm:gap-3">
-                <div className="p-1.5 sm:p-2 bg-green-500/20 rounded-lg">
-                  <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 text-green-400" />
-                </div>
-                <div>
-                  <p className="text-lg sm:text-2xl font-bold text-white">{studentData.totalChunksLearned}</p>
-                  <p className="text-[10px] sm:text-xs text-slate-400">Chunks</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-slate-800/50 border-slate-700 backdrop-blur">
-            <CardContent className="p-3 sm:p-4">
-              <div className="flex items-center gap-2 sm:gap-3">
-                <div className="p-1.5 sm:p-2 bg-blue-500/20 rounded-lg">
-                  <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
-                </div>
-                <div>
-                  <p className="text-lg sm:text-2xl font-bold text-white">{studentData.totalHoursLearned}h</p>
-                  <p className="text-[10px] sm:text-xs text-slate-400">Horas</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-slate-800/50 border-slate-700 backdrop-blur">
-            <CardContent className="p-3 sm:p-4">
-              <div className="flex items-center gap-2 sm:gap-3">
-                <div className="p-1.5 sm:p-2 bg-orange-500/20 rounded-lg">
-                  <Flame className="w-4 h-4 sm:w-5 sm:h-5 text-orange-400" />
-                </div>
-                <div>
-                  <p className="text-lg sm:text-2xl font-bold text-white">{studentData.streakDays}</p>
-                  <p className="text-[10px] sm:text-xs text-slate-400">Streak</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-slate-800/50 border-slate-700 backdrop-blur">
-            <CardContent className="p-3 sm:p-4">
-              <div className="flex items-center gap-2 sm:gap-3">
-                <div className="p-1.5 sm:p-2 bg-purple-500/20 rounded-lg">
-                  <Medal className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400" />
-                </div>
-                <div>
-                  <p className="text-lg sm:text-2xl font-bold text-white">4</p>
-                  <p className="text-[10px] sm:text-xs text-slate-400">Livros</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Action Cards - Grid 2x3 no Mobile com Meu Tutor em Destaque */}
-        <div className="mb-4 sm:mb-6">
-          {/* Meu Tutor - Card de Destaque (Maior) com Fluxie Tech */}
-          <button 
+        {/* ===== QUICK ACTIONS ===== */}
+        <div className="mb-5">
+          {/* Meu Tutor highlight card */}
+          <button
             onClick={() => {
               const tutorTab = document.querySelector('[value="tutor"]') as HTMLButtonElement;
               if (tutorTab) tutorTab.click();
             }}
-            className="w-full mb-3 p-4 sm:p-6 bg-gradient-to-br from-slate-800 to-slate-900 hover:from-slate-700 hover:to-slate-800 rounded-2xl shadow-lg shadow-green-500/20 border border-green-500/30 transition-all duration-200 active:scale-[0.98] overflow-hidden relative"
+            className="w-full mb-3 p-4 sm:p-5 rounded-2xl transition-all duration-200 active:scale-[0.98] overflow-hidden relative group"
+            style={{
+              background: 'linear-gradient(135deg, rgba(124,58,237,0.15) 0%, rgba(6,182,212,0.1) 100%)',
+              border: '1px solid rgba(124,58,237,0.2)',
+            }}
           >
-            {/* Glow effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 via-blue-500/10 to-green-500/10 animate-pulse" />
-            
             <div className="flex items-center justify-between relative z-10">
               <div className="flex items-center gap-3 sm:gap-4">
                 <div className="relative">
-                  <img 
-                    src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/UpLMiMaLftZmSfqa.png" 
-                    alt="Fluxie Tech Tutor" 
-                    className="w-16 h-16 sm:w-20 sm:h-20 object-contain rounded-xl"
+                  <img
+                    src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/UpLMiMaLftZmSfqa.png"
+                    alt="Fluxie Tech Tutor"
+                    className="w-14 h-14 sm:w-18 sm:h-18 object-contain rounded-xl"
                   />
-                  {/* Neon glow around image */}
-                  <div className="absolute inset-0 rounded-xl bg-green-500/20 blur-md -z-10" />
+                  <div className="absolute inset-0 rounded-xl blur-md -z-10"
+                    style={{ background: 'rgba(124,58,237,0.3)' }} />
                 </div>
                 <div className="text-left">
-                  <h3 className="text-lg sm:text-2xl font-bold text-white flex items-center gap-2">
+                  <h3 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2"
+                    style={{ fontFamily: "'Syne', sans-serif" }}>
                     Meu Tutor
-                    <span className="text-xs sm:text-sm bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full border border-green-500/30">AI</span>
+                    <span className="text-[10px] sm:text-xs px-2 py-0.5 rounded-full"
+                      style={{ background: 'rgba(124,58,237,0.3)', color: '#c084fc', border: '1px solid rgba(124,58,237,0.4)' }}>
+                      AI
+                    </span>
                   </h3>
-                  <p className="text-slate-400 text-xs sm:text-sm">Fluxie • Vacation Plus • Materiais</p>
+                  <p className="text-white/40 text-xs sm:text-sm">Fluxie, Vacation Plus, Materiais</p>
                 </div>
               </div>
-              <div className="hidden sm:block text-right">
-                <span className="text-green-400 text-sm font-medium">Acesse agora →</span>
-              </div>
+              <ChevronRight className="w-5 h-5 text-white/30 group-hover:text-white/60 transition-colors" />
             </div>
           </button>
 
-          {/* Grid de Action Cards - 2 colunas no mobile, 3 no tablet, 5 no desktop */}
+          {/* Action grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3">
-            {/* Reading Club - só aparece se aluno tem acesso */}
             {hasReadingClub && (
-              <button 
+              <button
                 onClick={() => {
                   clearNotification('readingClub');
                   const tab = document.querySelector('[value="reading-club"]') as HTMLButtonElement;
                   if (tab) tab.click();
                 }}
-                className="action-card bg-gradient-to-br from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 shadow-lg shadow-orange-500/20 relative"
+                className="action-card relative"
+                style={{ background: 'linear-gradient(135deg, rgba(249,115,22,0.2), rgba(234,88,12,0.15))', border: '1px solid rgba(249,115,22,0.2)' }}
               >
-                <BookOpen className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
-                <span className="text-white font-semibold text-xs sm:text-sm">Reading Club</span>
+                <BookOpen className="w-6 h-6 text-orange-400" />
+                <span className="text-white/80 font-semibold text-xs sm:text-sm">Reading Club</span>
                 <NotificationBadge count={notifications.readingClub} />
               </button>
             )}
-
-            {/* Chat IA */}
-            <button 
+            <button
               onClick={() => {
                 clearNotification('chat');
                 const tab = document.querySelector('[value="chat"]') as HTMLButtonElement;
                 if (tab) tab.click();
               }}
-              className="action-card bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 shadow-lg shadow-blue-500/20 relative"
+              className="action-card relative"
+              style={{ background: 'linear-gradient(135deg, rgba(59,130,246,0.2), rgba(37,99,235,0.15))', border: '1px solid rgba(59,130,246,0.2)' }}
             >
-              <MessageCircle className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
-              <span className="text-white font-semibold text-xs sm:text-sm">Chat IA</span>
+              <MessageCircle className="w-6 h-6 text-blue-400" />
+              <span className="text-white/80 font-semibold text-xs sm:text-sm">Chat IA</span>
               <NotificationBadge count={notifications.chat} />
             </button>
-
-            {/* Exercícios */}
-            <button 
+            <button
               onClick={() => {
                 clearNotification('exercises');
                 const tab = document.querySelector('[value="exercises"]') as HTMLButtonElement;
                 if (tab) tab.click();
               }}
-              className="action-card bg-gradient-to-br from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 shadow-lg shadow-yellow-500/20 relative"
+              className="action-card relative"
+              style={{ background: 'linear-gradient(135deg, rgba(234,179,8,0.2), rgba(202,138,4,0.15))', border: '1px solid rgba(234,179,8,0.2)' }}
             >
-              <Zap className="w-6 h-6 sm:w-7 sm:h-7 text-slate-900" />
-              <span className="text-slate-900 font-semibold text-xs sm:text-sm">Exercícios</span>
+              <Zap className="w-6 h-6 text-yellow-400" />
+              <span className="text-white/80 font-semibold text-xs sm:text-sm">Exercícios</span>
               <NotificationBadge count={notifications.exercises} />
             </button>
-
-            {/* Voice Chat */}
-            <button 
+            <button
               onClick={() => setLocation("/student/voice-chat")}
-              className="action-card bg-gradient-to-br from-purple-500 to-purple-600 hover:from-purple-400 hover:to-purple-500 shadow-lg shadow-purple-500/20"
+              className="action-card"
+              style={{ background: 'linear-gradient(135deg, rgba(168,85,247,0.2), rgba(126,34,206,0.15))', border: '1px solid rgba(168,85,247,0.2)' }}
             >
-              <Mic className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
-              <span className="text-white font-semibold text-xs sm:text-sm">Voice Chat</span>
+              <Mic className="w-6 h-6 text-purple-400" />
+              <span className="text-white/80 font-semibold text-xs sm:text-sm">Voice Chat</span>
             </button>
-
-            {/* Dados */}
-            <button 
+            <button
               onClick={() => {
                 const tab = document.querySelector('[value="sponte"]') as HTMLButtonElement;
                 if (tab) tab.click();
               }}
-              className="action-card bg-gradient-to-br from-cyan-500 to-cyan-600 hover:from-cyan-400 hover:to-cyan-500 shadow-lg shadow-cyan-500/20"
+              className="action-card"
+              style={{ background: 'linear-gradient(135deg, rgba(6,182,212,0.2), rgba(8,145,178,0.15))', border: '1px solid rgba(6,182,212,0.2)' }}
             >
-              <TrendingUp className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
-              <span className="text-white font-semibold text-xs sm:text-sm">Meus Dados</span>
+              <TrendingUp className="w-6 h-6 text-cyan-400" />
+              <span className="text-white/80 font-semibold text-xs sm:text-sm">Meus Dados</span>
             </button>
           </div>
         </div>
 
-        {/* Abas Principais - Escondidas visualmente mas funcionais */}
+        {/* ===== TABS ===== */}
         <Tabs defaultValue="overview" className="w-full">
-          {/* Navegação Principal - Compacta no Mobile */}
-          <TabsList className="flex w-full overflow-x-auto bg-slate-900/80 backdrop-blur-sm border border-slate-700/50 rounded-xl p-1 gap-0.5 sm:gap-1 shadow-lg scrollbar-hide">
-            <TabsTrigger 
-              value="overview" 
-              className="flex flex-col items-center justify-center gap-0.5 py-2 px-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-green-400 data-[state=active]:to-green-500 data-[state=active]:text-slate-900 data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200"
-            >
-              <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="text-[8px] sm:text-[10px] font-semibold">Visão Geral</span>
-            </TabsTrigger>
-            
-            <TabsTrigger 
-              value="tutor" 
-              className="flex flex-col items-center justify-center gap-0.5 py-2 px-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-green-400 data-[state=active]:to-green-500 data-[state=active]:text-slate-900 data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200"
-            >
-              <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="text-[8px] sm:text-[10px] font-semibold">Meu Tutor</span>
-            </TabsTrigger>
-            
-            {hasReadingClub && (
-              <TabsTrigger 
-                value="reading-club" 
-                className="flex flex-col items-center justify-center gap-0.5 py-2 px-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-orange-400 data-[state=active]:to-orange-500 data-[state=active]:text-white data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200 relative"
-                onClick={() => clearNotification('readingClub')}
+          <TabsList className="flex w-full overflow-x-auto rounded-xl p-1 gap-0.5 sm:gap-1 shadow-lg scrollbar-hide"
+            style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+            {[
+              { value: 'overview', icon: BookOpen, label: 'Visão Geral' },
+              { value: 'tutor', icon: GraduationCap, label: 'Meu Tutor' },
+              ...(hasReadingClub ? [{ value: 'reading-club', icon: BookOpen, label: 'Reading' }] : []),
+              { value: 'chat', icon: MessageCircle, label: 'Chat' },
+              { value: 'exercises', icon: Zap, label: 'Exercícios' },
+              { value: 'calendar', icon: Calendar, label: 'Agenda' },
+              { value: 'messages', icon: Bell, label: 'Avisos' },
+              { value: 'grades', icon: BarChart3, label: 'Notas' },
+              { value: 'sponte', icon: TrendingUp, label: 'Dados' },
+            ].map((tab) => (
+              <TabsTrigger
+                key={tab.value}
+                value={tab.value}
+                className="flex flex-col items-center justify-center gap-0.5 py-2 px-1 data-[state=active]:text-white data-[state=active]:shadow-lg text-white/30 hover:text-white/60 rounded-lg transition-all duration-200"
+                style={{}}
+                onClick={() => {
+                  if (tab.value === 'reading-club') clearNotification('readingClub');
+                  if (tab.value === 'chat') clearNotification('chat');
+                  if (tab.value === 'exercises') clearNotification('exercises');
+                }}
               >
-                <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" />
-                <span className="text-[8px] sm:text-[10px] font-semibold">Reading</span>
-                <NotificationBadge count={notifications.readingClub} />
+                <tab.icon className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span className="text-[8px] sm:text-[10px] font-semibold">{tab.label}</span>
+                {tab.value === 'reading-club' && <NotificationBadge count={notifications.readingClub} />}
+                {tab.value === 'chat' && <NotificationBadge count={notifications.chat} />}
+                {tab.value === 'exercises' && <NotificationBadge count={notifications.exercises} />}
               </TabsTrigger>
-            )}
-            
-            <TabsTrigger 
-              value="chat" 
-              className="flex flex-col items-center justify-center gap-0.5 py-2 px-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-blue-400 data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200 relative"
-              onClick={() => clearNotification('chat')}
-            >
-              <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="text-[8px] sm:text-[10px] font-semibold">Chat</span>
-              <NotificationBadge count={notifications.chat} />
-            </TabsTrigger>
-            
-            <TabsTrigger 
-              value="exercises" 
-              className="flex flex-col items-center justify-center gap-0.5 py-2 px-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-yellow-400 data-[state=active]:to-yellow-500 data-[state=active]:text-slate-900 data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200 relative"
-              onClick={() => clearNotification('exercises')}
-            >
-              <Zap className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="text-[8px] sm:text-[10px] font-semibold">Exercícios</span>
-              <NotificationBadge count={notifications.exercises} />
-            </TabsTrigger>
-            
-            <TabsTrigger 
-              value="calendar" 
-              className="flex flex-col items-center justify-center gap-0.5 py-2 px-2 shrink-0 data-[state=active]:bg-gradient-to-br data-[state=active]:from-teal-400 data-[state=active]:to-teal-500 data-[state=active]:text-slate-900 data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200"
-            >
-              <Calendar className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="text-[8px] sm:text-[10px] font-semibold">Agenda</span>
-            </TabsTrigger>
-            
-            <TabsTrigger 
-              value="messages" 
-              className="flex flex-col items-center justify-center gap-0.5 py-2 px-2 shrink-0 data-[state=active]:bg-gradient-to-br data-[state=active]:from-indigo-400 data-[state=active]:to-indigo-500 data-[state=active]:text-white data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200 relative"
-            >
-              <Bell className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="text-[8px] sm:text-[10px] font-semibold">Avisos</span>
-            </TabsTrigger>
-            
-            <TabsTrigger 
-              value="grades" 
-              className="flex flex-col items-center justify-center gap-0.5 py-2 px-2 shrink-0 data-[state=active]:bg-gradient-to-br data-[state=active]:from-pink-400 data-[state=active]:to-pink-500 data-[state=active]:text-white data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200"
-            >
-              <BarChart3 className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="text-[8px] sm:text-[10px] font-semibold">Notas</span>
-            </TabsTrigger>
-            
-            <TabsTrigger 
-              value="sponte" 
-              className="flex flex-col items-center justify-center gap-0.5 py-2 px-2 shrink-0 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:to-cyan-500 data-[state=active]:text-slate-900 data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200"
-            >
-              <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="text-[8px] sm:text-[10px] font-semibold">Dados</span>
-            </TabsTrigger>
+            ))}
           </TabsList>
 
-          {/* Aba: Visão Geral */}
-          <TabsContent value="overview" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
-            <div className="grid md:grid-cols-2 gap-3 sm:gap-4">
-              {/* Progresso Atual */}
-              <Card className="bg-slate-800/50 border-slate-700">
-                <CardHeader className="p-3 sm:p-6">
-                  <CardTitle className="text-white flex items-center gap-2 text-base sm:text-lg">
-                    <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 text-green-400" />
+          {/* === Tab: Overview === */}
+          <TabsContent value="overview" className="space-y-4 mt-4">
+            <div className="grid md:grid-cols-2 gap-4">
+              {/* Current Progress */}
+              <GlassCard className="p-5">
+                <div className="flex items-center gap-2 mb-4">
+                  <BookOpen className="w-5 h-5" style={{ color: theme.primary }} />
+                  <h3 className="text-white font-bold" style={{ fontFamily: "'Syne', sans-serif" }}>
                     {studentData.currentBook} - Progresso
-                  </CardTitle>
-                  <CardDescription className="text-slate-400 text-xs sm:text-sm">
-                    Unit {studentData.currentUnit} de {studentData.totalUnits}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-3 sm:space-y-4 p-3 sm:p-6 pt-0">
-                  <div>
-                    <div className="flex justify-between mb-2">
-                      <span className="text-xs sm:text-sm text-slate-300">Progresso do Livro</span>
-                      <span className="text-xs sm:text-sm font-bold text-green-400">{studentData.progressPercentage}%</span>
-                    </div>
-                    <Progress value={studentData.progressPercentage} className="h-2 sm:h-3 bg-slate-700" />
+                  </h3>
+                </div>
+                <p className="text-white/40 text-sm mb-4">Unit {studentData.currentUnit} de {studentData.totalUnits}</p>
+                <div className="mb-4">
+                  <div className="flex justify-between mb-1.5">
+                    <span className="text-xs text-white/50">Progresso do Livro</span>
+                    <span className="text-xs font-bold" style={{ color: theme.primary }}>{studentData.progressPercentage}%</span>
                   </div>
-                  <Button className="w-full bg-green-500 hover:bg-green-600 text-slate-900 font-bold h-10 sm:h-11">
-                    <Zap className="w-4 h-4 mr-2" />
-                    Continuar Estudando
-                  </Button>
-                </CardContent>
-              </Card>
-
-              {/* Chunks Recentes */}
-              <Card className="bg-slate-800/50 border-slate-700">
-                <CardHeader className="p-3 sm:p-6">
-                  <CardTitle className="text-white flex items-center gap-2 text-base sm:text-lg">
-                    <Star className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400" />
-                    Chunks Recentes
-                  </CardTitle>
-                  <CardDescription className="text-slate-400 text-xs sm:text-sm">
-                    Últimas expressões aprendidas
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="p-3 sm:p-6 pt-0">
-                  <div className="space-y-2">
-                    {studentData.recentChunks.slice(0, 3).map((chunk, index) => (
-                      <div key={index} className="p-2 bg-slate-700/50 rounded-lg">
-                        <p className="text-white font-medium text-xs sm:text-sm">{chunk.text}</p>
-                        <p className="text-green-400 text-[10px] sm:text-xs">{chunk.meaning}</p>
-                      </div>
-                    ))}
+                  <div className="h-2.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
+                    <div className="h-full rounded-full transition-all duration-1000"
+                      style={{ width: `${studentData.progressPercentage}%`, background: theme.gradient }} />
                   </div>
-                  <Button variant="outline" className="w-full mt-3 border-slate-600 text-slate-300 hover:bg-slate-700 h-9 sm:h-10 text-xs sm:text-sm">
-                    Ver Todos os Chunks
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
+                </div>
+                <Button
+                  className="w-full h-11 rounded-xl font-bold"
+                  style={{ background: theme.gradient, color: '#fff' }}>
+                  <Zap className="w-4 h-4 mr-2" /> Continuar Estudando
+                </Button>
+              </GlassCard>
 
-            {/* Progresso Semanal */}
-            <Card className="bg-slate-800/50 border-slate-700">
-              <CardHeader className="p-3 sm:p-6">
-                <CardTitle className="text-white flex items-center gap-2 text-base sm:text-lg">
-                  <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
-                  Progresso Semanal
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-3 sm:p-6 pt-0">
-                <div className="grid grid-cols-7 gap-1 sm:gap-2">
-                  {studentData.weeklyProgress.map((day, index) => (
-                    <div key={index} className="text-center">
-                      <div 
-                        className="bg-gradient-to-t from-green-500/20 to-green-500/80 rounded-lg mb-1 flex items-end justify-center"
-                        style={{ height: `${Math.max(20, day.hours * 25)}px` }}
-                      >
-                        <span className="text-[9px] sm:text-xs text-white font-bold pb-0.5">{day.hours}h</span>
-                      </div>
-                      <span className="text-[9px] sm:text-xs text-slate-400">{day.day}</span>
+              {/* Recent Chunks */}
+              <GlassCard className="p-5">
+                <div className="flex items-center gap-2 mb-4">
+                  <Star className="w-5 h-5 text-yellow-400" />
+                  <h3 className="text-white font-bold" style={{ fontFamily: "'Syne', sans-serif" }}>Chunks Recentes</h3>
+                </div>
+                <p className="text-white/40 text-sm mb-4">Últimas expressões aprendidas</p>
+                <div className="space-y-2">
+                  {studentData.recentChunks.slice(0, 3).map((chunk, index) => (
+                    <div key={index} className="p-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.04)' }}>
+                      <p className="text-white font-medium text-sm">{chunk.text}</p>
+                      <p className="text-xs mt-0.5" style={{ color: theme.primary }}>{chunk.meaning}</p>
                     </div>
                   ))}
                 </div>
-              </CardContent>
-            </Card>
+                {studentData.recentChunks.length > 0 && (
+                  <Button variant="outline" className="w-full mt-3 border-white/10 text-white/50 hover:text-white hover:bg-white/5 h-10 text-sm rounded-xl">
+                    Ver Todos os Chunks
+                  </Button>
+                )}
+              </GlassCard>
+            </div>
 
-            {/* Leaderboard */}
+            {/* Weekly Progress */}
+            {studentData.weeklyProgress.length > 0 && (
+              <GlassCard className="p-5">
+                <div className="flex items-center gap-2 mb-4">
+                  <TrendingUp className="w-5 h-5 text-cyan-400" />
+                  <h3 className="text-white font-bold" style={{ fontFamily: "'Syne', sans-serif" }}>Progresso Semanal</h3>
+                </div>
+                <div className="grid grid-cols-7 gap-2">
+                  {studentData.weeklyProgress.map((day, index) => (
+                    <div key={index} className="text-center">
+                      <div
+                        className="rounded-lg mb-1 flex items-end justify-center"
+                        style={{
+                          height: `${Math.max(24, day.hours * 28)}px`,
+                          background: `linear-gradient(to top, ${theme.primary}20, ${theme.primary}80)`,
+                        }}
+                      >
+                        <span className="text-[9px] sm:text-xs text-white font-bold pb-0.5">{day.hours}h</span>
+                      </div>
+                      <span className="text-[9px] sm:text-xs text-white/40">{day.day}</span>
+                    </div>
+                  ))}
+                </div>
+              </GlassCard>
+            )}
+
+            {/* AI Suggestion */}
+            <GlassCard className="p-5" style={{
+              background: 'linear-gradient(135deg, rgba(124,58,237,0.08) 0%, rgba(6,182,212,0.05) 100%)',
+              borderColor: 'rgba(124,58,237,0.15)',
+            }}>
+              <div className="flex items-start gap-3">
+                <div className="p-2 rounded-xl flex-shrink-0" style={{ background: 'rgba(124,58,237,0.15)' }}>
+                  <Sparkles className="w-5 h-5 text-purple-400" />
+                </div>
+                <div>
+                  <h3 className="text-white font-bold text-sm mb-1" style={{ fontFamily: "'Syne', sans-serif" }}>
+                    Sugestão do Tutor IA
+                  </h3>
+                  <p className="text-white/50 text-sm">
+                    {studentData.streakDays > 7
+                      ? `Parabéns pelo streak de ${studentData.streakDays} dias! Que tal praticar conversação no Voice Chat para consolidar o que aprendeu?`
+                      : 'Continue praticando diariamente para manter seu streak! Comece com uma sessão rápida de exercícios.'}
+                  </p>
+                </div>
+              </div>
+            </GlassCard>
+
             <LeaderboardWidget />
           </TabsContent>
 
-          {/* Aba: Meu Tutor (absorve Meus Livros, Vacation Plus, Revisão, Blog, Materiais) */}
-          <TabsContent value="tutor" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
+          {/* === Tab: Meu Tutor === */}
+          <TabsContent value="tutor" className="space-y-4 mt-4">
             <MeuTutorTab studentData={studentData} />
           </TabsContent>
 
-          {/* Aba: Reading Club */}
+          {/* === Tab: Reading Club === */}
           {hasReadingClub && (
-            <TabsContent value="reading-club" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
+            <TabsContent value="reading-club" className="space-y-4 mt-4">
               <ReadingClubIntegrated />
             </TabsContent>
           )}
 
-          {/* Aba: Chat IA */}
-          <TabsContent value="chat" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
-            <Card className="bg-slate-800/50 border-slate-700">
-              <CardHeader className="p-3 sm:p-6">
-                <CardTitle className="text-white flex items-center gap-2 text-base sm:text-lg">
-                  <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
-                  Chat com Fluxie
-                </CardTitle>
-                <CardDescription className="text-slate-400 text-xs sm:text-sm">
-                  Seu assistente pessoal de inglês
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3 sm:space-y-4 p-3 sm:p-6 pt-0">
-                <div className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl border border-blue-500/30">
-                  <img src="/fluxie-waving.png" alt="Fluxie" className="w-12 h-12 sm:w-16 sm:h-16 object-contain" />
-                  <div>
-                    <h3 className="text-white font-bold text-sm sm:text-lg mb-1">Olá! Sou o Fluxie! 👋</h3>
-                    <p className="text-slate-300 text-xs sm:text-sm">
-                      Como você está no Book 5, posso ajudar com expressões avançadas e prática de conversação!
-                    </p>
-                  </div>
+          {/* === Tab: Chat === */}
+          <TabsContent value="chat" className="space-y-4 mt-4">
+            <GlassCard className="p-5">
+              <div className="flex items-center gap-2 mb-4">
+                <MessageCircle className="w-5 h-5 text-blue-400" />
+                <h3 className="text-white font-bold" style={{ fontFamily: "'Syne', sans-serif" }}>Chat com Fluxie</h3>
+              </div>
+              <p className="text-white/40 text-sm mb-4">Seu assistente pessoal de inglês</p>
+              <div className="flex items-start gap-4 p-4 rounded-xl mb-4" style={{
+                background: 'linear-gradient(135deg, rgba(59,130,246,0.1), rgba(168,85,247,0.08))',
+                border: '1px solid rgba(59,130,246,0.15)',
+              }}>
+                <img src="/fluxie-waving.png" alt="Fluxie" className="w-14 h-14 sm:w-16 sm:h-16 object-contain" />
+                <div>
+                  <h3 className="text-white font-bold text-sm sm:text-base mb-1">Olá! Sou o Fluxie!</h3>
+                  <p className="text-white/50 text-xs sm:text-sm">
+                    Como você está no {studentData.currentBook}, posso ajudar com expressões e prática de conversação!
+                  </p>
                 </div>
-                <div className="grid grid-cols-2 gap-2 sm:gap-3">
-                  <Button 
-                    onClick={() => setLocation("/student/chat")}
-                    className="bg-blue-500 hover:bg-blue-600 text-white font-bold h-14 sm:h-16 text-sm sm:text-lg"
-                  >
-                    <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                    Chat
-                  </Button>
-                  <Button 
-                    onClick={() => setLocation("/student/voice-chat")}
-                    className="bg-purple-500 hover:bg-purple-600 text-white font-bold h-14 sm:h-16 text-sm sm:text-lg"
-                  >
-                    <Mic className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                    Voice Chat
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* Aba: Exercícios */}
-          <TabsContent value="exercises" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
-            <Card className="bg-slate-800/50 border-slate-700">
-              <CardHeader className="p-3 sm:p-6">
-                <CardTitle className="text-white flex items-center gap-2 text-base sm:text-lg">
-                  <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400" />
-                  Exercícios Personalizados
-                </CardTitle>
-                <CardDescription className="text-slate-400 text-xs sm:text-sm">
-                  Prática focada no seu nível atual
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3 sm:space-y-4 p-3 sm:p-6 pt-0">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                  <div className="p-3 sm:p-4 bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-xl border border-green-500/30">
-                    <h3 className="text-white font-bold mb-1 sm:mb-2 text-sm sm:text-base">Chunks do Book 5</h3>
-                    <p className="text-slate-400 text-xs sm:text-sm mb-2 sm:mb-3">Pratique as expressões da sua unit atual</p>
-                    <Button className="w-full bg-green-500 hover:bg-green-600 text-slate-900 h-9 sm:h-10">
-                      Iniciar
-                    </Button>
-                  </div>
-                  <div className="p-3 sm:p-4 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl border border-purple-500/30">
-                    <h3 className="text-white font-bold mb-1 sm:mb-2 text-sm sm:text-base">Simulador de Situações</h3>
-                    <p className="text-slate-400 text-xs sm:text-sm mb-2 sm:mb-3">Pratique em contextos reais</p>
-                    <Button 
-                      onClick={() => setLocation("/student/simulator")}
-                      className="w-full bg-purple-500 hover:bg-purple-600 text-white h-9 sm:h-10"
-                    >
-                      Iniciar
-                    </Button>
-                  </div>
-                </div>
-                <Button 
-                  onClick={() => setLocation("/student/exercises")}
-                  className="w-full bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-bold h-12 sm:h-14 text-sm sm:text-lg"
-                >
-                  <Zap className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                  Ver Todos os Exercícios
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <Button
+                  onClick={() => setLocation("/student/chat")}
+                  className="h-14 rounded-xl font-bold"
+                  style={{ background: 'linear-gradient(135deg, #3b82f6, #2563eb)' }}>
+                  <MessageCircle className="w-5 h-5 mr-2" /> Chat
                 </Button>
-              </CardContent>
-            </Card>
+                <Button
+                  onClick={() => setLocation("/student/voice-chat")}
+                  className="h-14 rounded-xl font-bold"
+                  style={{ background: 'linear-gradient(135deg, #a855f7, #7c3aed)' }}>
+                  <Mic className="w-5 h-5 mr-2" /> Voice Chat
+                </Button>
+              </div>
+            </GlassCard>
           </TabsContent>
 
-          {/* Aba: Agenda */}
-          <TabsContent value="calendar" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
+          {/* === Tab: Exercises === */}
+          <TabsContent value="exercises" className="space-y-4 mt-4">
+            <GlassCard className="p-5">
+              <div className="flex items-center gap-2 mb-4">
+                <Zap className="w-5 h-5 text-yellow-400" />
+                <h3 className="text-white font-bold" style={{ fontFamily: "'Syne', sans-serif" }}>Exercícios Personalizados</h3>
+              </div>
+              <p className="text-white/40 text-sm mb-4">Prática focada no seu nível atual</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                <div className="p-4 rounded-xl" style={{
+                  background: 'linear-gradient(135deg, rgba(34,197,94,0.1), rgba(16,185,129,0.08))',
+                  border: '1px solid rgba(34,197,94,0.15)',
+                }}>
+                  <h3 className="text-white font-bold mb-1 text-sm">Chunks do {studentData.currentBook}</h3>
+                  <p className="text-white/40 text-xs mb-3">Pratique as expressões da sua unit atual</p>
+                  <Button className="w-full h-10 rounded-xl" style={{ background: 'linear-gradient(135deg, #22c55e, #16a34a)', color: '#fff' }}>
+                    Iniciar
+                  </Button>
+                </div>
+                <div className="p-4 rounded-xl" style={{
+                  background: 'linear-gradient(135deg, rgba(168,85,247,0.1), rgba(236,72,153,0.08))',
+                  border: '1px solid rgba(168,85,247,0.15)',
+                }}>
+                  <h3 className="text-white font-bold mb-1 text-sm">Simulador de Situações</h3>
+                  <p className="text-white/40 text-xs mb-3">Pratique em contextos reais</p>
+                  <Button
+                    onClick={() => setLocation("/student/simulator")}
+                    className="w-full h-10 rounded-xl"
+                    style={{ background: 'linear-gradient(135deg, #a855f7, #7c3aed)', color: '#fff' }}>
+                    Iniciar
+                  </Button>
+                </div>
+              </div>
+              <Button
+                onClick={() => setLocation("/student/exercises")}
+                className="w-full h-12 rounded-xl font-bold text-sm"
+                style={{ background: 'linear-gradient(135deg, #eab308, #ca8a04)', color: '#1a1145' }}>
+                <Zap className="w-5 h-5 mr-2" /> Ver Todos os Exercícios
+              </Button>
+            </GlassCard>
+          </TabsContent>
+
+          {/* === Tab: Calendar === */}
+          <TabsContent value="calendar" className="space-y-4 mt-4">
             <StudentCalendar studentName={(user?.name || studentData.name) as string} />
           </TabsContent>
 
-          {/* Aba: Mensagens do Pedagógico */}
-          <TabsContent value="messages" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
+          {/* === Tab: Messages === */}
+          <TabsContent value="messages" className="space-y-4 mt-4">
             <StudentMessages studentName={(user?.name || studentData.name) as string} />
           </TabsContent>
 
-          {/* Aba: Notas e Presença */}
-          <TabsContent value="grades" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
+          {/* === Tab: Grades === */}
+          <TabsContent value="grades" className="space-y-4 mt-4">
             <StudentGrades studentName={(user?.name || studentData.name) as string} />
           </TabsContent>
 
-          {/* Aba: Dados do Aluno (sem Sponte) */}
-          <TabsContent value="sponte" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
-            <Card className="bg-slate-800/50 border-slate-700">
-              <CardHeader className="p-3 sm:p-6">
-                <CardTitle className="text-white flex items-center gap-2 text-base sm:text-lg">
-                  <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400" />
-                  Seus Dados Escolares
-                </CardTitle>
-                <CardDescription className="text-slate-400 text-xs sm:text-sm">
-                  Frequência, faltas e avaliações
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-3 sm:p-6 pt-0">
-                <SponteDataSection 
-                  data={{
-                    attendance: {
-                      total: 20,
-                      present: 18,
-                      absent: 2,
-                      percentage: 90,
-                    },
-                    absences: {
-                      total: 2,
-                      justified: 1,
-                      unjustified: 1,
-                    },
-                    evaluations: {
-                      average: 8.5,
-                      lastScore: 9.0,
-                      trend: 'up',
-                    },
-                  }}
-                />
-              </CardContent>
-            </Card>
+          {/* === Tab: Student Data === */}
+          <TabsContent value="sponte" className="space-y-4 mt-4">
+            <GlassCard className="p-5">
+              <div className="flex items-center gap-2 mb-4">
+                <TrendingUp className="w-5 h-5 text-purple-400" />
+                <h3 className="text-white font-bold" style={{ fontFamily: "'Syne', sans-serif" }}>Seus Dados Escolares</h3>
+              </div>
+              <p className="text-white/40 text-sm mb-4">Frequência, faltas e avaliações</p>
+              <SponteDataSection
+                data={{
+                  attendance: { total: 20, present: 18, absent: 2, percentage: 90 },
+                  absences: { total: 2, justified: 1, unjustified: 1 },
+                  evaluations: { average: 8.5, lastScore: 9.0, trend: 'up' },
+                }}
+              />
+            </GlassCard>
           </TabsContent>
         </Tabs>
       </main>
