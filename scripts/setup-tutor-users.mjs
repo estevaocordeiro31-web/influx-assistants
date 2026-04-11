@@ -138,7 +138,7 @@ async function main() {
   console.log('\n4️⃣  Sincronizando alunos ativos da tabela students...');
 
   const [activeStudents] = await conn.execute(`
-    SELECT id, name, email, phone, status, bookLevel
+    SELECT id, name, email, phone, status
     FROM students
     WHERE status IN ('Ativo','Bolsista','OnBusiness1','OnBusiness2','Travel')
       AND email IS NOT NULL AND email != ''
