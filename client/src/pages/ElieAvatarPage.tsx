@@ -1,96 +1,34 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, Send, Loader2, Video, Mic, MicOff, PhoneOff, Sparkles } from "lucide-react";
+import { ChevronLeft, Loader2, Video, Mic, MicOff, PhoneOff, Sparkles } from "lucide-react";
 import { toast } from "sonner";
-import { trpc } from "@/lib/trpc";
-import { useAuth } from "@/_core/hooks/useAuth";
+import { Room, RoomEvent, Track, RemoteTrack, RemoteTrackPublication, ConnectionState } from "livekit-client";
 
-// BRAiN API base (where HeyGen endpoints live)
+// BRAiN API base (where HeyGen/LiveAvatar endpoints live)
 const BRAIN_API = "https://brain.imaind.tech";
 
 type SessionState = "idle" | "connecting" | "connected" | "error";
 
 export default function ElieAvatarPage() {
   const [, setLocation] = useLocation();
-  const { user } = useAuth();
   const videoRef = useRef<HTMLVideoElement>(null);
-  const pcRef = useRef<RTCPeerConnection | null>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const roomRef = useRef<Room | null>(null);
 
   const [sessionState, setSessionState] = useState<SessionState>("idle");
   const [sessionId, setSessionId] = useState<string | null>(null);
-  const [text, setText] = useState("");
-  const [isSending, setIsSending] = useState(false);
   const [isVideoReady, setIsVideoReady] = useState(false);
-  const [isListening, setIsListening] = useState(false);
-  const [messages, setMessages] = useState<{ role: "user" | "elie"; text: string }[]>([
-    { role: "elie", text: "Hi! I'm Miss Elie, your English tutor. Tap 'Connect' to start our live session! I can help you practice conversation, pronunciation, and answer any questions about your lessons." },
-  ]);
-  const recognitionRef = useRef<any>(null);
+  const [isMicOn, setIsMicOn] = useState(false);
 
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
-  // ── Voice input (Web Speech API) ──────────────────────────────────────────
-
-  const toggleVoice = useCallback(() => {
-    if (isListening) {
-      recognitionRef.current?.stop();
-      setIsListening(false);
-      return;
-    }
-
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-      toast.error("Speech recognition not supported in this browser");
-      return;
-    }
-
-    const recognition = new SpeechRecognition();
-    recognition.lang = "en-US";
-    recognition.interimResults = false;
-    recognition.continuous = false;
-    recognitionRef.current = recognition;
-
-    recognition.onresult = (event: any) => {
-      const transcript = event.results[0][0].transcript;
-      setText(transcript);
-      setIsListening(false);
-      // Auto-send after voice input
-      if (sessionId && transcript.trim()) {
-        setMessages((m) => [...m, { role: "user", text: transcript }]);
-        fetch(`${BRAIN_API}/api/heygen/streaming/task`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ sessionId, text: transcript }),
-        }).then(() => {
-          setMessages((m) => [...m, { role: "elie", text: "(speaking...)" }]);
-          setText("");
-        }).catch(() => toast.error("Failed to send voice message"));
-      }
-    };
-
-    recognition.onerror = () => {
-      setIsListening(false);
-      toast.error("Could not capture audio. Try again.");
-    };
-
-    recognition.onend = () => setIsListening(false);
-
-    recognition.start();
-    setIsListening(true);
-    toast.success("Listening... speak in English!");
-  }, [isListening, sessionId]);
-
-  // ── Start HeyGen streaming session ──────────────────────────────────────
+  // ── Start LiveAvatar session ──────────────────────────────────────────────
 
   const startSession = useCallback(async () => {
     setSessionState("connecting");
     setIsVideoReady(false);
 
     try {
+      // Step 1: Create session via BRAiN backend
       const resp = await fetch(`${BRAIN_API}/api/heygen/streaming/new`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -102,103 +40,140 @@ export default function ElieAvatarPage() {
         throw new Error(err.error ?? "Failed to create session");
       }
 
-      const { sessionId: sid, sdp, iceServers } = await resp.json();
-      setSessionId(sid);
+      const data = await resp.json();
+      setSessionId(data.sessionId);
 
-      const pc = new RTCPeerConnection({ iceServers });
-      pcRef.current = pc;
+      if (data.provider === "liveavatar" && data.livekitUrl && data.livekitToken) {
+        // ── LiveAvatar + LiveKit flow ──
+        const room = new Room({
+          adaptiveStream: true,
+          dynacast: true,
+        });
+        roomRef.current = room;
 
-      pc.ontrack = (event) => {
-        if (event.track.kind === "video" && videoRef.current) {
-          videoRef.current.srcObject = event.streams[0];
-          setIsVideoReady(true);
-          setSessionState("connected");
-        }
-      };
+        // Handle remote tracks (avatar video + audio)
+        room.on(RoomEvent.TrackSubscribed, (track: RemoteTrack, publication: RemoteTrackPublication) => {
+          if (track.kind === Track.Kind.Video && videoRef.current) {
+            track.attach(videoRef.current);
+            setIsVideoReady(true);
+            setSessionState("connected");
+          }
+          if (track.kind === Track.Kind.Audio && audioRef.current) {
+            track.attach(audioRef.current);
+          }
+        });
 
-      pc.onicecandidate = async (event) => {
-        if (event.candidate && sid) {
-          await fetch(`${BRAIN_API}/api/heygen/streaming/ice`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ sessionId: sid, candidate: event.candidate }),
-          });
-        }
-      };
+        room.on(RoomEvent.TrackUnsubscribed, (track: RemoteTrack) => {
+          track.detach();
+        });
 
-      await pc.setRemoteDescription(new RTCSessionDescription(sdp));
-      const answer = await pc.createAnswer();
-      await pc.setLocalDescription(answer);
+        room.on(RoomEvent.Disconnected, () => {
+          setSessionState("idle");
+          setIsVideoReady(false);
+          setIsMicOn(false);
+        });
 
-      await fetch(`${BRAIN_API}/api/heygen/streaming/start`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sessionId: sid, sdp: answer }),
-      });
+        room.on(RoomEvent.ConnectionStateChanged, (state: ConnectionState) => {
+          if (state === ConnectionState.Connected) {
+            toast.success("Miss Elie connected!");
+          }
+        });
 
-      toast.success("Miss Elie connected!");
-      setMessages((m) => [...m, { role: "elie", text: "I'm here! What would you like to practice today?" }]);
+        // Connect to LiveKit room
+        await room.connect(data.livekitUrl, data.livekitToken);
+
+        // Enable microphone for voice conversation
+        await room.localParticipant.setMicrophoneEnabled(true);
+        setIsMicOn(true);
+
+      } else {
+        // ── Legacy HeyGen WebRTC flow (fallback) ──
+        const pc = new RTCPeerConnection({ iceServers: data.iceServers || [] });
+
+        pc.ontrack = (event) => {
+          if (event.track.kind === "video" && videoRef.current) {
+            videoRef.current.srcObject = event.streams[0];
+            setIsVideoReady(true);
+            setSessionState("connected");
+          }
+        };
+
+        pc.onicecandidate = async (event) => {
+          if (event.candidate && data.sessionId) {
+            await fetch(`${BRAIN_API}/api/heygen/streaming/ice`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ sessionId: data.sessionId, candidate: event.candidate }),
+            });
+          }
+        };
+
+        await pc.setRemoteDescription(new RTCSessionDescription(data.sdp));
+        const answer = await pc.createAnswer();
+        await pc.setLocalDescription(answer);
+
+        await fetch(`${BRAIN_API}/api/heygen/streaming/start`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sessionId: data.sessionId, sdp: answer }),
+        });
+
+        toast.success("Miss Elie connected!");
+        setSessionState("connected");
+      }
     } catch (err: any) {
       setSessionState("error");
       toast.error(err.message);
     }
   }, []);
 
+  // ── Toggle microphone ────────────────────────────────────────────────────
+
+  const toggleMic = useCallback(async () => {
+    const room = roomRef.current;
+    if (!room) return;
+
+    const newState = !isMicOn;
+    await room.localParticipant.setMicrophoneEnabled(newState);
+    setIsMicOn(newState);
+    toast(newState ? "Microphone on — speak in English!" : "Microphone muted");
+  }, [isMicOn]);
+
   // ── Stop session ──────────────────────────────────────────────────────────
 
   const stopSession = useCallback(async () => {
+    // Disconnect LiveKit room
+    if (roomRef.current) {
+      roomRef.current.disconnect();
+      roomRef.current = null;
+    }
+
+    // Notify backend
     if (sessionId) {
       await fetch(`${BRAIN_API}/api/heygen/streaming/${sessionId}`, { method: "DELETE" }).catch(() => {});
     }
-    pcRef.current?.close();
-    pcRef.current = null;
+
     if (videoRef.current) videoRef.current.srcObject = null;
     setSessionId(null);
     setSessionState("idle");
     setIsVideoReady(false);
+    setIsMicOn(false);
   }, [sessionId]);
 
-  // ── Send text to avatar ───────────────────────────────────────────────────
-
-  const sendText = useCallback(async () => {
-    if (!sessionId || !text.trim() || isSending) return;
-    const userText = text.trim();
-    setIsSending(true);
-    setText("");
-    setMessages((m) => [...m, { role: "user", text: userText }]);
-
-    try {
-      const resp = await fetch(`${BRAIN_API}/api/heygen/streaming/task`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sessionId, text: userText }),
-      });
-
-      if (!resp.ok) throw new Error("Failed to send");
-      // Avatar will speak the response visually
-      setMessages((m) => [...m, { role: "elie", text: "(speaking...)" }]);
-    } catch (err: any) {
-      toast.error(err.message);
-    } finally {
-      setIsSending(false);
-    }
-  }, [sessionId, text, isSending]);
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      sendText();
-    }
-  };
-
+  // Cleanup on unmount
   useEffect(() => {
-    return () => { stopSession(); };
+    return () => {
+      roomRef.current?.disconnect();
+    };
   }, []);
 
   // ── Render ────────────────────────────────────────────────────────────────
 
   return (
     <div className="min-h-screen flex flex-col" style={{ background: "linear-gradient(135deg, #0f0a1e 0%, #1a1145 30%, #0d2137 60%, #0a1628 100%)" }}>
+      {/* Hidden audio element for avatar voice */}
+      <audio ref={audioRef} autoPlay />
+
       {/* Header */}
       <div className="sticky top-0 z-30 px-4 py-3 flex items-center gap-3" style={{
         background: "rgba(15,10,30,0.85)",
@@ -214,7 +189,7 @@ export default function ElieAvatarPage() {
           </div>
           <div>
             <h1 className="text-base font-bold text-white" style={{ fontFamily: "'Syne', sans-serif" }}>Miss Elie</h1>
-            <p className="text-[10px] text-white/40">AI English Tutor</p>
+            <p className="text-[10px] text-white/40">AI English Tutor — Live Avatar</p>
           </div>
         </div>
         <div className="flex items-center gap-1.5 px-2 py-1 rounded-full text-[10px] font-medium" style={{
@@ -228,11 +203,11 @@ export default function ElieAvatarPage() {
         </div>
       </div>
 
-      {/* Main content */}
-      <div className="flex-1 flex flex-col lg:flex-row gap-4 p-4 max-w-5xl mx-auto w-full">
+      {/* Main content — full-screen video focus */}
+      <div className="flex-1 flex flex-col items-center justify-center p-4 max-w-2xl mx-auto w-full">
         {/* Video area */}
-        <div className="lg:w-1/2">
-          <div className="relative aspect-[3/4] sm:aspect-[9/14] rounded-2xl overflow-hidden" style={{
+        <div className="w-full">
+          <div className="relative aspect-[4/3] sm:aspect-video rounded-2xl overflow-hidden" style={{
             background: "rgba(255,255,255,0.03)",
             border: "1px solid rgba(255,255,255,0.08)",
           }}>
@@ -249,19 +224,21 @@ export default function ElieAvatarPage() {
                   background: "linear-gradient(135deg, rgba(236,72,153,0.15), rgba(168,85,247,0.1))",
                   border: "1px solid rgba(236,72,153,0.2)",
                 }}>
-                  <img src="/miss-elie-uniform-neutral.png" alt="Miss Elie" className="w-16 h-16 rounded-full object-cover"
-                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                  />
-                  <Video className="w-8 h-8 text-pink-400 absolute" style={{ display: 'none' }} />
+                  <Video className="w-8 h-8 text-pink-400" />
                 </div>
                 {sessionState === "connecting" && (
                   <div className="flex items-center gap-2 text-white/40 text-sm">
-                    <Loader2 className="w-4 h-4 animate-spin" /> Starting avatar...
+                    <Loader2 className="w-4 h-4 animate-spin" /> Connecting to Miss Elie...
                   </div>
                 )}
                 {sessionState === "idle" && (
                   <p className="text-white/30 text-sm text-center px-8">
-                    Tap "Start Session" to connect with Miss Elie's live avatar
+                    Tap "Start Session" to talk with Miss Elie live
+                  </p>
+                )}
+                {sessionState === "error" && (
+                  <p className="text-red-400/60 text-sm text-center px-8">
+                    Connection failed. Tap "Start Session" to try again.
                   </p>
                 )}
               </div>
@@ -273,98 +250,79 @@ export default function ElieAvatarPage() {
                 LIVE
               </div>
             )}
+
+            {/* Mic indicator overlay */}
+            {sessionState === "connected" && (
+              <div className="absolute bottom-3 right-3 flex items-center gap-1.5 px-2 py-1 rounded-full text-[10px] font-medium" style={{
+                background: isMicOn ? "rgba(34,197,94,0.2)" : "rgba(239,68,68,0.2)",
+                color: isMicOn ? "#22c55e" : "#ef4444",
+                border: `1px solid ${isMicOn ? "rgba(34,197,94,0.3)" : "rgba(239,68,68,0.3)"}`,
+              }}>
+                {isMicOn ? <Mic className="w-3 h-3" /> : <MicOff className="w-3 h-3" />}
+                {isMicOn ? "Listening" : "Muted"}
+              </div>
+            )}
           </div>
 
-          {/* Session controls */}
-          <div className="mt-3">
+          {/* Controls */}
+          <div className="mt-4 flex gap-3">
             {sessionState === "idle" || sessionState === "error" ? (
               <Button
                 onClick={startSession}
-                className="w-full h-12 rounded-xl font-bold text-sm"
+                className="flex-1 h-14 rounded-xl font-bold text-base"
                 style={{ background: "linear-gradient(135deg, #ec4899, #a855f7)", color: "#fff" }}
               >
-                <Video className="w-4 h-4 mr-2" /> Start Session
+                <Video className="w-5 h-5 mr-2" /> Start Session
               </Button>
             ) : (
-              <Button
-                onClick={stopSession}
-                variant="outline"
-                className="w-full h-10 rounded-xl text-sm border-red-500/30 text-red-400 hover:bg-red-500/10"
-              >
-                <PhoneOff className="w-4 h-4 mr-2" /> End Session
-              </Button>
+              <>
+                <Button
+                  onClick={toggleMic}
+                  className={`h-14 w-14 rounded-xl p-0 shrink-0 ${isMicOn ? "animate-pulse" : ""}`}
+                  style={{
+                    background: isMicOn
+                      ? "linear-gradient(135deg, #22c55e, #16a34a)"
+                      : "rgba(255,255,255,0.06)",
+                    border: isMicOn ? "none" : "1px solid rgba(255,255,255,0.1)",
+                  }}
+                >
+                  {isMicOn ? <Mic className="w-5 h-5 text-white" /> : <MicOff className="w-5 h-5 text-white/60" />}
+                </Button>
+                <Button
+                  onClick={stopSession}
+                  variant="outline"
+                  className="flex-1 h-14 rounded-xl text-base border-red-500/30 text-red-400 hover:bg-red-500/10"
+                >
+                  <PhoneOff className="w-5 h-5 mr-2" /> End Session
+                </Button>
+              </>
             )}
           </div>
-        </div>
 
-        {/* Chat area */}
-        <div className="lg:w-1/2 flex flex-col rounded-2xl overflow-hidden" style={{
-          background: "rgba(255,255,255,0.03)",
-          border: "1px solid rgba(255,255,255,0.08)",
-          minHeight: "400px",
-        }}>
-          {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3">
-            {messages.map((msg, i) => (
-              <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-                <div className="max-w-[85%] px-4 py-2.5 rounded-2xl text-sm" style={{
-                  background: msg.role === "user"
-                    ? "linear-gradient(135deg, #7c3aed, #06b6d4)"
-                    : "rgba(255,255,255,0.06)",
-                  color: msg.role === "user" ? "#fff" : "rgba(255,255,255,0.8)",
-                  borderBottomRightRadius: msg.role === "user" ? "4px" : undefined,
-                  borderBottomLeftRadius: msg.role === "elie" ? "4px" : undefined,
-                }}>
-                  {msg.text}
-                </div>
-              </div>
-            ))}
-            <div ref={messagesEndRef} />
-          </div>
-
-          {/* Input */}
-          <div className="p-3" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-            <div className="flex gap-2">
-              <Button
-                onClick={toggleVoice}
-                disabled={sessionState !== "connected"}
-                className={`h-10 w-10 rounded-xl p-0 shrink-0 ${isListening ? "animate-pulse" : ""}`}
-                style={{
-                  background: isListening
-                    ? "linear-gradient(135deg, #ef4444, #dc2626)"
-                    : "rgba(255,255,255,0.06)",
-                  border: isListening ? "none" : "1px solid rgba(255,255,255,0.1)",
-                }}
-              >
-                {isListening ? <MicOff className="w-4 h-4 text-white" /> : <Mic className="w-4 h-4 text-white/60" />}
-              </Button>
-              <input
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder={isListening ? "Listening..." : sessionState === "connected" ? "Type or tap mic..." : "Connect first to chat..."}
-                disabled={sessionState !== "connected" || isSending}
-                className="flex-1 h-10 px-4 rounded-xl text-sm text-white placeholder:text-white/30 outline-none"
-                style={{
-                  background: "rgba(255,255,255,0.05)",
-                  border: `1px solid ${isListening ? "rgba(239,68,68,0.3)" : "rgba(255,255,255,0.08)"}`,
-                }}
-              />
-              <Button
-                onClick={sendText}
-                disabled={sessionState !== "connected" || isSending || !text.trim()}
-                className="h-10 w-10 rounded-xl p-0 shrink-0"
-                style={{ background: "linear-gradient(135deg, #ec4899, #a855f7)" }}
-              >
-                {isSending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-              </Button>
-            </div>
-            {isListening && (
-              <p className="text-[10px] text-red-400 mt-1.5 text-center animate-pulse">
-                Listening... speak in English
+          {/* Instructions */}
+          {sessionState === "connected" && (
+            <div className="mt-4 text-center">
+              <p className="text-white/40 text-sm">
+                {isMicOn
+                  ? "Speak in English — Miss Elie is listening and will respond!"
+                  : "Tap the mic button to start talking with Miss Elie"}
               </p>
-            )}
-          </div>
+            </div>
+          )}
+
+          {sessionState === "idle" && (
+            <div className="mt-6 px-4">
+              <div className="rounded-xl p-4" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                <h3 className="text-white/60 text-xs font-semibold mb-2 uppercase tracking-wider">How it works</h3>
+                <ul className="space-y-1.5 text-white/40 text-sm">
+                  <li>1. Tap "Start Session" to connect</li>
+                  <li>2. Allow microphone access when prompted</li>
+                  <li>3. Speak in English — Miss Elie will listen and respond</li>
+                  <li>4. Practice conversation, vocabulary, pronunciation</li>
+                </ul>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
