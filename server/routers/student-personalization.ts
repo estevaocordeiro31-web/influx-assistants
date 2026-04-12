@@ -394,6 +394,22 @@ export const studentPersonalizationRouter = router({
       .from(studentTopicProgress)
       .where(eq(studentTopicProgress.studentId, ctx.user.id));
 
+    // Obter dados importados (schedule, teacher, class)
+    const importedData = await db
+      .select({
+        book: studentImportedData.book,
+        className: studentImportedData.className,
+        schedule: studentImportedData.schedule,
+        teacher: studentImportedData.teacher,
+        averageGrade: studentImportedData.averageGrade,
+        overallAttendanceRate: studentImportedData.overallAttendanceRate,
+      })
+      .from(studentImportedData)
+      .where(eq(studentImportedData.studentId, ctx.user.id))
+      .limit(1);
+
+    const imported = importedData[0] || null;
+
     return {
       success: true,
       student: {
@@ -425,6 +441,14 @@ export const studentPersonalizationRouter = router({
               )
             : 0,
       },
+      classInfo: imported ? {
+        book: imported.book,
+        className: imported.className,
+        schedule: imported.schedule,
+        teacher: imported.teacher,
+        averageGrade: imported.averageGrade ? Number(imported.averageGrade) : null,
+        attendanceRate: imported.overallAttendanceRate ? Number(imported.overallAttendanceRate) : null,
+      } : null,
     };
   }),
 });
