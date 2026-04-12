@@ -25,7 +25,7 @@ import { StudentMessages } from "@/components/StudentMessages";
 import { StudentGrades } from "@/components/StudentGrades";
 import { SyncIndicator, useSyncStatus } from "@/components/SyncIndicator";
 import { getBookTheme, getBookNumberFromLevel } from "@/lib/book-themes";
-import { getThemeById, getDefaultTheme, AppTheme } from "@/lib/themes";
+import { getThemeById, getDefaultTheme, AppTheme, LayoutType } from "@/lib/themes";
 
 // Hook to read selected app theme from localStorage
 function useAppTheme() {
@@ -51,6 +51,30 @@ function useAppTheme() {
   }, [themeId]);
 
   return getThemeById(themeId) || getDefaultTheme();
+}
+
+// Hook to read selected layout from localStorage
+function useAppLayout(): LayoutType {
+  const [layoutId, setLayoutId] = useState<LayoutType>(() => (localStorage.getItem('tutor_layout') as LayoutType) || 'scroll');
+
+  useEffect(() => {
+    const handler = () => {
+      const newLayout = (localStorage.getItem('tutor_layout') as LayoutType) || 'scroll';
+      setLayoutId(newLayout);
+    };
+    window.addEventListener('storage', handler);
+    const focusHandler = () => {
+      const newLayout = (localStorage.getItem('tutor_layout') as LayoutType) || 'scroll';
+      if (newLayout !== layoutId) setLayoutId(newLayout);
+    };
+    window.addEventListener('focus', focusHandler);
+    return () => {
+      window.removeEventListener('storage', handler);
+      window.removeEventListener('focus', focusHandler);
+    };
+  }, [layoutId]);
+
+  return layoutId;
 }
 
 // Demo data for unauthenticated/demo mode
@@ -183,6 +207,7 @@ export default function StudentDashboard() {
   const bookNumber = getBookNumberFromLevel(studentData.level);
   const bookTheme = getBookTheme(bookNumber);
   const appTheme = useAppTheme();
+  const appLayout = useAppLayout();
 
   // Use app theme for global styling, book theme for book-specific accents
   const theme = {
@@ -209,31 +234,67 @@ export default function StudentDashboard() {
           <SyncIndicator status={status} message={message} showBadge={true} />
         </div>
 
-        {/* ===== HERO BOOK CARD ===== */}
-        <GlassCard appTheme={appTheme} className="p-5 sm:p-8 mb-5" style={{
-          background: `linear-gradient(135deg, ${theme.primaryDark}22 0%, rgba(255,255,255,0.03) 50%, ${theme.primary}11 100%)`,
-          borderColor: `${theme.primary}20`,
-        }}>
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
-            {/* Book visual */}
-            <div className="flex-shrink-0 w-20 h-20 sm:w-28 sm:h-28 rounded-2xl flex items-center justify-center"
-              style={{
-                background: theme.gradient,
-                boxShadow: `0 8px 32px ${theme.primary}40`,
-              }}>
-              <div className="text-center">
+        {/* ===== HERO + STATS (layout-aware) ===== */}
+        {(() => {
+          const font = appTheme.fontOverride || "'Syne', sans-serif";
+          const stats = [
+            { icon: Flame, label: 'Streak', value: `${studentData.streakDays}`, unit: 'dias', color: appTheme.valueColor, bg: `${appTheme.valueColor}18` },
+            { icon: Clock, label: 'Horas', value: `${studentData.totalHoursLearned}`, unit: 'horas', color: appTheme.accentColor, bg: `${appTheme.accentColor}18` },
+            { icon: BookOpen, label: 'Chunks', value: `${studentData.totalChunksLearned}`, unit: 'aprendidos', color: appTheme.valueColor, bg: `${appTheme.valueColor}18` },
+            { icon: Trophy, label: 'Livros', value: `${studentData.completedBooks.filter(b => b.progress === 100).length}`, unit: 'completos', color: appTheme.accentColor, bg: `${appTheme.accentColor}18` },
+          ];
+
+          const avatarBlock = (size = 'w-20 h-20 sm:w-28 sm:h-28') => (
+            <div className={`flex-shrink-0 ${size} rounded-2xl flex items-center justify-center`}
+              style={{ background: appTheme.avatarBg, boxShadow: `0 8px 32px ${theme.primary}40` }}>
+              <div className="text-center relative">
+                <div className="absolute rounded-2xl" style={{ inset: -4, border: `2px solid ${appTheme.avatarRing}`, opacity: 0.5, borderRadius: '1rem' }} />
                 <span className="text-3xl sm:text-4xl">{theme.emoji}</span>
                 <p className="text-[10px] sm:text-xs font-bold text-white/90 mt-1">Book {bookNumber}</p>
               </div>
             </div>
+          );
 
-            {/* Info */}
-            <div className="flex-1 min-w-0">
-              <p className="text-sm mb-1" style={{ fontFamily: "'DM Sans', sans-serif", color: `${appTheme.cardText}80` }}>
-                Bem-vindo de volta,
-              </p>
-              <h1 className="text-2xl sm:text-3xl font-extrabold truncate"
-                style={{ fontFamily: appTheme.fontOverride || "'Syne', sans-serif", color: appTheme.cardText }}>
+          const progressBar = () => (
+            <div className="mt-4">
+              <div className="flex justify-between mb-1.5">
+                <span className="text-xs" style={{ color: `${appTheme.cardText}80` }}>Progresso do livro</span>
+                <span className="text-xs font-bold" style={{ color: theme.primary }}>{studentData.progressPercentage}%</span>
+              </div>
+              <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
+                <div className="h-full rounded-full transition-all duration-1000 ease-out"
+                  style={{ width: `${studentData.progressPercentage}%`, background: theme.gradient }} />
+              </div>
+            </div>
+          );
+
+          const ctaButton = () => (
+            <Button
+              onClick={() => { const t = document.querySelector('[value="tutor"]') as HTMLButtonElement; if (t) t.click(); }}
+              className="w-full sm:w-auto h-12 px-6 rounded-xl text-sm font-semibold"
+              style={{ background: appTheme.buttonBg, color: appTheme.buttonColor, border: appTheme.buttonBorder || 'none', boxShadow: `0 4px 20px ${theme.primary}30` }}>
+              <Zap className="w-4 h-4 mr-2" /> Continuar Estudando
+            </Button>
+          );
+
+          const statCard = (stat: typeof stats[0], i: number) => (
+            <GlassCard appTheme={appTheme} key={i} className="p-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-xl" style={{ background: stat.bg }}>
+                  <stat.icon className="w-5 h-5" style={{ color: stat.color }} />
+                </div>
+                <div>
+                  <p className="text-xl sm:text-2xl font-bold" style={{ fontFamily: font, color: appTheme.cardText }}>{stat.value}</p>
+                  <p className="text-[10px] sm:text-xs" style={{ color: `${appTheme.cardText}66` }}>{stat.unit}</p>
+                </div>
+              </div>
+            </GlassCard>
+          );
+
+          const greeting = () => (
+            <>
+              <p className="text-sm mb-1" style={{ fontFamily: "'DM Sans', sans-serif", color: `${appTheme.cardText}80` }}>Bem-vindo de volta,</p>
+              <h1 className="text-2xl sm:text-3xl font-extrabold truncate" style={{ fontFamily: font, color: appTheme.cardText }}>
                 {user?.name || studentData.name}
               </h1>
               <div className="flex items-center gap-2 mt-2 flex-wrap">
@@ -241,67 +302,154 @@ export default function StudentDashboard() {
                   style={{ background: `${theme.primary}25`, color: theme.primary, border: `1px solid ${theme.primary}30` }}>
                   {studentData.level}
                 </span>
-                <span className="text-xs text-white/40">
+                <span className="text-xs" style={{ color: `${appTheme.cardText}66` }}>
                   Unit {studentData.currentUnit} de {studentData.totalUnits}
                 </span>
               </div>
+            </>
+          );
 
-              {/* Progress bar */}
-              <div className="mt-4">
-                <div className="flex justify-between mb-1.5">
-                  <span className="text-xs text-white/50">Progresso do livro</span>
-                  <span className="text-xs font-bold" style={{ color: theme.primary }}>{studentData.progressPercentage}%</span>
+          // ── LAYOUT: ORBIT ──────────────────────────────────────
+          if (appLayout === 'orbit') return (
+            <div className="mb-5">
+              <GlassCard appTheme={appTheme} className="p-5 sm:p-8" style={{
+                background: `linear-gradient(135deg, ${theme.primaryDark}22 0%, ${appTheme.cardBg} 50%, ${theme.primary}11 100%)`,
+                borderColor: `${theme.primary}20`,
+              }}>
+                {/* Center: avatar + greeting */}
+                <div className="text-center mb-6">
+                  <div className="flex justify-center mb-3">{avatarBlock('w-20 h-20')}</div>
+                  <h1 className="text-xl sm:text-2xl font-extrabold" style={{ fontFamily: font, color: appTheme.cardText }}>
+                    {user?.name || studentData.name}
+                  </h1>
+                  <span className="text-xs px-3 py-1 rounded-full font-semibold inline-block mt-2"
+                    style={{ background: `${theme.primary}25`, color: theme.primary, border: `1px solid ${theme.primary}30` }}>
+                    {studentData.level} · Unit {studentData.currentUnit}
+                  </span>
+                  <div className="mt-3">{ctaButton()}</div>
                 </div>
-                <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
-                  <div className="h-full rounded-full transition-all duration-1000 ease-out"
-                    style={{ width: `${studentData.progressPercentage}%`, background: theme.gradient }} />
+                {/* Orbiting stats around center */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  {stats.map((s, i) => statCard(s, i))}
                 </div>
+                {progressBar()}
+              </GlassCard>
+            </div>
+          );
+
+          // ── LAYOUT: SCROLL (compact grid — default) ─────────────
+          if (appLayout === 'scroll') return (
+            <>
+              <GlassCard appTheme={appTheme} className="p-5 sm:p-8 mb-5" style={{
+                background: `linear-gradient(135deg, ${theme.primaryDark}22 0%, ${appTheme.cardBg} 50%, ${theme.primary}11 100%)`,
+                borderColor: `${theme.primary}20`,
+              }}>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+                  {avatarBlock()}
+                  <div className="flex-1 min-w-0">
+                    {greeting()}
+                    {progressBar()}
+                  </div>
+                  <div className="sm:flex-shrink-0">{ctaButton()}</div>
+                </div>
+              </GlassCard>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
+                {stats.map((s, i) => statCard(s, i))}
               </div>
-            </div>
+            </>
+          );
 
-            {/* CTA button */}
-            <div className="sm:flex-shrink-0">
-              <Button
-                onClick={() => {
-                  const tutorTab = document.querySelector('[value="tutor"]') as HTMLButtonElement;
-                  if (tutorTab) tutorTab.click();
-                }}
-                className="w-full sm:w-auto h-12 px-6 rounded-xl text-sm font-semibold"
-                style={{
-                  background: theme.gradient,
-                  color: '#fff',
-                  boxShadow: `0 4px 20px ${theme.primary}30`,
-                }}>
-                <Zap className="w-4 h-4 mr-2" />
-                Continuar Estudando
-              </Button>
-            </div>
-          </div>
-        </GlassCard>
-
-        {/* ===== STATS GRID ===== */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
-          {[
-            { icon: Flame, label: 'Streak', value: `${studentData.streakDays}`, unit: 'dias', color: appTheme.valueColor, bg: `${appTheme.valueColor}18` },
-            { icon: Clock, label: 'Horas', value: `${studentData.totalHoursLearned}`, unit: 'horas', color: appTheme.accentColor, bg: `${appTheme.accentColor}18` },
-            { icon: BookOpen, label: 'Chunks', value: `${studentData.totalChunksLearned}`, unit: 'aprendidos', color: appTheme.valueColor, bg: `${appTheme.valueColor}18` },
-            { icon: Trophy, label: 'Livros', value: `${studentData.completedBooks.filter(b => b.progress === 100).length}`, unit: 'completos', color: appTheme.accentColor, bg: `${appTheme.accentColor}18` },
-          ].map((stat, i) => (
-            <GlassCard appTheme={appTheme} key={i} className="p-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-xl" style={{ background: stat.bg }}>
-                  <stat.icon className="w-5 h-5" style={{ color: stat.color }} />
+          // ── LAYOUT: SPLIT (sidebar + content) ───────────────────
+          if (appLayout === 'split') return (
+            <div className="flex flex-col sm:flex-row gap-4 mb-5">
+              {/* Sidebar */}
+              <GlassCard appTheme={appTheme} className="p-5 sm:w-64 flex-shrink-0" style={{
+                background: `linear-gradient(180deg, ${theme.primaryDark}22, ${appTheme.cardBg})`,
+                borderColor: `${theme.primary}20`,
+              }}>
+                <div className="flex flex-col items-center text-center gap-3">
+                  {avatarBlock('w-20 h-20')}
+                  <div>
+                    <h1 className="text-lg font-extrabold" style={{ fontFamily: font, color: appTheme.cardText }}>
+                      {user?.name || studentData.name}
+                    </h1>
+                    <span className="text-xs px-3 py-1 rounded-full font-semibold inline-block mt-1"
+                      style={{ background: `${theme.primary}25`, color: theme.primary, border: `1px solid ${theme.primary}30` }}>
+                      {studentData.level}
+                    </span>
+                  </div>
+                  {/* Vertical stats */}
+                  <div className="w-full space-y-2 mt-2">
+                    {stats.map((s, i) => (
+                      <div key={i} className="flex items-center gap-2 p-2 rounded-xl" style={{ background: s.bg }}>
+                        <s.icon className="w-4 h-4" style={{ color: s.color }} />
+                        <span className="text-sm font-bold" style={{ color: appTheme.cardText }}>{s.value}</span>
+                        <span className="text-[10px]" style={{ color: `${appTheme.cardText}66` }}>{s.unit}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="w-full mt-2">{ctaButton()}</div>
                 </div>
-                <div>
-                  <p className="text-xl sm:text-2xl font-bold" style={{ fontFamily: appTheme.fontOverride || "'Syne', sans-serif", color: appTheme.cardText }}>
-                    {stat.value}
+              </GlassCard>
+              {/* Right content */}
+              <div className="flex-1 space-y-4">
+                <GlassCard appTheme={appTheme} className="p-5">
+                  <h3 className="text-sm font-bold mb-3" style={{ fontFamily: font, color: appTheme.cardText }}>
+                    Progresso — Book {bookNumber}
+                  </h3>
+                  <p className="text-xs mb-2" style={{ color: `${appTheme.cardText}66` }}>
+                    Unit {studentData.currentUnit} de {studentData.totalUnits}
                   </p>
-                  <p className="text-[10px] sm:text-xs text-white/40">{stat.unit}</p>
-                </div>
+                  {progressBar()}
+                </GlassCard>
+                <GlassCard appTheme={appTheme} className="p-5">
+                  <h3 className="text-sm font-bold mb-2" style={{ fontFamily: font, color: appTheme.cardText }}>
+                    Sugestão do Tutor
+                  </h3>
+                  <p className="text-xs" style={{ color: `${appTheme.cardText}80` }}>
+                    {studentData.streakDays > 7
+                      ? `Streak de ${studentData.streakDays} dias! Que tal praticar conversação no Voice Chat?`
+                      : 'Continue praticando diariamente para manter seu streak!'}
+                  </p>
+                </GlassCard>
               </div>
-            </GlassCard>
-          ))}
-        </div>
+            </div>
+          );
+
+          // ── LAYOUT: NARRATIVE (feed-style story cards) ──────────
+          return (
+            <div className="space-y-4 mb-5">
+              {/* Welcome card */}
+              <GlassCard appTheme={appTheme} className="p-5" style={{
+                background: `linear-gradient(135deg, ${theme.primaryDark}22, ${appTheme.cardBg})`,
+                borderColor: `${theme.primary}20`,
+              }}>
+                <div className="flex items-center gap-4">
+                  {avatarBlock('w-16 h-16')}
+                  <div className="flex-1 min-w-0">
+                    {greeting()}
+                  </div>
+                </div>
+                {progressBar()}
+                <div className="mt-4">{ctaButton()}</div>
+              </GlassCard>
+              {/* Story-style stat cards */}
+              {stats.map((s, i) => (
+                <GlassCard appTheme={appTheme} key={i} className="p-4">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 rounded-xl" style={{ background: s.bg }}>
+                      <s.icon className="w-6 h-6" style={{ color: s.color }} />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: `${appTheme.cardText}60` }}>{s.label}</p>
+                      <p className="text-2xl font-bold" style={{ fontFamily: font, color: appTheme.valueColor }}>{s.value} <span className="text-sm font-normal" style={{ color: `${appTheme.cardText}66` }}>{s.unit}</span></p>
+                    </div>
+                  </div>
+                </GlassCard>
+              ))}
+            </div>
+          );
+        })()}
 
         {/* ===== QUICK ACTIONS ===== */}
         <div className="mb-5">
