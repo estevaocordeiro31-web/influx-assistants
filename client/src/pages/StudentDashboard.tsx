@@ -25,6 +25,33 @@ import { StudentMessages } from "@/components/StudentMessages";
 import { StudentGrades } from "@/components/StudentGrades";
 import { SyncIndicator, useSyncStatus } from "@/components/SyncIndicator";
 import { getBookTheme, getBookNumberFromLevel } from "@/lib/book-themes";
+import { getThemeById, getDefaultTheme, AppTheme } from "@/lib/themes";
+
+// Hook to read selected app theme from localStorage
+function useAppTheme() {
+  const [themeId, setThemeId] = useState(() => localStorage.getItem('tutor_theme') || 'spatial-glossy');
+
+  useEffect(() => {
+    // Listen for storage changes (from ThemeSelector page)
+    const handler = () => {
+      const newTheme = localStorage.getItem('tutor_theme') || 'spatial-glossy';
+      setThemeId(newTheme);
+    };
+    window.addEventListener('storage', handler);
+    // Also poll on focus (same-tab localStorage changes don't fire 'storage')
+    const focusHandler = () => {
+      const newTheme = localStorage.getItem('tutor_theme') || 'spatial-glossy';
+      if (newTheme !== themeId) setThemeId(newTheme);
+    };
+    window.addEventListener('focus', focusHandler);
+    return () => {
+      window.removeEventListener('storage', handler);
+      window.removeEventListener('focus', focusHandler);
+    };
+  }, [themeId]);
+
+  return getThemeById(themeId) || getDefaultTheme();
+}
 
 // Demo data for unauthenticated/demo mode
 const DEMO_STUDENT = {
@@ -71,16 +98,17 @@ const DEMO_STUDENT = {
   ],
 };
 
-// Glassmorphism card wrapper
-function GlassCard({ children, className = "", style = {} }: { children: React.ReactNode; className?: string; style?: React.CSSProperties }) {
+// Glassmorphism card wrapper — reads app theme for card styling
+function GlassCard({ children, className = "", style = {}, appTheme }: { children: React.ReactNode; className?: string; style?: React.CSSProperties; appTheme?: AppTheme }) {
   return (
     <div
       className={`rounded-2xl ${className}`}
       style={{
-        background: 'rgba(255, 255, 255, 0.05)',
+        background: appTheme?.cardBg || 'rgba(255, 255, 255, 0.05)',
         backdropFilter: 'blur(12px)',
         WebkitBackdropFilter: 'blur(12px)',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
+        border: `1px solid ${appTheme?.cardBorder || 'rgba(255, 255, 255, 0.08)'}`,
+        color: appTheme?.cardText || undefined,
         ...style,
       }}
     >
@@ -153,11 +181,22 @@ export default function StudentDashboard() {
   } : DEMO_STUDENT;
 
   const bookNumber = getBookNumberFromLevel(studentData.level);
-  const theme = getBookTheme(bookNumber);
+  const bookTheme = getBookTheme(bookNumber);
+  const appTheme = useAppTheme();
+
+  // Use app theme for global styling, book theme for book-specific accents
+  const theme = {
+    ...bookTheme,
+    // Override primary accent with app theme if not default
+    primary: appTheme.id !== 'spatial-glossy' ? appTheme.accentColor : bookTheme.primary,
+    gradient: appTheme.id !== 'spatial-glossy'
+      ? (appTheme.buttonBg.includes('gradient') ? appTheme.buttonBg : `linear-gradient(135deg, ${appTheme.accentColor}, ${appTheme.valueColor})`)
+      : bookTheme.gradient,
+  };
 
   return (
     <div className="min-h-screen safe-area-bottom"
-      style={{ background: 'linear-gradient(135deg, #0f0a1e 0%, #1a1145 30%, #0d2137 60%, #0a1628 100%)' }}>
+      style={{ background: appTheme.background }}>
       <InfluxHeader />
 
       {showOnboarding && (
@@ -171,7 +210,7 @@ export default function StudentDashboard() {
         </div>
 
         {/* ===== HERO BOOK CARD ===== */}
-        <GlassCard className="p-5 sm:p-8 mb-5" style={{
+        <GlassCard appTheme={appTheme} className="p-5 sm:p-8 mb-5" style={{
           background: `linear-gradient(135deg, ${theme.primaryDark}22 0%, rgba(255,255,255,0.03) 50%, ${theme.primary}11 100%)`,
           borderColor: `${theme.primary}20`,
         }}>
@@ -190,11 +229,11 @@ export default function StudentDashboard() {
 
             {/* Info */}
             <div className="flex-1 min-w-0">
-              <p className="text-white/50 text-sm mb-1" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+              <p className="text-sm mb-1" style={{ fontFamily: "'DM Sans', sans-serif", color: `${appTheme.cardText}80` }}>
                 Bem-vindo de volta,
               </p>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-white truncate"
-                style={{ fontFamily: "'Syne', sans-serif" }}>
+              <h1 className="text-2xl sm:text-3xl font-extrabold truncate"
+                style={{ fontFamily: appTheme.fontOverride || "'Syne', sans-serif", color: appTheme.cardText }}>
                 {user?.name || studentData.name}
               </h1>
               <div className="flex items-center gap-2 mt-2 flex-wrap">
@@ -243,18 +282,18 @@ export default function StudentDashboard() {
         {/* ===== STATS GRID ===== */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
           {[
-            { icon: Flame, label: 'Streak', value: `${studentData.streakDays}`, unit: 'dias', color: '#f97316', bg: 'rgba(249,115,22,0.1)' },
-            { icon: Clock, label: 'Horas', value: `${studentData.totalHoursLearned}`, unit: 'horas', color: '#06b6d4', bg: 'rgba(6,182,212,0.1)' },
-            { icon: BookOpen, label: 'Chunks', value: `${studentData.totalChunksLearned}`, unit: 'aprendidos', color: '#22c55e', bg: 'rgba(34,197,94,0.1)' },
-            { icon: Trophy, label: 'Livros', value: `${studentData.completedBooks.filter(b => b.progress === 100).length}`, unit: 'completos', color: '#a855f7', bg: 'rgba(168,85,247,0.1)' },
+            { icon: Flame, label: 'Streak', value: `${studentData.streakDays}`, unit: 'dias', color: appTheme.valueColor, bg: `${appTheme.valueColor}18` },
+            { icon: Clock, label: 'Horas', value: `${studentData.totalHoursLearned}`, unit: 'horas', color: appTheme.accentColor, bg: `${appTheme.accentColor}18` },
+            { icon: BookOpen, label: 'Chunks', value: `${studentData.totalChunksLearned}`, unit: 'aprendidos', color: appTheme.valueColor, bg: `${appTheme.valueColor}18` },
+            { icon: Trophy, label: 'Livros', value: `${studentData.completedBooks.filter(b => b.progress === 100).length}`, unit: 'completos', color: appTheme.accentColor, bg: `${appTheme.accentColor}18` },
           ].map((stat, i) => (
-            <GlassCard key={i} className="p-4">
+            <GlassCard appTheme={appTheme} key={i} className="p-4">
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-xl" style={{ background: stat.bg }}>
                   <stat.icon className="w-5 h-5" style={{ color: stat.color }} />
                 </div>
                 <div>
-                  <p className="text-xl sm:text-2xl font-bold text-white" style={{ fontFamily: "'Syne', sans-serif" }}>
+                  <p className="text-xl sm:text-2xl font-bold" style={{ fontFamily: appTheme.fontOverride || "'Syne', sans-serif", color: appTheme.cardText }}>
                     {stat.value}
                   </p>
                   <p className="text-[10px] sm:text-xs text-white/40">{stat.unit}</p>
@@ -425,7 +464,7 @@ export default function StudentDashboard() {
           <TabsContent value="overview" className="space-y-4 mt-4">
             <div className="grid md:grid-cols-2 gap-4">
               {/* Current Progress */}
-              <GlassCard className="p-5">
+              <GlassCard appTheme={appTheme} className="p-5">
                 <div className="flex items-center gap-2 mb-4">
                   <BookOpen className="w-5 h-5" style={{ color: theme.primary }} />
                   <h3 className="text-white font-bold" style={{ fontFamily: "'Syne', sans-serif" }}>
@@ -451,7 +490,7 @@ export default function StudentDashboard() {
               </GlassCard>
 
               {/* Recent Chunks */}
-              <GlassCard className="p-5">
+              <GlassCard appTheme={appTheme} className="p-5">
                 <div className="flex items-center gap-2 mb-4">
                   <Star className="w-5 h-5 text-yellow-400" />
                   <h3 className="text-white font-bold" style={{ fontFamily: "'Syne', sans-serif" }}>Chunks Recentes</h3>
@@ -475,7 +514,7 @@ export default function StudentDashboard() {
 
             {/* Weekly Progress */}
             {studentData.weeklyProgress.length > 0 && (
-              <GlassCard className="p-5">
+              <GlassCard appTheme={appTheme} className="p-5">
                 <div className="flex items-center gap-2 mb-4">
                   <TrendingUp className="w-5 h-5 text-cyan-400" />
                   <h3 className="text-white font-bold" style={{ fontFamily: "'Syne', sans-serif" }}>Progresso Semanal</h3>
@@ -500,7 +539,7 @@ export default function StudentDashboard() {
             )}
 
             {/* AI Suggestion */}
-            <GlassCard className="p-5" style={{
+            <GlassCard appTheme={appTheme} className="p-5" style={{
               background: 'linear-gradient(135deg, rgba(124,58,237,0.08) 0%, rgba(6,182,212,0.05) 100%)',
               borderColor: 'rgba(124,58,237,0.15)',
             }}>
@@ -538,7 +577,7 @@ export default function StudentDashboard() {
 
           {/* === Tab: Chat === */}
           <TabsContent value="chat" className="space-y-4 mt-4">
-            <GlassCard className="p-5">
+            <GlassCard appTheme={appTheme} className="p-5">
               <div className="flex items-center gap-2 mb-4">
                 <MessageCircle className="w-5 h-5 text-blue-400" />
                 <h3 className="text-white font-bold" style={{ fontFamily: "'Syne', sans-serif" }}>Chat com Fluxie</h3>
@@ -575,7 +614,7 @@ export default function StudentDashboard() {
 
           {/* === Tab: Exercises === */}
           <TabsContent value="exercises" className="space-y-4 mt-4">
-            <GlassCard className="p-5">
+            <GlassCard appTheme={appTheme} className="p-5">
               <div className="flex items-center gap-2 mb-4">
                 <Zap className="w-5 h-5 text-yellow-400" />
                 <h3 className="text-white font-bold" style={{ fontFamily: "'Syne', sans-serif" }}>Exercícios Personalizados</h3>
@@ -632,7 +671,7 @@ export default function StudentDashboard() {
 
           {/* === Tab: Student Data === */}
           <TabsContent value="sponte" className="space-y-4 mt-4">
-            <GlassCard className="p-5">
+            <GlassCard appTheme={appTheme} className="p-5">
               <div className="flex items-center gap-2 mb-4">
                 <TrendingUp className="w-5 h-5 text-purple-400" />
                 <h3 className="text-white font-bold" style={{ fontFamily: "'Syne', sans-serif" }}>Seus Dados Escolares</h3>
