@@ -914,3 +914,35 @@ export const studentExerciseProgress = mysqlTable("student_exercise_progress", {
 
 export type StudentExerciseProgress = typeof studentExerciseProgress.$inferSelect;
 export type InsertStudentExerciseProgress = typeof studentExerciseProgress.$inferInsert;
+
+// ── ImAInd Presence System ───────────────────────────────────────────────────
+
+export const presenceStates = mysqlTable("presence_states", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("student_id").notNull(),
+  state: mysqlEnum("state", ["idle", "listening", "thinking", "speaking", "reacting", "encouraging"]).notNull().default("idle"),
+  emotion: varchar("emotion", { length: 50 }).notNull().default("neutral"),
+  context: varchar("context", { length: 100 }),
+  environment: mysqlEnum("environment", ["app", "reception", "game_room", "cafe", "classroom", "garden"]).notNull().default("app"),
+  startedAt: timestamp("started_at").defaultNow().notNull(),
+  endedAt: timestamp("ended_at"),
+  interactionCount: int("interaction_count").notNull().default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type PresenceState = typeof presenceStates.$inferSelect;
+export type InsertPresenceState = typeof presenceStates.$inferInsert;
+
+export const presenceInteractions = mysqlTable("presence_interactions", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("student_id").notNull(),
+  presenceStateId: int("presence_state_id"),
+  type: mysqlEnum("type", ["message", "voice", "reaction", "cta_click"]).notNull(),
+  content: text("content"),
+  xpEarned: int("xp_earned").notNull().default(0),
+  responseLatency: int("response_latency").notNull().default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type PresenceInteraction = typeof presenceInteractions.$inferSelect;
+export type InsertPresenceInteraction = typeof presenceInteractions.$inferInsert;
