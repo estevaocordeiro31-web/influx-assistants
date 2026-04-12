@@ -58,8 +58,17 @@ export default function ElieAvatarPage() {
             setIsVideoReady(true);
             setSessionState("connected");
           }
-          if (track.kind === Track.Kind.Audio && audioRef.current) {
-            track.attach(audioRef.current);
+          if (track.kind === Track.Kind.Audio) {
+            // Attach audio to its own element
+            if (audioRef.current) {
+              track.attach(audioRef.current);
+              // Force play (user already clicked "Start Session" so we have interaction)
+              audioRef.current.play().catch(() => {});
+            }
+            // Also attach to video element as fallback
+            if (videoRef.current) {
+              track.attach(videoRef.current);
+            }
           }
         });
 
@@ -172,7 +181,7 @@ export default function ElieAvatarPage() {
   return (
     <div className="min-h-screen flex flex-col" style={{ background: "linear-gradient(135deg, #0f0a1e 0%, #1a1145 30%, #0d2137 60%, #0a1628 100%)" }}>
       {/* Hidden audio element for avatar voice */}
-      <audio ref={audioRef} autoPlay />
+      <audio ref={audioRef} autoPlay playsInline style={{ display: "none" }} />
 
       {/* Header */}
       <div className="sticky top-0 z-30 px-4 py-3 flex items-center gap-3" style={{
