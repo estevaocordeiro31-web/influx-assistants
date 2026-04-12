@@ -1,20 +1,29 @@
 /**
- * PresenceDashboard — Conversational Action Dashboard
+ * PresenceDashboard — Conversational Action Dashboard (Phase 2: VOZ VIVA)
  *
- * Elie's presence-driven interface:
- * 1. TopStatusBar — streak, XP, book progress, state pill
- * 2. HeroPanel — PresenceAvatar + SpeechBubble + CTAs
- * 3. ContextCards — NextGoal + DailyMission
- * 4. BottomInputBar — mic + chat input + send
+ * Elie's presence-driven interface with real-time voice:
+ * 1. TopStatusBar — streak, XP, book progress, state pill, live indicator
+ * 2. HeroPanel — PresenceAvatarLive (when voice active) or PresenceAvatar + SpeechBubble + CTAs
+ * 3. VoiceWave — audio visualizer (when voice active)
+ * 4. PronunciationFeedback — slides in during pronunciation exercises
+ * 5. SessionSummary — shown when voice session ends
+ * 6. ContextCards — NextGoal + DailyMission
+ * 7. BottomInputBar — mic + chat input + send
  */
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import PresenceAvatar from "./PresenceAvatar";
+import PresenceAvatarLive from "./PresenceAvatarLive";
+import VoiceWave from "./VoiceWave";
+import PronunciationFeedback from "./PronunciationFeedback";
+import SessionSummary from "./SessionSummary";
 import { usePresence, type PresenceData } from "@/hooks/usePresence";
+import { getElieVoiceSession, type LipSyncFrame } from "@/lib/elie-voice";
+import { getLipSyncEngine, type MouthShape } from "@/lib/lipsync-engine";
 import {
   Flame, BookOpen, Star, Mic, MicOff, Send,
-  ChevronRight, Sparkles, Target, Zap
+  ChevronRight, Sparkles, Target, Zap, X, Phone
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
@@ -34,7 +43,6 @@ function SpeechBubble({ text, accent }: { text: string; accent: string }) {
       <p className="text-sm leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>
         {text}
       </p>
-      {/* Arrow pointing to avatar */}
       <div
         className="absolute -top-2 left-8 w-4 h-4 rotate-45"
         style={{ background: `${accent}15`, borderTop: `1px solid ${accent}30`, borderLeft: `1px solid ${accent}30` }}
@@ -46,9 +54,7 @@ function SpeechBubble({ text, accent }: { text: string; accent: string }) {
 // ── CTA Button Group ─────────────────────────────────────────────────────────
 
 function CTAGroup({
-  buttons,
-  accent,
-  onAction,
+  buttons, accent, onAction,
 }: {
   buttons: PresenceData["ctaButtons"];
   accent: string;
@@ -62,7 +68,7 @@ function CTAGroup({
           onClick={() => onAction(btn.action)}
           className="px-4 py-2 rounded-xl text-sm font-semibold transition-all active:scale-95"
           style={{
-            background: btn.type === "primary" ? `linear-gradient(135deg, #6b3fa0, #2e8b7a)` : btn.type === "secondary" ? `${accent}20` : "transparent",
+            background: btn.type === "primary" ? "linear-gradient(135deg, #6b3fa0, #2e8b7a)" : btn.type === "secondary" ? `${accent}20` : "transparent",
             color: btn.type === "primary" ? "#fff" : accent,
             border: btn.type === "tertiary" ? `1px solid ${accent}30` : "none",
           }}
@@ -76,7 +82,7 @@ function CTAGroup({
 
 // ── Status Pill ──────────────────────────────────────────────────────────────
 
-function StatePill({ state, accent }: { state: string; accent: string }) {
+function StatePill({ state, accent, isLive }: { state: string; accent: string; isLive?: boolean }) {
   const labels: Record<string, string> = {
     idle: "Online",
     listening: "Listening...",
@@ -90,19 +96,19 @@ function StatePill({ state, accent }: { state: string; accent: string }) {
     <div
       className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider"
       style={{
-        background: `${accent}20`,
-        color: accent,
-        border: `1px solid ${accent}30`,
+        background: isLive ? "rgba(34,197,94,0.2)" : `${accent}20`,
+        color: isLive ? "#22c55e" : accent,
+        border: `1px solid ${isLive ? "rgba(34,197,94,0.3)" : `${accent}30`}`,
       }}
     >
       <span
         className="w-1.5 h-1.5 rounded-full"
         style={{
-          background: accent,
-          animation: state !== "idle" ? "elie-react 1.5s infinite" : undefined,
+          background: isLive ? "#22c55e" : accent,
+          animation: state !== "idle" || isLive ? "elie-react 1.5s infinite" : undefined,
         }}
       />
-      {labels[state] || "Online"}
+      {isLive ? "Live" : labels[state] || "Online"}
     </div>
   );
 }
@@ -112,20 +118,137 @@ function StatePill({ state, accent }: { state: string; accent: string }) {
 export default function PresenceDashboard() {
   const { user } = useAuth();
   const {
-    presence,
-    isConnected,
-    todayInteractions,
-    triggerTransition,
-    sendInteraction,
-    computePresence,
-    resetIdle,
+    presence, isConnected, todayInteractions,
+    triggerTransition, sendInteraction, computePresence, resetIdle,
   } = usePresence(user?.id);
 
   const [inputText, setInputText] = useState("");
   const [isMicActive, setIsMicActive] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // ── Voice session state ──────────────────────────────────────────────────
+  const [voiceActive, setVoiceActive] = useState(false);
+  const [voiceStatus, setVoiceStatus] = useState<string>("disconnected");
+  const [mouthShape, setMouthShape] = useState<MouthShape>({ openness: 0, roundness: 0, stretch: 0, lipShape: "neutral" });
+  const [elieTranscript, setElieTranscript] = useState("");
+  const [studentTranscript, setStudentTranscript] = useState("");
+  const [sessionSummary, setSessionSummary] = useState<any>(null);
+  const [pronunciationResult, setPronunciationResult] = useState<any>(null);
+  const [voiceMode, setVoiceMode] = useState<"idle" | "elie" | "student">("idle");
+
   const accent = presence.themeAccent || "#6b3fa0";
+
+  // ── Voice session handlers ───────────────────────────────────────────────
+
+  const startVoiceSession = useCallback(async () => {
+    try {
+      const session = getElieVoiceSession();
+      const lipSync = getLipSyncEngine();
+
+      // Register callbacks
+      session.onElieSpeaking((audioChunk, lipSyncData) => {
+        setVoiceMode("elie");
+        for (const frame of lipSyncData) {
+          lipSync.addFrame(frame);
+        }
+      });
+
+      lipSync.onShapeUpdate((shape) => {
+        setMouthShape(shape);
+      });
+
+      session.onElieTranscript((text, isFinal) => {
+        setElieTranscript(text);
+        if (isFinal) {
+          triggerTransition("speaking", "elie_responding");
+        }
+      });
+
+      session.onStudentTranscript((text, isFinal) => {
+        setStudentTranscript(text);
+        if (isFinal && text.trim()) {
+          setVoiceMode("idle");
+        }
+      });
+
+      session.onPresenceChange((state) => {
+        if (state === "speaking") {
+          setVoiceMode("elie");
+          triggerTransition("speaking", "elie_speaking");
+        } else if (state === "listening") {
+          setVoiceMode("student");
+          triggerTransition("listening", "student_speaking");
+        } else {
+          setVoiceMode("idle");
+          lipSync.transitionToIdle();
+        }
+      });
+
+      session.onStatusChange((status) => {
+        setVoiceStatus(status);
+      });
+
+      session.onError((error) => {
+        toast.error(error);
+      });
+
+      // Connect
+      await session.connect({
+        studentName: user?.name || "Student",
+        currentBook: "Vacation Plus 2",
+        currentLesson: 1,
+        presenceState: presence.avatarState,
+        level: "Pre-Intermediate",
+        streak: 12,
+        sessionFocus: "free_chat",
+        voiceParams: presence.voiceParams || {
+          stability: 0.6,
+          similarity_boost: 0.8,
+          style: 0.3,
+        },
+      });
+
+      await session.startRecording();
+      setVoiceActive(true);
+      setIsMicActive(true);
+      triggerTransition("listening", "voice_session_started");
+      sendInteraction("voice", "session_started");
+      toast.success("Voice session started!", { duration: 2000 });
+    } catch (err) {
+      toast.error("Could not start voice session");
+      console.error("[VoiceSession]", err);
+    }
+  }, [user, presence, triggerTransition, sendInteraction]);
+
+  const endVoiceSession = useCallback(async () => {
+    const session = getElieVoiceSession();
+    const lipSync = getLipSyncEngine();
+
+    await session.disconnect();
+    lipSync.reset();
+
+    setVoiceActive(false);
+    setIsMicActive(false);
+    setVoiceMode("idle");
+    setMouthShape({ openness: 0, roundness: 0, stretch: 0, lipShape: "neutral" });
+    setElieTranscript("");
+    setStudentTranscript("");
+
+    triggerTransition("idle", "voice_session_ended");
+    sendInteraction("voice", "session_ended");
+
+    // Show session summary (mock for MVP — real data from backend in production)
+    setSessionSummary({
+      sessionId: "demo",
+      duration: 5,
+      totalExchanges: 8,
+      avgPronunciationScore: 72,
+      xpEarned: 35,
+      wordsLearned: ["practice", "pronunciation", "vocabulary", "excellent"],
+      topErrors: [],
+      elieClosingMessage: `Great session, ${user?.name?.split(" ")[0] || "Student"}! You practiced for 5 minutes. Keep coming back to build your streak!`,
+    });
+  }, [user, triggerTransition, sendInteraction]);
 
   // ── Handle send message ────────────────────────────────────────────────────
 
@@ -136,18 +259,19 @@ export default function PresenceDashboard() {
     setInputText("");
     resetIdle();
 
-    // Transition to listening → thinking → speaking
-    await triggerTransition("listening", "user_message");
+    // If voice session active, send as text
+    if (voiceActive) {
+      const session = getElieVoiceSession();
+      await session.sendText(text);
+      return;
+    }
 
-    // Small delay for the "thinking" effect
+    await triggerTransition("listening", "user_message");
     setTimeout(async () => {
       await triggerTransition("thinking", "processing_message");
     }, presence.microReactionDelay || 200);
 
-    // Send interaction
     await sendInteraction("message", text);
-
-    // Compute new presence based on message
     await computePresence({
       intent: "engage_student",
       emotion: "neutral",
@@ -167,7 +291,7 @@ export default function PresenceDashboard() {
 
     switch (action) {
       case "voice_practice":
-        toast("Opening Voice Chat...");
+        startVoiceSession();
         break;
       case "start_lesson":
       case "continue_lesson":
@@ -184,17 +308,39 @@ export default function PresenceDashboard() {
   // ── Handle mic toggle ─────────────────────────────────────────────────────
 
   const handleMicToggle = () => {
+    if (voiceActive) {
+      endVoiceSession();
+      return;
+    }
+
     const next = !isMicActive;
     setIsMicActive(next);
     resetIdle();
 
     if (next) {
-      triggerTransition("listening", "mic_activated");
-      sendInteraction("voice");
+      startVoiceSession();
     } else {
       triggerTransition("idle", "mic_deactivated");
     }
   };
+
+  // ── Session Summary dismiss ────────────────────────────────────────────────
+
+  if (sessionSummary) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center px-4" style={{
+        background: "linear-gradient(135deg, #0f0a1e 0%, #1a1145 30%, #0d2137 60%, #0a1628 100%)",
+      }}>
+        <div className="max-w-lg w-full">
+          <SessionSummary
+            data={sessionSummary}
+            onContinue={() => setSessionSummary(null)}
+            themeColor={accent}
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col" style={{
@@ -208,7 +354,6 @@ export default function PresenceDashboard() {
         borderBottom: "1px solid rgba(255,255,255,0.06)",
       }}>
         <div className="flex items-center gap-3">
-          {/* Mini avatar */}
           <div className="w-8 h-8 rounded-full flex items-center justify-center"
             style={{ background: "linear-gradient(135deg, #6b3fa0, #2e8b7a)" }}>
             <span className="text-xs">💜</span>
@@ -218,12 +363,18 @@ export default function PresenceDashboard() {
               Miss Elie
             </p>
             <p className="text-white/30 text-[10px]">
-              {isConnected ? "Presence active" : "Connecting..."}
+              {voiceActive ? "Voice session active" : isConnected ? "Presence active" : "Connecting..."}
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
+          {voiceActive && (
+            <div className="flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-bold"
+              style={{ background: "rgba(34,197,94,0.15)", color: "#22c55e" }}>
+              <Mic className="w-3 h-3" /> Live
+            </div>
+          )}
           <div className="flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-bold"
             style={{ background: "rgba(249,115,22,0.15)", color: "#f97316" }}>
             <Flame className="w-3 h-3" /> 12
@@ -232,66 +383,130 @@ export default function PresenceDashboard() {
             style={{ background: "rgba(168,85,247,0.15)", color: "#a855f7" }}>
             <Star className="w-3 h-3" /> 850 XP
           </div>
-          <StatePill state={presence.avatarState} accent={accent} />
+          <StatePill state={presence.avatarState} accent={accent} isLive={voiceActive} />
         </div>
       </div>
 
       {/* ═══ HERO PANEL ═══ */}
       <div className="flex-1 flex flex-col items-center justify-center px-4 py-6 max-w-lg mx-auto w-full">
 
-        {/* Avatar */}
+        {/* Avatar — Live or Static */}
         <div className="mb-4">
-          <PresenceAvatar
-            state={presence.avatarState}
-            emotion={presence.emotion}
-            size="lg"
-            themeAccent={accent}
-            onClick={() => triggerTransition("encouraging", "avatar_tapped")}
-          />
+          {voiceActive ? (
+            <PresenceAvatarLive
+              state={presence.avatarState as any}
+              mouthShape={mouthShape}
+              emotion={presence.emotion}
+              size={160}
+              themeColor={accent}
+              isListening={voiceMode === "student"}
+              isSpeaking={voiceMode === "elie"}
+              onClick={() => triggerTransition("encouraging", "avatar_tapped")}
+            />
+          ) : (
+            <PresenceAvatar
+              state={presence.avatarState}
+              emotion={presence.emotion}
+              size="lg"
+              themeAccent={accent}
+              onClick={() => triggerTransition("encouraging", "avatar_tapped")}
+            />
+          )}
         </div>
 
-        {/* Speech bubble */}
-        <SpeechBubble text={presence.speechBubbleText} accent={accent} />
+        {/* Voice Wave (when voice active) */}
+        {voiceActive && (
+          <div className="w-full mb-3">
+            <VoiceWave mode={voiceMode} height={40} />
+          </div>
+        )}
 
-        {/* CTAs */}
-        <CTAGroup buttons={presence.ctaButtons} accent={accent} onAction={handleAction} />
+        {/* Transcripts (when voice active) */}
+        {voiceActive && (elieTranscript || studentTranscript) && (
+          <div className="w-full mb-3 space-y-2">
+            {elieTranscript && (
+              <div className="rounded-xl px-4 py-2" style={{ background: `${accent}12`, border: `1px solid ${accent}20` }}>
+                <p className="text-[10px] text-white/40 font-bold uppercase mb-0.5">Elie</p>
+                <p className="text-sm text-white/80">{elieTranscript}</p>
+              </div>
+            )}
+            {studentTranscript && (
+              <div className="rounded-xl px-4 py-2" style={{ background: "rgba(234,179,8,0.08)", border: "1px solid rgba(234,179,8,0.15)" }}>
+                <p className="text-[10px] text-white/40 font-bold uppercase mb-0.5">You</p>
+                <p className="text-sm text-white/80">{studentTranscript}</p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* End voice session button */}
+        {voiceActive && (
+          <button
+            onClick={endVoiceSession}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold mb-3 transition-all active:scale-95"
+            style={{ background: "rgba(239,68,68,0.15)", color: "#f87171", border: "1px solid rgba(239,68,68,0.2)" }}
+          >
+            <Phone className="w-4 h-4" /> End Session
+          </button>
+        )}
+
+        {/* Pronunciation Feedback (slides in) */}
+        {pronunciationResult && (
+          <div className="w-full mb-3">
+            <PronunciationFeedback
+              expectedText={pronunciationResult.expectedText}
+              score={pronunciationResult.score}
+              phonemeErrors={pronunciationResult.phonemeErrors}
+              elieResponse={pronunciationResult.elieResponse}
+              xpEarned={pronunciationResult.xpEarned}
+              onRetry={() => setPronunciationResult(null)}
+              onDismiss={() => setPronunciationResult(null)}
+              themeColor={accent}
+            />
+          </div>
+        )}
+
+        {/* Speech bubble (when NOT in voice) */}
+        {!voiceActive && <SpeechBubble text={presence.speechBubbleText} accent={accent} />}
+
+        {/* CTAs (when NOT in voice) */}
+        {!voiceActive && <CTAGroup buttons={presence.ctaButtons} accent={accent} onAction={handleAction} />}
 
         {/* ═══ CONTEXT CARDS ═══ */}
-        <div className="grid grid-cols-2 gap-3 mt-6 w-full">
-          {/* Next Goal */}
-          <div className="rounded-2xl p-4" style={{
-            background: "rgba(255,255,255,0.04)",
-            border: "1px solid rgba(255,255,255,0.08)",
-          }}>
-            <div className="flex items-center gap-2 mb-2">
-              <Target className="w-4 h-4" style={{ color: accent }} />
-              <span className="text-white/50 text-xs font-bold uppercase">Next Goal</span>
+        {!voiceActive && (
+          <div className="grid grid-cols-2 gap-3 mt-6 w-full">
+            <div className="rounded-2xl p-4" style={{
+              background: "rgba(255,255,255,0.04)",
+              border: "1px solid rgba(255,255,255,0.08)",
+            }}>
+              <div className="flex items-center gap-2 mb-2">
+                <Target className="w-4 h-4" style={{ color: accent }} />
+                <span className="text-white/50 text-xs font-bold uppercase">Next Goal</span>
+              </div>
+              <p className="text-white text-sm font-semibold">Complete Unit 8</p>
+              <p className="text-white/30 text-[10px] mt-1">3 sections remaining</p>
+              <div className="h-1 rounded-full mt-2 overflow-hidden" style={{ background: "rgba(255,255,255,0.08)" }}>
+                <div className="h-full rounded-full" style={{ width: "60%", background: `linear-gradient(90deg, #6b3fa0, ${accent})` }} />
+              </div>
             </div>
-            <p className="text-white text-sm font-semibold">Complete Unit 8</p>
-            <p className="text-white/30 text-[10px] mt-1">3 sections remaining</p>
-            <div className="h-1 rounded-full mt-2 overflow-hidden" style={{ background: "rgba(255,255,255,0.08)" }}>
-              <div className="h-full rounded-full" style={{ width: "60%", background: `linear-gradient(90deg, #6b3fa0, ${accent})` }} />
+
+            <div className="rounded-2xl p-4" style={{
+              background: "rgba(255,255,255,0.04)",
+              border: "1px solid rgba(255,255,255,0.08)",
+            }}>
+              <div className="flex items-center gap-2 mb-2">
+                <Zap className="w-4 h-4 text-yellow-400" />
+                <span className="text-white/50 text-xs font-bold uppercase">Daily Mission</span>
+              </div>
+              <p className="text-white text-sm font-semibold">Learn 5 Chunks</p>
+              <p className="text-white/30 text-[10px] mt-1">+50 XP reward</p>
+              <div className="h-1 rounded-full mt-2 overflow-hidden" style={{ background: "rgba(255,255,255,0.08)" }}>
+                <div className="h-full rounded-full" style={{ width: "40%", background: "linear-gradient(90deg, #eab308, #f97316)" }} />
+              </div>
             </div>
           </div>
+        )}
 
-          {/* Daily Mission */}
-          <div className="rounded-2xl p-4" style={{
-            background: "rgba(255,255,255,0.04)",
-            border: "1px solid rgba(255,255,255,0.08)",
-          }}>
-            <div className="flex items-center gap-2 mb-2">
-              <Zap className="w-4 h-4 text-yellow-400" />
-              <span className="text-white/50 text-xs font-bold uppercase">Daily Mission</span>
-            </div>
-            <p className="text-white text-sm font-semibold">Learn 5 Chunks</p>
-            <p className="text-white/30 text-[10px] mt-1">+50 XP reward</p>
-            <div className="h-1 rounded-full mt-2 overflow-hidden" style={{ background: "rgba(255,255,255,0.08)" }}>
-              <div className="h-full rounded-full" style={{ width: "40%", background: "linear-gradient(90deg, #eab308, #f97316)" }} />
-            </div>
-          </div>
-        </div>
-
-        {/* Interactions counter */}
         <p className="text-white/20 text-[10px] mt-4">
           {todayInteractions} interactions today
         </p>
@@ -308,8 +523,11 @@ export default function PresenceDashboard() {
           onClick={handleMicToggle}
           className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all active:scale-90"
           style={{
-            background: isMicActive ? "linear-gradient(135deg, #22c55e, #16a34a)" : "rgba(255,255,255,0.06)",
+            background: isMicActive
+              ? "linear-gradient(135deg, #22c55e, #16a34a)"
+              : "rgba(255,255,255,0.06)",
             border: isMicActive ? "none" : "1px solid rgba(255,255,255,0.1)",
+            boxShadow: isMicActive ? "0 0 20px rgba(34,197,94,0.3)" : "none",
           }}
         >
           {isMicActive ? <Mic className="w-5 h-5 text-white" /> : <MicOff className="w-5 h-5 text-white/40" />}
@@ -323,7 +541,7 @@ export default function PresenceDashboard() {
           onChange={(e) => setInputText(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
           onFocus={resetIdle}
-          placeholder="Talk to Elie..."
+          placeholder={voiceActive ? "Type while speaking..." : "Talk to Elie..."}
           className="flex-1 h-11 rounded-xl px-4 text-sm text-white placeholder:text-white/20 outline-none"
           style={{
             background: "rgba(255,255,255,0.05)",
@@ -337,7 +555,7 @@ export default function PresenceDashboard() {
           disabled={!inputText.trim()}
           className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all active:scale-90 disabled:opacity-30"
           style={{
-            background: inputText.trim() ? `linear-gradient(135deg, #6b3fa0, #2e8b7a)` : "rgba(255,255,255,0.06)",
+            background: inputText.trim() ? "linear-gradient(135deg, #6b3fa0, #2e8b7a)" : "rgba(255,255,255,0.06)",
           }}
         >
           <Send className="w-5 h-5 text-white" />
