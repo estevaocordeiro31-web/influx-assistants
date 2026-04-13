@@ -50,6 +50,9 @@ import ChangePassword from "./pages/ChangePassword";
 import ThemeSelector from "./pages/ThemeSelector";
 import ElieAvatarPage from "./pages/ElieAvatarPage";
 import PresenceDashboard from "./components/PresenceDashboard";
+import TotemMode from "./pages/TotemMode";
+import StudentPassport from "./pages/StudentPassport";
+import TotemManager from "./pages/admin/TotemManager";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -105,6 +108,8 @@ function Router() {
       <Route path="/student/themes" component={ThemeSelector} />
       <Route path="/student/elie" component={ElieAvatarPage} />
       <Route path="/student/presence" component={PresenceDashboard} />
+      <Route path="/passport/:studentId" component={StudentPassport} />
+      <Route path="/totem/:totemId" component={TotemMode} />
       <Route path="/passport/checkin" component={PassportCheckInPage} />
       <Route path="/passport/sync" component={PassportSyncPage} />
       {/* Rota exclusiva para Tiago */}
@@ -127,6 +132,7 @@ function Router() {
           <Route path="/admin/back-to-school" component={BackToSchoolAdminPage} />
           <Route path="/admin/back-to-school-dashboard" component={BackToSchoolDashboard} />
           <Route path="/admin/activities" component={AdminActivitiesPage} />
+          <Route path="/admin/totems" component={TotemManager} />
         </>
       )}
       {/* Rotas de demonstração admin */}
