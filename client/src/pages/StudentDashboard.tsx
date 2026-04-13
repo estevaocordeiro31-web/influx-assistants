@@ -102,20 +102,23 @@ const DEMO_STUDENT = {
   ],
 };
 
-// Glassmorphism card wrapper — reads app theme for card styling
+// Glassmorphism card wrapper with frosted glass + top shine line
 function GlassCard({ children, className = "", style = {}, appTheme }: { children: React.ReactNode; className?: string; style?: React.CSSProperties; appTheme?: AppTheme }) {
   return (
     <div
-      className={`rounded-2xl ${className}`}
+      className={`rounded-2xl relative overflow-hidden transition-all hover:scale-[1.005] ${className}`}
       style={{
-        background: appTheme?.cardBg || 'rgba(255, 255, 255, 0.05)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-        border: `1px solid ${appTheme?.cardBorder || 'rgba(255, 255, 255, 0.08)'}`,
+        background: appTheme?.cardBg || 'rgba(255, 255, 255, 0.04)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        border: `1px solid ${appTheme?.cardBorder || 'rgba(255, 255, 255, 0.09)'}`,
         color: appTheme?.cardText || undefined,
         ...style,
       }}
     >
+      {/* Top shine line (Glassmorphism Spatial pattern) */}
+      <div className="absolute top-0 left-0 right-0 h-px"
+        style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)' }} />
       {children}
     </div>
   );
@@ -202,8 +205,16 @@ export default function StudentDashboard() {
   };
 
   return (
-    <div className="min-h-screen safe-area-bottom"
+    <div className="min-h-screen safe-area-bottom relative"
       style={{ background: appTheme.background }}>
+
+      {/* Page-level mesh gradient (Glassmorphism Spatial) */}
+      <div className="fixed inset-0 pointer-events-none z-0" style={{
+        background: `radial-gradient(ellipse 70% 60% at 30% 20%, ${appTheme.accentColor}12, transparent 70%),
+                     radial-gradient(ellipse 50% 50% at 70% 70%, ${appTheme.valueColor || '#2e8b7a'}0d, transparent 70%)`,
+      }} />
+
+      <div className="relative z-10">
       <InfluxHeader />
 
       {showOnboarding && (
@@ -211,6 +222,16 @@ export default function StudentDashboard() {
       )}
 
       <main className="container mx-auto px-4 py-4 sm:py-6 max-w-7xl">
+        {/* XP Progress Bar (Conversational AI-First pattern) */}
+        <div className="h-1 rounded-full bg-white/5 overflow-hidden mb-4">
+          <div className="h-full rounded-full"
+            style={{
+              width: `${Math.min(100, studentData.progressPercentage)}%`,
+              background: `linear-gradient(90deg, ${appTheme.accentColor || '#6b3fa0'}, ${appTheme.valueColor || '#2e8b7a'})`,
+              transition: "width 2s ease-out",
+            }} />
+        </div>
+
         {/* Sync Indicator */}
         <div className="mb-4">
           <SyncIndicator status={status} message={message} showBadge={true} />
@@ -262,15 +283,17 @@ export default function StudentDashboard() {
 
         {/* ===== QUICK ACTIONS ===== */}
         <div className="mb-5">
-          {/* Meu Tutor highlight card */}
+          {/* Meu Tutor highlight card (Glassmorphism Spatial) */}
           <button
             onClick={() => {
               const tutorTab = document.querySelector('[value="tutor"]') as HTMLButtonElement;
               if (tutorTab) tutorTab.click();
             }}
-            className="w-full mb-3 p-4 sm:p-5 rounded-2xl transition-all duration-200 active:scale-[0.98] overflow-hidden relative group"
+            className="w-full mb-3 p-4 sm:p-5 rounded-2xl transition-all duration-200 active:scale-[0.98] overflow-hidden relative group hover:scale-[1.01]"
             style={{
-              background: 'linear-gradient(135deg, rgba(124,58,237,0.15) 0%, rgba(6,182,212,0.1) 100%)',
+              background: 'rgba(255,255,255,0.04)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
               border: '1px solid rgba(124,58,237,0.2)',
             }}
           >
@@ -384,8 +407,13 @@ export default function StudentDashboard() {
 
         {/* ===== TABS ===== */}
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="flex w-full overflow-x-auto rounded-xl p-1 gap-0.5 sm:gap-1 shadow-lg scrollbar-hide"
-            style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+          <TabsList className="flex w-full overflow-x-auto rounded-2xl p-1 gap-0.5 sm:gap-1 shadow-lg scrollbar-hide"
+            style={{
+              background: 'rgba(255,255,255,0.03)',
+              border: '1px solid rgba(255,255,255,0.08)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+            }}>
             {[
               { value: 'overview', icon: BookOpen, label: 'Visão Geral' },
               { value: 'tutor', icon: GraduationCap, label: 'Meu Tutor' },
@@ -619,6 +647,7 @@ export default function StudentDashboard() {
           </TabsContent>
         </Tabs>
       </main>
+      </div>
     </div>
   );
 }
