@@ -15,6 +15,7 @@ export const users = mysqlTable("users", {
   avatarUrl: text("avatarUrl"),
   role: mysqlEnum("role", ["user", "admin", "owner", "teacher"]).default("user").notNull(),
   unidadeId: int("unidade_id").notNull().default(1),
+  phone: varchar("phone", { length: 30 }),
   status: mysqlEnum("status", ["ativo", "inativo", "desistente", "trancado"]),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),

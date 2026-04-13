@@ -14,6 +14,7 @@ export const users = mysqlTable("users", {
   passwordHash: text("passwordHash"),
   loginMethod: varchar("loginMethod", { length: 64 }),
   avatarUrl: text("avatarUrl"),
+  phone: varchar("phone", { length: 30 }),
   role: mysqlEnum("role", ["user", "admin", "owner", "teacher"]).default("user").notNull(),
   unidadeId: int("unidade_id").notNull().default(1),
   status: mysqlEnum("status", ["ativo", "inativo", "desistente", "trancado"]),
