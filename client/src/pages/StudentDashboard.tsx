@@ -25,7 +25,7 @@ import { StudentMessages } from "@/components/StudentMessages";
 import { StudentGrades } from "@/components/StudentGrades";
 import { SyncIndicator, useSyncStatus } from "@/components/SyncIndicator";
 import { getBookTheme, getBookNumberFromLevel } from "@/lib/book-themes";
-import { getThemeById, getDefaultTheme, type AppTheme } from "@/lib/themes";
+import { getThemeById, getDefaultTheme, type AppTheme, type LayoutType } from "@/lib/themes";
 import HeroBookCard from "@/components/HeroBookCard";
 import StatsGrid from "@/components/StatsGrid";
 import NextClassCard from "@/components/NextClassCard";
@@ -55,6 +55,26 @@ function useAppTheme() {
   }, [themeId]);
 
   return getThemeById(themeId) || getDefaultTheme();
+}
+
+// Hook to read selected layout from localStorage
+function useLayout(): LayoutType {
+  const [layout, setLayout] = useState<LayoutType>(() => (localStorage.getItem('tutor_layout') as LayoutType) || 'scroll');
+
+  useEffect(() => {
+    const handler = () => {
+      const newLayout = (localStorage.getItem('tutor_layout') as LayoutType) || 'scroll';
+      setLayout(newLayout);
+    };
+    window.addEventListener('storage', handler);
+    window.addEventListener('focus', handler);
+    return () => {
+      window.removeEventListener('storage', handler);
+      window.removeEventListener('focus', handler);
+    };
+  }, []);
+
+  return layout;
 }
 
 // Demo data for unauthenticated/demo mode
@@ -190,6 +210,7 @@ export default function StudentDashboard() {
   const bookNumber = getBookNumberFromLevel(studentData.level);
   const bookTheme = getBookTheme(bookNumber);
   const appTheme = useAppTheme();
+  const dashLayout = useLayout();
 
   // Extract classInfo from personalized dashboard
   const classInfo = personalizedDashboard?.classInfo || null;
@@ -237,49 +258,127 @@ export default function StudentDashboard() {
           <SyncIndicator status={status} message={message} showBadge={true} />
         </div>
 
-        {/* ===== HERO BOOK CARD ===== */}
-        <div className="mb-5">
-          <HeroBookCard
-            studentName={user?.name || studentData.name}
-            bookNumber={bookNumber}
-            bookTheme={bookTheme}
-            appTheme={appTheme}
-            currentUnit={studentData.currentUnit}
-            totalUnits={studentData.totalUnits}
-            progressPercentage={studentData.progressPercentage}
-            level={studentData.level}
-            onContinue={() => { const t = document.querySelector('[value="tutor"]') as HTMLButtonElement; if (t) t.click(); }}
-          />
-        </div>
+        {/* ===== LAYOUT-DEPENDENT DASHBOARD SECTION ===== */}
+        {dashLayout === 'orbit' && (
+          /* ORBIT: Hero centered, stats orbit around it */
+          <div className="mb-5 space-y-4">
+            <HeroBookCard
+              studentName={user?.name || studentData.name} bookNumber={bookNumber}
+              bookTheme={bookTheme} appTheme={appTheme}
+              currentUnit={studentData.currentUnit} totalUnits={studentData.totalUnits}
+              progressPercentage={studentData.progressPercentage} level={studentData.level}
+              onContinue={() => { const t = document.querySelector('[value="tutor"]') as HTMLButtonElement; if (t) t.click(); }}
+            />
+            {/* Orbit-style: 2x2 stat cards with NextClass & AI filling remaining */}
+            <div className="grid grid-cols-2 gap-3">
+              <StatsGrid appTheme={appTheme} streakDays={studentData.streakDays}
+                hoursLearned={studentData.totalHoursLearned}
+                chunksLearned={studentData.totalChunksLearned}
+                completedBooks={studentData.completedBooks.filter(b => b.progress === 100).length} />
+              <div className="space-y-3">
+                <NextClassCard appTheme={appTheme}
+                  schedule={classInfo?.schedule || null}
+                  teacher={classInfo?.teacher || null}
+                  className={classInfo?.className || null} />
+                <AISuggestionCard appTheme={appTheme}
+                  streakDays={studentData.streakDays}
+                  progressPercentage={studentData.progressPercentage}
+                  hoursLearned={studentData.totalHoursLearned}
+                  currentBook={studentData.currentBook}
+                  objective={personalizedDashboard?.student?.objective} />
+              </div>
+            </div>
+          </div>
+        )}
 
-        {/* ===== STATS GRID ===== */}
-        <div className="mb-5">
-          <StatsGrid
-            appTheme={appTheme}
-            streakDays={studentData.streakDays}
-            hoursLearned={studentData.totalHoursLearned}
-            chunksLearned={studentData.totalChunksLearned}
-            completedBooks={studentData.completedBooks.filter(b => b.progress === 100).length}
-          />
-        </div>
+        {dashLayout === 'scroll' && (
+          /* SCROLL (default): Vertical stack — Hero, Stats, side-by-side cards */
+          <div className="mb-5 space-y-4">
+            <HeroBookCard
+              studentName={user?.name || studentData.name} bookNumber={bookNumber}
+              bookTheme={bookTheme} appTheme={appTheme}
+              currentUnit={studentData.currentUnit} totalUnits={studentData.totalUnits}
+              progressPercentage={studentData.progressPercentage} level={studentData.level}
+              onContinue={() => { const t = document.querySelector('[value="tutor"]') as HTMLButtonElement; if (t) t.click(); }}
+            />
+            <StatsGrid appTheme={appTheme} streakDays={studentData.streakDays}
+              hoursLearned={studentData.totalHoursLearned}
+              chunksLearned={studentData.totalChunksLearned}
+              completedBooks={studentData.completedBooks.filter(b => b.progress === 100).length} />
+            <div className="grid md:grid-cols-2 gap-3">
+              <NextClassCard appTheme={appTheme}
+                schedule={classInfo?.schedule || null}
+                teacher={classInfo?.teacher || null}
+                className={classInfo?.className || null} />
+              <AISuggestionCard appTheme={appTheme}
+                streakDays={studentData.streakDays}
+                progressPercentage={studentData.progressPercentage}
+                hoursLearned={studentData.totalHoursLearned}
+                currentBook={studentData.currentBook}
+                objective={personalizedDashboard?.student?.objective} />
+            </div>
+          </div>
+        )}
 
-        {/* ===== NEXT CLASS + AI SUGGESTION ===== */}
-        <div className="grid md:grid-cols-2 gap-3 mb-5">
-          <NextClassCard
-            appTheme={appTheme}
-            schedule={classInfo?.schedule || null}
-            teacher={classInfo?.teacher || null}
-            className={classInfo?.className || null}
-          />
-          <AISuggestionCard
-            appTheme={appTheme}
-            streakDays={studentData.streakDays}
-            progressPercentage={studentData.progressPercentage}
-            hoursLearned={studentData.totalHoursLearned}
-            currentBook={studentData.currentBook}
-            objective={personalizedDashboard?.student?.objective}
-          />
-        </div>
+        {dashLayout === 'split' && (
+          /* SPLIT: Sidebar left (Hero compact + stats) | Content right (cards stacked) */
+          <div className="mb-5 flex flex-col md:flex-row gap-4">
+            {/* Left sidebar */}
+            <div className="md:w-1/3 space-y-3">
+              <HeroBookCard
+                studentName={user?.name || studentData.name} bookNumber={bookNumber}
+                bookTheme={bookTheme} appTheme={appTheme}
+                currentUnit={studentData.currentUnit} totalUnits={studentData.totalUnits}
+                progressPercentage={studentData.progressPercentage} level={studentData.level}
+                onContinue={() => { const t = document.querySelector('[value="tutor"]') as HTMLButtonElement; if (t) t.click(); }}
+              />
+              <StatsGrid appTheme={appTheme} streakDays={studentData.streakDays}
+                hoursLearned={studentData.totalHoursLearned}
+                chunksLearned={studentData.totalChunksLearned}
+                completedBooks={studentData.completedBooks.filter(b => b.progress === 100).length} />
+            </div>
+            {/* Right content */}
+            <div className="md:w-2/3 space-y-3">
+              <NextClassCard appTheme={appTheme}
+                schedule={classInfo?.schedule || null}
+                teacher={classInfo?.teacher || null}
+                className={classInfo?.className || null} />
+              <AISuggestionCard appTheme={appTheme}
+                streakDays={studentData.streakDays}
+                progressPercentage={studentData.progressPercentage}
+                hoursLearned={studentData.totalHoursLearned}
+                currentBook={studentData.currentBook}
+                objective={personalizedDashboard?.student?.objective} />
+            </div>
+          </div>
+        )}
+
+        {dashLayout === 'narrative' && (
+          /* NARRATIVE: Feed-style vertical cards, each section is a "story" */
+          <div className="mb-5 space-y-3 max-w-lg mx-auto">
+            <HeroBookCard
+              studentName={user?.name || studentData.name} bookNumber={bookNumber}
+              bookTheme={bookTheme} appTheme={appTheme}
+              currentUnit={studentData.currentUnit} totalUnits={studentData.totalUnits}
+              progressPercentage={studentData.progressPercentage} level={studentData.level}
+              onContinue={() => { const t = document.querySelector('[value="tutor"]') as HTMLButtonElement; if (t) t.click(); }}
+            />
+            <AISuggestionCard appTheme={appTheme}
+              streakDays={studentData.streakDays}
+              progressPercentage={studentData.progressPercentage}
+              hoursLearned={studentData.totalHoursLearned}
+              currentBook={studentData.currentBook}
+              objective={personalizedDashboard?.student?.objective} />
+            <StatsGrid appTheme={appTheme} streakDays={studentData.streakDays}
+              hoursLearned={studentData.totalHoursLearned}
+              chunksLearned={studentData.totalChunksLearned}
+              completedBooks={studentData.completedBooks.filter(b => b.progress === 100).length} />
+            <NextClassCard appTheme={appTheme}
+              schedule={classInfo?.schedule || null}
+              teacher={classInfo?.teacher || null}
+              className={classInfo?.className || null} />
+          </div>
+        )}
 
         {/* ===== QUICK ACTIONS ===== */}
         <div className="mb-5">
