@@ -196,14 +196,12 @@ export default function HeroBookCard({
         {/* CTA row */}
         <div className="flex items-center gap-3 mt-4">
           <button onClick={onContinue}
-            className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-2xl text-white text-sm font-bold transition-all active:scale-[0.97]"
-            style={{ background: gradient, boxShadow: `0 6px 24px ${primary}25` }}>
+            className="liquid-glass liquid-glass-purple flex-1 flex items-center justify-center gap-2 py-3.5 text-white text-sm font-bold relative z-10">
             <Zap className="w-4 h-4" /> Continuar Estudando
           </button>
           <button onClick={onContinue}
-            className="w-12 h-12 rounded-2xl flex items-center justify-center transition-all active:scale-95"
-            style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
-            <ChevronRight className="w-5 h-5 text-white/30" />
+            className="liquid-glass w-12 h-12 flex items-center justify-center">
+            <ChevronRight className="w-5 h-5 text-white/40" />
           </button>
         </div>
       </div>

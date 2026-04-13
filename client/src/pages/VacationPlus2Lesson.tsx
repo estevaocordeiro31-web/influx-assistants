@@ -342,9 +342,8 @@ export default function VacationPlus2Lesson() {
                     markComplete("exercises");
                     toast.success("Quiz section opened! Use the Tutor tab for full quiz.");
                   }}
-                  className="px-8 py-3 rounded-xl text-white font-semibold text-sm transition-all active:scale-95"
+                  className="liquid-glass liquid-glass-gold px-8 py-3 text-white font-semibold text-sm transition-all active:scale-95"
                   style={{
-                    background: "linear-gradient(135deg, #eab308, #f97316)",
                     boxShadow: "0 4px 16px rgba(234,179,8,0.3)",
                   }}>
                   <div className="flex items-center gap-2">

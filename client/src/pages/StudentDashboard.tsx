@@ -382,19 +382,13 @@ export default function StudentDashboard() {
 
         {/* ===== QUICK ACTIONS ===== */}
         <div className="mb-5">
-          {/* Meu Tutor highlight card (Glassmorphism Spatial) */}
+          {/* Meu Tutor highlight card (Liquid Glass) */}
           <button
             onClick={() => {
               const tutorTab = document.querySelector('[value="tutor"]') as HTMLButtonElement;
               if (tutorTab) tutorTab.click();
             }}
-            className="w-full mb-3 p-4 sm:p-5 rounded-2xl transition-all duration-200 active:scale-[0.98] overflow-hidden relative group hover:scale-[1.01]"
-            style={{
-              background: 'rgba(255,255,255,0.04)',
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)',
-              border: '1px solid rgba(124,58,237,0.2)',
-            }}
+            className="liquid-glass liquid-glass-purple w-full mb-3 p-4 sm:p-5 !rounded-2xl relative group"
           >
             <div className="flex items-center justify-between relative z-10">
               <div className="flex items-center gap-3 sm:gap-4">
@@ -432,8 +426,8 @@ export default function StudentDashboard() {
                   const tab = document.querySelector('[value="reading-club"]') as HTMLButtonElement;
                   if (tab) tab.click();
                 }}
-                className="action-card relative"
-                style={{ background: 'linear-gradient(135deg, rgba(249,115,22,0.2), rgba(234,88,12,0.15))', border: '1px solid rgba(249,115,22,0.2)' }}
+                className="liquid-glass action-card relative"
+                style={{ background: 'linear-gradient(135deg, rgba(249,115,22,0.18), rgba(234,88,12,0.08))', borderColor: 'rgba(249,115,22,0.25)' }}
               >
                 <BookOpen className="w-6 h-6 text-orange-400" />
                 <span className="text-white/80 font-semibold text-xs sm:text-sm">Reading Club</span>
@@ -446,8 +440,8 @@ export default function StudentDashboard() {
                 const tab = document.querySelector('[value="chat"]') as HTMLButtonElement;
                 if (tab) tab.click();
               }}
-              className="action-card relative"
-              style={{ background: 'linear-gradient(135deg, rgba(59,130,246,0.2), rgba(37,99,235,0.15))', border: '1px solid rgba(59,130,246,0.2)' }}
+              className="liquid-glass action-card relative"
+              style={{ background: 'linear-gradient(135deg, rgba(59,130,246,0.18), rgba(37,99,235,0.08))', borderColor: 'rgba(59,130,246,0.25)' }}
             >
               <MessageCircle className="w-6 h-6 text-blue-400" />
               <span className="text-white/80 font-semibold text-xs sm:text-sm">Chat IA</span>
@@ -459,8 +453,8 @@ export default function StudentDashboard() {
                 const tab = document.querySelector('[value="exercises"]') as HTMLButtonElement;
                 if (tab) tab.click();
               }}
-              className="action-card relative"
-              style={{ background: 'linear-gradient(135deg, rgba(234,179,8,0.2), rgba(202,138,4,0.15))', border: '1px solid rgba(234,179,8,0.2)' }}
+              className="liquid-glass action-card relative"
+              style={{ background: 'linear-gradient(135deg, rgba(234,179,8,0.18), rgba(202,138,4,0.08))', borderColor: 'rgba(234,179,8,0.25)' }}
             >
               <Zap className="w-6 h-6 text-yellow-400" />
               <span className="text-white/80 font-semibold text-xs sm:text-sm">Exercícios</span>
@@ -468,8 +462,8 @@ export default function StudentDashboard() {
             </button>
             <button
               onClick={() => setLocation("/student/voice-chat")}
-              className="action-card"
-              style={{ background: 'linear-gradient(135deg, rgba(168,85,247,0.2), rgba(126,34,206,0.15))', border: '1px solid rgba(168,85,247,0.2)' }}
+              className="liquid-glass action-card"
+              style={{ background: 'linear-gradient(135deg, rgba(168,85,247,0.18), rgba(126,34,206,0.08))', borderColor: 'rgba(168,85,247,0.25)' }}
             >
               <Mic className="w-6 h-6 text-purple-400" />
               <span className="text-white/80 font-semibold text-xs sm:text-sm">Voice Chat</span>
@@ -479,24 +473,24 @@ export default function StudentDashboard() {
                 const tab = document.querySelector('[value="sponte"]') as HTMLButtonElement;
                 if (tab) tab.click();
               }}
-              className="action-card"
-              style={{ background: 'linear-gradient(135deg, rgba(6,182,212,0.2), rgba(8,145,178,0.15))', border: '1px solid rgba(6,182,212,0.2)' }}
+              className="liquid-glass action-card"
+              style={{ background: 'linear-gradient(135deg, rgba(6,182,212,0.2), rgba(8,145,178,0.08))', borderColor: 'rgba(6,182,212,0.25)' }}
             >
               <TrendingUp className="w-6 h-6 text-cyan-400" />
               <span className="text-white/80 font-semibold text-xs sm:text-sm">Meus Dados</span>
             </button>
             <button
               onClick={() => setLocation("/student/elie")}
-              className="action-card"
-              style={{ background: 'linear-gradient(135deg, rgba(236,72,153,0.2), rgba(219,39,119,0.15))', border: '1px solid rgba(236,72,153,0.2)' }}
+              className="liquid-glass action-card"
+              style={{ background: 'linear-gradient(135deg, rgba(236,72,153,0.2), rgba(219,39,119,0.08))', borderColor: 'rgba(236,72,153,0.25)' }}
             >
               <Bot className="w-6 h-6 text-pink-400" />
               <span className="text-white/80 font-semibold text-xs sm:text-sm">Miss Elie</span>
             </button>
             <button
               onClick={() => setLocation("/student/themes")}
-              className="action-card"
-              style={{ background: 'linear-gradient(135deg, rgba(124,58,237,0.2), rgba(109,40,217,0.15))', border: '1px solid rgba(124,58,237,0.2)' }}
+              className="liquid-glass action-card"
+              style={{ background: 'linear-gradient(135deg, rgba(124,58,237,0.2), rgba(109,40,217,0.08))', borderColor: 'rgba(124,58,237,0.25)' }}
             >
               <Palette className="w-6 h-6 text-violet-400" />
               <span className="text-white/80 font-semibold text-xs sm:text-sm">Temas</span>
