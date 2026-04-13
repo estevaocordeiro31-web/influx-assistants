@@ -51,10 +51,10 @@ CREATE TABLE IF NOT EXISTS `totem_sessions` (
 );
 
 -- Add columns to users table for presence tracking
-ALTER TABLE `users`
-  ADD COLUMN IF NOT EXISTS `last_environment` VARCHAR(100) DEFAULT NULL,
-  ADD COLUMN IF NOT EXISTS `last_checkin_at` TIMESTAMP NULL,
-  ADD COLUMN IF NOT EXISTS `total_checkins` INT NOT NULL DEFAULT 0;
+-- Using separate statements to avoid errors if columns already exist
+ALTER TABLE `users` ADD COLUMN `last_environment` VARCHAR(100) DEFAULT NULL;
+ALTER TABLE `users` ADD COLUMN `last_checkin_at` TIMESTAMP NULL;
+ALTER TABLE `users` ADD COLUMN `total_checkins` INT NOT NULL DEFAULT 0;
 
 -- Seed 5 inFlux Jundiaí environments
 INSERT INTO `environments` (`name`, `type`, `location_name`, `floor`, `room`, `totem_id`, `persona`, `is_active`) VALUES
