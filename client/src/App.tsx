@@ -35,6 +35,7 @@ import TiagoPage from "./pages/TiagoPage";
 import AdminTiagoSetup from "./pages/AdminTiagoSetup";
 import AdminBulkSyncPage from "./pages/AdminBulkSyncPage";
 import { AccessBlockedPage } from "./pages/AccessBlockedPage";
+import { XPToastContainer } from "./components/XPToast";
 import ElliesSupportPage from "./pages/ElliesSupportPage";
 import SupportTicketsPage from "./pages/SupportTicketsPage";
 import InfluxPassportPage from "./pages/InfluxPassportPage";
@@ -47,6 +48,7 @@ import StudentStatsPage from "./pages/StudentStatsPage";
 import TestLoginDebug from "./pages/TestLoginDebug";
 import ExtraExercisesPage from "./pages/ExtraExercisesPage";
 import ChangePassword from "./pages/ChangePassword";
+import BadgesPage from "./pages/BadgesPage";
 import ThemeSelector from "./pages/ThemeSelector";
 import ElieAvatarPage from "./pages/ElieAvatarPage";
 import PresenceDashboard from "./components/PresenceDashboard";
@@ -108,6 +110,7 @@ function Router() {
       <Route path="/student/extra-exercises/:bookId/:lessonNumber" component={ExtraExercisesPage} />
       <Route path="/student/extra-exercises" component={ExtraExercisesPage} />
       <Route path="/student/themes" component={ThemeSelector} />
+      <Route path="/student/badges" component={BadgesPage} />
       <Route path="/student/elie" component={ElieAvatarPage} />
       <Route path="/student/presence" component={PresenceDashboard} />
       <Route path="/book/vacation-plus-2" component={VacationPlus2} />
@@ -169,6 +172,7 @@ function App() {
       <ThemeProvider defaultTheme="dark">
         <TooltipProvider>
           <Toaster />
+          <XPToastContainer />
           <Router />
         </TooltipProvider>
       </ThemeProvider>

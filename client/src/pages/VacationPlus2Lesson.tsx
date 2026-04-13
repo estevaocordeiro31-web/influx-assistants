@@ -15,6 +15,7 @@ import {
   CheckCircle2, ChevronLeft, Trophy, Zap,
 } from "lucide-react";
 import { toast } from "sonner";
+import { showXPToast } from "@/components/XPToast";
 
 // ── Lesson metadata ──────────────────────────────────────────────────────────
 
@@ -88,6 +89,10 @@ export default function VacationPlus2Lesson() {
     setCompletedSections(prev => new Set([...prev, section]));
     updateSection.mutate({ lessonNumber: lessonNum, section });
     toast.success(`${section.replace("_", " ")} completed!`);
+    // XP rewards per section
+    const xpMap: Record<SectionId, number> = { overview: 5, vocabulary: 15, dialogues: 15, cultural_tips: 10, exercises: 30 };
+    const coinMap: Record<SectionId, number> = { overview: 0, vocabulary: 5, dialogues: 5, cultural_tips: 3, exercises: 10 };
+    showXPToast({ xp: xpMap[section], coins: coinMap[section], reason: section.replace("_", " ") });
   }
 
   const sectionProgress = Math.round((completedSections.size / SECTIONS.length) * 100);
