@@ -52,6 +52,8 @@ import ElieAvatarPage from "./pages/ElieAvatarPage";
 import PresenceDashboard from "./components/PresenceDashboard";
 import TotemMode from "./pages/TotemMode";
 import StudentPassport from "./pages/StudentPassport";
+import VacationPlus2 from "./pages/VacationPlus2";
+import VacationPlus2Lesson from "./pages/VacationPlus2Lesson";
 import TotemManager from "./pages/admin/TotemManager";
 
 function Router() {
@@ -108,6 +110,8 @@ function Router() {
       <Route path="/student/themes" component={ThemeSelector} />
       <Route path="/student/elie" component={ElieAvatarPage} />
       <Route path="/student/presence" component={PresenceDashboard} />
+      <Route path="/book/vacation-plus-2" component={VacationPlus2} />
+      <Route path="/book/vacation-plus-2/lesson/:lessonNumber" component={VacationPlus2Lesson} />
       <Route path="/passport/:studentId" component={StudentPassport} />
       <Route path="/totem/:totemId" component={TotemMode} />
       <Route path="/passport/checkin" component={PassportCheckInPage} />
