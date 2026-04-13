@@ -32,32 +32,32 @@ import NextClassCard from "@/components/NextClassCard";
 import AISuggestionCard from "@/components/AISuggestionCard";
 
 // Hook to read selected app theme from localStorage
+// Listens for custom 'tutor-theme-change' event + storage + focus
 function useAppTheme() {
   const [themeId, setThemeId] = useState(() => localStorage.getItem('tutor_theme') || 'spatial-glossy');
 
   useEffect(() => {
-    // Listen for storage changes (from ThemeSelector page)
     const handler = () => {
       const newTheme = localStorage.getItem('tutor_theme') || 'spatial-glossy';
       setThemeId(newTheme);
     };
     window.addEventListener('storage', handler);
-    // Also poll on focus (same-tab localStorage changes don't fire 'storage')
-    const focusHandler = () => {
-      const newTheme = localStorage.getItem('tutor_theme') || 'spatial-glossy';
-      if (newTheme !== themeId) setThemeId(newTheme);
-    };
-    window.addEventListener('focus', focusHandler);
+    window.addEventListener('focus', handler);
+    window.addEventListener('tutor-theme-change', handler);
+    // Re-read on mount (covers navigation back from ThemeSelector)
+    handler();
     return () => {
       window.removeEventListener('storage', handler);
-      window.removeEventListener('focus', focusHandler);
+      window.removeEventListener('focus', handler);
+      window.removeEventListener('tutor-theme-change', handler);
     };
-  }, [themeId]);
+  }, []);
 
   return getThemeById(themeId) || getDefaultTheme();
 }
 
 // Hook to read selected layout from localStorage
+// Listens for custom 'tutor-layout-change' event + storage + focus
 function useLayout(): LayoutType {
   const [layout, setLayout] = useState<LayoutType>(() => (localStorage.getItem('tutor_layout') as LayoutType) || 'scroll');
 
@@ -68,9 +68,13 @@ function useLayout(): LayoutType {
     };
     window.addEventListener('storage', handler);
     window.addEventListener('focus', handler);
+    window.addEventListener('tutor-layout-change', handler);
+    // Also re-read on mount (covers navigation back from ThemeSelector)
+    handler();
     return () => {
       window.removeEventListener('storage', handler);
       window.removeEventListener('focus', handler);
+      window.removeEventListener('tutor-layout-change', handler);
     };
   }, []);
 

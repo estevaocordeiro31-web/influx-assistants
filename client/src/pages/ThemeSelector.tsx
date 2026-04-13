@@ -251,12 +251,14 @@ export default function ThemeSelector() {
     }
     setActiveTheme(theme.id);
     localStorage.setItem('tutor_theme', theme.id);
+    window.dispatchEvent(new Event('tutor-theme-change'));
     toast.success(`Tema "${theme.name}" ativado!`);
   };
 
   const handleSelectLayout = (layout: LayoutType) => {
     setActiveLayout(layout);
     localStorage.setItem('tutor_layout', layout);
+    window.dispatchEvent(new Event('tutor-layout-change'));
     toast.success(`Layout "${LAYOUTS.find(l => l.id === layout)?.name}" ativado!`);
   };
 
