@@ -50,11 +50,8 @@ CREATE TABLE IF NOT EXISTS `totem_sessions` (
   INDEX `idx_totem_sessions_student` (`student_id`)
 );
 
--- Add columns to users table for presence tracking
--- Using separate statements to avoid errors if columns already exist
-ALTER TABLE `users` ADD COLUMN `last_environment` VARCHAR(100) DEFAULT NULL;
-ALTER TABLE `users` ADD COLUMN `last_checkin_at` TIMESTAMP NULL;
-ALTER TABLE `users` ADD COLUMN `total_checkins` INT NOT NULL DEFAULT 0;
+-- NOTE: users table is in the BRAiN database, not TUTOR.
+-- Run ALTER TABLE separately on brain DB if needed.
 
 -- Seed 5 inFlux Jundiaí environments
 INSERT INTO `environments` (`name`, `type`, `location_name`, `floor`, `room`, `totem_id`, `persona`, `is_active`) VALUES
