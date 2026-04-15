@@ -3,11 +3,14 @@ import { z } from 'zod';
 import { TRPCError } from '@trpc/server';
 import { getDb, assignStudentId, assignStudentIdsToAllUsers } from '../db';
 import { users, studentProfiles } from '../../drizzle/schema';
-import { eq, isNull } from 'drizzle-orm';
+import { students as centralStudents } from '../../drizzle/schema-central';
+import { eq } from 'drizzle-orm';
+import { getCentralDb } from '../db-connection';
 
 export const adminStudentsRouter = router({
   /**
    * Obter lista de alunos (admin only)
+   * Busca do banco central TiDB (tabela students)
    */
   getStudents: adminProcedure
     .input(
@@ -19,34 +22,22 @@ export const adminStudentsRouter = router({
     )
     .query(async ({ input }) => {
       try {
-        const database = await getDb();
-        if (!database) {
-          throw new TRPCError({
-            code: 'INTERNAL_SERVER_ERROR',
-            message: 'Banco de dados não disponível',
-          });
-        }
+        const centralDb = await getCentralDb();
 
-        // Buscar todos os usuários com role 'user' (alunos)
-        let query = database
+        // Buscar alunos da tabela students do banco central
+        let allStudents = await centralDb
           .select({
-            id: users.id,
-            studentId: users.studentId,
-            name: users.name,
-            email: users.email,
-            createdAt: users.createdAt,
-            lastSignedIn: users.lastSignedIn,
+            id: centralStudents.id,
+            matricula: centralStudents.matricula,
+            name: centralStudents.name,
+            email: centralStudents.email,
+            phone: centralStudents.phone,
+            status: centralStudents.status,
+            createdAt: centralStudents.createdAt,
+            updatedAt: centralStudents.updatedAt,
           })
-          .from(users)
-          .where(eq(users.role, 'user'));
-
-        // Aplicar filtro de busca se fornecido
-        if (input.search) {
-          const searchTerm = `%${input.search}%`;
-          // Nota: Drizzle não suporta LIKE diretamente, então fazemos a filtragem em memória
-        }
-
-        const allStudents = await query;
+          .from(centralStudents)
+          .orderBy(centralStudents.name);
 
         // Filtrar em memória se necessário
         let filteredStudents = allStudents;
@@ -55,39 +46,36 @@ export const adminStudentsRouter = router({
           filteredStudents = allStudents.filter(
             (s) =>
               s.name?.toLowerCase().includes(searchLower) ||
-              s.email?.toLowerCase().includes(searchLower)
+              s.email?.toLowerCase().includes(searchLower) ||
+              s.matricula?.toLowerCase().includes(searchLower)
           );
         }
 
         // Aplicar paginação
-        const students = filteredStudents.slice(input.offset, input.offset + input.limit);
+        const paginatedStudents = filteredStudents.slice(input.offset, input.offset + input.limit);
 
-        // Enriquecer com dados de perfil
-        const enrichedStudents = await Promise.all(
-          students.map(async (student) => {
-            const profile = await database
-              .select()
-              .from(studentProfiles)
-              .where(eq(studentProfiles.userId, student.id))
-              .then((rows) => rows[0] || null);
+        // Mapear status do Sponte para o formato do dashboard
+        const mapStatus = (status: string): 'active' | 'inactive' | 'at_risk' => {
+          if (['Ativo', 'Bolsista'].includes(status)) return 'active';
+          if (['Desistente', 'Inativo', 'Trancado', 'Transferido'].includes(status)) return 'inactive';
+          return 'active';
+        };
 
-            return {
-              id: student.id,
-              studentId: student.studentId || null,
-              name: student.name || 'Sem nome',
-              email: student.email || 'Sem email',
-              level: profile?.currentLevel || 'beginner',
-              objective: profile?.objective || 'other',
-              hoursLearned: profile?.totalHoursLearned || 0,
-              streakDays: profile?.streakDays || 0,
-              lastActivity: student.lastSignedIn
-                ? new Date(student.lastSignedIn).toLocaleDateString('pt-BR')
-                : 'Nunca',
-              status: 'active', // Todos os usuários são considerados ativos por padrão
-              createdAt: student.createdAt,
-            };
-          })
-        );
+        const enrichedStudents = paginatedStudents.map((student) => ({
+          id: student.id,
+          studentId: student.matricula || null,
+          name: student.name || 'Sem nome',
+          email: student.email || 'Sem email',
+          level: 'beginner',
+          objective: 'other',
+          hoursLearned: 0,
+          streakDays: 0,
+          lastActivity: student.updatedAt
+            ? new Date(student.updatedAt).toLocaleDateString('pt-BR')
+            : 'Nunca',
+          status: mapStatus(student.status),
+          createdAt: student.createdAt,
+        }));
 
         return {
           success: true,
@@ -97,6 +85,7 @@ export const adminStudentsRouter = router({
         };
       } catch (error) {
         if (error instanceof TRPCError) throw error;
+        console.error('[AdminStudents] Erro ao buscar alunos:', error);
         throw new TRPCError({
           code: 'INTERNAL_SERVER_ERROR',
           message: `Erro ao buscar alunos: ${error}`,
@@ -111,18 +100,12 @@ export const adminStudentsRouter = router({
     .input(z.object({ studentId: z.number() }))
     .query(async ({ input }) => {
       try {
-        const database = await getDb();
-        if (!database) {
-          throw new TRPCError({
-            code: 'INTERNAL_SERVER_ERROR',
-            message: 'Banco de dados não disponível',
-          });
-        }
+        const centralDb = await getCentralDb();
 
-        const [student] = await database
+        const [student] = await centralDb
           .select()
-          .from(users)
-          .where(eq(users.id, input.studentId));
+          .from(centralStudents)
+          .where(eq(centralStudents.id, input.studentId));
 
         if (!student) {
           throw new TRPCError({
@@ -131,21 +114,16 @@ export const adminStudentsRouter = router({
           });
         }
 
-        const [profile] = await database
-          .select()
-          .from(studentProfiles)
-          .where(eq(studentProfiles.userId, input.studentId));
-
         return {
           success: true,
           student: {
             id: student.id,
-            studentId: (student as any).studentId || null,
+            studentId: student.matricula || null,
             name: student.name,
             email: student.email,
             createdAt: student.createdAt,
-            lastSignedIn: student.lastSignedIn,
-            profile: profile || null,
+            lastSignedIn: student.updatedAt,
+            profile: null,
           },
         };
       } catch (error) {
