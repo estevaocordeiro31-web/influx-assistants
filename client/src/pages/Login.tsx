@@ -37,7 +37,19 @@ export default function Login() {
           window.location.href = target;
         },
         onError: (error) => {
-          setError(error.message || 'Erro ao fazer login. Verifique suas credenciais.');
+          // Handle raw Zod v4 JSON errors gracefully
+          const msg = error.message || '';
+          if (msg.startsWith('[') || msg.startsWith('{')) {
+            try {
+              const parsed = JSON.parse(msg);
+              const firstMsg = Array.isArray(parsed) ? parsed[0]?.message : parsed.message;
+              setError(firstMsg || 'Erro ao fazer login. Verifique suas credenciais.');
+            } catch {
+              setError('Erro ao fazer login. Verifique suas credenciais.');
+            }
+          } else {
+            setError(msg || 'Erro ao fazer login. Verifique suas credenciais.');
+          }
         },
       }
     );

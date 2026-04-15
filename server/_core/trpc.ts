@@ -5,6 +5,20 @@ import type { TrpcContext } from "./context";
 
 const t = initTRPC.context<TrpcContext>().create({
   transformer: superjson,
+  errorFormatter({ shape, error }) {
+    // Extract clean message from Zod v4 validation errors
+    if (error.code === 'BAD_REQUEST' && error.cause && 'issues' in (error.cause as any)) {
+      const zodError = error.cause as { issues: Array<{ message: string }> };
+      const firstMessage = zodError.issues?.[0]?.message;
+      if (firstMessage) {
+        return {
+          ...shape,
+          message: firstMessage,
+        };
+      }
+    }
+    return shape;
+  },
 });
 
 export const router = t.router;

@@ -19,8 +19,8 @@ export const authPasswordRouter = router({
   login: publicProcedure
     .input(
       z.object({
-        email: z.string().email('Email inválido'),
-        password: z.string().min(1, 'Senha obrigatória'),
+        email: z.string().trim().email({ message: 'Email inválido' }),
+        password: z.string().min(1, { message: 'Senha obrigatória' }),
       })
     )
     .mutation(async ({ input, ctx }) => {
