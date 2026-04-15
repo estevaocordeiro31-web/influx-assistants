@@ -248,8 +248,8 @@ export default function StudentDashboard() {
 
       <main className="container mx-auto px-4 py-4 sm:py-6 max-w-7xl">
         {/* XP Progress Bar (Conversational AI-First pattern) */}
-        <div className="h-1 rounded-full bg-white/5 overflow-hidden mb-4">
-          <div className="h-full rounded-full"
+        <div className="h-1 rounded-full bg-white/5 overflow-hidden mb-4 animate-fade-in">
+          <div className="h-full rounded-full progress-animate"
             style={{
               width: `${Math.min(100, studentData.progressPercentage)}%`,
               background: `linear-gradient(90deg, ${appTheme.accentColor || '#6b3fa0'}, ${appTheme.valueColor || '#2e8b7a'})`,
@@ -258,14 +258,14 @@ export default function StudentDashboard() {
         </div>
 
         {/* Sync Indicator */}
-        <div className="mb-4">
+        <div className="mb-4 animate-fade-in">
           <SyncIndicator status={status} message={message} showBadge={true} />
         </div>
 
         {/* ===== LAYOUT-DEPENDENT DASHBOARD SECTION ===== */}
         {dashLayout === 'orbit' && (
           /* ORBIT: Hero centered, stats orbit around it */
-          <div className="mb-5 space-y-4">
+          <div className="mb-5 space-y-4 animate-fade-in-up">
             <HeroBookCard
               studentName={user?.name || studentData.name} bookNumber={bookNumber}
               bookTheme={bookTheme} appTheme={appTheme}
@@ -297,7 +297,7 @@ export default function StudentDashboard() {
 
         {dashLayout === 'scroll' && (
           /* SCROLL (default): Vertical stack — Hero, Stats, side-by-side cards */
-          <div className="mb-5 space-y-4">
+          <div className="mb-5 space-y-4 animate-fade-in-up">
             <HeroBookCard
               studentName={user?.name || studentData.name} bookNumber={bookNumber}
               bookTheme={bookTheme} appTheme={appTheme}
@@ -326,7 +326,7 @@ export default function StudentDashboard() {
 
         {dashLayout === 'split' && (
           /* SPLIT: Sidebar left (Hero compact + stats) | Content right (cards stacked) */
-          <div className="mb-5 flex flex-col md:flex-row gap-4">
+          <div className="mb-5 flex flex-col md:flex-row gap-4 animate-fade-in-up">
             {/* Left sidebar */}
             <div className="md:w-1/3 space-y-3">
               <HeroBookCard
@@ -359,7 +359,7 @@ export default function StudentDashboard() {
 
         {dashLayout === 'narrative' && (
           /* NARRATIVE: Feed-style vertical cards, each section is a "story" */
-          <div className="mb-5 space-y-3 max-w-lg mx-auto">
+          <div className="mb-5 space-y-3 max-w-lg mx-auto animate-fade-in-up">
             <HeroBookCard
               studentName={user?.name || studentData.name} bookNumber={bookNumber}
               bookTheme={bookTheme} appTheme={appTheme}
@@ -385,7 +385,7 @@ export default function StudentDashboard() {
         )}
 
         {/* ===== QUICK ACTIONS ===== */}
-        <div className="mb-5">
+        <div className="mb-5 animate-fade-in-up stagger-3" style={{ animationFillMode: 'both' }}>
           {/* Meu Tutor highlight card (Liquid Glass) */}
           <button
             onClick={() => {
@@ -398,9 +398,9 @@ export default function StudentDashboard() {
               <div className="flex items-center gap-3 sm:gap-4">
                 <div className="relative">
                   <img
-                    src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/UpLMiMaLftZmSfqa.png"
-                    alt="Fluxie Tech Tutor"
-                    className="w-14 h-14 sm:w-18 sm:h-18 object-contain rounded-xl"
+                    src="/miss-elie-uniform-avatar.png"
+                    alt="Miss Elie"
+                    className="w-14 h-14 sm:w-18 sm:h-18 object-contain rounded-xl animate-float-slow"
                   />
                   <div className="absolute inset-0 rounded-xl blur-md -z-10"
                     style={{ background: 'rgba(124,58,237,0.3)' }} />
@@ -414,7 +414,7 @@ export default function StudentDashboard() {
                       AI
                     </span>
                   </h3>
-                  <p className="text-white/40 text-xs sm:text-sm">Fluxie, Vacation Plus, Materiais</p>
+                  <p className="text-white/40 text-xs sm:text-sm">Elie, Vacation Plus, Materiais</p>
                 </div>
               </div>
               <ChevronRight className="w-5 h-5 text-white/30 group-hover:text-white/60 transition-colors" />
