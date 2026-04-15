@@ -10,6 +10,7 @@ import { COOKIE_NAME } from '@shared/const';
 import { getSessionCookieOptions } from '../_core/cookies';
 import mysql from 'mysql2/promise';
 import { drizzle } from 'drizzle-orm/mysql2';
+import { buildConnectionConfig } from '../db-connection';
 
 export const authPasswordRouter = router({
   /**
@@ -24,7 +25,7 @@ export const authPasswordRouter = router({
     )
     .mutation(async ({ input, ctx }) => {
       // Conectar ao banco centralizado
-      const connection = await mysql.createConnection(process.env.CENTRAL_DATABASE_URL!);
+      const connection = await mysql.createConnection(buildConnectionConfig(process.env.CENTRAL_DATABASE_URL!));
       const db = drizzle(connection);
 
       try {
