@@ -12,10 +12,14 @@ import 'dotenv/config';
 import mysql from 'mysql2/promise';
 import bcrypt from 'bcrypt';
 
-const DB_URL = process.env.DATABASE_URL || process.env.CENTRAL_DATABASE_URL || '';
+const DB_URL = (process.env.DATABASE_URL || process.env.CENTRAL_DATABASE_URL || '')
+  .replace(/\?ssl=.*$/, '');
 
 async function main() {
-  const conn = await mysql.createConnection(DB_URL);
+  const conn = await mysql.createConnection({
+    uri: DB_URL,
+    ssl: { rejectUnauthorized: true },
+  });
 
   console.log('🎓 SETUP TUTOR USERS');
   console.log('═══════════════════════════════════════════════════\n');
