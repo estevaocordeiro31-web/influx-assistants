@@ -131,25 +131,21 @@ function Router() {
       {isAuthenticated && user?.email === "tiago.laerte@icloud.com" && (
         <Route path="/tiago" component={TiagoPage} />
       )}
-      {isAuthenticated && user?.role === "admin" && (
-        <>
-          <Route path="/admin/dashboard" component={AdminDashboard} />
-          <Route path="/admin/notifications" component={AdminNotifications} />
-          <Route path="/admin/personalized-links" component={PersonalizedLinksManager} />
-          <Route path="/admin/upload-materials" component={MaterialUploadPage} />
-          <Route path="/admin/gemini-suggestions" component={GeminiSuggestions} />
-          <Route path="/admin/gemini-analysis" component={GeminiStrategicAnalysis} />
-          <Route path="/admin/gemini-chat" component={GeminiChat} />
-          <Route path="/admin/tiago-setup" component={AdminTiagoSetup} />
-          <Route path="/admin/bulk-sync" component={AdminBulkSyncPage} />
-          <Route path="/support/ellie" component={ElliesSupportPage} />
-          <Route path="/support/tickets" component={SupportTicketsPage} />
-          <Route path="/admin/back-to-school" component={BackToSchoolAdminPage} />
-          <Route path="/admin/back-to-school-dashboard" component={BackToSchoolDashboard} />
-          <Route path="/admin/activities" component={AdminActivitiesPage} />
-          <Route path="/admin/totems" component={TotemManager} />
-        </>
-      )}
+      <Route path="/admin/dashboard" component={AdminDashboard} />
+      <Route path="/admin/notifications" component={AdminNotifications} />
+      <Route path="/admin/personalized-links" component={PersonalizedLinksManager} />
+      <Route path="/admin/upload-materials" component={MaterialUploadPage} />
+      <Route path="/admin/gemini-suggestions" component={GeminiSuggestions} />
+      <Route path="/admin/gemini-analysis" component={GeminiStrategicAnalysis} />
+      <Route path="/admin/gemini-chat" component={GeminiChat} />
+      <Route path="/admin/tiago-setup" component={AdminTiagoSetup} />
+      <Route path="/admin/bulk-sync" component={AdminBulkSyncPage} />
+      <Route path="/support/ellie" component={ElliesSupportPage} />
+      <Route path="/support/tickets" component={SupportTicketsPage} />
+      <Route path="/admin/back-to-school" component={BackToSchoolAdminPage} />
+      <Route path="/admin/back-to-school-dashboard" component={BackToSchoolDashboard} />
+      <Route path="/admin/activities" component={AdminActivitiesPage} />
+      <Route path="/admin/totems" component={TotemManager} />
       {/* Rotas de demonstração admin */}
       <Route path="/admin" component={AdminDashboard} />
       <Route path="/admin/student-stats" component={StudentStatsPage} />
