@@ -123,8 +123,8 @@ async function main() {
   if (existingTest.length === 0) {
     const openId = `test_student_${Date.now()}`;
     await conn.execute(
-      `INSERT INTO users (openId, name, email, passwordHash, role, loginMethod, status, createdAt, updatedAt, lastSignedIn)
-       VALUES (?, 'Aluno Teste', ?, ?, 'user', 'password', 'ativo', NOW(), NOW(), NOW())`,
+      `INSERT INTO users (openId, name, email, passwordHash, role, loginMethod, createdAt, updatedAt, lastSignedIn)
+       VALUES (?, 'Aluno Teste', ?, ?, 'user', 'password', NOW(), NOW(), NOW())`,
       [openId, testEmail, testHash]
     );
     console.log(`   ✅ Aluno teste criado`);
@@ -176,8 +176,8 @@ async function main() {
       const studentId = `INF-2026-${String(student.id).padStart(4, '0')}`;
 
       await conn.execute(
-        `INSERT INTO users (openId, student_id, name, email, passwordHash, role, loginMethod, status, must_change_password, createdAt, updatedAt, lastSignedIn)
-         VALUES (?, ?, ?, ?, ?, 'user', 'password', 'ativo', 1, NOW(), NOW(), NOW())`,
+        `INSERT INTO users (openId, student_id, name, email, passwordHash, role, loginMethod, createdAt, updatedAt, lastSignedIn)
+         VALUES (?, ?, ?, ?, ?, 'user', 'password', NOW(), NOW(), NOW())`,
         [openId, studentId, student.name, student.email, hash]
       );
       created++;
