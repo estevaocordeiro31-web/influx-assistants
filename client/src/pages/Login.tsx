@@ -29,14 +29,12 @@ export default function Login() {
       { email, password },
       {
         onSuccess: (data) => {
+          // Keep tRPC query cache intact, only clear session-specific storage
           sessionStorage.clear();
-          localStorage.clear();
 
-          if (data.user.role === 'admin') {
-            window.location.replace('/admin/dashboard');
-          } else {
-            window.location.replace('/student/dashboard');
-          }
+          const target = data.user.role === 'admin' ? '/admin/dashboard' : '/student/dashboard';
+          // Use href instead of replace to ensure cookie is set before navigation
+          window.location.href = target;
         },
         onError: (error) => {
           setError(error.message || 'Erro ao fazer login. Verifique suas credenciais.');
