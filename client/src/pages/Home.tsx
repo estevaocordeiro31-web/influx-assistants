@@ -1,7 +1,8 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
-import { BookOpen, MessageCircle, Zap, TrendingUp, Award, Users, Play, ArrowRight, Sparkles, GraduationCap } from "lucide-react";
+import { MessageCircle, Zap, TrendingUp, Award, Users, BookOpen, Play, ArrowRight, Sparkles, GraduationCap, Mic, Brain } from "lucide-react";
 import { useLocation } from "wouter";
+import { useState, useEffect } from "react";
 
 export default function Home() {
   const { isAuthenticated, user } = useAuth();
@@ -18,112 +19,266 @@ export default function Home() {
   }
 
   const features = [
-    { icon: MessageCircle, title: "Chat com IA", desc: "Converse em tempo real com um assistente que entende seu nível e objetivos.", color: '#06b6d4' },
-    { icon: Zap, title: "Chunks e Equivalência", desc: "Aprenda combinações de palavras reais usadas por nativos.", color: '#a855f7' },
-    { icon: TrendingUp, title: "Spaced Repetition", desc: "Sistema inteligente de revisão que garante que você nunca esqueça.", color: '#22c55e' },
-    { icon: Award, title: "Exercícios Adaptativos", desc: "Prática focada no seu nível atual, com feedback imediato.", color: '#eab308' },
-    { icon: Users, title: "Simuladores Reais", desc: "Pratique situações reais: viagens, reuniões e muito mais.", color: '#f97316' },
-    { icon: BookOpen, title: "Livros Completos", desc: "Todo o conteúdo programático da inFlux integrado.", color: '#ec4899' },
+    { icon: MessageCircle, title: "Chat com a Elie", desc: "Converse em tempo real com uma tutora que entende seu nível e objetivos.", color: "var(--imaind-blue)" },
+    { icon: Zap, title: "Chunks e Equivalência", desc: "Aprenda combinações de palavras reais usadas por nativos.", color: "var(--level-purple)" },
+    { icon: TrendingUp, title: "Spaced Repetition", desc: "Sistema inteligente que garante que você nunca esqueça.", color: "var(--imaind-green)" },
+    { icon: Award, title: "Exercícios Adaptativos", desc: "Prática focada no seu nível com feedback imediato.", color: "var(--xp-gold)" },
+    { icon: Users, title: "Simuladores Reais", desc: "Pratique situações reais: viagens, reuniões e mais.", color: "var(--streak-orange)" },
+    { icon: BookOpen, title: "Conteúdo Completo", desc: "Todo o conteúdo programático integrado ao app.", color: "var(--badge-emerald)" },
   ];
 
   return (
-    <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #0f0a1e 0%, #1a1145 30%, #0d2137 60%, #0a1628 100%)' }}>
+    <div className="tutor-app dark" style={{
+      minHeight: "100vh",
+      background: "linear-gradient(180deg, #0c1222 0%, #111827 50%, #0c1222 100%)",
+      fontFamily: "'DM Sans', sans-serif",
+    }}>
       {/* Header */}
-      <header className="sticky top-0 z-50" style={{
-        background: 'rgba(15,10,30,0.85)',
-        backdropFilter: 'blur(16px)',
-        borderBottom: '1px solid rgba(255,255,255,0.06)',
+      <header style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 50,
+        background: "rgba(12,18,34,0.85)",
+        backdropFilter: "blur(16px)",
+        borderBottom: "1px solid rgba(255,255,255,0.06)",
       }}>
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <GraduationCap className="w-7 h-7 text-purple-400" />
-            <h1 className="text-lg font-bold text-white" style={{ fontFamily: "'Syne', sans-serif" }}>
-              ImAInd <span style={{ color: '#06b6d4' }}>TUTOR</span>
-            </h1>
+        <div style={{
+          maxWidth: 1200,
+          margin: "0 auto",
+          padding: "14px 20px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <GraduationCap size={24} style={{ color: "var(--imaind-blue-light)" }} />
+            <span style={{
+              fontFamily: "'Syne', sans-serif",
+              fontWeight: 700,
+              fontSize: "1.1rem",
+              color: "#fff",
+            }}>
+              ImAInd <span style={{ color: "var(--imaind-blue-light)" }}>TUTOR</span>
+            </span>
           </div>
-          <div className="flex items-center gap-3">
-            <Button
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <button
               onClick={() => setLocation("/demo")}
-              variant="ghost"
-              className="text-white/40 hover:text-white/70 hover:bg-white/5 hidden sm:flex"
+              style={{
+                background: "transparent",
+                border: "none",
+                color: "rgba(255,255,255,0.4)",
+                cursor: "pointer",
+                padding: "8px 14px",
+                borderRadius: 8,
+                fontSize: "0.875rem",
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+              }}
             >
-              <Play className="w-4 h-4 mr-2" /> Demo
-            </Button>
-            <Button
+              <Play size={14} /> Demo
+            </button>
+            <button
               onClick={() => setLocation("/login")}
-              className="h-10 px-6 rounded-xl text-sm font-semibold"
-              style={{ background: 'linear-gradient(135deg, #7c3aed, #06b6d4)', color: '#fff' }}
+              style={{
+                background: "var(--imaind-blue)",
+                color: "#fff",
+                border: "none",
+                padding: "8px 20px",
+                borderRadius: 10,
+                fontSize: "0.875rem",
+                fontWeight: 600,
+                cursor: "pointer",
+              }}
             >
               Entrar
-            </Button>
+            </button>
           </div>
         </div>
       </header>
 
       {/* Hero */}
-      <section className="max-w-7xl mx-auto px-4 py-16 sm:py-24">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <section style={{ maxWidth: 1200, margin: "0 auto", padding: "60px 20px 40px" }}>
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "1fr",
+          gap: 48,
+          alignItems: "center",
+        }} className="lg:grid-cols-2">
+          {/* Left — Text */}
           <div>
-            <span className="text-xs px-3 py-1.5 rounded-full inline-flex items-center gap-1.5 mb-6"
-              style={{ background: 'rgba(124,58,237,0.15)', color: '#c084fc', border: '1px solid rgba(124,58,237,0.25)' }}>
-              <Sparkles className="w-3 h-3" /> Metodologia Exclusiva inFlux
+            <span style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 6,
+              fontSize: "0.75rem",
+              padding: "6px 14px",
+              borderRadius: 999,
+              background: "rgba(26,111,219,0.12)",
+              color: "var(--imaind-blue-light)",
+              border: "1px solid rgba(26,111,219,0.2)",
+              marginBottom: 24,
+            }}>
+              <Sparkles size={12} /> Metodologia Exclusiva inFlux
             </span>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight"
-              style={{ fontFamily: "'Syne', sans-serif" }}>
-              Aprenda Inglês como os{' '}
-              <span style={{ background: 'linear-gradient(135deg, #7c3aed, #06b6d4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                Nativos Falam
+
+            <h1 style={{
+              fontFamily: "'Syne', sans-serif",
+              fontWeight: 800,
+              fontSize: "clamp(2.2rem, 5vw, 3.5rem)",
+              lineHeight: 1.1,
+              color: "#fff",
+              marginBottom: 20,
+            }}>
+              Aprenda Inglês{" "}
+              <span style={{
+                background: "linear-gradient(135deg, var(--imaind-blue-light), var(--imaind-green-light))",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}>
+                como os Nativos Falam
               </span>
-            </h2>
-            <p className="text-lg text-white/50 mb-8 leading-relaxed">
-              Seu tutor pessoal de IA que ensina usando <strong className="text-white/80">Chunks e Equivalência</strong>.
+            </h1>
+
+            <p style={{
+              fontSize: "1.1rem",
+              color: "rgba(255,255,255,0.5)",
+              lineHeight: 1.7,
+              marginBottom: 32,
+              maxWidth: 480,
+            }}>
+              Sua tutora pessoal de IA que ensina usando{" "}
+              <strong style={{ color: "rgba(255,255,255,0.8)" }}>Chunks e Equivalência</strong>.
               Pratique expressões reais, não frases de livro.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Button
+
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+              <button
                 onClick={() => setLocation("/demo")}
-                size="lg"
-                className="h-13 px-8 rounded-xl text-base font-semibold"
-                style={{ background: 'linear-gradient(135deg, #7c3aed, #06b6d4)', color: '#fff', boxShadow: '0 4px 20px rgba(124,58,237,0.3)' }}
+                style={{
+                  background: "var(--imaind-blue)",
+                  color: "#fff",
+                  border: "none",
+                  padding: "14px 28px",
+                  borderRadius: 12,
+                  fontSize: "1rem",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  boxShadow: "0 4px 20px rgba(26,111,219,0.3)",
+                }}
               >
-                <Play className="w-5 h-5 mr-2" /> Experimentar Agora
-              </Button>
-              <Button
+                <Play size={18} /> Experimentar Agora
+              </button>
+              <button
                 onClick={() => setLocation("/login")}
-                size="lg"
-                variant="outline"
-                className="h-13 px-8 rounded-xl text-base border-white/10 text-white/60 hover:text-white hover:bg-white/5"
+                style={{
+                  background: "transparent",
+                  color: "rgba(255,255,255,0.6)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  padding: "14px 28px",
+                  borderRadius: 12,
+                  fontSize: "1rem",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                }}
               >
-                Fazer Login <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
+                Fazer Login <ArrowRight size={16} />
+              </button>
             </div>
           </div>
-          <div className="relative hidden lg:block">
-            <div className="absolute inset-0 rounded-3xl blur-3xl"
-              style={{ background: 'linear-gradient(135deg, rgba(124,58,237,0.15), rgba(6,182,212,0.1))' }} />
-            <div className="relative rounded-2xl p-8" style={{
-              background: 'rgba(255,255,255,0.04)',
-              backdropFilter: 'blur(12px)',
-              border: '1px solid rgba(255,255,255,0.08)',
+
+          {/* Right — Elie Chat Preview */}
+          <div style={{ position: "relative" }} className="hidden lg:block">
+            {/* Glow */}
+            <div style={{
+              position: "absolute",
+              inset: -20,
+              borderRadius: 32,
+              background: "radial-gradient(circle at center, rgba(26,111,219,0.12) 0%, transparent 70%)",
+              filter: "blur(40px)",
+            }} />
+
+            {/* Chat card */}
+            <div style={{
+              position: "relative",
+              borderRadius: 20,
+              padding: 24,
+              background: "rgba(255,255,255,0.03)",
+              backdropFilter: "blur(12px)",
+              border: "1px solid rgba(255,255,255,0.08)",
             }}>
-              <div className="flex items-center gap-4 mb-6">
-                <img src="/elie-waving.png" alt="Elie" className="w-16 h-16" />
+              {/* Elie header */}
+              <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 20 }}>
+                <div style={{ position: "relative" }}>
+                  <img
+                    src="/miss-elie-uniform-waving.png"
+                    alt="Elie"
+                    style={{ width: 56, height: 56, borderRadius: 16, objectFit: "cover" }}
+                  />
+                  <div style={{
+                    position: "absolute",
+                    bottom: 2,
+                    right: 2,
+                    width: 10,
+                    height: 10,
+                    borderRadius: "50%",
+                    background: "var(--imaind-green)",
+                    border: "2px solid #0c1222",
+                  }} />
+                </div>
                 <div>
-                  <h3 className="text-white font-bold text-lg" style={{ fontFamily: "'Syne', sans-serif" }}>Olá! Eu sou a Elie</h3>
-                  <p className="text-white/40 text-sm">Seu tutor pessoal de inglês</p>
+                  <h3 style={{
+                    fontFamily: "'Syne', sans-serif",
+                    fontWeight: 700,
+                    fontSize: "1.1rem",
+                    color: "#fff",
+                    margin: 0,
+                  }}>
+                    Olá! Eu sou a Elie
+                  </h3>
+                  <p style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.4)", margin: 0 }}>
+                    Sua tutora pessoal de inglês
+                  </p>
                 </div>
               </div>
-              <div className="space-y-3">
-                {[
-                  { chunk: "take it for granted", meaning: "dar como certo", example: "Don't take your health for granted." },
-                  { chunk: "once in a blue moon", meaning: "muito raramente", example: "I only see him once in a blue moon." },
-                ].map((item, i) => (
-                  <div key={i} className="p-4 rounded-xl" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
-                    <p className="font-bold mb-0.5" style={{ color: '#06b6d4' }}>"{item.chunk}"</p>
-                    <p className="text-white/60 text-sm">= {item.meaning}</p>
-                    <p className="text-white/25 text-xs mt-1.5 italic">"{item.example}"</p>
-                  </div>
-                ))}
+
+              {/* Chat bubbles */}
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                <ChatBubble
+                  chunk="take it for granted"
+                  meaning="dar como certo"
+                  example="Don't take your health for granted."
+                />
+                <ChatBubble
+                  chunk="once in a blue moon"
+                  meaning="muito raramente"
+                  example="I only see him once in a blue moon."
+                />
+              </div>
+
+              {/* Input preview */}
+              <div style={{
+                marginTop: 16,
+                padding: "10px 14px",
+                borderRadius: 12,
+                background: "rgba(255,255,255,0.04)",
+                border: "1px solid rgba(255,255,255,0.06)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}>
+                <span style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.2)" }}>
+                  Fale com a Elie...
+                </span>
+                <div style={{ display: "flex", gap: 6 }}>
+                  <Mic size={14} style={{ color: "rgba(255,255,255,0.2)" }} />
+                </div>
               </div>
             </div>
           </div>
@@ -131,65 +286,149 @@ export default function Home() {
       </section>
 
       {/* Features */}
-      <section className="max-w-7xl mx-auto px-4 py-16">
-        <div className="text-center mb-12">
-          <h3 className="text-3xl font-bold text-white mb-3" style={{ fontFamily: "'Syne', sans-serif" }}>
+      <section style={{ maxWidth: 1200, margin: "0 auto", padding: "40px 20px 60px" }}>
+        <div style={{ textAlign: "center", marginBottom: 40 }}>
+          <h2 style={{
+            fontFamily: "'Syne', sans-serif",
+            fontWeight: 700,
+            fontSize: "clamp(1.5rem, 3vw, 2rem)",
+            color: "#fff",
+            marginBottom: 10,
+          }}>
             Por que escolher o ImAInd TUTOR?
-          </h3>
-          <p className="text-white/40 max-w-2xl mx-auto">
+          </h2>
+          <p style={{ color: "rgba(255,255,255,0.4)", maxWidth: 500, margin: "0 auto" }}>
             Inteligência artificial + metodologia comprovada da inFlux
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+          gap: 14,
+        }}>
           {features.map((f, i) => (
-            <div key={i} className="rounded-2xl p-6 transition-all duration-200 hover:bg-white/[0.03]" style={{
-              background: 'rgba(255,255,255,0.02)',
-              border: '1px solid rgba(255,255,255,0.06)',
+            <div key={i} style={{
+              borderRadius: 16,
+              padding: 22,
+              background: "rgba(255,255,255,0.02)",
+              border: "1px solid rgba(255,255,255,0.06)",
+              transition: "background 0.2s",
             }}>
-              <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-4"
-                style={{ background: `${f.color}15` }}>
-                <f.icon className="w-5 h-5" style={{ color: f.color }} />
+              <div style={{
+                width: 40,
+                height: 40,
+                borderRadius: 10,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                marginBottom: 14,
+                background: `color-mix(in srgb, ${f.color} 12%, transparent)`,
+              }}>
+                <f.icon size={18} style={{ color: f.color }} />
               </div>
-              <h4 className="text-white font-bold mb-2">{f.title}</h4>
-              <p className="text-white/40 text-sm">{f.desc}</p>
+              <h4 style={{ color: "#fff", fontWeight: 600, marginBottom: 6, fontSize: "0.95rem" }}>
+                {f.title}
+              </h4>
+              <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "0.85rem", lineHeight: 1.6, margin: 0 }}>
+                {f.desc}
+              </p>
             </div>
           ))}
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-16">
-        <div className="max-w-4xl mx-auto px-4">
-          <div className="rounded-2xl p-10 sm:p-14 text-center relative overflow-hidden" style={{
-            background: 'linear-gradient(135deg, rgba(124,58,237,0.15) 0%, rgba(6,182,212,0.1) 100%)',
-            border: '1px solid rgba(124,58,237,0.2)',
+      <section style={{ padding: "20px 20px 60px" }}>
+        <div style={{
+          maxWidth: 800,
+          margin: "0 auto",
+          borderRadius: 20,
+          padding: "48px 32px",
+          textAlign: "center",
+          position: "relative",
+          overflow: "hidden",
+          background: "rgba(26,111,219,0.08)",
+          border: "1px solid rgba(26,111,219,0.15)",
+        }}>
+          <h3 style={{
+            fontFamily: "'Syne', sans-serif",
+            fontWeight: 700,
+            fontSize: "clamp(1.3rem, 3vw, 1.8rem)",
+            color: "#fff",
+            marginBottom: 12,
           }}>
-            <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4" style={{ fontFamily: "'Syne', sans-serif" }}>
-              Pronto para transformar seu inglês?
-            </h3>
-            <p className="text-white/50 mb-8 max-w-xl mx-auto">
-              Experimente a versão de demonstração e veja como é aprender com a Elie!
-            </p>
-            <Button
-              onClick={() => setLocation("/demo")}
-              size="lg"
-              className="h-13 px-10 rounded-xl text-base font-semibold"
-              style={{ background: 'linear-gradient(135deg, #7c3aed, #06b6d4)', color: '#fff', boxShadow: '0 4px 20px rgba(124,58,237,0.3)' }}
-            >
-              <Play className="w-5 h-5 mr-2" /> Ver Demonstração
-            </Button>
-          </div>
+            Pronto para transformar seu inglês?
+          </h3>
+          <p style={{ color: "rgba(255,255,255,0.45)", marginBottom: 28, maxWidth: 420, margin: "0 auto 28px" }}>
+            Experimente a versão de demonstração e veja como é aprender com a Elie!
+          </p>
+          <button
+            onClick={() => setLocation("/demo")}
+            style={{
+              background: "var(--imaind-blue)",
+              color: "#fff",
+              border: "none",
+              padding: "14px 32px",
+              borderRadius: 12,
+              fontSize: "1rem",
+              fontWeight: 600,
+              cursor: "pointer",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              boxShadow: "0 4px 20px rgba(26,111,219,0.3)",
+            }}
+          >
+            <Play size={18} /> Ver Demonstração
+          </button>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-8" style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}>
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <p className="text-xs text-white/20">
-            Powered by ImAInd
-          </p>
-        </div>
+      <footer style={{
+        padding: "20px 0",
+        borderTop: "1px solid rgba(255,255,255,0.04)",
+        textAlign: "center",
+      }}>
+        <p style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.15)" }}>
+          Powered by ImAInd
+        </p>
       </footer>
+
+      <style>{`
+        @media (min-width: 1024px) {
+          .lg\\:grid-cols-2 { grid-template-columns: 1fr 1fr; }
+          .lg\\:block { display: block !important; }
+        }
+        .hidden { display: none; }
+      `}</style>
+    </div>
+  );
+}
+
+function ChatBubble({ chunk, meaning, example }: { chunk: string; meaning: string; example: string }) {
+  return (
+    <div style={{
+      padding: "14px 16px",
+      borderRadius: 14,
+      background: "rgba(255,255,255,0.04)",
+      border: "1px solid rgba(255,255,255,0.06)",
+    }}>
+      <p style={{
+        fontWeight: 700,
+        color: "var(--imaind-blue-light)",
+        fontSize: "0.9rem",
+        margin: "0 0 3px",
+      }}>
+        "{chunk}"
+      </p>
+      <p style={{ color: "rgba(255,255,255,0.55)", fontSize: "0.8rem", margin: "0 0 6px" }}>
+        = {meaning}
+      </p>
+      <p style={{ color: "rgba(255,255,255,0.2)", fontSize: "0.75rem", fontStyle: "italic", margin: 0 }}>
+        "{example}"
+      </p>
     </div>
   );
 }
