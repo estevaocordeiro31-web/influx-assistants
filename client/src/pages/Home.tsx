@@ -107,9 +107,9 @@ export default function Home() {
               border: '1px solid rgba(255,255,255,0.08)',
             }}>
               <div className="flex items-center gap-4 mb-6">
-                <img src="/fluxie-waving.png" alt="Fluxie" className="w-16 h-16" />
+                <img src="/elie-waving.png" alt="Elie" className="w-16 h-16" />
                 <div>
-                  <h3 className="text-white font-bold text-lg" style={{ fontFamily: "'Syne', sans-serif" }}>Olá! Eu sou o Fluxie</h3>
+                  <h3 className="text-white font-bold text-lg" style={{ fontFamily: "'Syne', sans-serif" }}>Olá! Eu sou a Elie</h3>
                   <p className="text-white/40 text-sm">Seu tutor pessoal de inglês</p>
                 </div>
               </div>
@@ -168,7 +168,7 @@ export default function Home() {
               Pronto para transformar seu inglês?
             </h3>
             <p className="text-white/50 mb-8 max-w-xl mx-auto">
-              Experimente a versão de demonstração e veja como é aprender com o Fluxie!
+              Experimente a versão de demonstração e veja como é aprender com a Elie!
             </p>
             <Button
               onClick={() => setLocation("/demo")}

@@ -238,7 +238,7 @@ export default function Chat() {
       return updated;
     });
 
-    // Adicionar resposta do Fluxie
+    // Adicionar resposta da Elie
     const assistantMessage: Message = {
       role: "assistant",
       content: response.feedback,
@@ -332,7 +332,7 @@ export default function Chat() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex flex-col">
-      {/* Header com Fluxie */}
+      {/* Header com Elie */}
       <header className="bg-slate-800/80 backdrop-blur-sm border-b border-slate-700 shadow-lg">
         <div className="max-w-4xl mx-auto px-4 py-3 flex items-center gap-4">
           <Button
@@ -344,12 +344,12 @@ export default function Chat() {
             <ArrowLeft className="w-4 h-4" />
           </Button>
           
-          {/* Avatar do Fluxie */}
+          {/* Avatar da Elie */}
           <div className="relative">
-            <img 
-              src="/fluxie-chat.png" 
-              alt="Fluxie" 
-              className="w-12 h-12 rounded-full border-2 border-green-500 shadow-lg shadow-green-500/20"
+            <img
+              src="/elie-chat.png"
+              alt="Elie"
+              className="w-12 h-12 rounded-full border-2 border-blue-500 shadow-lg shadow-blue-500/20"
             />
             <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-slate-800 flex items-center justify-center">
               <Sparkles className="w-2 h-2 text-white" />
@@ -358,8 +358,8 @@ export default function Chat() {
           
           <div className="flex-1">
             <h1 className="text-xl font-bold text-white flex items-center gap-2">
-              Fluxie
-              <span className="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full">
+              Elie
+              <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded-full">
                 AI Tutor
               </span>
             </h1>
@@ -393,8 +393,8 @@ export default function Chat() {
             {messages.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-full text-center">
                 <img 
-                  src="/fluxie-chat.png" 
-                  alt="Fluxie" 
+                  src="/elie-chat.png" 
+                  alt="Elie" 
                   className="w-32 h-32 mb-6 drop-shadow-2xl"
                 />
                 <h2 className="text-2xl font-bold text-white mb-2">
@@ -455,7 +455,7 @@ export default function Chat() {
                   <p className="text-sm text-purple-300">
                     <Mic className="w-4 h-4 inline mr-2" />
                     <strong>Novo!</strong> Clique no microfone para praticar sua pronúncia. 
-                    O Fluxie vai avaliar e dar feedback personalizado!
+                    A Elie vai avaliar e dar feedback personalizado!
                   </p>
                 </div>
               </div>
@@ -468,11 +468,11 @@ export default function Chat() {
                       msg.role === "user" ? "justify-end" : "justify-start"
                     }`}
                   >
-                    {/* Avatar do Fluxie para mensagens do assistente */}
+                    {/* Avatar da Elie para mensagens do assistente */}
                     {msg.role === "assistant" && (
                       <img 
-                        src="/fluxie-chat.png" 
-                        alt="Fluxie" 
+                        src="/elie-chat.png" 
+                        alt="Elie" 
                         className="w-8 h-8 rounded-full border border-green-500/50 flex-shrink-0 mt-1"
                       />
                     )}
@@ -532,8 +532,8 @@ export default function Chat() {
                 {(loading || audioProcessing) && (
                   <div className="flex gap-3 justify-start">
                     <img 
-                      src="/fluxie-chat.png" 
-                      alt="Fluxie" 
+                      src="/elie-chat.png" 
+                      alt="Elie" 
                       className="w-8 h-8 rounded-full border border-green-500/50 flex-shrink-0 mt-1 animate-pulse"
                     />
                     <div className="bg-slate-700/80 text-slate-100 px-4 py-3 rounded-2xl rounded-bl-md border border-slate-600">
@@ -617,7 +617,7 @@ export default function Chat() {
             </Button>
           </div>
           <p className="text-xs text-slate-500 text-center">
-            💡 Digite ou <span className="text-purple-400">grave áudio</span> para praticar pronúncia com feedback do Fluxie
+            💡 Digite ou <span className="text-purple-400">grave áudio</span> para praticar pronúncia com feedback da Elie
           </p>
         </div>
       </main>

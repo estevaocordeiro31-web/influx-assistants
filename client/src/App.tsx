@@ -57,6 +57,10 @@ import StudentPassport from "./pages/StudentPassport";
 import VacationPlus2 from "./pages/VacationPlus2";
 import VacationPlus2Lesson from "./pages/VacationPlus2Lesson";
 import TotemManager from "./pages/admin/TotemManager";
+import StudentSplash from "./pages/StudentSplash";
+import StudentOnboarding from "./pages/StudentOnboarding";
+import StudentHomeNew from "./pages/StudentHomeNew";
+import StudentChatNew from "./pages/StudentChatNew";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -82,6 +86,10 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/student/splash" component={StudentSplash} />
+      <Route path="/student/onboarding" component={StudentOnboarding} />
+      <Route path="/student/home" component={StudentHomeNew} />
+      <Route path="/student/chat-elie" component={StudentChatNew} />
       <Route path="/login" component={Login} />
       <Route path="/change-password" component={ChangePassword} />
       <Route path="/logout" component={ForceLogout} />
