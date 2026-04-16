@@ -9,7 +9,7 @@ import { router, protectedProcedure } from '../_core/trpc';
 import { z } from 'zod';
 import { getDb } from '../db';
 import { users, studentProfiles } from '../../drizzle/schema';
-import { eq, and } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import mysql from 'mysql2/promise';
 
 // ============================================================================
@@ -215,10 +215,7 @@ export const dashboardSyncRouter = router({
                 .select()
                 .from(users)
                 .where(
-                  and(
-                    eq(users.email, centralStudent.email),
-                    eq(users.status, 'ativo')
-                  )
+                  eq(users.email, centralStudent.email)
                 )
                 .limit(1);
 

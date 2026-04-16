@@ -16,11 +16,9 @@ export const users = mysqlTable("users", {
   role: mysqlEnum("role", ["user", "admin", "owner", "teacher"]).default("user").notNull(),
   unidadeId: int("unidade_id").notNull().default(1),
   phone: varchar("phone", { length: 30 }),
-  status: mysqlEnum("status", ["ativo", "inativo", "desistente", "trancado"]),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
-  mustChangePassword: boolean("must_change_password").default(false).notNull(),
 });
 
 export type User = typeof users.$inferSelect;

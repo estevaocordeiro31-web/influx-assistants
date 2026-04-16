@@ -85,7 +85,7 @@ async function executeDailyTipsJob() {
     const activeStudents = await db
       .select()
       .from(users)
-      .where(eq(users.status, "ativo"));
+      .where(eq(users.role, "user"));
 
     console.log(`[Daily Tips Scheduler] Encontrados ${activeStudents.length} alunos ativos`);
 

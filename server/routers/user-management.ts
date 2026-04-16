@@ -131,7 +131,6 @@ export const userManagementRouter = router({
           id: users.id,
           name: users.name,
           email: users.email,
-          status: users.status,
           createdAt: users.createdAt,
         })
         .from(users)
