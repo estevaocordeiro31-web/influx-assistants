@@ -11,7 +11,7 @@ import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { getBookNumberFromLevel } from "@/lib/book-themes";
 import {
-  MessageCircle, BookOpen, Trophy, Flame, Zap, Star,
+  MessageCircle, BookOpen, Trophy, Flame, Zap, Star, Target,
   Settings, ChevronRight, Mic, TrendingUp, Clock, Sparkles,
 } from "lucide-react";
 import "@/styles/tutor-theme.css";
@@ -101,6 +101,221 @@ function Glass({ children, className = "", style = {}, glow }: {
       )}
       <div style={{ position: "relative", zIndex: 1 }}>{children}</div>
     </div>
+  );
+}
+
+/* ════════════════════════════════════════════════════════
+   LEARNING COMMITMENT — weekly chart + daily goal
+   ════════════════════════════════════════════════════════ */
+const DAYS = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sab", "Dom"];
+const COMMITMENT_KEY = "imaind_daily_goal_min";
+const COMMITMENT_OPTIONS = [10, 15, 20, 30, 45, 60];
+
+function LearningCommitment({ streakDays, hoursLearned }: { streakDays: number; hoursLearned: number }) {
+  const [goalMin, setGoalMin] = useState(() =>
+    Number(localStorage.getItem(COMMITMENT_KEY)) || 0
+  );
+  const [showPicker, setShowPicker] = useState(false);
+
+  // Simulated weekly data based on streak (until real daily tracking exists)
+  const today = new Date().getDay(); // 0=Sun, 1=Mon...
+  const todayIdx = today === 0 ? 6 : today - 1; // Convert to Mon=0...Sun=6
+  const weekData = useMemo(() => {
+    return DAYS.map((_, i) => {
+      if (i > todayIdx) return 0; // Future days
+      if (i === todayIdx) return Math.round(Math.random() * (goalMin || 20) * 0.8); // Today partial
+      // Past days — simulate based on streak
+      if (streakDays > 0 && i >= todayIdx - streakDays) {
+        return Math.round((goalMin || 20) * (0.6 + Math.random() * 0.6));
+      }
+      return Math.round(Math.random() * (goalMin || 20) * 0.3);
+    });
+  }, [streakDays, goalMin, todayIdx]);
+
+  const todayMinutes = weekData[todayIdx];
+  const weekTotal = weekData.reduce((a, b) => a + b, 0);
+  const maxBar = Math.max(...weekData, goalMin || 20);
+  const todayPct = goalMin > 0 ? Math.min(100, Math.round((todayMinutes / goalMin) * 100)) : 0;
+
+  function selectGoal(min: number) {
+    setGoalMin(min);
+    localStorage.setItem(COMMITMENT_KEY, String(min));
+    setShowPicker(false);
+  }
+
+  // No commitment set yet — show setup
+  if (goalMin === 0) {
+    return (
+      <section style={{ marginTop: 16, animation: "imaind-text-reveal 0.6s ease-out 0.6s both" }}>
+        <Glass glow="rgba(77,168,255,0.25)" style={{ padding: "20px" }}>
+          <div style={{ textAlign: "center" }}>
+            <div style={{
+              width: 48, height: 48, borderRadius: 14, margin: "0 auto 12px",
+              background: "linear-gradient(135deg, rgba(77,168,255,0.15), rgba(168,85,247,0.1))",
+              border: "1px solid rgba(77,168,255,0.2)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}>
+              <Target size={22} style={{ color: "#4da8ff" }} />
+            </div>
+            <p style={{ fontSize: "0.9rem", fontWeight: 700, fontFamily: "'Syne', sans-serif", marginBottom: 4 }}>
+              Defina seu Compromisso
+            </p>
+            <p style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.35)", marginBottom: 16, lineHeight: 1.5 }}>
+              Quantos minutos por dia voce quer estudar?
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 6 }}>
+              {COMMITMENT_OPTIONS.map(min => (
+                <button
+                  key={min}
+                  onClick={() => selectGoal(min)}
+                  style={{
+                    padding: "10px 0", borderRadius: 12,
+                    background: "rgba(255,255,255,0.04)",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                    color: "#fff", fontSize: "0.8rem", fontWeight: 700,
+                    cursor: "pointer", transition: "all 0.2s",
+                    fontFamily: "'Syne', sans-serif",
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.background = "rgba(77,168,255,0.12)";
+                    e.currentTarget.style.borderColor = "rgba(77,168,255,0.3)";
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.background = "rgba(255,255,255,0.04)";
+                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+                  }}
+                >
+                  {min}<span style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.4)" }}> min</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </Glass>
+      </section>
+    );
+  }
+
+  // Commitment set — show chart + progress
+  return (
+    <section style={{ marginTop: 16, animation: "imaind-text-reveal 0.6s ease-out 0.6s both" }}>
+      <Glass glow="rgba(77,168,255,0.2)" style={{ padding: "20px" }}>
+        {/* Header */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+          <div>
+            <p style={{ fontSize: "0.8rem", fontWeight: 700, fontFamily: "'Syne', sans-serif" }}>
+              Meu Compromisso
+            </p>
+            <p style={{ fontSize: "0.65rem", color: "rgba(255,255,255,0.3)", marginTop: 2 }}>
+              {goalMin} min/dia &middot; {weekTotal} min esta semana
+            </p>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            {/* Today's ring */}
+            <div style={{ position: "relative", width: 44, height: 44 }}>
+              <Ring value={todayPct} color={todayPct >= 100 ? "#22c55e" : "#4da8ff"} size={44} strokeWidth={4} />
+              <span style={{
+                position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center",
+                fontSize: "0.6rem", fontWeight: 800, color: todayPct >= 100 ? "#22c55e" : "#4da8ff",
+              }}>{todayPct}%</span>
+            </div>
+            {/* Edit button */}
+            <button
+              onClick={() => setShowPicker(!showPicker)}
+              style={{
+                background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)",
+                borderRadius: 8, padding: "6px 10px", cursor: "pointer",
+                fontSize: "0.6rem", color: "rgba(255,255,255,0.4)", fontWeight: 600,
+              }}
+            >
+              Editar
+            </button>
+          </div>
+        </div>
+
+        {/* Picker overlay */}
+        {showPicker && (
+          <div style={{
+            display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 6, marginBottom: 14,
+            padding: 12, borderRadius: 12, background: "rgba(0,0,0,0.3)",
+          }}>
+            {COMMITMENT_OPTIONS.map(min => (
+              <button
+                key={min}
+                onClick={() => selectGoal(min)}
+                style={{
+                  padding: "8px 0", borderRadius: 10,
+                  background: min === goalMin ? "rgba(77,168,255,0.2)" : "rgba(255,255,255,0.04)",
+                  border: `1px solid ${min === goalMin ? "rgba(77,168,255,0.4)" : "rgba(255,255,255,0.06)"}`,
+                  color: min === goalMin ? "#4da8ff" : "#fff",
+                  fontSize: "0.75rem", fontWeight: 700, cursor: "pointer",
+                }}
+              >
+                {min}min
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Weekly bar chart */}
+        <div style={{ display: "flex", alignItems: "flex-end", gap: 4, height: 80 }}>
+          {DAYS.map((day, i) => {
+            const val = weekData[i];
+            const pct = maxBar > 0 ? (val / maxBar) * 100 : 0;
+            const isToday = i === todayIdx;
+            const metGoal = goalMin > 0 && val >= goalMin;
+            const barColor = metGoal
+              ? "linear-gradient(180deg, #22c55e, #16a34a)"
+              : isToday
+              ? "linear-gradient(180deg, #4da8ff, #2563eb)"
+              : i > todayIdx
+              ? "transparent"
+              : "linear-gradient(180deg, rgba(255,255,255,0.15), rgba(255,255,255,0.06))";
+
+            return (
+              <div key={day} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+                {/* Bar */}
+                <div style={{
+                  width: "100%", maxWidth: 28, borderRadius: 6, position: "relative",
+                  height: `${Math.max(pct, 4)}%`,
+                  background: barColor,
+                  border: isToday ? "1px solid rgba(77,168,255,0.3)" : metGoal ? "1px solid rgba(34,197,94,0.3)" : "1px solid rgba(255,255,255,0.04)",
+                  transition: "height 1s cubic-bezier(0.4, 0, 0.2, 1)",
+                  boxShadow: metGoal ? "0 0 8px rgba(34,197,94,0.3)" : isToday ? "0 0 8px rgba(77,168,255,0.2)" : "none",
+                }}>
+                  {/* Value label */}
+                  {val > 0 && (
+                    <span style={{
+                      position: "absolute", top: -16, left: "50%", transform: "translateX(-50%)",
+                      fontSize: "0.5rem", fontWeight: 700,
+                      color: metGoal ? "#22c55e" : isToday ? "#4da8ff" : "rgba(255,255,255,0.3)",
+                      whiteSpace: "nowrap",
+                    }}>{val}m</span>
+                  )}
+                </div>
+                {/* Day label */}
+                <span style={{
+                  fontSize: "0.5rem", fontWeight: 600, letterSpacing: "0.02em",
+                  color: isToday ? "#4da8ff" : "rgba(255,255,255,0.2)",
+                }}>{day}</span>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Goal line indicator */}
+        {goalMin > 0 && (
+          <div style={{
+            marginTop: 8, display: "flex", alignItems: "center", gap: 6,
+          }}>
+            <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.06)" }} />
+            <span style={{ fontSize: "0.55rem", color: "rgba(255,255,255,0.2)", fontWeight: 600 }}>
+              Meta: {goalMin} min/dia
+            </span>
+            <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.06)" }} />
+          </div>
+        )}
+      </Glass>
+    </section>
   );
 }
 
@@ -374,8 +589,11 @@ function StudentHomeInner() {
             </Glass>
           </section>
 
+          {/* ── LEARNING COMMITMENT ── */}
+          <LearningCommitment streakDays={streakDays} hoursLearned={hoursLearned} />
+
           {/* ── HEALTH RINGS ── */}
-          <section style={{ marginTop: 16, animation: "imaind-text-reveal 0.6s ease-out 0.65s both" }}>
+          <section style={{ marginTop: 16, animation: "imaind-text-reveal 0.6s ease-out 0.75s both" }}>
             <Glass style={{ padding: "20px" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
                 {/* Rings stacked */}
