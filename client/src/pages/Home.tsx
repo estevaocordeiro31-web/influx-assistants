@@ -8,14 +8,18 @@ export default function Home() {
   const { isAuthenticated, user } = useAuth();
   const [, setLocation] = useLocation();
 
-  if (isAuthenticated && user) {
-    if (user.role === "user") {
-      setLocation("/student/home");
-      return null;
-    } else if (user.role === "admin") {
-      setLocation("/admin/dashboard");
-      return null;
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      if (user.role === "user") {
+        setLocation("/student/home");
+      } else if (user.role === "admin") {
+        setLocation("/admin/dashboard");
+      }
     }
+  }, [isAuthenticated, user, setLocation]);
+
+  if (isAuthenticated && user) {
+    return null;
   }
 
   const features = [

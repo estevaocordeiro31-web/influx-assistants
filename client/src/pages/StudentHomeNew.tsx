@@ -63,6 +63,7 @@ function StudentHomeInner() {
   );
 
   const streakQuery = trpc.gamification.getStreak.useQuery(undefined, {
+    enabled: isAuthenticated,
     retry: 1,
     staleTime: 60_000,
   });
@@ -400,9 +401,11 @@ function StudentHomeInner() {
           </section>
 
           {/* === Leaderboard (compact) === */}
-          <section style={{ marginTop: 16, animation: "imaind-text-reveal 0.6s ease-out 1s both" }}>
-            <LeaderboardWidget />
-          </section>
+          {isAuthenticated && (
+            <section style={{ marginTop: 16, animation: "imaind-text-reveal 0.6s ease-out 1s both" }}>
+              <LeaderboardWidget />
+            </section>
+          )}
         </main>
       </div>
     </div>
