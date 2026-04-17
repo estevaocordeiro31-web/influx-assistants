@@ -62,7 +62,6 @@ export const userManagementRouter = router({
             name: input.name,
             email: input.email,
             role: "user",
-            status: "ativo",
             loginMethod: "oauth",
           });
 

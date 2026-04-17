@@ -227,7 +227,6 @@ export const dashboardSyncRouter = router({
                   email: centralStudent.email,
                   loginMethod: 'dashboard_sync',
                   role: 'user',
-                  status: 'ativo',
                   studentId: centralStudent.matricula,
                 });
 

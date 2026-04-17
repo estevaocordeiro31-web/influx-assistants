@@ -63,7 +63,6 @@ async function sendStudyReminders(): Promise<void> {
       WHERE u.phone IS NOT NULL
         AND u.phone != ''
         AND u.role = 'user'
-        AND u.status = 'ativo'
         AND (sp.last_activity_at IS NULL OR sp.last_activity_at < CURDATE())
       LIMIT 50
     `) as any[];
@@ -134,7 +133,6 @@ async function checkMilestonesAndInactivity(): Promise<void> {
       WHERE u.phone IS NOT NULL
         AND u.phone != ''
         AND u.role = 'user'
-        AND u.status = 'ativo'
         AND sp.last_activity_at IS NOT NULL
         AND sp.last_activity_at < DATE_SUB(NOW(), INTERVAL 3 DAY)
         AND sp.last_activity_at >= DATE_SUB(NOW(), INTERVAL 14 DAY)

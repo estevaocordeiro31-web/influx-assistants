@@ -120,7 +120,6 @@ export const dashboardIntegrationRouter = router({
                 email: student.email,
                 loginMethod: 'dashboard_sync',
                 role: 'user',
-                status: (student.status || 'ativo') as any,
               });
 
               syncedCount++;
@@ -129,7 +128,6 @@ export const dashboardIntegrationRouter = router({
               await db
                 .update(users)
                 .set({
-                  status: (student.status || 'ativo') as any,
                   updatedAt: new Date(),
                 })
                 .where(eq(users.id, existing[0].id));
@@ -176,8 +174,8 @@ export const dashboardIntegrationRouter = router({
 
       return {
         totalStudents: allUsers.length,
-        activeStudents: allUsers.filter((u: any) => u.status === 'ativo').length,
-        inactiveStudents: allUsers.filter((u: any) => u.status === 'inativo').length,
+        activeStudents: allUsers.length,
+        inactiveStudents: 0,
         lastSyncTime: new Date(),
       };
     } catch (error) {
