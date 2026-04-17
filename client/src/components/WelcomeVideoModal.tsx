@@ -74,7 +74,7 @@ export function WelcomeVideoModal({ onClose }: WelcomeVideoModalProps) {
           style={{ animation: "fadeInDown 0.8s ease forwards" }}
         >
           <img
-            src="https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/influx-logo-new_17347370.png"
+            src="/logo-influx.png"
             alt="inFlux"
             className="h-8 object-contain"
             onError={(e) => {

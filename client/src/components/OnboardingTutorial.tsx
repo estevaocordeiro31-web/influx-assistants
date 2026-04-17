@@ -214,7 +214,7 @@ export function OnboardingTutorial({ onComplete }: OnboardingTutorialProps) {
           {currentStep === 0 && (
             <div className="flex justify-center">
               <img 
-                src="/fluxie-learning.png" 
+                src="/miss-elie-uniform-teaching.png" 
                 alt="Fluxie" 
                 className="w-32 h-32 object-contain"
                 onError={(e) => { e.currentTarget.style.display = 'none'; }}

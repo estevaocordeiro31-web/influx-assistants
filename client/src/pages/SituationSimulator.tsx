@@ -333,7 +333,7 @@ export default function SituationSimulator() {
     <div className="space-y-6">
       <div className="text-center">
         <img 
-          src="/fluxie-learning.png" 
+          src="/miss-elie-uniform-teaching.png" 
           alt="Fluxie" 
           className="w-24 h-24 mx-auto mb-4"
         />

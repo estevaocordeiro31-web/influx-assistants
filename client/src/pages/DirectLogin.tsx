@@ -56,7 +56,7 @@ export default function DirectLogin() {
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
             <img
-              src="/influx-logo.png"
+              src="/logo-influx.png"
               alt="inFlux Logo"
               className="h-16 object-contain"
               onError={(e) => {

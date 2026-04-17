@@ -643,7 +643,7 @@ export default function StudentDashboard() {
                 background: 'linear-gradient(135deg, rgba(59,130,246,0.1), rgba(168,85,247,0.08))',
                 border: '1px solid rgba(59,130,246,0.15)',
               }}>
-                <img src="/fluxie-waving.png" alt="Fluxie" className="w-14 h-14 sm:w-16 sm:h-16 object-contain" />
+                <img src="/miss-elie-uniform-waving.png" alt="Fluxie" className="w-14 h-14 sm:w-16 sm:h-16 object-contain" />
                 <div>
                   <h3 className="text-white font-bold text-sm sm:text-base mb-1">Olá! Sou o Fluxie!</h3>
                   <p className="text-white/50 text-xs sm:text-sm">

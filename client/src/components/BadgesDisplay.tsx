@@ -49,7 +49,7 @@ export default function BadgesDisplay() {
       <CardContent>
         {badges.length === 0 ? (
           <div className="text-center py-8">
-            <img src="/fluxie-celebrating.png" alt="Fluxie" className="w-24 h-24 mx-auto mb-4" />
+            <img src="/miss-elie-uniform-thumbsup.png" alt="Fluxie" className="w-24 h-24 mx-auto mb-4" />
             <p className="text-slate-300 mb-2">Nenhum badge desbloqueado ainda</p>
             <p className="text-slate-400 text-sm">
               Comece a salvar dicas e marcar como úteis para desbloquear badges!

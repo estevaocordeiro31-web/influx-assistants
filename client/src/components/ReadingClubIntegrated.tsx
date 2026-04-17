@@ -17,7 +17,7 @@ export function ReadingClubIntegrated() {
         <div className="relative h-64 md:h-80 flex items-center justify-center">
           <div className="absolute inset-0 opacity-20">
             <img
-              src="/boogeyman-fluxie-hero.png"
+              src="/miss-elie-uniform-teaching.png"
               alt="Reading Club Boogeyman"
               className="w-full h-full object-cover"
             />
@@ -95,7 +95,7 @@ export function ReadingClubIntegrated() {
                       <video
                         controls
                         className="w-full h-full"
-                        poster="/boogeyman-fluxie-hero.png"
+                        poster="/miss-elie-uniform-teaching.png"
                       >
                         <source src="/WhatsAppVideo2026-01-23at16.48.32.mp4" type="video/mp4" />
                         Seu navegador não suporta vídeo.
@@ -157,7 +157,7 @@ export function ReadingClubIntegrated() {
                   <div className="flex items-start gap-3">
                     <div className="relative flex-shrink-0">
                       <img 
-                        src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/OwIgQozQmgnqPMOm.png" 
+                        src="/miss-elie-uniform-avatar.png" 
                         alt="Fluxie Thinking" 
                         className="w-10 h-10 object-contain"
                       />

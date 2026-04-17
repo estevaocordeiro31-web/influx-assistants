@@ -268,7 +268,7 @@ export default function VoiceChat() {
           <div className="flex items-start gap-3">
             <div className="relative flex-shrink-0">
               <img 
-                src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/OwIgQozQmgnqPMOm.png" 
+                src="/miss-elie-uniform-avatar.png" 
                 alt="Fluxie Thinking" 
                 className="w-10 h-10 object-contain"
               />

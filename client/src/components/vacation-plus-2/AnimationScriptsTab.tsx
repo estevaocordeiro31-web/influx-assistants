@@ -642,7 +642,7 @@ export function AnimationScriptsTab() {
         <div className="flex items-start gap-3 sm:gap-4">
           <div className="relative flex-shrink-0">
             <img 
-              src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/OwIgQozQmgnqPMOm.png" 
+              src="/miss-elie-uniform-avatar.png" 
               alt="Fluxie Thinking" 
               className="w-14 h-14 sm:w-16 sm:h-16 object-contain"
             />

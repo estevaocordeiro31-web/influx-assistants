@@ -71,7 +71,7 @@ export default function MyFavoriteTips({ onRemove }: MyFavoriteTipsProps) {
         </CardHeader>
         <CardContent>
           <div className="text-center py-8">
-            <img src="/fluxie-thinking.png" alt="Fluxie" className="w-24 h-24 mx-auto mb-4" />
+            <img src="/elie-thinking.png" alt="Fluxie" className="w-24 h-24 mx-auto mb-4" />
             <p className="text-slate-300 mb-4">
               Clique no ícone de coração para salvar suas dicas favoritas aqui
             </p>
