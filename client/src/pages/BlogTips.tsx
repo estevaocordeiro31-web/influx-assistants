@@ -33,15 +33,17 @@ export default function BlogTips() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4 md:p-8">
+    <div className="min-h-screen p-4 md:p-8" style={{ background: 'linear-gradient(180deg, #06090f 0%, #0c1222 40%, #111827 100%)', fontFamily: "'DM Sans', sans-serif" }}>
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
-            <Lightbulb className="w-8 h-8 text-yellow-400" />
-            <h1 className="text-4xl font-bold text-white">Dicas do Blog inFlux</h1>
+            <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Lightbulb className="w-5 h-5 text-yellow-400" />
+            </div>
+            <h1 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 'clamp(1.4rem, 3vw, 1.8rem)' }} className="text-white">Dicas do Blog inFlux</h1>
           </div>
-          <p className="text-slate-400">Aprenda com dicas diárias do blog e recomendações personalizadas</p>
+          <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: '0.9rem' }}>Aprenda com dicas diarias do blog e recomendacoes personalizadas</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -49,8 +51,8 @@ export default function BlogTips() {
           <div className="lg:col-span-2 space-y-6">
             {/* Dica do Dia */}
             {tipOfDay?.tip && (
-              <Card className="bg-slate-800/50 border-green-500/30 overflow-hidden">
-                <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 p-4">
+              <Card className="overflow-hidden" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(106,191,75,0.15)', backdropFilter: 'blur(20px)', borderRadius: 20 }}>
+                <div style={{ background: 'linear-gradient(135deg, rgba(106,191,75,0.1), rgba(77,168,255,0.05))', padding: 20 }}>
                   <Badge className="bg-green-500/30 text-green-300 border-green-500/50 mb-2">
                     Dica do Dia
                   </Badge>

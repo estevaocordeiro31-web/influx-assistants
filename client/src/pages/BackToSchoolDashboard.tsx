@@ -36,10 +36,33 @@ export function BackToSchoolDashboard() {
 
   if (statsQuery.isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-slate-900">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-400 mx-auto mb-4"></div>
-          <p className="text-slate-400">Carregando dados...</p>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-8">
+        <div className="max-w-7xl mx-auto">
+          {/* Skeleton header */}
+          <div className="mb-8">
+            <div className="h-8 w-72 rounded-lg bg-white/5 animate-pulse mb-3" />
+            <div className="h-4 w-96 rounded-md bg-white/[0.03] animate-pulse" />
+          </div>
+          {/* Skeleton KPI cards */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            {[1, 2, 3, 4].map(i => (
+              <div key={i} className="rounded-xl p-5" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                <div className="h-3 w-20 rounded bg-white/5 animate-pulse mb-4" />
+                <div className="h-8 w-16 rounded-lg bg-white/[0.06] animate-pulse mb-2" />
+                <div className="h-2 w-24 rounded bg-white/[0.03] animate-pulse" />
+              </div>
+            ))}
+          </div>
+          {/* Skeleton charts */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {[1, 2].map(i => (
+              <div key={i} className="rounded-xl p-6" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                <div className="h-5 w-40 rounded bg-white/5 animate-pulse mb-2" />
+                <div className="h-3 w-56 rounded bg-white/[0.03] animate-pulse mb-6" />
+                <div className="h-48 rounded-lg bg-white/[0.02] animate-pulse" />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     );

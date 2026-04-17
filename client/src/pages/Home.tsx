@@ -111,7 +111,7 @@ export default function Home() {
           alignItems: "center",
         }} className="lg:grid-cols-2">
           {/* Left — Text */}
-          <div>
+          <div style={{ animation: "hero-fade-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) both" }}>
             <span style={{
               display: "inline-flex",
               alignItems: "center",
@@ -173,6 +173,15 @@ export default function Home() {
                   alignItems: "center",
                   gap: 8,
                   boxShadow: "0 4px 20px rgba(26,111,219,0.3)",
+                  transition: "all 0.2s",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateY(-2px)";
+                  e.currentTarget.style.boxShadow = "0 8px 32px rgba(26,111,219,0.45)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.boxShadow = "0 4px 20px rgba(26,111,219,0.3)";
                 }}
               >
                 <Play size={18} /> Experimentar Agora
@@ -198,7 +207,7 @@ export default function Home() {
           </div>
 
           {/* Right — Elie Chat Preview */}
-          <div style={{ position: "relative" }} className="hidden lg:block">
+          <div style={{ position: "relative", animation: "hero-fade-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 200ms both" }} className="hidden lg:block">
             {/* Glow */}
             <div style={{
               position: "absolute",
@@ -317,7 +326,23 @@ export default function Home() {
               padding: 22,
               background: "rgba(255,255,255,0.02)",
               border: "1px solid rgba(255,255,255,0.06)",
-              transition: "background 0.2s",
+              transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+              cursor: "default",
+              position: "relative",
+              overflow: "hidden",
+              animation: `stagger-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${100 + i * 80}ms both`,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "rgba(255,255,255,0.05)";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)";
+              e.currentTarget.style.transform = "translateY(-3px)";
+              e.currentTarget.style.boxShadow = "0 8px 32px rgba(0,0,0,0.2)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "rgba(255,255,255,0.02)";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = "none";
             }}>
               <div style={{
                 width: 40,
@@ -406,6 +431,18 @@ export default function Home() {
           .lg\\:block { display: block !important; }
         }
         .hidden { display: none; }
+        @keyframes stagger-in {
+          from { opacity: 0; transform: translateY(16px) scale(0.98); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes hero-fade-in {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes hero-glow {
+          0%, 100% { opacity: 0.5; }
+          50% { opacity: 1; }
+        }
       `}</style>
     </div>
   );

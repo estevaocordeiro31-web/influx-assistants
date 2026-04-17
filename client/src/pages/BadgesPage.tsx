@@ -313,6 +313,24 @@ export default function BadgesPage() {
   const totalCount = badgeProgress?.length || 0;
   const progressPercent = totalCount > 0 ? Math.round((earnedCount / totalCount) * 100) : 0;
 
+  // Show loading state while auth resolves instead of "Faca login" flash
+  const { loading: authLoading } = useAuth();
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "#04040c" }}>
+        <div className="text-center">
+          <div className="w-16 h-16 rounded-full mx-auto mb-4 animate-pulse"
+            style={{ background: "rgba(168,85,247,0.15)" }}>
+            <Award className="w-8 h-8 text-purple-400 mx-auto pt-4" />
+          </div>
+          <div className="h-4 w-32 rounded-lg animate-pulse mx-auto mb-2" style={{ background: "rgba(255,255,255,0.06)" }} />
+          <div className="h-3 w-48 rounded-lg animate-pulse mx-auto" style={{ background: "rgba(255,255,255,0.03)" }} />
+        </div>
+      </div>
+    );
+  }
+
   if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4" style={{ background: "#04040c" }}>
@@ -320,7 +338,7 @@ export default function BadgesPage() {
           style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.09)", backdropFilter: "blur(16px)" }}>
           <Award className="w-14 h-14 text-purple-400 mx-auto mb-4" />
           <h2 className="text-xl font-bold text-white mb-2" style={{ fontFamily: "'Syne', sans-serif" }}>Selos da Ellie</h2>
-          <p className="text-white/40 text-sm mb-6">Faça login para ver seus selos e competir!</p>
+          <p className="text-white/40 text-sm mb-6">Faca login para ver seus selos e competir!</p>
           <button onClick={() => setLocation("/login")}
             className="px-6 py-3 rounded-xl text-white font-bold text-sm"
             style={{ background: "linear-gradient(135deg, #6b3fa0, #2e8b7a)" }}>

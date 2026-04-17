@@ -72,10 +72,36 @@ function Router() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-slate-900">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-400 mx-auto mb-4"></div>
-          <p className="text-slate-400">Carregando...</p>
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(180deg, #06090f 0%, #0c1222 40%, #111827 100%)',
+        fontFamily: "'DM Sans', sans-serif",
+      }}>
+        <div style={{ textAlign: 'center' }}>
+          {/* Animated logo pulse */}
+          <div style={{
+            width: 56, height: 56, borderRadius: 16, margin: '0 auto 16px',
+            background: 'rgba(77,168,255,0.08)',
+            border: '1px solid rgba(77,168,255,0.12)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            animation: 'app-loading-pulse 2s ease-in-out infinite',
+          }}>
+            <div style={{
+              width: 24, height: 24, borderRadius: 8,
+              background: 'linear-gradient(135deg, #4da8ff, #6abf4b)',
+              opacity: 0.6,
+            }} />
+          </div>
+          <p style={{ color: 'rgba(255,255,255,0.25)', fontSize: '0.85rem' }}>Carregando...</p>
+          <style>{`
+            @keyframes app-loading-pulse {
+              0%, 100% { transform: scale(1); opacity: 0.6; }
+              50% { transform: scale(1.08); opacity: 1; }
+            }
+          `}</style>
         </div>
       </div>
     );

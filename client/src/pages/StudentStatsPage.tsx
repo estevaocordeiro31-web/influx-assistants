@@ -79,10 +79,26 @@ export default function StudentStatsPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Carregando estatísticas...</p>
+      <div className="min-h-screen p-8" style={{ background: 'linear-gradient(180deg, #06090f 0%, #0c1222 40%, #111827 100%)' }}>
+        <div className="max-w-7xl mx-auto">
+          <div className="h-8 w-64 rounded-lg bg-white/5 animate-pulse mb-3" />
+          <div className="h-4 w-80 rounded-md bg-white/[0.03] animate-pulse mb-8" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            {[1, 2, 3].map(i => (
+              <div key={i} className="rounded-xl p-5" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                <div className="h-3 w-24 rounded bg-white/5 animate-pulse mb-3" />
+                <div className="h-8 w-20 rounded-lg bg-white/[0.06] animate-pulse" />
+              </div>
+            ))}
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {[1, 2].map(i => (
+              <div key={i} className="rounded-xl p-6" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                <div className="h-5 w-36 rounded bg-white/5 animate-pulse mb-6" />
+                <div className="h-48 rounded-lg bg-white/[0.02] animate-pulse" />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     );

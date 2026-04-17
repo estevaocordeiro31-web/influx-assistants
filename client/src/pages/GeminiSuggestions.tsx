@@ -124,9 +124,23 @@ export default function GeminiSuggestions() {
 
         <TabsContent value={activeTab} className="mt-6 space-y-4">
           {isLoading ? (
-            <div className="text-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500 mx-auto"></div>
-              <p className="mt-4 text-muted-foreground">Carregando sugestões...</p>
+            <div className="space-y-4 py-4">
+              {[1, 2, 3].map(i => (
+                <div key={i} className="rounded-xl p-6" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-lg bg-purple-500/10 animate-pulse flex-shrink-0" />
+                    <div className="flex-1">
+                      <div className="h-5 w-3/4 rounded bg-white/5 animate-pulse mb-3" />
+                      <div className="h-3 w-full rounded bg-white/[0.03] animate-pulse mb-2" />
+                      <div className="h-3 w-2/3 rounded bg-white/[0.03] animate-pulse mb-4" />
+                      <div className="flex gap-2">
+                        <div className="h-6 w-16 rounded-full bg-white/[0.04] animate-pulse" />
+                        <div className="h-6 w-20 rounded-full bg-white/[0.04] animate-pulse" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           ) : suggestions && suggestions.length > 0 ? (
             suggestions.map((suggestion: any) => {

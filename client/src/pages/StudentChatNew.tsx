@@ -43,7 +43,8 @@ function StudentChatInner() {
   const ttsMutation = trpc.tts.speak.useMutation();
 
   const studentName = localStorage.getItem("imaind_student_name") || "";
-  const isDark = config.ageGroup === "teen";
+  // Always use dark mode for consistent app experience
+  const isDark = true;
 
   // Welcome message
   useEffect(() => {
