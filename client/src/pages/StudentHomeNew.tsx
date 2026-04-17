@@ -1,8 +1,9 @@
 /**
- * StudentHomeNew — Conversational-first home screen (v2 premium)
+ * StudentHomeNew — Full-content Elie-first home (v3)
  *
- * Dark-first design with Elie companion, Health Rings, gamification.
- * Staggered entrance animations. Age-adaptive.
+ * Combines the premium dark design with ALL dashboard content:
+ * HeroBookCard, StatsGrid, NextClassCard, AISuggestionCard,
+ * Quick Actions, and Elie companion.
  */
 import { useState, useEffect, useMemo } from "react";
 import { useLocation } from "wouter";
@@ -11,109 +12,100 @@ import { HealthRings } from "@/components/tutor/HealthRings";
 import { Confetti } from "@/components/tutor/Confetti";
 import { AgeAdaptiveProvider, useAgeAdaptive } from "@/contexts/AgeAdaptiveContext";
 import { trpc } from "@/lib/trpc";
+import { useAuth } from "@/_core/hooks/useAuth";
+import { getBookTheme, getBookNumberFromLevel } from "@/lib/book-themes";
+import { getDefaultTheme } from "@/lib/themes";
+import HeroBookCard from "@/components/HeroBookCard";
+import StatsGrid from "@/components/StatsGrid";
+import NextClassCard from "@/components/NextClassCard";
+import AISuggestionCard from "@/components/AISuggestionCard";
+import { LeaderboardWidget } from "@/components/LeaderboardWidget";
 import {
   MessageCircle,
   BookOpen,
   Trophy,
-  TrendingUp,
   Flame,
   Zap,
   Star,
   Settings,
   ChevronRight,
+  Mic,
+  GraduationCap,
+  TrendingUp,
+  Calendar,
 } from "lucide-react";
 import "@/styles/tutor-theme.css";
+
+// Default dark theme for the premium home
+const DARK_THEME = {
+  ...getDefaultTheme(),
+  background: "linear-gradient(180deg, #0a0f1e 0%, #111827 40%, #0f172a 100%)",
+  cardBg: "rgba(255,255,255,0.04)",
+  cardBorder: "rgba(255,255,255,0.08)",
+  cardText: "#fff",
+};
 
 function StudentHomeInner() {
   const config = useAgeAdaptive();
   const [elieState, setElieState] = useState<ElieState>("greeting");
   const [, navigate] = useLocation();
+  const { user, isAuthenticated } = useAuth();
 
-  const studentName = localStorage.getItem("imaind_student_name") || "Aluno";
-  const studentAge = Number(localStorage.getItem("imaind_student_age")) || 18;
-  const firstName = studentName.split(" ")[0];
+  // Fetch personalized dashboard data (same as old dashboard)
+  const { data: dashboard, isLoading } = trpc.studentPersonalization.getPersonalizedDashboard.useQuery(
+    undefined,
+    { enabled: isAuthenticated, retry: 1, staleTime: 60_000 }
+  );
 
-  // Fetch real gamification data
+  const { data: myCourses } = trpc.studentCourses.getMyCourses.useQuery(
+    undefined,
+    { enabled: isAuthenticated, retry: 1, staleTime: 120_000 }
+  );
+
   const streakQuery = trpc.gamification.getStreak.useQuery(undefined, {
     retry: 1,
     staleTime: 60_000,
   });
-  const progressQuery = trpc.gamification.getProgress.useQuery({}, {
-    retry: 1,
-    staleTime: 60_000,
-  });
 
-  // Derive ring values from real data
-  const streakDays = streakQuery.data?.currentStreak ?? 0;
-  const totalPoints = progressQuery.data?.totalPoints ?? 0;
-  const level = Math.floor(totalPoints / 1000) + 1;
-  const streakNormalized = Math.min(100, Math.round((streakDays / 30) * 100));
-  const engagementScore = Math.min(100, Math.round((totalPoints / 5000) * 100));
-  const frequencyScore = Math.min(100, Math.round((streakDays / 7) * 100));
+  // Derived data
+  const studentName = dashboard?.student?.name || user?.name || localStorage.getItem("imaind_student_name") || "Aluno";
+  const firstName = studentName.split(" ")[0];
+  const streakDays = dashboard?.student?.streak ?? streakQuery.data?.currentStreak ?? 0;
+  const hoursLearned = dashboard?.student?.hoursLearned ?? 0;
+  const bookNum = dashboard?.student ? getBookNumberFromLevel(dashboard.student.level) : 1;
+  const bookTheme = getBookTheme(bookNum);
+  const currentUnit = dashboard?.books?.inProgress?.[0]?.currentUnit || 1;
+  const progressPercentage = Number(dashboard?.books?.inProgress?.[0]?.progressPercentage) || 0;
+  const completedBooksCount = dashboard?.books?.completed?.length || 0;
+  const classInfo = dashboard?.classInfo || null;
+  const hasReadingClub = myCourses?.includes("reading_club") ?? false;
 
-  // Greeting based on time of day
+  // Health ring values
+  const streakNormalized = Math.min(100, Math.max(5, Math.round((streakDays / 30) * 100)));
+  const engagementScore = Math.min(100, Math.max(5, Math.round((hoursLearned / 100) * 100)));
+  const frequencyScore = Math.min(100, Math.max(5, Math.round((streakDays / 7) * 100)));
+
+  // Greeting
   const greeting = useMemo(() => {
     const hour = new Date().getHours();
     const time = hour < 12 ? "Bom dia" : hour < 18 ? "Boa tarde" : "Boa noite";
-
-    if (config.ageGroup === "child") {
-      return `Oi, ${firstName}! Bora aprender?`;
-    }
-    if (config.ageGroup === "teen") {
-      return `E ai, ${firstName}! Ready?`;
-    }
     return `${time}, ${firstName}!`;
-  }, [firstName, config.ageGroup]);
+  }, [firstName]);
 
   const subtitle = useMemo(() => {
-    if (streakDays > 0) return `${streakDays} dias consecutivos!`;
+    if (streakDays > 7) return `${streakDays} dias seguidos — incrivel!`;
+    if (streakDays > 0) return `${streakDays} dias de streak. Continue assim!`;
+    if (hoursLearned > 0) return `${hoursLearned}h aprendidas. Bora continuar?`;
     return "Que bom te ver por aqui.";
-  }, [streakDays]);
+  }, [streakDays, hoursLearned]);
 
-  // After greeting animation, go to idle
+  // Elie states
   useEffect(() => {
     const t = setTimeout(() => setElieState("idle"), 2500);
     return () => clearTimeout(t);
   }, []);
 
-  // Quick actions
-  const actions = useMemo(() => {
-    const base = [
-      {
-        icon: MessageCircle,
-        label: "Conversar com Elie",
-        desc: "Pratique conversacao",
-        route: "/student/chat",
-        color: "#1a6fdb",
-      },
-      {
-        icon: BookOpen,
-        label: "Praticar",
-        desc: "Exercicios e chunks",
-        route: "/student/exercises",
-        color: "#6abf4b",
-      },
-      {
-        icon: TrendingUp,
-        label: "Meu progresso",
-        desc: "Acompanhe sua evolucao",
-        route: "/student/passport",
-        color: "#8b5cf6",
-      },
-    ];
-    if (config.showGamification) {
-      base.push({
-        icon: Trophy,
-        label: "Conquistas",
-        desc: "Badges e desafios",
-        route: "/student/badges",
-        color: "#f59e0b",
-      });
-    }
-    return base;
-  }, [config]);
-
-  // Confetti on first visit for child mode
+  // Confetti for child mode
   const [showConfetti, setShowConfetti] = useState(false);
   useEffect(() => {
     if (config.ageGroup === "child") {
@@ -125,338 +117,304 @@ function StudentHomeInner() {
     }
   }, [config.ageGroup]);
 
+  // Quick action grid
+  const quickActions = useMemo(() => {
+    const actions = [
+      { icon: MessageCircle, label: "Chat IA", route: "/student/chat", bg: "rgba(59,130,246,0.15)", border: "rgba(59,130,246,0.25)", color: "#60a5fa" },
+      { icon: Zap, label: "Exercicios", route: "/student/exercises", bg: "rgba(234,179,8,0.15)", border: "rgba(234,179,8,0.25)", color: "#facc15" },
+      { icon: Mic, label: "Voice Chat", route: "/student/voice-chat", bg: "rgba(168,85,247,0.15)", border: "rgba(168,85,247,0.25)", color: "#a78bfa" },
+      { icon: TrendingUp, label: "Progresso", route: "/student/passport", bg: "rgba(6,182,212,0.15)", border: "rgba(6,182,212,0.25)", color: "#22d3ee" },
+      { icon: Trophy, label: "Conquistas", route: "/student/badges", bg: "rgba(249,115,22,0.15)", border: "rgba(249,115,22,0.25)", color: "#fb923c" },
+      { icon: Calendar, label: "Agenda", route: "/student/dashboard", bg: "rgba(236,72,153,0.15)", border: "rgba(236,72,153,0.25)", color: "#f472b6" },
+    ];
+    if (hasReadingClub) {
+      actions.splice(3, 0, {
+        icon: BookOpen,
+        label: "Reading Club",
+        route: "/student/dashboard",
+        bg: "rgba(249,115,22,0.15)",
+        border: "rgba(249,115,22,0.25)",
+        color: "#fb923c",
+      });
+    }
+    return actions;
+  }, [hasReadingClub]);
+
   return (
     <div
       className="tutor-app dark"
       data-age={config.ageGroup}
       style={{
         minHeight: "100dvh",
-        display: "flex",
-        flexDirection: "column",
         background: "linear-gradient(180deg, #0a0f1e 0%, #111827 40%, #0f172a 100%)",
         fontFamily: "'Outfit', 'DM Sans', sans-serif",
-        overflow: "hidden",
         color: "#fff",
       }}
     >
       <Confetti active={showConfetti} />
 
-      {/* Header */}
-      <header
+      {/* Mesh gradient overlay */}
+      <div
         style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "14px 20px",
-          background: "rgba(10,15,30,0.6)",
-          backdropFilter: "blur(12px)",
-          borderBottom: "1px solid rgba(255,255,255,0.04)",
+          position: "fixed",
+          inset: 0,
+          pointerEvents: "none",
+          zIndex: 0,
+          background: `radial-gradient(ellipse 70% 60% at 30% 20%, ${bookTheme.primary}12, transparent 70%),
+                       radial-gradient(ellipse 50% 50% at 70% 70%, rgba(26,111,219,0.06), transparent 70%)`,
         }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <span style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: "1.05rem" }}>
-            Im<span style={{ color: "#4da8ff" }}>AI</span>nd
-          </span>
-          <span
-            style={{
-              fontSize: "0.55rem",
-              fontWeight: 700,
-              padding: "2px 8px",
-              borderRadius: 6,
-              background: "rgba(26,111,219,0.15)",
-              color: "#4da8ff",
-              letterSpacing: "0.08em",
-            }}
-          >
-            TUTOR
-          </span>
-        </div>
-        <button
-          onClick={() => navigate("/student/profile")}
+      />
+
+      <div style={{ position: "relative", zIndex: 1 }}>
+        {/* Header */}
+        <header
           style={{
-            background: "rgba(255,255,255,0.06)",
-            border: "none",
-            padding: 8,
-            borderRadius: "50%",
-            cursor: "pointer",
             display: "flex",
-          }}
-        >
-          <Settings size={16} style={{ color: "rgba(255,255,255,0.4)" }} />
-        </button>
-      </header>
-
-      {/* Main */}
-      <main
-        style={{
-          flex: 1,
-          overflowY: "auto",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          padding: "0 20px 100px",
-          gap: 20,
-        }}
-      >
-        {/* Elie Section */}
-        <section
-          style={{
-            textAlign: "center",
-            marginTop: 24,
-            animation: "imaind-text-reveal 0.8s ease-out both",
-          }}
-        >
-          {/* Glow behind Elie */}
-          <div style={{ position: "relative", display: "inline-block" }}>
-            <div
-              style={{
-                position: "absolute",
-                inset: -24,
-                borderRadius: "50%",
-                background: "radial-gradient(circle, rgba(26,111,219,0.2) 0%, transparent 70%)",
-                filter: "blur(20px)",
-                animation: "elie-aura-pulse 3s ease-in-out infinite",
-              }}
-            />
-            <ElieCompanion state={elieState} size="full" />
-          </div>
-
-          <h2
-            style={{
-              marginTop: 16,
-              fontSize: "1.3rem",
-              fontWeight: 700,
-              fontFamily: "'Syne', sans-serif",
-              lineHeight: 1.3,
-              animation: "imaind-text-reveal 0.6s ease-out 0.3s both",
-            }}
-          >
-            {greeting}
-          </h2>
-          <p
-            style={{
-              marginTop: 4,
-              fontSize: "0.85rem",
-              color: "rgba(255,255,255,0.4)",
-              animation: "imaind-text-reveal 0.6s ease-out 0.5s both",
-            }}
-          >
-            {subtitle}
-          </p>
-        </section>
-
-        {/* Health Rings */}
-        <section
-          style={{
-            width: "100%",
-            maxWidth: 360,
-            borderRadius: 20,
-            padding: "20px 16px",
-            background: "rgba(255,255,255,0.03)",
-            border: "1px solid rgba(255,255,255,0.06)",
-            backdropFilter: "blur(8px)",
-            display: "flex",
-            flexDirection: "column",
             alignItems: "center",
-            animation: "imaind-text-reveal 0.6s ease-out 0.6s both",
+            justifyContent: "space-between",
+            padding: "14px 20px",
+            background: "rgba(10,15,30,0.7)",
+            backdropFilter: "blur(16px)",
+            borderBottom: "1px solid rgba(255,255,255,0.04)",
           }}
         >
-          <HealthRings
-            frequency={Math.max(frequencyScore, 5)}
-            engagement={Math.max(engagementScore, 5)}
-            streak={Math.max(streakNormalized, 5)}
-            size={150}
-          />
-          <p
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <span style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: "1.05rem" }}>
+              Im<span style={{ color: "#4da8ff" }}>AI</span>nd
+            </span>
+            <span
+              style={{
+                fontSize: "0.55rem",
+                fontWeight: 700,
+                padding: "2px 8px",
+                borderRadius: 6,
+                background: "rgba(26,111,219,0.15)",
+                color: "#4da8ff",
+                letterSpacing: "0.08em",
+              }}
+            >
+              TUTOR
+            </span>
+          </div>
+          <button
+            onClick={() => navigate("/student/profile")}
             style={{
-              marginTop: 8,
-              fontSize: "0.7rem",
-              color: "rgba(255,255,255,0.25)",
-              letterSpacing: "0.05em",
+              background: "rgba(255,255,255,0.06)",
+              border: "none",
+              padding: 8,
+              borderRadius: "50%",
+              cursor: "pointer",
+              display: "flex",
             }}
           >
-            FREQUENCIA &middot; ENGAJAMENTO &middot; CONSISTENCIA
-          </p>
-        </section>
+            <Settings size={16} style={{ color: "rgba(255,255,255,0.4)" }} />
+          </button>
+        </header>
 
-        {/* Gamification bar */}
-        {config.showGamification && (
+        {/* Main scrollable */}
+        <main
+          style={{
+            overflowY: "auto",
+            padding: "0 16px 100px",
+            maxWidth: 600,
+            margin: "0 auto",
+          }}
+        >
+          {/* === Elie + Greeting === */}
           <section
             style={{
-              width: "100%",
-              maxWidth: 360,
+              textAlign: "center",
+              marginTop: 20,
+              animation: "imaind-text-reveal 0.8s ease-out both",
+            }}
+          >
+            <div style={{ position: "relative", display: "inline-block" }}>
+              <div
+                style={{
+                  position: "absolute",
+                  inset: -20,
+                  borderRadius: "50%",
+                  background: `radial-gradient(circle, ${bookTheme.primary}25, transparent 70%)`,
+                  filter: "blur(16px)",
+                  animation: "elie-aura-pulse 3s ease-in-out infinite",
+                }}
+              />
+              <ElieCompanion state={elieState} size="full" />
+            </div>
+            <h2
+              style={{
+                marginTop: 12,
+                fontSize: "1.25rem",
+                fontWeight: 700,
+                fontFamily: "'Syne', sans-serif",
+                animation: "imaind-text-reveal 0.6s ease-out 0.3s both",
+              }}
+            >
+              {greeting}
+            </h2>
+            <p
+              style={{
+                marginTop: 2,
+                fontSize: "0.8rem",
+                color: "rgba(255,255,255,0.4)",
+                animation: "imaind-text-reveal 0.6s ease-out 0.4s both",
+              }}
+            >
+              {subtitle}
+            </p>
+          </section>
+
+          {/* === Hero Book Card === */}
+          {!isLoading && (
+            <section style={{ marginTop: 20, animation: "imaind-text-reveal 0.6s ease-out 0.5s both" }}>
+              <HeroBookCard
+                studentName={firstName}
+                bookNumber={bookNum}
+                bookTheme={bookTheme}
+                appTheme={DARK_THEME}
+                currentUnit={currentUnit}
+                totalUnits={12}
+                progressPercentage={progressPercentage}
+                level={dashboard?.student?.level || "beginner"}
+                onContinue={() => navigate("/student/exercises")}
+              />
+            </section>
+          )}
+
+          {/* === Stats Grid === */}
+          <section style={{ marginTop: 12, animation: "imaind-text-reveal 0.6s ease-out 0.6s both" }}>
+            <StatsGrid
+              appTheme={DARK_THEME}
+              streakDays={streakDays}
+              hoursLearned={hoursLearned}
+              chunksLearned={0}
+              completedBooks={completedBooksCount}
+            />
+          </section>
+
+          {/* === Next Class + AI Suggestion === */}
+          <section
+            style={{
+              marginTop: 12,
               display: "grid",
-              gridTemplateColumns: "1fr 1fr 1fr",
-              gap: 8,
+              gridTemplateColumns: "1fr 1fr",
+              gap: 10,
+              animation: "imaind-text-reveal 0.6s ease-out 0.7s both",
+            }}
+          >
+            <NextClassCard
+              appTheme={DARK_THEME}
+              schedule={classInfo?.schedule || null}
+              teacher={classInfo?.teacher || null}
+              className={classInfo?.className || null}
+            />
+            <AISuggestionCard
+              appTheme={DARK_THEME}
+              streakDays={streakDays}
+              progressPercentage={progressPercentage}
+              hoursLearned={hoursLearned}
+              currentBook={`Book ${bookNum}`}
+              objective={dashboard?.student?.objective}
+            />
+          </section>
+
+          {/* === Health Rings (compact) === */}
+          <section
+            style={{
+              marginTop: 16,
+              display: "flex",
+              alignItems: "center",
+              gap: 16,
+              padding: "16px 20px",
+              borderRadius: 20,
+              background: "rgba(255,255,255,0.03)",
+              border: "1px solid rgba(255,255,255,0.06)",
               animation: "imaind-text-reveal 0.6s ease-out 0.8s both",
             }}
           >
-            <GamifCard
-              icon={<Flame size={18} />}
-              label="Streak"
-              value={`${streakDays}`}
-              unit="dias"
-              color="#f97316"
-              active={streakDays > 0}
+            <HealthRings
+              frequency={frequencyScore}
+              engagement={engagementScore}
+              streak={streakNormalized}
+              size={100}
             />
-            <GamifCard
-              icon={<Zap size={18} />}
-              label="XP"
-              value={totalPoints.toLocaleString("pt-BR")}
-              color="#f59e0b"
-              active={totalPoints > 0}
-            />
-            <GamifCard
-              icon={<Star size={18} />}
-              label="Nivel"
-              value={String(level)}
-              color="#8b5cf6"
-              active
-            />
+            <div style={{ flex: 1 }}>
+              <p style={{ fontSize: "0.8rem", fontWeight: 600, marginBottom: 6 }}>Sua Saude</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                <RingLabel color="#4da8ff" label="Frequencia" value={`${frequencyScore}%`} />
+                <RingLabel color="#6abf4b" label="Engajamento" value={`${engagementScore}%`} />
+                <RingLabel color="#f59e0b" label="Consistencia" value={`${streakNormalized}%`} />
+              </div>
+            </div>
           </section>
-        )}
 
-        {/* Quick actions */}
-        <section
-          style={{
-            width: "100%",
-            maxWidth: 360,
-            display: "flex",
-            flexDirection: "column",
-            gap: 8,
-            animation: "imaind-text-reveal 0.6s ease-out 1s both",
-          }}
-        >
-          <p
-            style={{
-              fontSize: "0.65rem",
-              fontWeight: 600,
-              color: "rgba(255,255,255,0.25)",
-              textTransform: "uppercase",
-              letterSpacing: "0.08em",
-              marginBottom: 2,
-            }}
-          >
-            {config.ageGroup === "child" ? "O que quer fazer?" : "Acesso rapido"}
-          </p>
-
-          {actions.map((action, i) => (
-            <button
-              key={action.route}
-              onClick={() => navigate(action.route)}
+          {/* === Quick Actions Grid === */}
+          <section style={{ marginTop: 16, animation: "imaind-text-reveal 0.6s ease-out 0.9s both" }}>
+            <p
               style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 14,
-                padding: "14px 16px",
-                borderRadius: 16,
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.06)",
-                cursor: "pointer",
-                textAlign: "left",
-                transition: "all 0.2s",
-                color: "#fff",
-                animation: `imaind-text-reveal 0.5s ease-out ${1.1 + i * 0.1}s both`,
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = "rgba(255,255,255,0.06)";
-                e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = "rgba(255,255,255,0.03)";
-                e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
+                fontSize: "0.65rem",
+                fontWeight: 600,
+                color: "rgba(255,255,255,0.25)",
+                textTransform: "uppercase",
+                letterSpacing: "0.08em",
+                marginBottom: 8,
               }}
             >
-              <div
-                style={{
-                  width: 42,
-                  height: 42,
-                  borderRadius: 12,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexShrink: 0,
-                  background: `${action.color}15`,
-                }}
-              >
-                <action.icon size={20} style={{ color: action.color }} />
-              </div>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: "0.9rem", fontWeight: 600 }}>
-                  {action.label}
-                </div>
-                <div style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.3)", marginTop: 1 }}>
-                  {action.desc}
-                </div>
-              </div>
-              <ChevronRight size={16} style={{ color: "rgba(255,255,255,0.15)", flexShrink: 0 }} />
-            </button>
-          ))}
-        </section>
-      </main>
+              Acesso rapido
+            </p>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(3, 1fr)",
+                gap: 8,
+              }}
+            >
+              {quickActions.map((action) => (
+                <button
+                  key={action.route + action.label}
+                  onClick={() => navigate(action.route)}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 6,
+                    padding: "16px 8px",
+                    borderRadius: 16,
+                    background: action.bg,
+                    border: `1px solid ${action.border}`,
+                    cursor: "pointer",
+                    color: "#fff",
+                    transition: "transform 0.2s",
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.03)"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
+                >
+                  <action.icon size={22} style={{ color: action.color }} />
+                  <span style={{ fontSize: "0.7rem", fontWeight: 600, color: "rgba(255,255,255,0.7)" }}>
+                    {action.label}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </section>
 
-      {/* Bottom safe area */}
-      <div style={{ height: "env(safe-area-inset-bottom, 0px)" }} />
+          {/* === Leaderboard (compact) === */}
+          <section style={{ marginTop: 16, animation: "imaind-text-reveal 0.6s ease-out 1s both" }}>
+            <LeaderboardWidget />
+          </section>
+        </main>
+      </div>
     </div>
   );
 }
 
-function GamifCard({
-  icon,
-  label,
-  value,
-  unit,
-  color,
-  active = false,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-  unit?: string;
-  color: string;
-  active?: boolean;
-}) {
+function RingLabel({ color, label, value }: { color: string; label: string; value: string }) {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 4,
-        padding: "14px 8px",
-        borderRadius: 16,
-        background: active ? `${color}08` : "rgba(255,255,255,0.02)",
-        border: `1px solid ${active ? `${color}20` : "rgba(255,255,255,0.04)"}`,
-        transition: "all 0.3s",
-      }}
-    >
-      <div style={{ color: active ? color : "rgba(255,255,255,0.2)" }}>{icon}</div>
-      <div style={{ display: "flex", alignItems: "baseline", gap: 2 }}>
-        <span
-          style={{
-            fontSize: "1.3rem",
-            fontWeight: 800,
-            fontFamily: "'Syne', sans-serif",
-            color: active ? "#fff" : "rgba(255,255,255,0.3)",
-          }}
-        >
-          {value}
-        </span>
-        {unit && (
-          <span style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.3)" }}>{unit}</span>
-        )}
-      </div>
-      <span
-        style={{
-          fontSize: "0.55rem",
-          color: "rgba(255,255,255,0.25)",
-          textTransform: "uppercase",
-          letterSpacing: "0.08em",
-          fontWeight: 600,
-        }}
-      >
-        {label}
-      </span>
+    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+      <div style={{ width: 8, height: 8, borderRadius: "50%", background: color, flexShrink: 0 }} />
+      <span style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.4)", flex: 1 }}>{label}</span>
+      <span style={{ fontSize: "0.7rem", fontWeight: 700, color: "rgba(255,255,255,0.7)" }}>{value}</span>
     </div>
   );
 }
