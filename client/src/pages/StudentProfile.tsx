@@ -16,7 +16,7 @@ export default function StudentProfile() {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => setLocation("/student/dashboard")}
+            onClick={() => setLocation("/student/home")}
           >
             <ArrowLeft className="w-4 h-4" />
           </Button>

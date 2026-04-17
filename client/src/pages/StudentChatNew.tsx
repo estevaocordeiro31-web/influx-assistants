@@ -181,7 +181,7 @@ function StudentChatInner() {
         <button
           className="tutor-btn tutor-btn-ghost"
           style={{ padding: 6 }}
-          onClick={() => navigate("/student/dashboard")}
+          onClick={() => navigate("/student/home")}
         >
           <ChevronLeft size={20} style={{ color: "var(--tutor-text-secondary)" }} />
         </button>

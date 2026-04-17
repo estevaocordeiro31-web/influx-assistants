@@ -27,7 +27,7 @@ export function AccessViaLink() {
           // Redirecionar para dashboard após 2 segundos com reload forçado
           setTimeout(() => {
             // Forçar reload completo da página para limpar cache e carregar nova sessão
-            window.location.href = '/student/dashboard';
+            window.location.href = '/student/home';
           }, 2000);
         },
         onError: (error) => {

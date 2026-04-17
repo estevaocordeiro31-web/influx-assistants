@@ -32,7 +32,7 @@ export default function Login() {
           // Keep tRPC query cache intact, only clear session-specific storage
           sessionStorage.clear();
 
-          const target = data.user.role === 'admin' ? '/admin/dashboard' : '/student/dashboard';
+          const target = data.user.role === 'admin' ? '/admin/dashboard' : '/student/home';
           // Use href instead of replace to ensure cookie is set before navigation
           window.location.href = target;
         },

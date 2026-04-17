@@ -387,7 +387,7 @@ export default function Exercises() {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => setLocation(isDemo ? "/demo" : "/student/dashboard")}
+            onClick={() => setLocation(isDemo ? "/demo" : "/student/home")}
             className="text-slate-300 hover:text-white hover:bg-slate-700"
           >
             <ArrowLeft className="w-4 h-4" />

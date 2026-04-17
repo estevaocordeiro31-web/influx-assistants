@@ -346,7 +346,7 @@ export default function BadgesPage() {
       <div className="relative z-10">
         {/* Header */}
         <div className="px-5 pt-8 pb-6">
-          <button onClick={() => setLocation("/student/dashboard")}
+          <button onClick={() => setLocation("/student/home")}
             className="flex items-center gap-1 text-white/40 text-sm mb-5 hover:text-white/60 transition-colors">
             <ChevronLeft className="w-4 h-4" /> Dashboard
           </button>

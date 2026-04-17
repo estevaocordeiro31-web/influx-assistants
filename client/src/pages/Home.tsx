@@ -10,7 +10,7 @@ export default function Home() {
 
   if (isAuthenticated && user) {
     if (user.role === "user") {
-      setLocation("/student/dashboard");
+      setLocation("/student/home");
       return null;
     } else if (user.role === "admin") {
       setLocation("/admin/dashboard");

@@ -38,14 +38,14 @@ function OnboardingInner() {
       localStorage.setItem("imaind_student_onboarded", "true");
       localStorage.setItem("imaind_student_name", data.name);
       if (data.age) localStorage.setItem("imaind_student_age", String(data.age));
-      navigate("/student/dashboard");
+      navigate("/student/home");
     },
     onError: () => {
       // Save locally even if API fails
       localStorage.setItem("imaind_student_onboarded", "true");
       localStorage.setItem("imaind_student_name", data.name);
       if (data.age) localStorage.setItem("imaind_student_age", String(data.age));
-      navigate("/student/dashboard");
+      navigate("/student/home");
     },
   });
 

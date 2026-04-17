@@ -137,7 +137,7 @@ function LessonSelector({ bookId }: { bookId: number }) {
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
-          <Link href="/student/dashboard">
+          <Link href="/student/home">
             <Button variant="ghost" size="sm" className="text-slate-400 hover:text-white">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Voltar

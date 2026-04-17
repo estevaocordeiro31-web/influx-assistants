@@ -20,7 +20,7 @@ export default function StudentSplash() {
 
   const navigateToNext = useCallback(() => {
     const onboarded = localStorage.getItem("imaind_student_onboarded");
-    navigate(onboarded ? "/student/dashboard" : "/student/onboarding");
+    navigate(onboarded ? "/student/home" : "/student/onboarding");
   }, [navigate]);
 
   const startFadeAndNavigate = useCallback(() => {
@@ -90,6 +90,40 @@ export default function StudentSplash() {
           objectFit: "cover",
         }}
       />
+
+      {/* Logo overlay */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: "8%",
+          left: "50%",
+          transform: "translateX(-50%)",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 12,
+          zIndex: 10,
+          opacity: fading ? 0 : 1,
+          transition: `opacity ${FADE_DURATION_MS}ms ease-out`,
+        }}
+      >
+        <img
+          src="/influx-logo.png"
+          alt="inFlux"
+          style={{ height: 36, objectFit: "contain", opacity: 0.7 }}
+        />
+        <span
+          style={{
+            fontFamily: "'Syne', sans-serif",
+            fontWeight: 700,
+            fontSize: "0.75rem",
+            color: "rgba(255,255,255,0.35)",
+            letterSpacing: "0.1em",
+          }}
+        >
+          powered by Im<span style={{ color: "var(--imaind-blue-light, #4da8ff)" }}>AI</span>nd
+        </span>
+      </div>
     </div>
   );
 }

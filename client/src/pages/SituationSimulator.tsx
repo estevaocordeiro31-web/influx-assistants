@@ -644,7 +644,7 @@ export default function SituationSimulator() {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => setLocation("/student/dashboard")}
+            onClick={() => setLocation("/student/home")}
             className="text-slate-300 hover:text-white hover:bg-slate-700"
           >
             <ArrowLeft className="w-4 h-4" />

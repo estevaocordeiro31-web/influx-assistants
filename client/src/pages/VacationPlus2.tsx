@@ -93,7 +93,7 @@ export default function VacationPlus2() {
         <div className="relative overflow-hidden">
           <div className="px-5 pt-10 pb-8">
             {/* Back button */}
-            <button onClick={() => setLocation("/student/dashboard")}
+            <button onClick={() => setLocation("/student/home")}
               className="flex items-center gap-1 text-white/40 text-sm mb-6 hover:text-white/60 transition-colors">
               <ChevronLeft className="w-4 h-4" /> Dashboard
             </button>

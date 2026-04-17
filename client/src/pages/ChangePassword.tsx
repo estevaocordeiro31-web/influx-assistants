@@ -24,7 +24,7 @@ export default function ChangePassword() {
       setSuccess(true);
       toast.success('Senha alterada com sucesso!');
       setTimeout(() => {
-        window.location.replace('/student/dashboard');
+        window.location.replace('/student/home');
       }, 2000);
     },
     onError: (error) => {

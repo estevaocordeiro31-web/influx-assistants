@@ -1,11 +1,12 @@
 /**
  * ElieCompanion — Animated avatar with 5 presence states
- * Pure CSS animations, no external libs.
+ * Uses real Elie images per state + optional video for full size.
+ * Pure CSS animations for aura, sparkles, dots, waves.
  *
  * States: idle | greeting | talking | thinking | listening
  * Sizes:  mini (40px) | medium (80px) | full (200px)
  */
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export type ElieState = "idle" | "greeting" | "talking" | "thinking" | "listening";
 export type ElieSize = "mini" | "medium" | "full";
@@ -27,6 +28,23 @@ const AURA_COLORS: Record<ElieState, string> = {
   listening: "var(--elie-aura-listening, rgba(168,85,247,0.2))",
 };
 
+/** Static image per state (small files ~600KB) */
+const STATE_IMAGES: Record<ElieState, string> = {
+  idle: "/miss-elie-uniform-avatar.png",
+  greeting: "/miss-elie-uniform-waving.png",
+  talking: "/miss-elie-uniform-teaching.png",
+  thinking: "/elie-chat.png",
+  listening: "/miss-elie-uniform-avatar.png",
+};
+
+/** Video per state (only used at full size) */
+const STATE_VIDEOS: Record<string, string> = {
+  greeting: "/videos/elie/elie-greeting.mp4",
+  talking: "/videos/elie/elie-talking.mp4",
+  thinking: "/videos/elie/elie-thinking.mp4",
+  listening: "/videos/elie/elie-listening.mp4",
+};
+
 export function ElieCompanion({
   state = "idle",
   size = "medium",
@@ -38,6 +56,7 @@ export function ElieCompanion({
   const showDots = state === "thinking";
   const showWaves = state === "talking";
   const showRing = state === "listening";
+  const useVideo = size === "full" && state !== "idle" && STATE_VIDEOS[state];
 
   return (
     <div
@@ -92,7 +111,21 @@ export function ElieCompanion({
           zIndex: 2,
         }}
       >
-        <ElieAvatar size={px} state={state} />
+        {useVideo ? (
+          <ElieVideo src={STATE_VIDEOS[state]} size={px} />
+        ) : (
+          <img
+            src={STATE_IMAGES[state]}
+            alt="Elie"
+            style={{
+              width: px,
+              height: px,
+              objectFit: "cover",
+              display: "block",
+              borderRadius: "50%",
+            }}
+          />
+        )}
       </div>
 
       {/* Sparkles (greeting) */}
@@ -117,88 +150,29 @@ export function ElieCompanion({
    Sub-components
    ============================== */
 
-function ElieAvatar({ size, state }: { size: number; state: ElieState }) {
-  const eyeSize = size * 0.06;
-  const pupilSize = size * 0.03;
-  const smileWidth = size * 0.25;
+function ElieVideo({ src, size }: { src: string; size: number }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-  const eyeOpenness = state === "thinking" ? 0.7 : state === "listening" ? 1.2 : 1;
-  const mouthCurve = state === "greeting" ? 8 : state === "talking" ? 4 : state === "thinking" ? 0 : 5;
+  useEffect(() => {
+    videoRef.current?.play().catch(() => {});
+  }, [src]);
 
   return (
-    <svg
-      viewBox="0 0 100 100"
-      width={size}
-      height={size}
-      style={{ display: "block" }}
-    >
-      {/* Background circle */}
-      <circle cx="50" cy="50" r="50" fill="#e8f4fd" />
-
-      {/* Hair */}
-      <ellipse cx="50" cy="30" rx="38" ry="28" fill="#5a3825" />
-      <ellipse cx="50" cy="22" rx="34" ry="22" fill="#6b4430" />
-
-      {/* Face */}
-      <ellipse cx="50" cy="52" rx="30" ry="32" fill="#fce4c8" />
-
-      {/* Eyes */}
-      <g>
-        {/* Left eye */}
-        <ellipse
-          cx="39"
-          cy="48"
-          rx={eyeSize}
-          ry={eyeSize * eyeOpenness}
-          fill="white"
-          stroke="#d4a574"
-          strokeWidth="0.5"
-        />
-        <circle cx="39" cy="48" r={pupilSize} fill="#2d3a5c" />
-        <circle cx="38" cy="47" r={pupilSize * 0.4} fill="white" />
-
-        {/* Right eye */}
-        <ellipse
-          cx="61"
-          cy="48"
-          rx={eyeSize}
-          ry={eyeSize * eyeOpenness}
-          fill="white"
-          stroke="#d4a574"
-          strokeWidth="0.5"
-        />
-        <circle cx="61" cy="48" r={pupilSize} fill="#2d3a5c" />
-        <circle cx="60" cy="47" r={pupilSize * 0.4} fill="white" />
-      </g>
-
-      {/* Blush */}
-      <ellipse cx="33" cy="56" rx="5" ry="3" fill="rgba(255,150,150,0.3)" />
-      <ellipse cx="67" cy="56" rx="5" ry="3" fill="rgba(255,150,150,0.3)" />
-
-      {/* Mouth */}
-      {state === "talking" ? (
-        <ellipse cx="50" cy="62" rx="6" ry="4" fill="#e87a7a" />
-      ) : (
-        <path
-          d={`M ${50 - smileWidth / 2} 60 Q 50 ${60 + mouthCurve} ${50 + smileWidth / 2} 60`}
-          fill="none"
-          stroke="#c47a6a"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-        />
-      )}
-
-      {/* Elie's headband (blue — ImAInd brand) */}
-      <path
-        d="M 16 38 Q 50 28 84 38"
-        fill="none"
-        stroke="#1a6fdb"
-        strokeWidth="3"
-        strokeLinecap="round"
-      />
-      <circle cx="72" cy="35" r="3.5" fill="#1a6fdb" />
-      <circle cx="72" cy="35" r="1.5" fill="#4da8ff" />
-    </svg>
+    <video
+      ref={videoRef}
+      src={src}
+      autoPlay
+      loop
+      muted
+      playsInline
+      style={{
+        width: size,
+        height: size,
+        objectFit: "cover",
+        display: "block",
+        borderRadius: "50%",
+      }}
+    />
   );
 }
 

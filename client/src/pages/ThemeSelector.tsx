@@ -283,7 +283,7 @@ export default function ThemeSelector() {
         backdropFilter: 'blur(16px)',
         borderBottom: '1px solid rgba(255,255,255,0.06)',
       }}>
-        <button onClick={() => setLocation('/student/dashboard')} className="text-white/40 hover:text-white/70 transition-colors">
+        <button onClick={() => setLocation('/student/home')} className="text-white/40 hover:text-white/70 transition-colors">
           <ChevronLeft className="w-5 h-5" />
         </button>
         <div className="flex items-center gap-2">

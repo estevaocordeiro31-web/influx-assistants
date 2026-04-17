@@ -71,7 +71,7 @@ export default function EditProfile() {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => setLocation("/student/dashboard")}
+            onClick={() => setLocation("/student/home")}
             className="text-white hover:text-[#39ff14]"
           >
             <ArrowLeft className="w-4 h-4" />

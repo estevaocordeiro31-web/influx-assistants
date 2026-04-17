@@ -38,10 +38,10 @@ export default function InfluxHeader({ onOpenTutorial }: InfluxHeaderProps = {})
     }}>
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
         {/* Logo */}
-        <div className="flex items-center gap-3 cursor-pointer" onClick={() => setLocation("/student/dashboard")}>
+        <div className="flex items-center gap-3 cursor-pointer" onClick={() => setLocation("/student/home")}>
           <img
             src="/elie-chat.png"
-            alt="Fluxie"
+            alt="Elie"
             className="w-9 h-9 rounded-full object-cover"
           />
           <div className="hidden sm:block">
