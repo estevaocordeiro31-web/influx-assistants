@@ -12,6 +12,7 @@ import {
   type SpeedDatingQuestion, type EmojiPuzzle
 } from "@/data/valentines/games";
 import { CHARACTER_IMAGES } from "@/data/valentines/chunks";
+import { useValentinesScore } from "@/hooks/useValentinesScore";
 
 type GameType = "menu" | "scramble" | "match" | "tongue" | "emoji" | "speed";
 
@@ -250,6 +251,7 @@ function WordScrambleGame({ onBack }: { onBack: () => void }) {
         score={score}
         maxScore={shuffled.reduce((s, w) => s + w.points, 0)}
         onBack={onBack}
+        missionId="word-scramble"
       />
     );
   }
@@ -360,7 +362,7 @@ function LoveMatchGame({ onBack }: { onBack: () => void }) {
   };
 
   if (matched.size === pairs.length) {
-    return <GameOverScreen title="Love Match" score={score} maxScore={pairs.length * 20} onBack={onBack} />;
+    return <GameOverScreen title="Love Match" score={score} maxScore={pairs.length * 20} onBack={onBack} missionId="love-match" />;
   }
 
   return (
@@ -541,7 +543,7 @@ function EmojiDecoderGame({ onBack }: { onBack: () => void }) {
   };
 
   if (gameOver) {
-    return <GameOverScreen title="Emoji Decoder" score={score} maxScore={puzzles.reduce((s, p) => s + p.points, 0)} onBack={onBack} />;
+    return <GameOverScreen title="Emoji Decoder" score={score} maxScore={puzzles.reduce((s, p) => s + p.points, 0)} onBack={onBack} missionId="emoji-decoder" />;
   }
 
   return (
@@ -742,14 +744,23 @@ function GameOverScreen({
   score,
   maxScore,
   onBack,
+  missionId,
 }: {
   title: string;
   score: number;
   maxScore: number;
   onBack: () => void;
+  missionId?: string;
 }) {
+  const { saveScore } = useValentinesScore();
   const percentage = Math.round((score / maxScore) * 100);
   const emoji = percentage >= 80 ? "🏆" : percentage >= 50 ? "⭐" : "💪";
+
+  useEffect(() => {
+    if (missionId) {
+      saveScore(missionId, score, true);
+    }
+  }, [missionId, score, saveScore]);
 
   return (
     <div className="relative z-10 max-w-md mx-auto px-4 py-6 flex flex-col items-center justify-center min-h-[70vh]">

@@ -4,6 +4,7 @@ import { trpc } from '@/lib/trpc';
 import { KARAOKE_SONGS, KARAOKE_CELEBRATION_IMAGES, DECADE_INFO, type KaraokeSong } from '@/data/valentines/karaoke';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Music, Play, Pause, Trophy, Star, Heart, ChevronRight, Volume2, CheckCircle, XCircle, Sparkles } from 'lucide-react';
+import { useValentinesScore } from '@/hooks/useValentinesScore';
 
 // Shuffle array helper
 const shuffle = <T,>(arr: T[]): T[] => [...arr].sort(() => Math.random() - 0.5);
@@ -15,6 +16,7 @@ type GameState = 'menu' | 'decade-select' | 'playing' | 'checking' | 'result' | 
 
 export default function ValentinesKaraoke() {
   const [, navigate] = useLocation();
+  const { saveScore } = useValentinesScore();
   const [gameState, setGameState] = useState<GameState>('menu');
   const [selectedDecade, setSelectedDecade] = useState<string | null>(null);
   const [currentSongs, setCurrentSongs] = useState<KaraokeSong[]>([]);
@@ -132,6 +134,13 @@ export default function ValentinesKaraoke() {
       fetchPreview(currentSongs[nextIdx].deezerId);
     }
   };
+
+  // Save score when game ends
+  useEffect(() => {
+    if (gameState === 'final' && score > 0) {
+      saveScore('karaoke', score, true);
+    }
+  }, [gameState, score, saveScore]);
 
   // Cleanup audio on unmount
   useEffect(() => {

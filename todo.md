@@ -27,3 +27,6 @@
 - [x] Qual é a Música? - Gerar imagens dos personagens em noite de karaokê
 - [x] Qual é a Música? - Criar componente ValentinesKaraoke com áudio real
 - [x] Qual é a Música? - Integrar animações e pontuação
+- [ ] Integrar pontuação dos Games e Karaoke ao leaderboard (salvar no banco)
+- [ ] Modo multiplayer no Karaoke (dois alunos competem ao vivo)
+- [ ] Card do Karaoke no totem com QR Code direto para o game
