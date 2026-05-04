@@ -50,6 +50,7 @@ import { adminExportRouter } from "./routers/admin-export";
 import { extraExercisesRouter } from "./routers/extra-exercises";
 import { valentinesChatRouter } from "./routers/valentines-chat";
 import { culturalEventsRouter } from "./routers/cultural-events";
+import { deezerPreviewRouter } from "./routers/deezer-preview";
 
 export const appRouter = router({
   system: systemRouter,
@@ -112,6 +113,7 @@ export const appRouter = router({
   extraExercises: extraExercisesRouter,
   valentinesChat: valentinesChatRouter,
   culturalEvents: culturalEventsRouter,
+  deezerPreview: deezerPreviewRouter,
 });
 
 export type AppRouter = typeof appRouter;

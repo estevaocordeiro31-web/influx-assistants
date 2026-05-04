@@ -23,3 +23,7 @@
 - [x] Fix: TTS não deve redirecionar para login - usar fallback browser quando não autenticado
 - [x] Leaderboard visual com ranking de alunos (pontos Valentine's)
 - [x] Countdown timer para 12 de Junho no totem e home Valentine's
+- [x] Qual é a Música? - Pesquisar hits românticos internacionais (80s, 90s, 2000s, 2020s)
+- [x] Qual é a Música? - Gerar imagens dos personagens em noite de karaokê
+- [x] Qual é a Música? - Criar componente ValentinesKaraoke com áudio real
+- [x] Qual é a Música? - Integrar animações e pontuação

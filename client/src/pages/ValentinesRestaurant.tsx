@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import {
   Heart, ChevronRight, ChevronLeft, Volume2, Star, Trophy, BookOpen,
-  HelpCircle, Utensils, Globe, Sparkles, Check, X, ArrowLeft, MessageCircle, Send, Loader2
+  HelpCircle, Utensils, Globe, Sparkles, Check, X, ArrowLeft, MessageCircle, Send, Loader2, Music
 } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
@@ -287,6 +287,14 @@ export default function ValentinesRestaurant() {
               points={390}
               onClick={() => navigate('/events/valentines/games')}
               color="#00bcd4"
+            />
+            <MissionButton
+              icon={<Music size={18} className="text-purple-400" />}
+              title="🎤 Qual é a Música?"
+              description="Ouça trechos de hits românticos e adivinhe! 80s, 90s, 2000s, 2020s"
+              points={500}
+              onClick={() => navigate('/events/valentines/karaoke')}
+              color="#9C27B0"
             />
           </div>
         </div>
