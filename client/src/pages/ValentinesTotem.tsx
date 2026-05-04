@@ -1,161 +1,388 @@
+import { useRef, useState } from "react";
 import { QRCodeSVG } from "qrcode.react";
-import { Heart, Utensils, Star, Clock, Ticket } from "lucide-react";
-import { CHARACTER_IMAGES, HERO_BANNER } from "@/data/valentines/chunks";
+import { Heart, Utensils, Star, Music, Ticket, Clock, ChevronDown } from "lucide-react";
+import { CHARACTER_IMAGES, HERO_BANNER, CHARACTER_INFO, CHARACTER_COLORS } from "@/data/valentines/chunks";
 
 const ACTIVITY_URL = "https://influxassist-2anfqga4.manus.space/events/valentines";
-const LOGO_URL = "/logo-influx.png";
 
+// ─── Falling Hearts ──────────────────────────────────────────────────────────
+function FallingHearts() {
+  const items = useRef(
+    Array.from({ length: 24 }, (_, i) => ({
+      id: i,
+      left: `${3 + Math.random() * 94}%`,
+      delay: `${Math.random() * 12}s`,
+      duration: `${8 + Math.random() * 8}s`,
+      size: `${0.9 + Math.random() * 1.6}rem`,
+      emoji: ["❤️", "💕", "💗", "🩷", "♥️", "💖"][Math.floor(Math.random() * 6)],
+      sway: 20 + Math.random() * 40,
+    }))
+  ).current;
+
+  return (
+    <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+      {items.map((h) => (
+        <div
+          key={h.id}
+          className="absolute"
+          style={{
+            left: h.left,
+            top: "-3rem",
+            fontSize: h.size,
+            animation: `heartFall ${h.duration} ${h.delay} linear infinite`,
+            ["--sway" as string]: `${h.sway}px`,
+          }}
+        >
+          {h.emoji}
+        </div>
+      ))}
+      <style>{`
+        @keyframes heartFall {
+          0%   { transform: translateY(-60px) translateX(0) rotate(0deg) scale(0.6); opacity: 0; }
+          5%   { opacity: 0.8; scale: 1; }
+          25%  { transform: translateY(25vh) translateX(var(--sway)) rotate(90deg); }
+          50%  { transform: translateY(50vh) translateX(calc(var(--sway) * -0.5)) rotate(180deg); }
+          75%  { transform: translateY(75vh) translateX(var(--sway)) rotate(270deg); }
+          95%  { opacity: 0.7; }
+          100% { transform: translateY(108vh) translateX(0) rotate(360deg) scale(0.4); opacity: 0; }
+        }
+        @keyframes pulseGlow {
+          0%, 100% { box-shadow: 0 0 20px rgba(233,30,99,0.3), 0 0 60px rgba(233,30,99,0.1); }
+          50%      { box-shadow: 0 0 30px rgba(233,30,99,0.5), 0 0 80px rgba(233,30,99,0.2); }
+        }
+        @keyframes floatUp {
+          0%, 100% { transform: translateY(0); }
+          50%      { transform: translateY(-8px); }
+        }
+        @keyframes shimmer {
+          0%   { background-position: -200% center; }
+          100% { background-position: 200% center; }
+        }
+        @keyframes fadeSlideUp {
+          from { opacity: 0; transform: translateY(30px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes scaleIn {
+          from { opacity: 0; transform: scale(0.8); }
+          to   { opacity: 1; transform: scale(1); }
+        }
+        @keyframes borderPulse {
+          0%, 100% { border-color: rgba(233,30,99,0.3); }
+          50%      { border-color: rgba(233,30,99,0.6); }
+        }
+        @keyframes rotateHeart {
+          0%   { transform: rotate(0deg) scale(1); }
+          25%  { transform: rotate(5deg) scale(1.05); }
+          50%  { transform: rotate(0deg) scale(1); }
+          75%  { transform: rotate(-5deg) scale(1.05); }
+          100% { transform: rotate(0deg) scale(1); }
+        }
+        @keyframes slideInLeft {
+          from { transform: translateX(-60px); opacity: 0; }
+          to   { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideInRight {
+          from { transform: translateX(60px); opacity: 0; }
+          to   { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes breathe {
+          0%, 100% { opacity: 0.4; }
+          50%      { opacity: 0.8; }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+// ─── Glass Card ──────────────────────────────────────────────────────────────
+function GlassCard({
+  children,
+  className = "",
+  delay = 0,
+  glow = false,
+  style = {},
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+  glow?: boolean;
+  style?: React.CSSProperties;
+}) {
+  return (
+    <div
+      className={`rounded-3xl border ${className}`}
+      style={{
+        background: "rgba(255,255,255,0.04)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        borderColor: "rgba(255,255,255,0.08)",
+        animation: `fadeSlideUp 0.7s ${delay}s cubic-bezier(0.16,1,0.3,1) both${glow ? ", pulseGlow 4s ease-in-out infinite" : ""}`,
+        ...style,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+// ─── Character Card ──────────────────────────────────────────────────────────
+function CharacterCard({
+  character,
+  delay,
+}: {
+  character: "lucas" | "emily" | "aiko";
+  delay: number;
+}) {
+  const info = CHARACTER_INFO[character];
+  const color = CHARACTER_COLORS[character];
+  const img = CHARACTER_IMAGES[character].adult;
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <div
+      className="flex flex-col items-center cursor-pointer"
+      style={{
+        animation: `fadeSlideUp 0.6s ${delay}s cubic-bezier(0.16,1,0.3,1) both`,
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div
+        className="relative rounded-2xl overflow-hidden"
+        style={{
+          width: 110,
+          height: 140,
+          border: `3px solid ${hovered ? color : `${color}66`}`,
+          boxShadow: hovered
+            ? `0 0 30px ${color}55, 0 8px 32px rgba(0,0,0,0.4)`
+            : `0 4px 20px rgba(0,0,0,0.3)`,
+          transition: "all 0.4s cubic-bezier(0.16,1,0.3,1)",
+          transform: hovered ? "translateY(-6px) scale(1.03)" : "translateY(0) scale(1)",
+        }}
+      >
+        <img
+          src={img}
+          alt={info.name}
+          className="w-full h-full object-cover object-top"
+          style={{
+            transition: "transform 0.5s ease",
+            transform: hovered ? "scale(1.08)" : "scale(1)",
+          }}
+        />
+        {/* Gradient overlay */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `linear-gradient(to top, ${color}dd 0%, ${color}44 30%, transparent 60%)`,
+            opacity: hovered ? 1 : 0.7,
+            transition: "opacity 0.4s ease",
+          }}
+        />
+        {/* Name badge */}
+        <div className="absolute bottom-0 left-0 right-0 p-2 text-center">
+          <div className="text-white font-black text-sm leading-tight">
+            {info.name}
+          </div>
+          <div className="text-white/80 text-[0.6rem] font-medium">
+            {info.roleEmoji} {info.role}
+          </div>
+          {hovered && (
+            <div
+              className="text-white/60 text-[0.55rem] italic mt-0.5"
+              style={{ animation: "fadeSlideUp 0.3s ease both" }}
+            >
+              "{info.catchphrase}"
+            </div>
+          )}
+        </div>
+      </div>
+      {/* Flag + city */}
+      <div className="mt-2 text-center">
+        <span className="text-lg">{info.flag}</span>
+        <p className="text-white/50 text-[0.6rem] font-medium">{info.cityEn}</p>
+      </div>
+    </div>
+  );
+}
+
+// ─── Main Component ──────────────────────────────────────────────────────────
 export default function ValentinesTotem() {
   return (
     <div
+      className="min-h-screen relative overflow-hidden"
       style={{
-        minHeight: "100vh",
-        background: "linear-gradient(180deg, #1a0011 0%, #2d0a1e 30%, #1a0011 100%)",
-        overflow: "hidden",
-        position: "relative",
+        background: "linear-gradient(160deg, #1a0011 0%, #2d0a1e 30%, #1a0011 60%, #0d0008 100%)",
       }}
     >
-      {/* Floating hearts background */}
-      <div style={{ position: "absolute", inset: 0, pointerEvents: "none", overflow: "hidden" }}>
-        {[...Array(12)].map((_, i) => (
+      <FallingHearts />
+
+      {/* Ambient glow orbs */}
+      <div
+        className="fixed top-[-200px] left-[-200px] w-[500px] h-[500px] rounded-full pointer-events-none"
+        style={{
+          background: "radial-gradient(circle, rgba(233,30,99,0.15) 0%, transparent 70%)",
+          animation: "breathe 6s ease-in-out infinite",
+        }}
+      />
+      <div
+        className="fixed bottom-[-200px] right-[-200px] w-[500px] h-[500px] rounded-full pointer-events-none"
+        style={{
+          background: "radial-gradient(circle, rgba(136,14,79,0.15) 0%, transparent 70%)",
+          animation: "breathe 6s 3s ease-in-out infinite",
+        }}
+      />
+      <div
+        className="fixed top-[30%] right-[-100px] w-[300px] h-[300px] rounded-full pointer-events-none"
+        style={{
+          background: "radial-gradient(circle, rgba(255,111,0,0.08) 0%, transparent 70%)",
+          animation: "breathe 8s 1.5s ease-in-out infinite",
+        }}
+      />
+
+      <div className="relative z-10 max-w-lg mx-auto px-5 pb-10">
+
+        {/* ── HEADER ── */}
+        <div
+          className="text-center pt-10 pb-2"
+          style={{ animation: "fadeSlideUp 0.6s cubic-bezier(0.16,1,0.3,1) both" }}
+        >
+          <img
+            src="/logo-influx.png"
+            alt="inFlux"
+            className="h-10 mx-auto mb-4 object-contain"
+            style={{ filter: "drop-shadow(0 0 10px rgba(255,255,255,0.2))" }}
+          />
           <div
-            key={i}
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full"
             style={{
-              position: "absolute",
-              left: `${(i * 8.3) % 100}%`,
-              top: `${(i * 13.7) % 100}%`,
-              fontSize: `${14 + (i % 4) * 8}px`,
-              opacity: 0.06 + (i % 3) * 0.03,
-              color: "#e91e63",
-              transform: `rotate(${i * 30}deg)`,
+              background: "rgba(233,30,99,0.12)",
+              border: "1px solid rgba(233,30,99,0.25)",
+              backdropFilter: "blur(10px)",
+              animation: "borderPulse 3s ease-in-out infinite",
             }}
           >
-            ❤
-          </div>
-        ))}
-      </div>
-
-      <div style={{ position: "relative", zIndex: 1, maxWidth: 480, margin: "0 auto", padding: "0 20px" }}>
-
-        {/* ── HEADER / LOGO ── */}
-        <div style={{ textAlign: "center", paddingTop: 40 }}>
-          <img
-            src={LOGO_URL}
-            alt="inFlux"
-            style={{ height: 48, margin: "0 auto 12px", objectFit: "contain" }}
-          />
-          <div style={{
-            display: "inline-flex", alignItems: "center", gap: 6,
-            padding: "6px 16px", borderRadius: 20,
-            background: "rgba(233,30,99,0.15)", border: "1px solid rgba(233,30,99,0.3)",
-          }}>
-            <Heart size={14} style={{ color: "#e91e63" }} />
-            <span style={{ fontSize: "0.7rem", fontWeight: 700, color: "#f48fb1", letterSpacing: "0.05em" }}>
-              VALENTINE'S DAY SPECIAL
+            <Heart
+              size={16}
+              className="text-pink-400"
+              style={{ animation: "rotateHeart 2s ease-in-out infinite" }}
+              fill="currentColor"
+            />
+            <span className="text-xs font-bold text-pink-300 tracking-widest uppercase">
+              Valentine's Day Special
             </span>
+            <Heart
+              size={16}
+              className="text-pink-400"
+              style={{ animation: "rotateHeart 2s 0.5s ease-in-out infinite" }}
+              fill="currentColor"
+            />
           </div>
         </div>
 
         {/* ── HERO BANNER ── */}
-        <div style={{ marginTop: 24, borderRadius: 20, overflow: "hidden", position: "relative" }}>
-          <img
-            src={HERO_BANNER}
-            alt="Valentine's Restaurant"
-            style={{ width: "100%", height: 200, objectFit: "cover" }}
-          />
-          <div style={{
-            position: "absolute", bottom: 0, left: 0, right: 0,
-            background: "linear-gradient(transparent, rgba(26,0,17,0.95))",
-            padding: "40px 20px 16px",
-          }}>
-            <h1 style={{
-              fontSize: "1.6rem", fontWeight: 900, color: "#fff",
-              margin: 0, lineHeight: 1.1,
-              textShadow: "0 2px 8px rgba(0,0,0,0.5)",
-            }}>
-              inFlux Restaurant
-            </h1>
-            <p style={{ fontSize: "0.75rem", color: "#f48fb1", margin: "4px 0 0", fontWeight: 600 }}>
-              Valentine's Day Edition
-            </p>
+        <GlassCard className="mt-6 overflow-hidden p-0" delay={0.15}>
+          <div className="relative" style={{ height: 220 }}>
+            <img
+              src={HERO_BANNER}
+              alt="Valentine's Restaurant"
+              className="w-full h-full object-cover"
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background: "linear-gradient(to top, rgba(26,0,17,0.95) 0%, rgba(26,0,17,0.4) 40%, transparent 70%)",
+              }}
+            />
+            <div className="absolute bottom-0 left-0 right-0 p-5">
+              <h1
+                className="text-3xl font-black text-white leading-tight"
+                style={{
+                  textShadow: "0 2px 20px rgba(233,30,99,0.5), 0 0 40px rgba(0,0,0,0.5)",
+                  animation: "slideInLeft 0.7s 0.3s cubic-bezier(0.16,1,0.3,1) both",
+                }}
+              >
+                inFlux Restaurant
+              </h1>
+              <p
+                className="text-pink-300 text-sm font-semibold mt-1"
+                style={{
+                  animation: "slideInLeft 0.7s 0.45s cubic-bezier(0.16,1,0.3,1) both",
+                }}
+              >
+                Valentine's Day Edition — 12 de Junho
+              </p>
+            </div>
           </div>
-        </div>
+        </GlassCard>
 
         {/* ── CHARACTERS ── */}
-        <div style={{
-          display: "flex", justifyContent: "center", gap: 12, marginTop: 20,
-        }}>
-          {[
-            { name: "Lucas", role: "Chef", flag: "🇺🇸", img: CHARACTER_IMAGES.lucas.adult, color: "#e53935" },
-            { name: "Emily", role: "Sommelier", flag: "🇬🇧", img: CHARACTER_IMAGES.emily.adult, color: "#880E4F" },
-            { name: "Aiko", role: "Barista", flag: "🇦🇺", img: CHARACTER_IMAGES.aiko.adult, color: "#FF6F00" },
-          ].map(c => (
-            <div key={c.name} style={{ textAlign: "center" }}>
-              <img
-                src={c.img}
-                alt={c.name}
-                style={{
-                  width: 72, height: 72, borderRadius: "50%",
-                  objectFit: "cover", border: `3px solid ${c.color}`,
-                  boxShadow: `0 0 16px ${c.color}44`,
-                }}
-              />
-              <p style={{ fontSize: "0.7rem", fontWeight: 700, color: "#fff", margin: "6px 0 0" }}>
-                {c.name} {c.flag}
-              </p>
-              <p style={{ fontSize: "0.55rem", color: "#f48fb1", margin: 0 }}>{c.role}</p>
-            </div>
-          ))}
+        <div className="flex justify-center gap-5 mt-8">
+          <CharacterCard character="lucas" delay={0.5} />
+          <CharacterCard character="emily" delay={0.65} />
+          <CharacterCard character="aiko" delay={0.8} />
         </div>
 
         {/* ── DESCRIPTION ── */}
-        <div style={{
-          marginTop: 24, padding: "16px 20px", borderRadius: 16,
-          background: "rgba(233,30,99,0.08)", border: "1px solid rgba(233,30,99,0.2)",
-        }}>
-          <p style={{ fontSize: "0.8rem", color: "#fff", fontWeight: 600, margin: "0 0 8px", textAlign: "center" }}>
+        <GlassCard className="mt-8 p-5" delay={0.9}>
+          <p className="text-center text-white font-bold text-sm mb-3">
             Pratique inglês no restaurante!
           </p>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center" }}>
+          <div className="flex flex-wrap gap-2 justify-center">
             {[
-              { icon: <Utensils size={12} />, label: "Food Challenge com IA" },
-              { icon: <Star size={12} />, label: "Quiz Cultural" },
-              { icon: <Heart size={12} />, label: "Vocabulário Romântico" },
+              { icon: <Utensils size={13} />, label: "Food Challenge com IA", color: "#e53935" },
+              { icon: <Star size={13} />, label: "Quiz Cultural", color: "#880E4F" },
+              { icon: <Heart size={13} />, label: "Vocabulário Romântico", color: "#FF6F00" },
+              { icon: <Music size={13} />, label: "3 Sotaques Nativos", color: "#e91e63" },
             ].map((item, i) => (
-              <div key={i} style={{
-                display: "flex", alignItems: "center", gap: 4,
-                padding: "4px 10px", borderRadius: 12,
-                background: "rgba(255,255,255,0.06)",
-                fontSize: "0.6rem", color: "#f48fb1", fontWeight: 500,
-              }}>
+              <div
+                key={i}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium"
+                style={{
+                  background: `${item.color}18`,
+                  border: `1px solid ${item.color}33`,
+                  color: `${item.color}cc`,
+                  animation: `scaleIn 0.4s ${1 + i * 0.1}s cubic-bezier(0.16,1,0.3,1) both`,
+                }}
+              >
                 {item.icon}
                 {item.label}
               </div>
             ))}
           </div>
-        </div>
+        </GlassCard>
 
-        {/* ── QR CODE SECTION ── */}
-        <div style={{
-          marginTop: 28, textAlign: "center",
-          padding: "28px 20px", borderRadius: 20,
-          background: "linear-gradient(135deg, rgba(233,30,99,0.12), rgba(255,82,82,0.06))",
-          border: "2px solid rgba(233,30,99,0.25)",
-        }}>
-          <p style={{
-            fontSize: "0.9rem", fontWeight: 800, color: "#fff",
-            margin: "0 0 4px", textTransform: "uppercase", letterSpacing: "0.05em",
-          }}>
+        {/* ── QR CODE ── */}
+        <GlassCard className="mt-8 p-7 text-center" delay={1.1} glow>
+          <div
+            className="inline-flex items-center gap-2 mb-4"
+            style={{ animation: "floatUp 3s ease-in-out infinite" }}
+          >
+            <span className="text-2xl">📱</span>
+          </div>
+          <h2
+            className="text-lg font-black text-white uppercase tracking-wider mb-1"
+            style={{
+              background: "linear-gradient(90deg, #f48fb1, #fff, #f48fb1)",
+              backgroundSize: "200% auto",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              animation: "shimmer 3s linear infinite",
+            }}
+          >
             Escaneie e participe!
-          </p>
-          <p style={{ fontSize: "0.65rem", color: "#f48fb1", margin: "0 0 20px" }}>
+          </h2>
+          <p className="text-pink-300/60 text-xs mb-5">
             Aponte a câmera do celular para o QR Code
           </p>
 
-          <div style={{
-            display: "inline-block", padding: 16, borderRadius: 16,
-            background: "#fff", boxShadow: "0 0 30px rgba(233,30,99,0.3)",
-          }}>
+          <div
+            className="inline-block p-4 rounded-2xl"
+            style={{
+              background: "white",
+              boxShadow: "0 0 40px rgba(233,30,99,0.3), 0 0 80px rgba(233,30,99,0.1)",
+              animation: "pulseGlow 4s ease-in-out infinite",
+            }}
+          >
             <QRCodeSVG
               value={ACTIVITY_URL}
               size={200}
@@ -173,94 +400,129 @@ export default function ValentinesTotem() {
             />
           </div>
 
-          <p style={{
-            fontSize: "0.55rem", color: "rgba(244,143,177,0.6)", margin: "16px 0 0",
-            wordBreak: "break-all",
-          }}>
+          <p className="text-pink-300/30 text-[0.55rem] mt-4 break-all">
             {ACTIVITY_URL}
           </p>
-        </div>
+        </GlassCard>
 
-        {/* ── COMPETITION BANNER ── */}
-        <div style={{
-          marginTop: 24, padding: "16px 20px", borderRadius: 16,
-          background: "linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,152,0,0.06))",
-          border: "1px solid rgba(255,215,0,0.25)",
-          textAlign: "center",
-        }}>
-          <p style={{ fontSize: "1rem", margin: "0 0 4px" }}>🏆</p>
-          <p style={{ fontSize: "0.8rem", fontWeight: 800, color: "#ffd700", margin: "0 0 4px" }}>
+        {/* ── COMPETITION ── */}
+        <GlassCard
+          className="mt-8 p-5 text-center"
+          delay={1.3}
+          style={{
+            background: "linear-gradient(135deg, rgba(255,215,0,0.06), rgba(255,152,0,0.03))",
+            borderColor: "rgba(255,215,0,0.15)",
+          }}
+        >
+          <div style={{ animation: "floatUp 2.5s ease-in-out infinite" }}>
+            <span className="text-3xl">🏆</span>
+          </div>
+          <h3
+            className="text-base font-black mt-2 uppercase tracking-wider"
+            style={{
+              background: "linear-gradient(90deg, #ffd700, #ffaa00, #ffd700)",
+              backgroundSize: "200% auto",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              animation: "shimmer 4s linear infinite",
+            }}
+          >
             Competição entre alunos!
-          </p>
-          <p style={{ fontSize: "0.65rem", color: "#ffcc80", margin: 0 }}>
+          </h3>
+          <p className="text-amber-200/60 text-xs mt-2 leading-relaxed max-w-xs mx-auto">
             Complete as missões, ganhe pontos e dispute o ranking com seus colegas!
           </p>
-        </div>
+          <div className="flex justify-center gap-4 mt-4">
+            {[
+              { pts: "120", label: "Chunks" },
+              { pts: "100", label: "Quiz" },
+              { pts: "80", label: "Vocab" },
+              { pts: "60", label: "Facts" },
+            ].map((m, i) => (
+              <div
+                key={i}
+                className="text-center"
+                style={{ animation: `scaleIn 0.4s ${1.5 + i * 0.1}s cubic-bezier(0.16,1,0.3,1) both` }}
+              >
+                <div className="text-amber-300 font-black text-sm">{m.pts}</div>
+                <div className="text-amber-200/40 text-[0.55rem]">{m.label}</div>
+              </div>
+            ))}
+          </div>
+        </GlassCard>
 
         {/* ── CONVITES - EM BREVE ── */}
-        <div style={{
-          marginTop: 24, marginBottom: 40, padding: "24px 20px", borderRadius: 20,
-          background: "rgba(255,255,255,0.03)",
-          border: "1.5px dashed rgba(233,30,99,0.3)",
-          textAlign: "center",
-          position: "relative",
-          overflow: "hidden",
-        }}>
-          {/* Blur overlay */}
-          <div style={{
-            position: "absolute", inset: 0,
-            backdropFilter: "blur(2px)",
-            WebkitBackdropFilter: "blur(2px)",
-            background: "rgba(26,0,17,0.3)",
-            zIndex: 1,
-            display: "flex", flexDirection: "column",
-            alignItems: "center", justifyContent: "center",
-          }}>
-            <div style={{
-              padding: "8px 24px", borderRadius: 12,
-              background: "rgba(233,30,99,0.2)", border: "1px solid rgba(233,30,99,0.4)",
-            }}>
-              <Clock size={18} style={{ color: "#f48fb1", marginBottom: 4 }} />
-              <p style={{ fontSize: "0.9rem", fontWeight: 800, color: "#fff", margin: 0 }}>
-                Em breve
-              </p>
-              <p style={{ fontSize: "0.6rem", color: "#f48fb1", margin: "4px 0 0" }}>
-                Fique ligado!
-              </p>
+        <GlassCard
+          className="mt-8 overflow-hidden"
+          delay={1.5}
+          style={{
+            borderColor: "rgba(233,30,99,0.15)",
+            borderStyle: "dashed",
+          }}
+        >
+          <div className="relative p-6">
+            {/* Blur overlay */}
+            <div
+              className="absolute inset-0 z-10 flex flex-col items-center justify-center"
+              style={{
+                backdropFilter: "blur(4px)",
+                WebkitBackdropFilter: "blur(4px)",
+                background: "rgba(26,0,17,0.4)",
+              }}
+            >
+              <div
+                className="px-6 py-4 rounded-2xl text-center"
+                style={{
+                  background: "rgba(233,30,99,0.15)",
+                  border: "1px solid rgba(233,30,99,0.3)",
+                  backdropFilter: "blur(10px)",
+                  animation: "floatUp 3s ease-in-out infinite",
+                }}
+              >
+                <Clock size={24} className="text-pink-400 mx-auto mb-2" />
+                <p className="text-white font-black text-lg">Em breve</p>
+                <p className="text-pink-300/60 text-xs mt-1">Fique ligado!</p>
+              </div>
             </div>
-          </div>
 
-          {/* Content behind blur */}
-          <div style={{ opacity: 0.4 }}>
-            <Ticket size={32} style={{ color: "#e91e63", marginBottom: 8 }} />
-            <p style={{ fontSize: "0.9rem", fontWeight: 800, color: "#fff", margin: "0 0 6px" }}>
-              Valentine's Day Dinner
-            </p>
-            <p style={{ fontSize: "0.7rem", color: "#f48fb1", margin: "0 0 12px" }}>
-              Garanta seu convite para a noite especial!
-            </p>
-            <div style={{
-              display: "flex", justifyContent: "center", gap: 16,
-            }}>
-              <div style={{ textAlign: "center" }}>
-                <p style={{ fontSize: "0.6rem", color: "#888", margin: 0 }}>Data</p>
-                <p style={{ fontSize: "0.75rem", fontWeight: 700, color: "#fff", margin: 0 }}>14 de Fev</p>
-              </div>
-              <div style={{ textAlign: "center" }}>
-                <p style={{ fontSize: "0.6rem", color: "#888", margin: 0 }}>Horário</p>
-                <p style={{ fontSize: "0.75rem", fontWeight: 700, color: "#fff", margin: 0 }}>19h</p>
-              </div>
-              <div style={{ textAlign: "center" }}>
-                <p style={{ fontSize: "0.6rem", color: "#888", margin: 0 }}>Convite</p>
-                <p style={{ fontSize: "0.75rem", fontWeight: 700, color: "#fff", margin: 0 }}>R$ --</p>
+            {/* Content behind blur */}
+            <div className="opacity-40 text-center">
+              <Ticket size={36} className="text-pink-500 mx-auto mb-3" />
+              <p className="text-white font-black text-lg">
+                Valentine's Day Dinner
+              </p>
+              <p className="text-pink-300 text-sm mt-1 mb-4">
+                Garanta seu convite para a noite especial!
+              </p>
+              <div className="flex justify-center gap-8">
+                <div className="text-center">
+                  <p className="text-white/40 text-[0.6rem]">Data</p>
+                  <p className="text-white font-bold text-sm">12 de Jun</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-white/40 text-[0.6rem]">Horário</p>
+                  <p className="text-white font-bold text-sm">19h</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-white/40 text-[0.6rem]">Convite</p>
+                  <p className="text-white font-bold text-sm">R$ --</p>
+                </div>
               </div>
             </div>
           </div>
+        </GlassCard>
+
+        {/* ── SCROLL HINT ── */}
+        <div
+          className="flex flex-col items-center mt-6"
+          style={{ animation: "floatUp 2s ease-in-out infinite" }}
+        >
+          <ChevronDown size={20} className="text-white/15" />
         </div>
 
         {/* ── FOOTER ── */}
-        <div style={{ textAlign: "center", paddingBottom: 30 }}>
-          <p style={{ fontSize: "0.55rem", color: "rgba(255,255,255,0.2)" }}>
+        <div className="text-center mt-4 pb-6">
+          <p className="text-white/15 text-[0.55rem] tracking-wider">
             powered by inFlux English School
           </p>
         </div>

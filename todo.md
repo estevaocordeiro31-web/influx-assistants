@@ -16,3 +16,4 @@
 - [x] Valentine's Restaurant - Adicionar banner na StudentHomeNew
 - [x] Valentine's Totem page com QR Code para atividade
 - [x] Seção "Em breve" para convites do evento Valentine's
+- [x] Redesign ValentinesTotem com glassmorphism, motion effects e visual premium
