@@ -49,6 +49,7 @@ import { passportQRRouter } from "./routers/passport-qr";
 import { adminExportRouter } from "./routers/admin-export";
 import { extraExercisesRouter } from "./routers/extra-exercises";
 import { valentinesChatRouter } from "./routers/valentines-chat";
+import { culturalEventsRouter } from "./routers/cultural-events";
 
 export const appRouter = router({
   system: systemRouter,
@@ -110,6 +111,7 @@ export const appRouter = router({
   adminExport: adminExportRouter,
   extraExercises: extraExercisesRouter,
   valentinesChat: valentinesChatRouter,
+  culturalEvents: culturalEventsRouter,
 });
 
 export type AppRouter = typeof appRouter;

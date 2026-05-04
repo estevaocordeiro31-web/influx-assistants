@@ -3636,3 +3636,531 @@
 [2026-05-04T19:19:50.191Z] [Auth] Missing session cookie
 [2026-05-04T19:19:52.344Z] [Auth] Missing session cookie
 [2026-05-04T19:19:52.510Z] [Auth] Missing session cookie
+[2026-05-04T19:24:26.489Z] [Auth] Missing session cookie
+[2026-05-04T19:24:26.660Z] [Auth] Missing session cookie
+[2026-05-04T19:24:28.818Z] [Auth] Missing session cookie
+[2026-05-04T19:24:28.983Z] [Auth] Missing session cookie
+[2026-05-04T19:26:48.660Z] [Auth] Missing session cookie
+[2026-05-04T19:26:48.913Z] [Auth] Missing session cookie
+[2026-05-04T19:26:51.270Z] [Auth] Missing session cookie
+[2026-05-04T19:26:51.687Z] [Auth] Missing session cookie
+[2026-05-04T19:27:08.171Z] 3:27:08 PM [vite] (client) hmr update /src/App.tsx, /src/index.css
+[2026-05-04T19:27:09.526Z] [Auth] Missing session cookie
+[2026-05-04T19:27:11.459Z] [Auth] Missing session cookie
+[2026-05-04T19:27:11.640Z] [Auth] Missing session cookie
+[2026-05-04T19:27:14.343Z] [Auth] Missing session cookie
+[2026-05-04T19:27:14.616Z] [Auth] Missing session cookie
+[2026-05-04T19:27:59.408Z] 3:27:59 PM [vite] (client) hmr update /src/pages/ValentinesTotem.tsx, /src/index.css
+[2026-05-04T19:28:03.518Z] [Auth] Missing session cookie
+[2026-05-04T19:28:03.694Z] [Auth] Missing session cookie
+[2026-05-04T19:28:07.174Z] [Auth] Missing session cookie
+[2026-05-04T19:28:07.353Z] [Auth] Missing session cookie
+[2026-05-04T19:28:22.262Z] 3:28:22 PM [vite] (client) hmr update /src/pages/ValentinesTotem.tsx, /src/index.css
+[2026-05-04T19:28:22.364Z] 3:28:22 PM [vite] Internal server error: /home/ubuntu/influx-assistants/client/src/pages/ValentinesTotem.tsx: Unexpected token, expected "," (205:0)
+[2026-05-04T19:28:22.365Z] 
+[2026-05-04T19:28:22.366Z] 203 |       </div>
+[2026-05-04T19:28:22.366Z] 204 |     </div>// ─── Countdown Timer ──────────────────────────────────────────────────────────────────────
+[2026-05-04T19:28:22.366Z] > 205 | function CountdownTimer() {
+[2026-05-04T19:28:22.366Z] | ^
+[2026-05-04T19:28:22.366Z] 206 |   const targetDate = new Date('2026-06-12T19:00:00-03:00').getTime();
+[2026-05-04T19:28:22.367Z] 207 |   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+[2026-05-04T19:28:22.367Z] 208 |
+[2026-05-04T19:28:22.367Z] Plugin: vite:react-babel
+[2026-05-04T19:28:22.367Z] File: /home/ubuntu/influx-assistants/client/src/pages/ValentinesTotem.tsx:205:0
+[2026-05-04T19:28:22.368Z] 203 |        </div>
+[2026-05-04T19:28:22.368Z] 204 |      </div>// ─── Countdown Timer ──────────────────────────────────────────────────────────────────────
+[2026-05-04T19:28:22.368Z] 205 |  function CountdownTimer() {
+[2026-05-04T19:28:22.368Z] |  ^
+[2026-05-04T19:28:22.368Z] 206 |    const targetDate = new Date('2026-06-12T19:00:00-03:00').getTime();
+[2026-05-04T19:28:22.368Z] 207 |    const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+[2026-05-04T19:28:22.369Z] at toParseError (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parse-error.ts:95:45)
+[2026-05-04T19:28:22.369Z] at raise (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/tokenizer/index.ts:1504:19)
+[2026-05-04T19:28:22.369Z] at unexpected (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/tokenizer/index.ts:1544:16)
+[2026-05-04T19:28:22.369Z] at expect (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/util.ts:157:12)
+[2026-05-04T19:28:22.369Z] at parseParenAndDistinguishExpression (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:1801:14)
+[2026-05-04T19:28:22.369Z] at parseExprAtom (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:1170:21)
+[2026-05-04T19:28:22.369Z] at parseExprAtom (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/jsx/index.ts:583:22)
+[2026-05-04T19:28:22.370Z] at parseExprSubscripts (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:742:23)
+[2026-05-04T19:28:22.370Z] at parseUpdate (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:721:21)
+[2026-05-04T19:28:22.370Z] at parseMaybeUnary (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:683:23)
+[2026-05-04T19:28:22.370Z] at parseMaybeUnary (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:3893:20)
+[2026-05-04T19:28:22.370Z] at parseMaybeUnaryOrPrivate (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:417:14)
+[2026-05-04T19:28:22.371Z] at parseExprOps (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:429:23)
+[2026-05-04T19:28:22.371Z] at parseMaybeConditional (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:384:23)
+[2026-05-04T19:28:22.371Z] at parseMaybeAssign (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:301:21)
+[2026-05-04T19:28:22.371Z] at parseMaybeAssign (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:3764:22)
+[2026-05-04T19:28:22.372Z] at parseExpressionBase (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:226:23)
+[2026-05-04T19:28:22.372Z] at callback (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:217:39)
+[2026-05-04T19:28:22.372Z] at allowInAnd (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:3192:16)
+[2026-05-04T19:28:22.372Z] at parseExpression (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:217:17)
+[2026-05-04T19:28:22.373Z] at parseReturnStatement (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1115:28)
+[2026-05-04T19:28:22.373Z] at parseStatementContent (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:543:21)
+[2026-05-04T19:28:22.373Z] at parseStatementContent (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:3220:20)
+[2026-05-04T19:28:22.374Z] at parseStatementLike (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:482:17)
+[2026-05-04T19:28:22.374Z] at parseStatementListItem (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:431:17)
+[2026-05-04T19:28:22.374Z] at parseBlockOrModuleBlockBody (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1444:16)
+[2026-05-04T19:28:22.375Z] at parseBlockBody (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1417:10)
+[2026-05-04T19:28:22.375Z] at parseBlock (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1385:10)
+[2026-05-04T19:28:22.375Z] at parseFunctionBody (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:2621:24)
+[2026-05-04T19:28:22.375Z] at parseFunctionBodyAndFinish (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:2590:10)
+[2026-05-04T19:28:22.375Z] at parseFunctionBodyAndFinish (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:2609:20)
+[2026-05-04T19:28:22.376Z] at callback (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1695:12)
+[2026-05-04T19:28:22.376Z] at withSmartMixTopicForbiddingContext (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:3171:14)
+[2026-05-04T19:28:22.377Z] at parseFunction (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1693:10)
+[2026-05-04T19:28:22.377Z] at parseFunctionStatement (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1080:17)
+[2026-05-04T19:28:22.378Z] at parseStatementContent (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:525:21)
+[2026-05-04T19:28:22.378Z] at parseStatementContent (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:3220:20)
+[2026-05-04T19:28:22.379Z] at parseStatementLike (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:482:17)
+[2026-05-04T19:28:22.379Z] at parseModuleItem (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:419:17)
+[2026-05-04T19:28:22.379Z] at parseBlockOrModuleBlockBody (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1443:16)
+[2026-05-04T19:28:22.380Z] at parseBlockBody (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1417:10)
+[2026-05-04T19:28:22.380Z] at parseProgram (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:229:10)
+[2026-05-04T19:28:22.380Z] at parseTopLevel (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:203:25)
+[2026-05-04T19:28:22.381Z] at parse (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/index.ts:83:25)
+[2026-05-04T19:28:22.381Z] at parse (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:4354:20)
+[2026-05-04T19:28:22.381Z] at parse (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/index.ts:86:38)
+[2026-05-04T19:28:22.382Z] at parser (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+core@7.29.0/node_modules/@babel/core/src/parser/index.ts:29:19)
+[2026-05-04T19:28:22.382Z] at parser.next (<anonymous>)
+[2026-05-04T19:28:22.382Z] at normalizeFile (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+core@7.29.0/node_modules/@babel/core/src/transformation/normalize-file.ts:50:24)
+[2026-05-04T19:28:22.383Z] at normalizeFile.next (<anonymous>)
+[2026-05-04T19:28:22.435Z] 3:28:22 PM [vite] Internal server error: /home/ubuntu/influx-assistants/client/src/pages/ValentinesTotem.tsx: Unexpected token, expected "," (205:0)
+[2026-05-04T19:28:22.435Z] 
+[2026-05-04T19:28:22.435Z] 203 |       </div>
+[2026-05-04T19:28:22.436Z] 204 |     </div>// ─── Countdown Timer ──────────────────────────────────────────────────────────────────────
+[2026-05-04T19:28:22.436Z] > 205 | function CountdownTimer() {
+[2026-05-04T19:28:22.436Z] | ^
+[2026-05-04T19:28:22.436Z] 206 |   const targetDate = new Date('2026-06-12T19:00:00-03:00').getTime();
+[2026-05-04T19:28:22.436Z] 207 |   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+[2026-05-04T19:28:22.436Z] 208 |
+[2026-05-04T19:28:22.437Z] Plugin: vite:react-babel
+[2026-05-04T19:28:22.437Z] File: /home/ubuntu/influx-assistants/client/src/pages/ValentinesTotem.tsx:205:0
+[2026-05-04T19:28:22.437Z] 203 |        </div>
+[2026-05-04T19:28:22.437Z] 204 |      </div>// ─── Countdown Timer ──────────────────────────────────────────────────────────────────────
+[2026-05-04T19:28:22.437Z] 205 |  function CountdownTimer() {
+[2026-05-04T19:28:22.437Z] |  ^
+[2026-05-04T19:28:22.438Z] 206 |    const targetDate = new Date('2026-06-12T19:00:00-03:00').getTime();
+[2026-05-04T19:28:22.438Z] 207 |    const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+[2026-05-04T19:28:22.438Z] at toParseError (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parse-error.ts:95:45)
+[2026-05-04T19:28:22.438Z] at raise (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/tokenizer/index.ts:1504:19)
+[2026-05-04T19:28:22.438Z] at unexpected (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/tokenizer/index.ts:1544:16)
+[2026-05-04T19:28:22.438Z] at expect (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/util.ts:157:12)
+[2026-05-04T19:28:22.438Z] at parseParenAndDistinguishExpression (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:1801:14)
+[2026-05-04T19:28:22.439Z] at parseExprAtom (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:1170:21)
+[2026-05-04T19:28:22.439Z] at parseExprAtom (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/jsx/index.ts:583:22)
+[2026-05-04T19:28:22.439Z] at parseExprSubscripts (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:742:23)
+[2026-05-04T19:28:22.439Z] at parseUpdate (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:721:21)
+[2026-05-04T19:28:22.439Z] at parseMaybeUnary (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:683:23)
+[2026-05-04T19:28:22.439Z] at parseMaybeUnary (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:3893:20)
+[2026-05-04T19:28:22.439Z] at parseMaybeUnaryOrPrivate (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:417:14)
+[2026-05-04T19:28:22.439Z] at parseExprOps (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:429:23)
+[2026-05-04T19:28:22.440Z] at parseMaybeConditional (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:384:23)
+[2026-05-04T19:28:22.440Z] at parseMaybeAssign (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:301:21)
+[2026-05-04T19:28:22.440Z] at parseMaybeAssign (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:3764:22)
+[2026-05-04T19:28:22.440Z] at parseExpressionBase (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:226:23)
+[2026-05-04T19:28:22.440Z] at callback (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:217:39)
+[2026-05-04T19:28:22.440Z] at allowInAnd (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:3192:16)
+[2026-05-04T19:28:22.441Z] at parseExpression (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:217:17)
+[2026-05-04T19:28:22.441Z] at parseReturnStatement (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1115:28)
+[2026-05-04T19:28:22.441Z] at parseStatementContent (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:543:21)
+[2026-05-04T19:28:22.441Z] at parseStatementContent (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:3220:20)
+[2026-05-04T19:28:22.441Z] at parseStatementLike (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:482:17)
+[2026-05-04T19:28:22.441Z] at parseStatementListItem (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:431:17)
+[2026-05-04T19:28:22.442Z] at parseBlockOrModuleBlockBody (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1444:16)
+[2026-05-04T19:28:22.442Z] at parseBlockBody (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1417:10)
+[2026-05-04T19:28:22.442Z] at parseBlock (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1385:10)
+[2026-05-04T19:28:22.443Z] at parseFunctionBody (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:2621:24)
+[2026-05-04T19:28:22.444Z] at parseFunctionBodyAndFinish (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:2590:10)
+[2026-05-04T19:28:22.444Z] at parseFunctionBodyAndFinish (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:2609:20)
+[2026-05-04T19:28:22.445Z] at callback (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1695:12)
+[2026-05-04T19:28:22.445Z] at withSmartMixTopicForbiddingContext (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:3171:14)
+[2026-05-04T19:28:22.445Z] at parseFunction (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1693:10)
+[2026-05-04T19:28:22.445Z] at parseFunctionStatement (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1080:17)
+[2026-05-04T19:28:22.446Z] at parseStatementContent (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:525:21)
+[2026-05-04T19:28:22.446Z] at parseStatementContent (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:3220:20)
+[2026-05-04T19:28:22.446Z] at parseStatementLike (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:482:17)
+[2026-05-04T19:28:22.450Z] at parseModuleItem (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:419:17)
+[2026-05-04T19:28:22.451Z] at parseBlockOrModuleBlockBody (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1443:16)
+[2026-05-04T19:28:22.451Z] at parseBlockBody (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1417:10)
+[2026-05-04T19:28:22.451Z] at parseProgram (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:229:10)
+[2026-05-04T19:28:22.452Z] at parseTopLevel (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:203:25)
+[2026-05-04T19:28:22.452Z] at parse (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/index.ts:83:25)
+[2026-05-04T19:28:22.453Z] at parse (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:4354:20)
+[2026-05-04T19:28:22.453Z] at parse (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/index.ts:86:38)
+[2026-05-04T19:28:22.453Z] at parser (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+core@7.29.0/node_modules/@babel/core/src/parser/index.ts:29:19)
+[2026-05-04T19:28:22.454Z] at parser.next (<anonymous>)
+[2026-05-04T19:28:22.454Z] at normalizeFile (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+core@7.29.0/node_modules/@babel/core/src/transformation/normalize-file.ts:50:24)
+[2026-05-04T19:28:22.455Z] at normalizeFile.next (<anonymous>)
+[2026-05-04T19:28:22.455Z] 3:28:22 PM [vite] (client) Pre-transform error: /home/ubuntu/influx-assistants/client/src/pages/ValentinesTotem.tsx: Unexpected token, expected "," (205:0)
+[2026-05-04T19:28:22.455Z] 
+[2026-05-04T19:28:22.455Z] 203 |       </div>
+[2026-05-04T19:28:22.456Z] 204 |     </div>// ─── Countdown Timer ──────────────────────────────────────────────────────────────────────
+[2026-05-04T19:28:22.456Z] > 205 | function CountdownTimer() {
+[2026-05-04T19:28:22.456Z] | ^
+[2026-05-04T19:28:22.457Z] 206 |   const targetDate = new Date('2026-06-12T19:00:00-03:00').getTime();
+[2026-05-04T19:28:22.457Z] 207 |   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+[2026-05-04T19:28:22.458Z] 208 |
+[2026-05-04T19:28:22.458Z] Plugin: vite:react-babel
+[2026-05-04T19:28:22.458Z] File: /home/ubuntu/influx-assistants/client/src/pages/ValentinesTotem.tsx:205:0
+[2026-05-04T19:28:22.459Z] 203 |        </div>
+[2026-05-04T19:28:22.459Z] 204 |      </div>// ─── Countdown Timer ──────────────────────────────────────────────────────────────────────
+[2026-05-04T19:28:22.459Z] 205 |  function CountdownTimer() {
+[2026-05-04T19:28:22.459Z] |  ^
+[2026-05-04T19:28:22.460Z] 206 |    const targetDate = new Date('2026-06-12T19:00:00-03:00').getTime();
+[2026-05-04T19:28:22.460Z] 207 |    const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+[2026-05-04T19:28:22.614Z] 3:28:22 PM [vite] Internal server error: /home/ubuntu/influx-assistants/client/src/pages/ValentinesTotem.tsx: Unexpected token, expected "," (205:0)
+[2026-05-04T19:28:22.615Z] 
+[2026-05-04T19:28:22.616Z] 203 |       </div>
+[2026-05-04T19:28:22.616Z] 204 |     </div>// ─── Countdown Timer ──────────────────────────────────────────────────────────────────────
+[2026-05-04T19:28:22.616Z] > 205 | function CountdownTimer() {
+[2026-05-04T19:28:22.616Z] | ^
+[2026-05-04T19:28:22.617Z] 206 |   const targetDate = new Date('2026-06-12T19:00:00-03:00').getTime();
+[2026-05-04T19:28:22.617Z] 207 |   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+[2026-05-04T19:28:22.617Z] 208 |
+[2026-05-04T19:28:22.617Z] Plugin: vite:react-babel
+[2026-05-04T19:28:22.617Z] File: /home/ubuntu/influx-assistants/client/src/pages/ValentinesTotem.tsx:205:0
+[2026-05-04T19:28:22.617Z] 203 |        </div>
+[2026-05-04T19:28:22.618Z] 204 |      </div>// ─── Countdown Timer ──────────────────────────────────────────────────────────────────────
+[2026-05-04T19:28:22.618Z] 205 |  function CountdownTimer() {
+[2026-05-04T19:28:22.618Z] |  ^
+[2026-05-04T19:28:22.618Z] 206 |    const targetDate = new Date('2026-06-12T19:00:00-03:00').getTime();
+[2026-05-04T19:28:22.618Z] 207 |    const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+[2026-05-04T19:28:22.618Z] at toParseError (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parse-error.ts:95:45)
+[2026-05-04T19:28:22.618Z] at raise (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/tokenizer/index.ts:1504:19)
+[2026-05-04T19:28:22.619Z] at unexpected (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/tokenizer/index.ts:1544:16)
+[2026-05-04T19:28:22.619Z] at expect (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/util.ts:157:12)
+[2026-05-04T19:28:22.619Z] at parseParenAndDistinguishExpression (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:1801:14)
+[2026-05-04T19:28:22.620Z] at parseExprAtom (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:1170:21)
+[2026-05-04T19:28:22.621Z] at parseExprAtom (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/jsx/index.ts:583:22)
+[2026-05-04T19:28:22.621Z] at parseExprSubscripts (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:742:23)
+[2026-05-04T19:28:22.622Z] at parseUpdate (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:721:21)
+[2026-05-04T19:28:22.622Z] at parseMaybeUnary (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:683:23)
+[2026-05-04T19:28:22.623Z] at parseMaybeUnary (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:3893:20)
+[2026-05-04T19:28:22.623Z] at parseMaybeUnaryOrPrivate (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:417:14)
+[2026-05-04T19:28:22.623Z] at parseExprOps (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:429:23)
+[2026-05-04T19:28:22.624Z] at parseMaybeConditional (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:384:23)
+[2026-05-04T19:28:22.624Z] at parseMaybeAssign (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:301:21)
+[2026-05-04T19:28:22.624Z] at parseMaybeAssign (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:3764:22)
+[2026-05-04T19:28:22.625Z] at parseExpressionBase (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:226:23)
+[2026-05-04T19:28:22.625Z] at callback (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:217:39)
+[2026-05-04T19:28:22.626Z] at allowInAnd (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:3192:16)
+[2026-05-04T19:28:22.626Z] at parseExpression (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:217:17)
+[2026-05-04T19:28:22.626Z] at parseReturnStatement (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1115:28)
+[2026-05-04T19:28:22.627Z] at parseStatementContent (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:543:21)
+[2026-05-04T19:28:22.627Z] at parseStatementContent (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:3220:20)
+[2026-05-04T19:28:22.627Z] at parseStatementLike (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:482:17)
+[2026-05-04T19:28:22.628Z] at parseStatementListItem (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:431:17)
+[2026-05-04T19:28:22.628Z] at parseBlockOrModuleBlockBody (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1444:16)
+[2026-05-04T19:28:22.628Z] at parseBlockBody (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1417:10)
+[2026-05-04T19:28:22.629Z] at parseBlock (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1385:10)
+[2026-05-04T19:28:22.629Z] at parseFunctionBody (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:2621:24)
+[2026-05-04T19:28:22.629Z] at parseFunctionBodyAndFinish (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:2590:10)
+[2026-05-04T19:28:22.630Z] at parseFunctionBodyAndFinish (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:2609:20)
+[2026-05-04T19:28:22.630Z] at callback (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1695:12)
+[2026-05-04T19:28:22.630Z] at withSmartMixTopicForbiddingContext (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:3171:14)
+[2026-05-04T19:28:22.631Z] at parseFunction (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1693:10)
+[2026-05-04T19:28:22.632Z] at parseFunctionStatement (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1080:17)
+[2026-05-04T19:28:22.632Z] at parseStatementContent (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:525:21)
+[2026-05-04T19:28:22.632Z] at parseStatementContent (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:3220:20)
+[2026-05-04T19:28:22.632Z] at parseStatementLike (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:482:17)
+[2026-05-04T19:28:22.633Z] at parseModuleItem (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:419:17)
+[2026-05-04T19:28:22.633Z] at parseBlockOrModuleBlockBody (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1443:16)
+[2026-05-04T19:28:22.634Z] at parseBlockBody (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1417:10)
+[2026-05-04T19:28:22.635Z] at parseProgram (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:229:10)
+[2026-05-04T19:28:22.635Z] at parseTopLevel (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:203:25)
+[2026-05-04T19:28:22.635Z] at parse (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/index.ts:83:25)
+[2026-05-04T19:28:22.635Z] at parse (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:4354:20)
+[2026-05-04T19:28:22.636Z] at parse (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/index.ts:86:38)
+[2026-05-04T19:28:22.636Z] at parser (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+core@7.29.0/node_modules/@babel/core/src/parser/index.ts:29:19)
+[2026-05-04T19:28:22.636Z] at parser.next (<anonymous>)
+[2026-05-04T19:28:22.636Z] at normalizeFile (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+core@7.29.0/node_modules/@babel/core/src/transformation/normalize-file.ts:50:24)
+[2026-05-04T19:28:22.637Z] at normalizeFile.next (<anonymous>)
+[2026-05-04T19:28:24.148Z] 3:28:24 PM [vite] Internal server error: /home/ubuntu/influx-assistants/client/src/pages/ValentinesTotem.tsx: Unexpected token, expected "," (205:0)
+[2026-05-04T19:28:24.149Z] 
+[2026-05-04T19:28:24.149Z] 203 |       </div>
+[2026-05-04T19:28:24.149Z] 204 |     </div>// ─── Countdown Timer ──────────────────────────────────────────────────────────────────────
+[2026-05-04T19:28:24.150Z] > 205 | function CountdownTimer() {
+[2026-05-04T19:28:24.150Z] | ^
+[2026-05-04T19:28:24.150Z] 206 |   const targetDate = new Date('2026-06-12T19:00:00-03:00').getTime();
+[2026-05-04T19:28:24.150Z] 207 |   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+[2026-05-04T19:28:24.150Z] 208 |
+[2026-05-04T19:28:24.151Z] Plugin: vite:react-babel
+[2026-05-04T19:28:24.151Z] File: /home/ubuntu/influx-assistants/client/src/pages/ValentinesTotem.tsx:205:0
+[2026-05-04T19:28:24.151Z] 203 |        </div>
+[2026-05-04T19:28:24.151Z] 204 |      </div>// ─── Countdown Timer ──────────────────────────────────────────────────────────────────────
+[2026-05-04T19:28:24.151Z] 205 |  function CountdownTimer() {
+[2026-05-04T19:28:24.152Z] |  ^
+[2026-05-04T19:28:24.152Z] 206 |    const targetDate = new Date('2026-06-12T19:00:00-03:00').getTime();
+[2026-05-04T19:28:24.152Z] 207 |    const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+[2026-05-04T19:28:24.152Z] at toParseError (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parse-error.ts:95:45)
+[2026-05-04T19:28:24.152Z] at raise (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/tokenizer/index.ts:1504:19)
+[2026-05-04T19:28:24.152Z] at unexpected (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/tokenizer/index.ts:1544:16)
+[2026-05-04T19:28:24.153Z] at expect (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/util.ts:157:12)
+[2026-05-04T19:28:24.153Z] at parseParenAndDistinguishExpression (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:1801:14)
+[2026-05-04T19:28:24.154Z] at parseExprAtom (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:1170:21)
+[2026-05-04T19:28:24.154Z] at parseExprAtom (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/jsx/index.ts:583:22)
+[2026-05-04T19:28:24.154Z] at parseExprSubscripts (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:742:23)
+[2026-05-04T19:28:24.154Z] at parseUpdate (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:721:21)
+[2026-05-04T19:28:24.155Z] at parseMaybeUnary (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:683:23)
+[2026-05-04T19:28:24.155Z] at parseMaybeUnary (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:3893:20)
+[2026-05-04T19:28:24.155Z] at parseMaybeUnaryOrPrivate (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:417:14)
+[2026-05-04T19:28:24.155Z] at parseExprOps (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:429:23)
+[2026-05-04T19:28:24.156Z] at parseMaybeConditional (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:384:23)
+[2026-05-04T19:28:24.156Z] at parseMaybeAssign (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:301:21)
+[2026-05-04T19:28:24.156Z] at parseMaybeAssign (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:3764:22)
+[2026-05-04T19:28:24.156Z] at parseExpressionBase (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:226:23)
+[2026-05-04T19:28:24.157Z] at callback (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:217:39)
+[2026-05-04T19:28:24.157Z] at allowInAnd (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:3192:16)
+[2026-05-04T19:28:24.157Z] at parseExpression (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:217:17)
+[2026-05-04T19:28:24.157Z] at parseReturnStatement (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1115:28)
+[2026-05-04T19:28:24.158Z] at parseStatementContent (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:543:21)
+[2026-05-04T19:28:24.158Z] at parseStatementContent (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:3220:20)
+[2026-05-04T19:28:24.158Z] at parseStatementLike (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:482:17)
+[2026-05-04T19:28:24.158Z] at parseStatementListItem (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:431:17)
+[2026-05-04T19:28:24.159Z] at parseBlockOrModuleBlockBody (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1444:16)
+[2026-05-04T19:28:24.159Z] at parseBlockBody (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1417:10)
+[2026-05-04T19:28:24.160Z] at parseBlock (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1385:10)
+[2026-05-04T19:28:24.160Z] at parseFunctionBody (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:2621:24)
+[2026-05-04T19:28:24.160Z] at parseFunctionBodyAndFinish (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:2590:10)
+[2026-05-04T19:28:24.160Z] at parseFunctionBodyAndFinish (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:2609:20)
+[2026-05-04T19:28:24.162Z] at callback (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1695:12)
+[2026-05-04T19:28:24.163Z] at withSmartMixTopicForbiddingContext (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:3171:14)
+[2026-05-04T19:28:24.163Z] at parseFunction (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1693:10)
+[2026-05-04T19:28:24.164Z] at parseFunctionStatement (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1080:17)
+[2026-05-04T19:28:24.165Z] at parseStatementContent (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:525:21)
+[2026-05-04T19:28:24.165Z] at parseStatementContent (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:3220:20)
+[2026-05-04T19:28:24.165Z] at parseStatementLike (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:482:17)
+[2026-05-04T19:28:24.166Z] at parseModuleItem (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:419:17)
+[2026-05-04T19:28:24.166Z] at parseBlockOrModuleBlockBody (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1443:16)
+[2026-05-04T19:28:24.166Z] at parseBlockBody (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1417:10)
+[2026-05-04T19:28:24.167Z] at parseProgram (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:229:10)
+[2026-05-04T19:28:24.167Z] at parseTopLevel (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:203:25)
+[2026-05-04T19:28:24.168Z] at parse (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/index.ts:83:25)
+[2026-05-04T19:28:24.168Z] at parse (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:4354:20)
+[2026-05-04T19:28:24.169Z] at parse (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/index.ts:86:38)
+[2026-05-04T19:28:24.169Z] at parser (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+core@7.29.0/node_modules/@babel/core/src/parser/index.ts:29:19)
+[2026-05-04T19:28:24.169Z] at parser.next (<anonymous>)
+[2026-05-04T19:28:24.170Z] at normalizeFile (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+core@7.29.0/node_modules/@babel/core/src/transformation/normalize-file.ts:50:24)
+[2026-05-04T19:28:24.170Z] at normalizeFile.next (<anonymous>)
+[2026-05-04T19:28:28.083Z] 3:28:28 PM [vite] Internal server error: /home/ubuntu/influx-assistants/client/src/pages/ValentinesTotem.tsx: Unexpected token, expected "," (205:0)
+[2026-05-04T19:28:28.084Z] 
+[2026-05-04T19:28:28.085Z] 203 |       </div>
+[2026-05-04T19:28:28.085Z] 204 |     </div>// ─── Countdown Timer ──────────────────────────────────────────────────────────────────────
+[2026-05-04T19:28:28.085Z] > 205 | function CountdownTimer() {
+[2026-05-04T19:28:28.085Z] | ^
+[2026-05-04T19:28:28.085Z] 206 |   const targetDate = new Date('2026-06-12T19:00:00-03:00').getTime();
+[2026-05-04T19:28:28.086Z] 207 |   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+[2026-05-04T19:28:28.086Z] 208 |
+[2026-05-04T19:28:28.086Z] Plugin: vite:react-babel
+[2026-05-04T19:28:28.086Z] File: /home/ubuntu/influx-assistants/client/src/pages/ValentinesTotem.tsx:205:0
+[2026-05-04T19:28:28.087Z] 203 |        </div>
+[2026-05-04T19:28:28.088Z] 204 |      </div>// ─── Countdown Timer ──────────────────────────────────────────────────────────────────────
+[2026-05-04T19:28:28.088Z] 205 |  function CountdownTimer() {
+[2026-05-04T19:28:28.089Z] |  ^
+[2026-05-04T19:28:28.089Z] 206 |    const targetDate = new Date('2026-06-12T19:00:00-03:00').getTime();
+[2026-05-04T19:28:28.089Z] 207 |    const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+[2026-05-04T19:28:28.089Z] at toParseError (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parse-error.ts:95:45)
+[2026-05-04T19:28:28.090Z] at raise (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/tokenizer/index.ts:1504:19)
+[2026-05-04T19:28:28.090Z] at unexpected (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/tokenizer/index.ts:1544:16)
+[2026-05-04T19:28:28.090Z] at expect (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/util.ts:157:12)
+[2026-05-04T19:28:28.091Z] at parseParenAndDistinguishExpression (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:1801:14)
+[2026-05-04T19:28:28.091Z] at parseExprAtom (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:1170:21)
+[2026-05-04T19:28:28.091Z] at parseExprAtom (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/jsx/index.ts:583:22)
+[2026-05-04T19:28:28.092Z] at parseExprSubscripts (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:742:23)
+[2026-05-04T19:28:28.092Z] at parseUpdate (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:721:21)
+[2026-05-04T19:28:28.092Z] at parseMaybeUnary (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:683:23)
+[2026-05-04T19:28:28.093Z] at parseMaybeUnary (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:3893:20)
+[2026-05-04T19:28:28.093Z] at parseMaybeUnaryOrPrivate (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:417:14)
+[2026-05-04T19:28:28.093Z] at parseExprOps (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:429:23)
+[2026-05-04T19:28:28.094Z] at parseMaybeConditional (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:384:23)
+[2026-05-04T19:28:28.094Z] at parseMaybeAssign (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:301:21)
+[2026-05-04T19:28:28.095Z] at parseMaybeAssign (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:3764:22)
+[2026-05-04T19:28:28.095Z] at parseExpressionBase (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:226:23)
+[2026-05-04T19:28:28.095Z] at callback (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:217:39)
+[2026-05-04T19:28:28.096Z] at allowInAnd (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:3192:16)
+[2026-05-04T19:28:28.096Z] at parseExpression (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:217:17)
+[2026-05-04T19:28:28.096Z] at parseReturnStatement (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1115:28)
+[2026-05-04T19:28:28.097Z] at parseStatementContent (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:543:21)
+[2026-05-04T19:28:28.098Z] at parseStatementContent (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:3220:20)
+[2026-05-04T19:28:28.098Z] at parseStatementLike (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:482:17)
+[2026-05-04T19:28:28.099Z] at parseStatementListItem (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:431:17)
+[2026-05-04T19:28:28.099Z] at parseBlockOrModuleBlockBody (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1444:16)
+[2026-05-04T19:28:28.099Z] at parseBlockBody (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1417:10)
+[2026-05-04T19:28:28.100Z] at parseBlock (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1385:10)
+[2026-05-04T19:28:28.100Z] at parseFunctionBody (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:2621:24)
+[2026-05-04T19:28:28.100Z] at parseFunctionBodyAndFinish (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:2590:10)
+[2026-05-04T19:28:28.100Z] at parseFunctionBodyAndFinish (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:2609:20)
+[2026-05-04T19:28:28.101Z] at callback (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1695:12)
+[2026-05-04T19:28:28.101Z] at withSmartMixTopicForbiddingContext (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/expression.ts:3171:14)
+[2026-05-04T19:28:28.101Z] at parseFunction (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1693:10)
+[2026-05-04T19:28:28.102Z] at parseFunctionStatement (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1080:17)
+[2026-05-04T19:28:28.102Z] at parseStatementContent (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:525:21)
+[2026-05-04T19:28:28.102Z] at parseStatementContent (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:3220:20)
+[2026-05-04T19:28:28.103Z] at parseStatementLike (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:482:17)
+[2026-05-04T19:28:28.103Z] at parseModuleItem (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:419:17)
+[2026-05-04T19:28:28.103Z] at parseBlockOrModuleBlockBody (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1443:16)
+[2026-05-04T19:28:28.103Z] at parseBlockBody (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1417:10)
+[2026-05-04T19:28:28.104Z] at parseProgram (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:229:10)
+[2026-05-04T19:28:28.104Z] at parseTopLevel (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:203:25)
+[2026-05-04T19:28:28.104Z] at parse (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/index.ts:83:25)
+[2026-05-04T19:28:28.105Z] at parse (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:4354:20)
+[2026-05-04T19:28:28.105Z] at parse (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/index.ts:86:38)
+[2026-05-04T19:28:28.106Z] at parser (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+core@7.29.0/node_modules/@babel/core/src/parser/index.ts:29:19)
+[2026-05-04T19:28:28.106Z] at parser.next (<anonymous>)
+[2026-05-04T19:28:28.107Z] at normalizeFile (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+core@7.29.0/node_modules/@babel/core/src/transformation/normalize-file.ts:50:24)
+[2026-05-04T19:28:28.107Z] at normalizeFile.next (<anonymous>)
+[2026-05-04T19:28:36.680Z] 3:28:36 PM [vite] (client) hmr update /src/pages/ValentinesTotem.tsx, /src/index.css
+[2026-05-04T19:28:39.759Z] [Auth] Missing session cookie
+[2026-05-04T19:28:39.943Z] [Auth] Missing session cookie
+[2026-05-04T19:28:44.518Z] [Auth] Missing session cookie
+[2026-05-04T19:28:44.961Z] [Auth] Missing session cookie
+[2026-05-04T19:28:51.721Z] [Auth] Missing session cookie
+[2026-05-04T19:28:51.900Z] [Auth] Missing session cookie
+[2026-05-04T19:28:53.332Z] Dev server process group stopped
+[2026-05-04T19:28:53.335Z] ELIFECYCLE  Command failed.
+[2026-05-04T19:28:53.364Z] Dev server exited with code -15
+[2026-05-04T19:28:56.360Z] Starting dev server with command: pnpm run dev
+[2026-05-04T19:28:56.936Z] 
+[2026-05-04T19:28:56.937Z] > influx-personal-tutor@1.1.0 dev /home/ubuntu/influx-assistants
+[2026-05-04T19:28:56.938Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-05-04T19:28:56.938Z] 
+[2026-05-04T19:28:58.807Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-04T19:28:59.162Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-04T19:28:59.213Z] Server running on http://localhost:3000/
+[2026-05-04T19:28:59.214Z] [Jobs] Inicializando jobs em background...
+[2026-05-04T19:28:59.230Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-04T19:28:59.231Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-04T19:28:59.231Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-04T19:29:10.159Z] [Auth] Missing session cookie
+[2026-05-04T19:29:10.343Z] [Auth] Missing session cookie
+[2026-05-04T19:29:18.089Z] [Auth] Missing session cookie
+[2026-05-04T19:29:18.098Z] [Auth] Missing session cookie
+[2026-05-04T19:29:23.599Z] [Auth] Missing session cookie
+[2026-05-04T19:29:23.775Z] [Auth] Missing session cookie
+[2026-05-04T19:30:14.019Z] [Auth] Missing session cookie
+[2026-05-04T19:31:02.392Z] 3:31:02 PM [tsx] change in ./server/routers.ts Restarting...
+[2026-05-04T19:31:03.590Z] c/home/ubuntu/influx-assistants/server/routers/cultural-events.ts:4
+[2026-05-04T19:31:03.591Z] import { culturalEvents, eventParticipants, eventMissionProgress } from "../../drizzle/schema";
+[2026-05-04T19:31:03.591Z] ^
+[2026-05-04T19:31:03.591Z] 
+[2026-05-04T19:31:03.592Z] SyntaxError: The requested module '../../drizzle/schema' does not provide an export named 'culturalEvents'
+[2026-05-04T19:31:03.592Z] at ModuleJob._instantiate (node:internal/modules/esm/module_job:180:21)
+[2026-05-04T19:31:03.592Z] at async ModuleJob.run (node:internal/modules/esm/module_job:263:5)
+[2026-05-04T19:31:03.592Z] at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:547:26)
+[2026-05-04T19:31:03.592Z] at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)
+[2026-05-04T19:31:03.593Z] 
+[2026-05-04T19:31:03.593Z] Node.js v22.13.0
+[2026-05-04T19:31:08.134Z] Dev server process group stopped
+[2026-05-04T19:31:08.137Z] ELIFECYCLE  Command failed.
+[2026-05-04T19:31:08.153Z] Dev server exited with code -15
+[2026-05-04T19:31:11.159Z] Starting dev server with command: pnpm run dev
+[2026-05-04T19:31:11.707Z] 
+[2026-05-04T19:31:11.708Z] > influx-personal-tutor@1.1.0 dev /home/ubuntu/influx-assistants
+[2026-05-04T19:31:11.708Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-05-04T19:31:11.708Z] 
+[2026-05-04T19:31:13.037Z] /home/ubuntu/influx-assistants/server/routers/cultural-events.ts:4
+[2026-05-04T19:31:13.038Z] import { culturalEvents, eventParticipants, eventMissionProgress } from "../../drizzle/schema";
+[2026-05-04T19:31:13.038Z] ^
+[2026-05-04T19:31:13.039Z] 
+[2026-05-04T19:31:13.039Z] SyntaxError: The requested module '../../drizzle/schema' does not provide an export named 'culturalEvents'
+[2026-05-04T19:31:13.039Z] at ModuleJob._instantiate (node:internal/modules/esm/module_job:180:21)
+[2026-05-04T19:31:13.040Z] at async ModuleJob.run (node:internal/modules/esm/module_job:263:5)
+[2026-05-04T19:31:13.040Z] at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:547:26)
+[2026-05-04T19:31:13.040Z] at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)
+[2026-05-04T19:31:13.040Z] 
+[2026-05-04T19:31:13.041Z] Node.js v22.13.0
+[2026-05-04T19:33:17.719Z] 3:33:17 PM [tsx] change in ./drizzle/schema.ts Rerunning...
+[2026-05-04T19:33:19.121Z] c/home/ubuntu/influx-assistants/drizzle/schema.ts:954
+[2026-05-04T19:33:19.121Z] startDate: bigint("start_date", { mode: "number" }),
+[2026-05-04T19:33:19.122Z] ^
+[2026-05-04T19:33:19.122Z] 
+[2026-05-04T19:33:19.122Z] 
+[2026-05-04T19:33:19.122Z] ReferenceError: bigint is not defined
+[2026-05-04T19:33:19.122Z] at <anonymous> (/home/ubuntu/influx-assistants/drizzle/schema.ts:954:14)
+[2026-05-04T19:33:19.123Z] at ModuleJob.run (node:internal/modules/esm/module_job:271:25)
+[2026-05-04T19:33:19.123Z] at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:547:26)
+[2026-05-04T19:33:19.123Z] at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)
+[2026-05-04T19:33:19.123Z] 
+[2026-05-04T19:33:19.124Z] Node.js v22.13.0
+[2026-05-04T19:33:44.535Z] 3:33:44 PM [tsx] change in ./drizzle/schema.ts Rerunning...
+[2026-05-04T19:33:46.027Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-04T19:33:46.229Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-04T19:33:46.280Z] Server running on http://localhost:3000/
+[2026-05-04T19:33:46.281Z] [Jobs] Inicializando jobs em background...
+[2026-05-04T19:33:46.298Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-04T19:33:46.298Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-04T19:33:46.299Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-04T19:33:51.023Z] [Auth] Missing session cookie
+[2026-05-04T19:33:51.205Z] [Auth] Missing session cookie
+[2026-05-04T19:34:01.372Z] [Auth] Missing session cookie
+[2026-05-04T19:34:01.546Z] [Auth] Missing session cookie
+[2026-05-04T19:34:33.475Z] [Auth] Missing session cookie
+[2026-05-04T19:34:33.647Z] [Auth] Missing session cookie
+[2026-05-04T19:34:37.068Z] [Auth] Missing session cookie
+[2026-05-04T19:34:37.261Z] [Auth] Missing session cookie
+[2026-05-04T19:35:35.373Z] [Auth] Missing session cookie
+[2026-05-04T19:35:35.553Z] [Auth] Missing session cookie
+[2026-05-04T19:35:37.877Z] [Auth] Missing session cookie
+[2026-05-04T19:35:40.311Z] [Auth] Missing session cookie
+[2026-05-04T19:35:40.517Z] [Auth] Missing session cookie
+[2026-05-04T19:36:43.413Z] 3:36:43 PM [tsx] change in ./drizzle/schema.ts Restarting...
+[2026-05-04T19:36:44.881Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-04T19:36:45.071Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-04T19:36:45.111Z] Server running on http://localhost:3000/
+[2026-05-04T19:36:45.111Z] [Jobs] Inicializando jobs em background...
+[2026-05-04T19:36:45.127Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-04T19:36:45.127Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-04T19:36:45.128Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-04T19:36:57.577Z] [Auth] Missing session cookie
+[2026-05-04T19:36:57.763Z] [Auth] Missing session cookie
+[2026-05-04T19:36:58.612Z] 3:36:58 PM [tsx] change in ./drizzle/schema.ts Restarting...
+[2026-05-04T19:37:00.046Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-04T19:37:00.239Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-04T19:37:00.278Z] Server running on http://localhost:3000/
+[2026-05-04T19:37:00.278Z] [Jobs] Inicializando jobs em background...
+[2026-05-04T19:37:00.293Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-04T19:37:00.294Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-04T19:37:00.294Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-04T19:37:04.499Z] [Auth] Missing session cookie
+[2026-05-04T19:37:04.678Z] [Auth] Missing session cookie
+[2026-05-04T19:37:21.946Z] [Auth] Missing session cookie
+[2026-05-04T19:37:22.146Z] [Auth] Missing session cookie
+[2026-05-04T19:37:24.571Z] Dev server process group stopped
+[2026-05-04T19:37:24.573Z] ELIFECYCLE  Command failed.
+[2026-05-04T19:37:24.629Z] Dev server exited with code -15
+[2026-05-04T19:37:27.597Z] Starting dev server with command: pnpm run dev
+[2026-05-04T19:37:28.148Z] 
+[2026-05-04T19:37:28.149Z] > influx-personal-tutor@1.1.0 dev /home/ubuntu/influx-assistants
+[2026-05-04T19:37:28.149Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-05-04T19:37:28.149Z] 
+[2026-05-04T19:37:29.639Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-04T19:37:29.832Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-04T19:37:29.873Z] Server running on http://localhost:3000/
+[2026-05-04T19:37:29.874Z] [Jobs] Inicializando jobs em background...
+[2026-05-04T19:37:29.890Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-04T19:37:29.891Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-04T19:37:29.891Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-04T19:37:44.451Z] [Auth] Missing session cookie
+[2026-05-04T19:37:51.624Z] [Auth] Missing session cookie
+[2026-05-04T19:39:19.908Z] [Auth] Missing session cookie
+[2026-05-04T19:39:20.080Z] [Auth] Missing session cookie
+[2026-05-04T19:39:23.717Z] [Auth] Missing session cookie
+[2026-05-04T19:39:24.069Z] [Auth] Missing session cookie
+[2026-05-04T19:40:18.724Z] 3:40:18 PM [vite] (client) hmr update /src/pages/ValentinesRestaurant.tsx, /src/index.css
+[2026-05-04T19:40:20.915Z] [Auth] Missing session cookie
+[2026-05-04T19:40:21.090Z] [Auth] Missing session cookie
+[2026-05-04T19:40:23.872Z] [Auth] Missing session cookie
+[2026-05-04T19:40:24.068Z] [Auth] Missing session cookie
+[2026-05-04T19:40:51.439Z] 3:40:51 PM [vite] (client) hmr update /src/pages/ValentinesRestaurant.tsx, /src/index.css
+[2026-05-04T19:40:54.739Z] [Auth] Missing session cookie
+[2026-05-04T19:40:54.911Z] [Auth] Missing session cookie
+[2026-05-04T19:40:56.963Z] [Auth] Missing session cookie
+[2026-05-04T19:40:57.138Z] [Auth] Missing session cookie
+[2026-05-04T19:41:03.923Z] 3:41:03 PM [vite] (client) hmr update /src/pages/ValentinesRestaurant.tsx, /src/index.css
+[2026-05-04T19:41:10.808Z] [Auth] Missing session cookie
+[2026-05-04T19:41:10.977Z] [Auth] Missing session cookie
+[2026-05-04T19:41:19.749Z] [Auth] Missing session cookie
+[2026-05-04T19:41:19.925Z] [Auth] Missing session cookie
+[2026-05-04T19:41:50.563Z] [Auth] Missing session cookie
+[2026-05-04T19:41:50.737Z] [Auth] Missing session cookie
+[2026-05-04T19:41:53.636Z] [Auth] Missing session cookie
+[2026-05-04T19:41:53.830Z] [Auth] Missing session cookie

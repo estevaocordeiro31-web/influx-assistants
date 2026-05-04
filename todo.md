@@ -21,3 +21,5 @@
 - [x] Games Arena Valentine's Day (Word Scramble, Love Match, Emoji Decoder, Tongue Twisters, Speed Dating)
 - [x] Botão Games Arena na home do ValentinesRestaurant
 - [x] Fix: TTS não deve redirecionar para login - usar fallback browser quando não autenticado
+- [x] Leaderboard visual com ranking de alunos (pontos Valentine's)
+- [x] Countdown timer para 12 de Junho no totem e home Valentine's

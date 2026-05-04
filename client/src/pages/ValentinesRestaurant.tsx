@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,6 +17,40 @@ import { VALENTINE_QUIZ } from "@/data/valentines/quiz";
 
 type AgeMode = 'teen' | 'adult';
 type Section = 'home' | 'chunks' | 'quiz' | 'curiosities' | 'vocab' | 'restaurant';
+
+// Countdown Timer Component
+function CountdownBanner() {
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  useEffect(() => {
+    const target = new Date('2026-06-12T19:00:00-03:00').getTime();
+    const update = () => {
+      const now = Date.now();
+      const diff = Math.max(0, target - now);
+      setTimeLeft({
+        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((diff / (1000 * 60)) % 60),
+        seconds: Math.floor((diff / 1000) % 60),
+      });
+    };
+    update();
+    const interval = setInterval(update, 1000);
+    return () => clearInterval(interval);
+  }, []);
+  return (
+    <div className="mb-4 p-3 rounded-xl bg-gradient-to-r from-red-500/20 to-pink-500/20 border border-red-500/30">
+      <p className="text-center text-pink-200 text-xs mb-1 font-medium">Faltam para o evento</p>
+      <div className="flex justify-center gap-3">
+        {[{ v: timeLeft.days, l: 'dias' }, { v: timeLeft.hours, l: 'hrs' }, { v: timeLeft.minutes, l: 'min' }, { v: timeLeft.seconds, l: 'seg' }].map((t, i) => (
+          <div key={i} className="text-center">
+            <div className="text-white font-bold text-lg leading-none">{String(t.v).padStart(2, '0')}</div>
+            <div className="text-pink-300/60 text-[9px] mt-0.5">{t.l}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function ValentinesRestaurant() {
   const [, navigate] = useLocation();
@@ -177,6 +211,9 @@ export default function ValentinesRestaurant() {
             ))}
           </div>
 
+          {/* Countdown Timer */}
+          <CountdownBanner />
+
           {/* Score */}
           {totalPoints > 0 && (
             <div className="flex items-center justify-center gap-2 mb-4 bg-yellow-500/10 rounded-xl py-2 border border-yellow-500/20">
@@ -184,6 +221,18 @@ export default function ValentinesRestaurant() {
               <span className="text-yellow-300 font-bold text-sm">{totalPoints} pontos</span>
             </div>
           )}
+
+          {/* Leaderboard Link */}
+          <button
+            onClick={() => navigate('/events/valentines/leaderboard')}
+            className="w-full mb-4 flex items-center justify-between px-4 py-3 rounded-xl bg-gradient-to-r from-pink-500/20 to-purple-500/20 border border-pink-500/30 hover:border-pink-500/50 transition-all"
+          >
+            <div className="flex items-center gap-2">
+              <Trophy size={16} className="text-yellow-400" />
+              <span className="text-white font-medium text-sm">Ver Ranking ao Vivo</span>
+            </div>
+            <ArrowLeft size={14} className="text-pink-300 rotate-180" />
+          </button>
 
           {/* Missions */}
           <h2 className="text-white font-bold text-base mb-3 flex items-center gap-2">

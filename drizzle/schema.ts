@@ -945,3 +945,37 @@ export const presenceInteractions = mysqlTable("presence_interactions", {
 
 export type PresenceInteraction = typeof presenceInteractions.$inferSelect;
 export type InsertPresenceInteraction = typeof presenceInteractions.$inferInsert;
+
+// ─── Cultural Events (Valentine's, St. Patrick's, etc.) ─────────────────────
+export const culturalEvents = mysqlTable("cultural_events", {
+  id: varchar("id", { length: 50 }).primaryKey(),
+  name: varchar("name", { length: 100 }).notNull(),
+  eventDate: date("event_date").notNull(),
+  active: boolean("active").default(true),
+  config: json("config"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const eventParticipants = mysqlTable("event_participants", {
+  id: int("id").primaryKey().autoincrement(),
+  eventId: varchar("event_id", { length: 50 }).notNull(),
+  userId: int("user_id"),
+  guestName: varchar("guest_name", { length: 100 }),
+  guestWhatsapp: varchar("guest_whatsapp", { length: 20 }),
+  guestToken: varchar("guest_token", { length: 100 }),
+  totalPoints: int("total_points").default(0),
+  missionsCompleted: json("missions_completed"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const eventMissionProgress = mysqlTable("event_mission_progress", {
+  id: int("id").primaryKey().autoincrement(),
+  participantId: int("participant_id").notNull(),
+  missionId: varchar("mission_id", { length: 50 }).notNull(),
+  score: int("score").default(0),
+  completed: boolean("completed").default(false),
+  timeSpentSeconds: int("time_spent_seconds").default(0),
+  answers: json("answers"),
+  completedAt: timestamp("completed_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});

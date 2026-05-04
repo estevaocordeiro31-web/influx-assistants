@@ -1,6 +1,6 @@
-import { useRef, useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { QRCodeSVG } from "qrcode.react";
-import { Heart, Utensils, Star, Music, Ticket, Clock, ChevronDown } from "lucide-react";
+import { Heart, Utensils, Star, Music, Ticket, Clock, ChevronDown, Trophy } from "lucide-react";
 import { CHARACTER_IMAGES, HERO_BANNER, CHARACTER_INFO, CHARACTER_COLORS } from "@/data/valentines/chunks";
 
 const ACTIVITY_URL = "https://influxassist-2anfqga4.manus.space/events/valentines";
@@ -205,7 +205,81 @@ function CharacterCard({
   );
 }
 
-// ─── Main Component ──────────────────────────────────────────────────────────
+// ─── Countdown Timer ──────────────────────────────────────────────────────────────────────
+function CountdownTimer() {
+  const targetDate = new Date('2026-06-12T19:00:00-03:00').getTime();
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = Date.now();
+      const diff = targetDate - now;
+      if (diff <= 0) {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        clearInterval(interval);
+        return;
+      }
+      setTimeLeft({
+        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((diff / (1000 * 60)) % 60),
+        seconds: Math.floor((diff / 1000) % 60),
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [targetDate]);
+
+  const units = [
+    { value: timeLeft.days, label: 'Dias' },
+    { value: timeLeft.hours, label: 'Horas' },
+    { value: timeLeft.minutes, label: 'Min' },
+    { value: timeLeft.seconds, label: 'Seg' },
+  ];
+
+  return (
+    <GlassCard
+      className="mt-8 p-5 text-center"
+      delay={1.15}
+      style={{
+        background: "linear-gradient(135deg, rgba(233,30,99,0.08), rgba(136,14,79,0.05))",
+        borderColor: "rgba(233,30,99,0.2)",
+      }}
+    >
+      <div className="flex items-center justify-center gap-2 mb-3">
+        <Clock size={16} className="text-pink-400" />
+        <span className="text-pink-300 text-xs font-bold uppercase tracking-widest">
+          Contagem Regressiva
+        </span>
+      </div>
+      <div className="flex justify-center gap-3">
+        {units.map((u, i) => (
+          <div key={i} className="text-center">
+            <div
+              className="w-14 h-14 rounded-xl flex items-center justify-center"
+              style={{
+                background: "rgba(233,30,99,0.12)",
+                border: "1px solid rgba(233,30,99,0.25)",
+                boxShadow: "0 0 15px rgba(233,30,99,0.1)",
+              }}
+            >
+              <span className="text-white font-black text-xl tabular-nums">
+                {String(u.value).padStart(2, '0')}
+              </span>
+            </div>
+            <p className="text-pink-300/50 text-[0.55rem] font-semibold mt-1.5 uppercase">
+              {u.label}
+            </p>
+          </div>
+        ))}
+      </div>
+      <p className="text-pink-300/40 text-[0.6rem] mt-3">
+        12 de Junho de 2026 • 19h
+      </p>
+    </GlassCard>
+  );
+}
+
+// ─── Main Component ──────────────────────────────────────────────────────────────────────
 export default function ValentinesTotem() {
   return (
     <div
@@ -403,6 +477,23 @@ export default function ValentinesTotem() {
           <p className="text-pink-300/30 text-[0.55rem] mt-4 break-all">
             {ACTIVITY_URL}
           </p>
+        </GlassCard>
+
+        {/* ── COUNTDOWN TIMER ── */}
+        <CountdownTimer />
+
+        {/* ── LEADERBOARD LINK ── */}
+        <GlassCard className="mt-6 p-4 text-center" delay={1.25}>
+          <a
+            href="/events/valentines/leaderboard"
+            className="flex items-center justify-center gap-3 py-2 group"
+          >
+            <Trophy size={20} className="text-yellow-400" />
+            <span className="text-white font-bold text-sm group-hover:text-yellow-300 transition-colors">
+              Ver Ranking ao Vivo
+            </span>
+            <span className="text-yellow-400/60 text-xs">→</span>
+          </a>
         </GlassCard>
 
         {/* ── COMPETITION ── */}
