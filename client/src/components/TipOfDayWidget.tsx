@@ -52,7 +52,7 @@ export default function TipOfDayWidget({ tip, isLoading, onViewMore }: TipOfDayW
           <div className="flex items-start gap-3 flex-1">
             <div className="relative">
               <img 
-                src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/OwIgQozQmgnqPMOm.png" 
+                src="/miss-elie-uniform-avatar.png" 
                 alt="Fluxie Thinking" 
                 className="w-12 h-12 object-contain"
               />

@@ -60,7 +60,7 @@ export function ResetPasswordDialog({ open, onOpenChange, student }: ResetPasswo
 
   const handleCopyAll = () => {
     if (!resetResult) return;
-    const text = `🔐 Credenciais de Acesso - inFlux Personal Tutor\n\n🌐 Link: https://influxassist-2anfqga4.manus.space/login\n👤 Email: ${resetResult.email}\n🔑 Senha: ${resetResult.newPassword}\n\nAcesse e altere sua senha após o primeiro login.`;
+    const text = `🔐 Credenciais de Acesso - inFlux Personal Tutor\n\n🌐 Link: https://tutor.imaind.tech/login\n👤 Email: ${resetResult.email}\n🔑 Senha: ${resetResult.newPassword}\n\nAcesse e altere sua senha após o primeiro login.`;
     handleCopy(text);
   };
 
@@ -169,13 +169,13 @@ export function ResetPasswordDialog({ open, onOpenChange, student }: ResetPasswo
                     <div>
                       <p className="text-xs text-gray-500">URL de Acesso</p>
                       <p className="text-sm text-blue-400 font-mono">
-                        influxassist-2anfqga4.manus.space/login
+                        tutor.imaind.tech/login
                       </p>
                     </div>
                     <Button
                       size="sm"
                       variant="ghost"
-                      onClick={() => handleCopy('https://influxassist-2anfqga4.manus.space/login')}
+                      onClick={() => handleCopy('https://tutor.imaind.tech/login')}
                       className="text-gray-400 hover:text-white"
                     >
                       <Copy className="w-3 h-3" />

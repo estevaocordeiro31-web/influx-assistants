@@ -378,13 +378,13 @@ export default function TeacherDashboard() {
             >
               <p className="text-green-300 font-bold text-sm">📱 QR Code para os Alunos</p>
               <img
-                src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent("https://influxassist-2anfqga4.manus.space/events/register")}&bgcolor=021a06&color=40e080&margin=10`}
+                src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent("https://tutor.imaind.tech/events/register")}&bgcolor=021a06&color=40e080&margin=10`}
                 alt="QR Code"
                 className="rounded-xl"
                 style={{ width: "160px", height: "160px" }}
               />
               <p className="text-white/40 text-xs text-center">
-                influxassist-2anfqga4.manus.space/events/register
+                tutor.imaind.tech/events/register
               </p>
             </div>
           </div>

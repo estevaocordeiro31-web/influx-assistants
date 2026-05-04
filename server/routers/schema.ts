@@ -6,29 +6,20 @@ import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, decimal, boolean,
  * Columns use camelCase to match both database fields and generated types.
  */
 export const users = mysqlTable("users", {
-  /**
-   * Surrogate primary key. Auto-incremented numeric value managed by the database.
-   * Use this for relations between tables.
-   */
   id: int("id").autoincrement().primaryKey(),
-  /** Manus OAuth identifier (openId) returned from the OAuth callback. Unique per user. */
   openId: varchar("openId", { length: 64 }).notNull().unique(),
-  /** ID único legível do aluno (ex: INF-2026-0001) */
   studentId: varchar("student_id", { length: 20 }).unique(),
   name: text("name"),
   email: varchar("email", { length: 320 }),
-  /** Hashed password for traditional login (bcrypt) */
-  passwordHash: varchar("password_hash", { length: 255 }),
+  passwordHash: text("passwordHash"),
   loginMethod: varchar("loginMethod", { length: 64 }),
-  role: mysqlEnum("role", ["user", "admin", "owner"]).default("user").notNull(),
-  // Campo status não existe no banco centralizado, mas é usado no código
-  // Adicionado como opcional para compatibilidade
-  status: mysqlEnum("status", ["ativo", "inativo", "desistente", "trancado"]),
+  avatarUrl: text("avatarUrl"),
+  phone: varchar("phone", { length: 30 }),
+  role: mysqlEnum("role", ["user", "admin", "owner", "teacher"]).default("user").notNull(),
+  unidadeId: int("unidade_id").notNull().default(1),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
-  /** Indica se o usuário deve trocar a senha no próximo login */
-  mustChangePassword: boolean("must_change_password").default(false).notNull(),
 });
 
 export type User = typeof users.$inferSelect;
@@ -1089,3 +1080,57 @@ export const miningSession = mysqlTable("mining_session", {
 });
 export type MiningSession = typeof miningSession.$inferSelect;
 export type InsertMiningSession = typeof miningSession.$inferInsert;
+
+// ══════════════════════════════════════════════════════════════════════════════
+// PRESENCE SYSTEM — Phase 3: Multi-Contexto + QR Integration
+// ══════════════════════════════════════════════════════════════════════════════
+
+// Environments table — physical/digital locations
+export const environments = mysqlTable("environments", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 100 }).notNull(),
+  type: mysqlEnum("type", ["reception", "game_room", "cafe", "classroom", "garden", "app", "totem"]).notNull(),
+  locationName: varchar("location_name", { length: 255 }),
+  floor: varchar("floor", { length: 50 }),
+  room: varchar("room", { length: 50 }),
+  totemId: varchar("totem_id", { length: 100 }).unique(),
+  persona: json("persona"),
+  isActive: boolean("is_active").default(true).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+export type Environment = typeof environments.$inferSelect;
+export type InsertEnvironment = typeof environments.$inferInsert;
+
+// Environment visits — tracks student movements between environments
+export const environmentVisits = mysqlTable("environment_visits", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: varchar("student_id", { length: 20 }).notNull(),
+  environmentId: varchar("environment_id", { length: 100 }).notNull(),
+  arrivedAt: timestamp("arrived_at").defaultNow().notNull(),
+  leftAt: timestamp("left_at"),
+  xpEarned: int("xp_earned").default(0).notNull(),
+  influxDollarsEarned: int("influx_dollars_earned").default(0).notNull(),
+  interactions: int("interactions").default(0).notNull(),
+  checkInMethod: mysqlEnum("check_in_method", ["qr", "manual", "auto"]).default("qr").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type EnvironmentVisit = typeof environmentVisits.$inferSelect;
+export type InsertEnvironmentVisit = typeof environmentVisits.$inferInsert;
+
+// Totem sessions — per-totem interaction sessions
+export const totemSessions = mysqlTable("totem_sessions", {
+  id: int("id").autoincrement().primaryKey(),
+  totemId: varchar("totem_id", { length: 100 }).notNull(),
+  studentId: varchar("student_id", { length: 20 }),
+  startedAt: timestamp("started_at").defaultNow().notNull(),
+  endedAt: timestamp("ended_at"),
+  qrScannedAt: timestamp("qr_scanned_at"),
+  environmentId: varchar("environment_id", { length: 100 }),
+  presenceState: varchar("presence_state", { length: 50 }),
+  xpEarned: int("xp_earned").default(0).notNull(),
+  summary: json("summary"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type TotemSession = typeof totemSessions.$inferSelect;
+export type InsertTotemSession = typeof totemSessions.$inferInsert;

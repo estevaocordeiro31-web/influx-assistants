@@ -22,7 +22,7 @@ export default function ElliesSupportPage() {
       role: 'assistant',
       content: 'Olá! 👋 Sou a Ellie, sua coordenadora virtual. Estou aqui para ajudar com dúvidas sobre coordenação, atendimento a alunos e gestão de turmas. Como posso ajudá-lo hoje?',
       timestamp: new Date(),
-      avatar: 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/udcTuSkPDZbVRBpT.png',
+      avatar: '/miss-elie-uniform-teaching.png',
     },
   ]);
   const [inputValue, setInputValue] = useState('');
@@ -37,7 +37,7 @@ export default function ElliesSupportPage() {
         role: 'assistant',
         content: data.response,
         timestamp: new Date(),
-        avatar: 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/udcTuSkPDZbVRBpT.png',
+        avatar: '/miss-elie-uniform-teaching.png',
       };
       setMessages((prev) => [...prev, assistantMessage]);
       setIsLoading(false);
@@ -92,7 +92,7 @@ export default function ElliesSupportPage() {
           <div className="flex items-center gap-4 mb-4">
             <div className="w-16 h-16 rounded-full overflow-hidden border-4 border-indigo-600 shadow-lg">
               <img
-                src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/udcTuSkPDZbVRBpT.png"
+                src="/miss-elie-uniform-teaching.png"
                 alt="Ellie"
                 className="w-full h-full object-cover"
               />
@@ -155,7 +155,7 @@ export default function ElliesSupportPage() {
               {isLoading && (
                 <div className="flex gap-3 justify-start">
                   <img
-                    src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/udcTuSkPDZbVRBpT.png"
+                    src="/miss-elie-uniform-teaching.png"
                     alt="Ellie"
                     className="w-8 h-8 rounded-full object-cover flex-shrink-0"
                   />

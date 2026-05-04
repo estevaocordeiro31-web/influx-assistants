@@ -35,6 +35,7 @@ import TiagoPage from "./pages/TiagoPage";
 import AdminTiagoSetup from "./pages/AdminTiagoSetup";
 import AdminBulkSyncPage from "./pages/AdminBulkSyncPage";
 import { AccessBlockedPage } from "./pages/AccessBlockedPage";
+import { XPToastContainer } from "./components/XPToast";
 import ElliesSupportPage from "./pages/ElliesSupportPage";
 import SupportTicketsPage from "./pages/SupportTicketsPage";
 import InfluxPassportPage from "./pages/InfluxPassportPage";
@@ -46,37 +47,20 @@ import PassportSyncPage from "./pages/PassportSyncPage";
 import StudentStatsPage from "./pages/StudentStatsPage";
 import TestLoginDebug from "./pages/TestLoginDebug";
 import ExtraExercisesPage from "./pages/ExtraExercisesPage";
-import BadgesPage from "./pages/BadgesPage";
 import ChangePassword from "./pages/ChangePassword";
-import EventLanding from "./pages/events/EventLanding";
-import EventHub from "./pages/events/EventHub";
-import ChunkLesson from "./pages/events/ChunkLesson";
-import CultureQuiz from "./pages/events/CultureQuiz";
-import ChunkListening from "./pages/events/ChunkListening";
-import SpeakingChallenge from "./pages/events/SpeakingChallenge";
-import FoodChallenge from "./pages/events/FoodChallenge";
-import EventLeaderboard from "./pages/events/Leaderboard";
-import EventScore from "./pages/events/EventScore";
-import TongueTwisterChallenge from "./pages/events/TongueTwisterChallenge";
-import WhoAmIGame from "./pages/events/WhoAmIGame";
-import FinishTheLyrics from "./pages/events/FinishTheLyrics";
-import HotSeatGame from "./pages/events/HotSeatGame";
-import HotSeatPresenter from "./pages/events/HotSeatPresenter";
-import StPatricksIntro from "./pages/events/StPatricksIntro";
-import StPatricksIntroTV from "./pages/events/StPatricksIntroTV";
-import StPatricksIntroKids from "./pages/events/StPatricksIntroKids";
-import WelcomeScreen from "./pages/events/WelcomeScreen";
-import EventRegister from "./pages/events/EventRegister";
-import EventWelcome from "./pages/events/EventWelcome";
-import MineracaoHistoricoPage from "./pages/MineracaoHistoricoPage";
-import LeaderboardTV from "./pages/events/LeaderboardTV";
-import ReceptionTV from "./pages/events/ReceptionTV";
-import TeacherDashboard from "./pages/events/TeacherDashboard";
-import KidsHub from "./pages/events/KidsHub";
-import KidsTongueTwister from "./pages/events/KidsTongueTwister";
-import ClosingCeremony from "./pages/events/ClosingCeremony";
-import KidsWhoAmI from "./pages/events/KidsWhoAmI";
-import KidsSingAlong from "./pages/events/KidsSingAlong";
+import BadgesPage from "./pages/BadgesPage";
+import ThemeSelector from "./pages/ThemeSelector";
+import ElieAvatarPage from "./pages/ElieAvatarPage";
+import PresenceDashboard from "./components/PresenceDashboard";
+import TotemMode from "./pages/TotemMode";
+import StudentPassport from "./pages/StudentPassport";
+import VacationPlus2 from "./pages/VacationPlus2";
+import VacationPlus2Lesson from "./pages/VacationPlus2Lesson";
+import TotemManager from "./pages/admin/TotemManager";
+import StudentSplash from "./pages/StudentSplash";
+import StudentOnboarding from "./pages/StudentOnboarding";
+import StudentHomeNew from "./pages/StudentHomeNew";
+import StudentChatNew from "./pages/StudentChatNew";
 
 function Router() {
   const { isAuthenticated, user, loading } = useAuth();
@@ -88,10 +72,36 @@ function Router() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-slate-900">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-400 mx-auto mb-4"></div>
-          <p className="text-slate-400">Carregando...</p>
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(180deg, #06090f 0%, #0c1222 40%, #111827 100%)',
+        fontFamily: "'DM Sans', sans-serif",
+      }}>
+        <div style={{ textAlign: 'center' }}>
+          {/* Animated logo pulse */}
+          <div style={{
+            width: 56, height: 56, borderRadius: 16, margin: '0 auto 16px',
+            background: 'rgba(77,168,255,0.08)',
+            border: '1px solid rgba(77,168,255,0.12)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            animation: 'app-loading-pulse 2s ease-in-out infinite',
+          }}>
+            <div style={{
+              width: 24, height: 24, borderRadius: 8,
+              background: 'linear-gradient(135deg, #4da8ff, #6abf4b)',
+              opacity: 0.6,
+            }} />
+          </div>
+          <p style={{ color: 'rgba(255,255,255,0.25)', fontSize: '0.85rem' }}>Carregando...</p>
+          <style>{`
+            @keyframes app-loading-pulse {
+              0%, 100% { transform: scale(1); opacity: 0.6; }
+              50% { transform: scale(1.08); opacity: 1; }
+            }
+          `}</style>
         </div>
       </div>
     );
@@ -102,6 +112,10 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/student/splash" component={StudentSplash} />
+      <Route path="/student/onboarding" component={StudentOnboarding} />
+      <Route path="/student/home" component={StudentHomeNew} />
+      <Route path="/student/chat-elie" component={StudentChatNew} />
       <Route path="/login" component={Login} />
       <Route path="/change-password" component={ChangePassword} />
       <Route path="/logout" component={ForceLogout} />
@@ -129,32 +143,35 @@ function Router() {
       <Route path="/student/passport" component={InfluxPassportPage} />
       <Route path="/student/extra-exercises/:bookId/:lessonNumber" component={ExtraExercisesPage} />
       <Route path="/student/extra-exercises" component={ExtraExercisesPage} />
+      <Route path="/student/themes" component={ThemeSelector} />
       <Route path="/student/badges" component={BadgesPage} />
+      <Route path="/student/elie" component={ElieAvatarPage} />
+      <Route path="/student/presence" component={PresenceDashboard} />
+      <Route path="/book/vacation-plus-2" component={VacationPlus2} />
+      <Route path="/book/vacation-plus-2/lesson/:lessonNumber" component={VacationPlus2Lesson} />
+      <Route path="/passport/:studentId" component={StudentPassport} />
+      <Route path="/totem/:totemId" component={TotemMode} />
       <Route path="/passport/checkin" component={PassportCheckInPage} />
       <Route path="/passport/sync" component={PassportSyncPage} />
       {/* Rota exclusiva para Tiago */}
       {isAuthenticated && user?.email === "tiago.laerte@icloud.com" && (
         <Route path="/tiago" component={TiagoPage} />
       )}
-      {isAuthenticated && user?.role === "admin" && (
-        <>
-          <Route path="/admin/dashboard" component={AdminDashboard} />
-          <Route path="/admin/notifications" component={AdminNotifications} />
-          <Route path="/admin/personalized-links" component={PersonalizedLinksManager} />
-          <Route path="/admin/upload-materials" component={MaterialUploadPage} />
-          <Route path="/admin/gemini-suggestions" component={GeminiSuggestions} />
-          <Route path="/admin/gemini-analysis" component={GeminiStrategicAnalysis} />
-          <Route path="/admin/gemini-chat" component={GeminiChat} />
-          <Route path="/admin/tiago-setup" component={AdminTiagoSetup} />
-          <Route path="/admin/bulk-sync" component={AdminBulkSyncPage} />
-          <Route path="/support/ellie" component={ElliesSupportPage} />
-          <Route path="/support/tickets" component={SupportTicketsPage} />
-          <Route path="/admin/back-to-school" component={BackToSchoolAdminPage} />
-          <Route path="/admin/back-to-school-dashboard" component={BackToSchoolDashboard} />
-          <Route path="/admin/activities" component={AdminActivitiesPage} />
-          <Route path="/admin/mineracao-historico" component={MineracaoHistoricoPage} />
-        </>
-      )}
+      <Route path="/admin/dashboard" component={AdminDashboard} />
+      <Route path="/admin/notifications" component={AdminNotifications} />
+      <Route path="/admin/personalized-links" component={PersonalizedLinksManager} />
+      <Route path="/admin/upload-materials" component={MaterialUploadPage} />
+      <Route path="/admin/gemini-suggestions" component={GeminiSuggestions} />
+      <Route path="/admin/gemini-analysis" component={GeminiStrategicAnalysis} />
+      <Route path="/admin/gemini-chat" component={GeminiChat} />
+      <Route path="/admin/tiago-setup" component={AdminTiagoSetup} />
+      <Route path="/admin/bulk-sync" component={AdminBulkSyncPage} />
+      <Route path="/support/ellie" component={ElliesSupportPage} />
+      <Route path="/support/tickets" component={SupportTicketsPage} />
+      <Route path="/admin/back-to-school" component={BackToSchoolAdminPage} />
+      <Route path="/admin/back-to-school-dashboard" component={BackToSchoolDashboard} />
+      <Route path="/admin/activities" component={AdminActivitiesPage} />
+      <Route path="/admin/totems" component={TotemManager} />
       {/* Rotas de demonstração admin */}
       <Route path="/admin" component={AdminDashboard} />
       <Route path="/admin/student-stats" component={StudentStatsPage} />
@@ -163,35 +180,6 @@ function Router() {
       <Route path="/admin/upload-materials" component={MaterialUploadPage} />
       <Route path="/support/ellie" component={ElliesSupportPage} />
       <Route path="/support/tickets" component={SupportTicketsPage} />
-      {/* Rotas do módulo Cultural Events — acessíveis sem login */}
-      <Route path="/events" component={EventLanding} />
-      <Route path="/events/hub" component={EventHub} />
-      <Route path="/events/chunk-lesson" component={ChunkLesson} />
-      <Route path="/events/culture-quiz" component={CultureQuiz} />
-      <Route path="/events/chunk-listening" component={ChunkListening} />
-      <Route path="/events/speaking-challenge" component={SpeakingChallenge} />
-      <Route path="/events/food-challenge" component={FoodChallenge} />
-      <Route path="/events/leaderboard" component={EventLeaderboard} />
-      <Route path="/events/score" component={EventScore} />
-      <Route path="/events/tongue-twister" component={TongueTwisterChallenge} />
-      <Route path="/events/who-am-i" component={WhoAmIGame} />
-      <Route path="/events/finish-lyrics" component={FinishTheLyrics} />
-      <Route path="/events/hot-seat" component={HotSeatGame} />
-      <Route path="/events/hot-seat-tv" component={HotSeatPresenter} />
-      <Route path="/events/intro" component={StPatricksIntro} />
-      <Route path="/events/intro-tv" component={StPatricksIntroTV} />
-      <Route path="/events/kids/intro" component={StPatricksIntroKids} />
-      <Route path="/events/welcome-screen" component={WelcomeScreen} />
-      <Route path="/events/register" component={EventRegister} />
-      <Route path="/events/welcome" component={EventWelcome} />
-      <Route path="/events/leaderboard-tv" component={LeaderboardTV} />
-      <Route path="/events/reception-tv" component={ReceptionTV} />
-      <Route path="/events/teacher" component={TeacherDashboard} />
-      <Route path="/events/closing" component={ClosingCeremony} />
-      <Route path="/events/kids" component={KidsHub} />
-      <Route path="/events/kids/tongue-twister" component={KidsTongueTwister} />
-      <Route path="/events/kids/who-am-i" component={KidsWhoAmI} />
-      <Route path="/events/kids/sing-along" component={KidsSingAlong} />
       <Route path="/test-login" component={TestLogin} />
       <Route path="/test-login-debug" component={TestLoginDebug} />
       <Route path="/admin/student/:studentId/edit" component={StudentProfileEditPage} />
@@ -214,6 +202,7 @@ function App() {
       <ThemeProvider defaultTheme="dark">
         <TooltipProvider>
           <Toaster />
+          <XPToastContainer />
           <Router />
         </TooltipProvider>
       </ThemeProvider>

@@ -5,31 +5,30 @@ import type { TrpcContext } from "./context";
 
 const t = initTRPC.context<TrpcContext>().create({
   transformer: superjson,
+  errorFormatter({ shape, error }) {
+    // Extract clean message from Zod v4 validation errors
+    if (error.code === 'BAD_REQUEST' && error.cause && 'issues' in (error.cause as any)) {
+      const zodError = error.cause as { issues: Array<{ message: string }> };
+      const firstMessage = zodError.issues?.[0]?.message;
+      if (firstMessage) {
+        return {
+          ...shape,
+          message: firstMessage,
+        };
+      }
+    }
+    return shape;
+  },
 });
 
 export const router = t.router;
 export const publicProcedure = t.procedure;
 
-// Procedures que devem funcionar mesmo com mustChangePassword=true
-const ALLOWED_WHEN_MUST_CHANGE = [
-  "authPassword.changePassword",
-  "auth.me",
-  "auth.logout",
-];
-
 const requireUser = t.middleware(async opts => {
-  const { ctx, next, path } = opts;
+  const { ctx, next } = opts;
 
   if (!ctx.user) {
     throw new TRPCError({ code: "UNAUTHORIZED", message: UNAUTHED_ERR_MSG });
-  }
-
-  // Bloquear acesso quando senha precisa ser trocada
-  if (ctx.user.mustChangePassword && !ALLOWED_WHEN_MUST_CHANGE.includes(path)) {
-    throw new TRPCError({
-      code: "FORBIDDEN",
-      message: "MUST_CHANGE_PASSWORD",
-    });
   }
 
   return next({

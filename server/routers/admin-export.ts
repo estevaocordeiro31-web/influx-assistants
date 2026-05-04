@@ -29,13 +29,12 @@ export const adminExportRouter = router({
           name: users.name,
           email: users.email,
           role: users.role,
-          status: users.status,
           createdAt: users.createdAt,
           updatedAt: users.updatedAt,
           lastSignedIn: users.lastSignedIn,
         })
         .from(users)
-        .where(eq(users.status, "ativo"))
+        .where(eq(users.role, "user"))
         .orderBy(users.createdAt);
 
       // Enriquecer com dados de perfil e livro atual
@@ -116,13 +115,12 @@ export const adminExportRouter = router({
           name: users.name,
           email: users.email,
           role: users.role,
-          status: users.status,
           createdAt: users.createdAt,
           updatedAt: users.updatedAt,
           lastSignedIn: users.lastSignedIn,
         })
         .from(users)
-        .where(eq(users.status, "ativo"))
+        .where(eq(users.role, "user"))
         .orderBy(users.createdAt);
 
       // Enriquecer com dados de perfil e livro atual
@@ -192,7 +190,7 @@ export const adminExportRouter = router({
         escapeCSV(student.name || ""),
         escapeCSV(student.email || ""),
         student.role,
-        student.status || "",
+        student.role === "user" ? "Ativo" : student.role,
         student.objective,
         student.currentLevel,
         student.totalHoursLearned,
@@ -241,7 +239,7 @@ export const adminExportRouter = router({
       const totalActive = await db
         .select({ count: users.id })
         .from(users)
-        .where(eq(users.status, "ativo"));
+        .where(eq(users.role, "user"));
 
       // Alunos por nível
       const byLevel = await db
@@ -251,7 +249,7 @@ export const adminExportRouter = router({
         })
         .from(users)
         .innerJoin(studentProfiles, eq(users.id, studentProfiles.userId))
-        .where(eq(users.status, "ativo"));
+        .where(eq(users.role, "user"));
 
       // Alunos por livro
       const byBook = await db
@@ -262,7 +260,7 @@ export const adminExportRouter = router({
         .from(users)
         .innerJoin(studentBookHistory, eq(users.id, studentBookHistory.studentId))
         .innerJoin(books, eq(studentBookHistory.bookId, books.id))
-        .where(eq(users.status, "ativo"));
+        .where(eq(users.role, "user"));
 
       // Horas totais aprendidas
       const totalHours = await db
@@ -271,7 +269,7 @@ export const adminExportRouter = router({
         })
         .from(studentProfiles)
         .innerJoin(users, eq(studentProfiles.userId, users.id))
-        .where(eq(users.status, "ativo"));
+        .where(eq(users.role, "user"));
 
       const totalHoursSum = totalHours.reduce(
         (sum, row) => sum + (row.total || 0),

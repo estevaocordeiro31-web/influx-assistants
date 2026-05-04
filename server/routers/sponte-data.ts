@@ -1,129 +1,63 @@
-/**
- * Helper para extrair e processar dados do Sponte
- * Retorna frequência, faltas e avaliações do aluno
- */
+import { router, protectedProcedure } from '../_core/trpc';
+import { getSponteStudentData, formatSponteData } from '../helpers/sponte-data';
+import { TRPCError } from '@trpc/server';
 
-export interface SponteStudentData {
-  attendance: {
-    total: number;
-    present: number;
-    absent: number;
-    percentage: number;
-  };
-  absences: {
-    total: number;
-    justified: number;
-    unjustified: number;
-  };
-  evaluations: {
-    average: number;
-    lastScore: number;
-    trend: 'up' | 'down' | 'stable';
-  };
-}
-
-/**
- * Extrai dados do Sponte para um aluno
- * Por enquanto retorna dados mockados para teste
- * Será integrado com API real do Sponte depois
- */
-export async function getSponteStudentData(studentEmail: string): Promise<SponteStudentData> {
-  try {
-    // Mock data para Fabio durante testes
-    if (studentEmail === 'fabio_hk@hotmail.com') {
-      return {
-        attendance: {
-          total: 20,
-          present: 18,
-          absent: 2,
-          percentage: 90,
-        },
-        absences: {
-          total: 2,
-          justified: 1,
-          unjustified: 1,
-        },
-        evaluations: {
-          average: 8.5,
-          lastScore: 9.0,
-          trend: 'up',
-        },
-      };
+export const sponteDataRouter = router({
+  /**
+   * Obter dados do Sponte para o aluno autenticado
+   */
+  getMyData: protectedProcedure.query(async ({ ctx }) => {
+    if (!ctx.user) {
+      throw new TRPCError({
+        code: 'UNAUTHORIZED',
+        message: 'Usuário não autenticado',
+      });
     }
 
-    // Dados genéricos para outros alunos
-    return {
-      attendance: {
-        total: 20,
-        present: 16,
-        absent: 4,
-        percentage: 80,
-      },
-      absences: {
-        total: 4,
-        justified: 2,
-        unjustified: 2,
-      },
-      evaluations: {
-        average: 7.5,
-        lastScore: 7.8,
-        trend: 'stable',
-      },
-    };
-  } catch (error) {
-    console.error(`[Sponte Data] Erro ao obter dados para ${studentEmail}:`, error);
-    
-    // Retornar dados padrão em caso de erro
-    return {
-      attendance: {
-        total: 0,
-        present: 0,
-        absent: 0,
-        percentage: 0,
-      },
-      absences: {
-        total: 0,
-        justified: 0,
-        unjustified: 0,
-      },
-      evaluations: {
-        average: 0,
-        lastScore: 0,
-        trend: 'stable',
-      },
-    };
-  }
-}
+    try {
+      const email = ctx.user.email || 'unknown@example.com';
+      const data = await getSponteStudentData(email);
+      return {
+        success: true,
+        data: formatSponteData(data),
+      };
+    } catch (error) {
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: `Erro ao obter dados do Sponte: ${error}`,
+      });
+    }
+  }),
 
-/**
- * Calcula a tendência de avaliações
- * Compara última nota com média
- */
-export function calculateEvaluationTrend(
-  average: number,
-  lastScore: number
-): 'up' | 'down' | 'stable' {
-  const difference = lastScore - average;
-  
-  if (difference > 0.5) return 'up';
-  if (difference < -0.5) return 'down';
-  return 'stable';
-}
+  /**
+   * Obter dados do Sponte para um aluno específico (admin only)
+   */
+  getStudentData: protectedProcedure
+    .input((input: any) => {
+      if (typeof input.email !== 'string') {
+        throw new Error('Email inválido');
+      }
+      return input;
+    })
+    .query(async ({ input, ctx }) => {
+      if (ctx.user?.role !== 'admin') {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: 'Apenas administradores podem acessar dados de outros alunos',
+        });
+      }
 
-/**
- * Formata dados do Sponte para exibição
- */
-export function formatSponteData(data: SponteStudentData) {
-  return {
-    ...data,
-    attendance: {
-      ...data.attendance,
-      percentage: Math.round(data.attendance.percentage * 10) / 10,
-    },
-    evaluations: {
-      ...data.evaluations,
-      average: Math.round(data.evaluations.average * 10) / 10,
-      lastScore: Math.round(data.evaluations.lastScore * 10) / 10,
-    },
-  };
-}
+      try {
+        const data = await getSponteStudentData(input.email);
+        return {
+          success: true,
+          data: formatSponteData(data),
+        };
+      } catch (error) {
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: `Erro ao obter dados do Sponte: ${error}`,
+        });
+      }
+    }),
+});

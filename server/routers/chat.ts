@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { protectedProcedure, router } from "../_core/trpc";
 import { invokeLLM } from "../_core/llm";
 import { 
@@ -8,7 +9,6 @@ import {
   getChunksByContext,
 } from "../db";
 import { TRPCError } from "@trpc/server";
-import { getVipProfileForUser, getChatMemoriesForUser, saveChatMemory } from "./vip-profiles";
 
 const INFLUX_SYSTEM_PROMPT = `Você é um assistente de ensino de inglês especializado na metodologia inFlux de Chunks e Equivalência.
 
@@ -40,7 +40,6 @@ export const chatRouter = router({
         conversationId: z.number().optional(),
         objective: z.string().optional(),
         level: z.string().optional(),
-        book: z.string().optional(),
         message: z.string().min(1),
       })
     )
@@ -79,11 +78,84 @@ export const chatRouter = router({
           .map(c => `- "${c.englishChunk}" (${c.portugueseEquivalent}): ${c.example || 'Exemplo não disponível'}`)
           .join("\n");
 
-        // Buscar perfil VIP e memória do usuário (em paralelo)
-        const [vipProfile, chatMemories] = await Promise.all([
-          getVipProfileForUser(ctx.user.id).catch(() => null),
-          getChatMemoriesForUser(ctx.user.id).catch(() => ({} as Record<string, string>)),
-        ]);
+        const llmMessages = [
+          {
+            role: "system" as const,
+            content: `${INFLUX_SYSTEM_PROMPT}\n\nChunks relevantes para este aluno:\n${chunksContext}`,
+          },
+          ...previousMessages.map(msg => ({
+            role: msg.role as "user" | "assistant",
+            content: msg.content,
+          })),
+          {
+            role: "user" as const,
+            content: input.message,
+          },
+        ];
 
-        // Construir contexto personalizado
-        let personalizedContext = '';
+        const response = await invokeLLM({
+          messages: llmMessages,
+        });
+
+        const assistantMessage = typeof response.choices[0]?.message?.content === 'string' 
+          ? response.choices[0].message.content 
+          : "Desculpe, não consegui processar sua mensagem.";
+
+        await addMessageToConversation({
+          conversationId,
+          role: "user",
+          content: input.message,
+          createdAt: new Date(),
+        });
+
+        await addMessageToConversation({
+          conversationId,
+          role: "assistant",
+          content: assistantMessage,
+          createdAt: new Date(),
+        });
+
+        return {
+          conversationId,
+          message: assistantMessage,
+          timestamp: new Date(),
+        };
+      } catch (error) {
+        console.error("[Chat] Error:", error);
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Erro ao processar mensagem",
+        });
+      }
+    }),
+
+  getConversation: protectedProcedure
+    .input(z.object({ conversationId: z.number() }))
+    .query(async ({ ctx, input }) => {
+      if (!ctx.user) {
+        throw new TRPCError({ code: "UNAUTHORIZED" });
+      }
+
+      try {
+        const messages = await getConversationMessages(input.conversationId);
+        return messages;
+      } catch (error) {
+        console.error("[Chat] Error fetching conversation:", error);
+        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+      }
+    }),
+
+  listConversations: protectedProcedure.query(async ({ ctx }) => {
+    if (!ctx.user) {
+      throw new TRPCError({ code: "UNAUTHORIZED" });
+    }
+
+    try {
+      const { getConversationsByStudent } = await import("../db");
+      return await getConversationsByStudent(ctx.user.id);
+    } catch (error) {
+      console.error("[Chat] Error listing conversations:", error);
+      return [];
+    }
+  }),
+});

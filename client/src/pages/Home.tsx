@@ -1,126 +1,296 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { BookOpen, MessageCircle, Zap, TrendingUp, Award, Users, Play, ArrowRight, Sparkles, Film, GraduationCap } from "lucide-react";
+import { MessageCircle, Zap, TrendingUp, Award, Users, BookOpen, Play, ArrowRight, Sparkles, GraduationCap, Mic, Brain } from "lucide-react";
 import { useLocation } from "wouter";
-import { getLoginUrl } from "@/const";
+import { useState, useEffect } from "react";
 
 export default function Home() {
   const { isAuthenticated, user } = useAuth();
   const [, setLocation] = useLocation();
 
-  if (isAuthenticated && user) {
-    if (user.role === "user") {
-      setLocation("/student/dashboard");
-      return null;
-    } else if (user.role === "admin") {
-      setLocation("/admin/dashboard");
-      return null;
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      if (user.role === "user") {
+        setLocation("/student/home");
+      } else if (user.role === "admin") {
+        setLocation("/admin/dashboard");
+      }
     }
+  }, [isAuthenticated, user, setLocation]);
+
+  if (isAuthenticated && user) {
+    return null;
   }
 
+  const features = [
+    { icon: MessageCircle, title: "Chat com a Elie", desc: "Converse em tempo real com uma tutora que entende seu nível e objetivos.", color: "var(--imaind-blue)" },
+    { icon: Zap, title: "Chunks e Equivalência", desc: "Aprenda combinações de palavras reais usadas por nativos.", color: "var(--level-purple)" },
+    { icon: TrendingUp, title: "Spaced Repetition", desc: "Sistema inteligente que garante que você nunca esqueça.", color: "var(--imaind-green)" },
+    { icon: Award, title: "Exercícios Adaptativos", desc: "Prática focada no seu nível com feedback imediato.", color: "var(--xp-gold)" },
+    { icon: Users, title: "Simuladores Reais", desc: "Pratique situações reais: viagens, reuniões e mais.", color: "var(--streak-orange)" },
+    { icon: BookOpen, title: "Conteúdo Completo", desc: "Todo o conteúdo programático integrado ao app.", color: "var(--badge-emerald)" },
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+    <div className="tutor-app dark" style={{
+      minHeight: "100vh",
+      background: "linear-gradient(180deg, #0c1222 0%, #111827 50%, #0c1222 100%)",
+      fontFamily: "'DM Sans', sans-serif",
+    }}>
       {/* Header */}
-      <header className="border-b border-slate-800/50 backdrop-blur-sm bg-slate-900/80 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/influx-logo_17347370.jpeg" alt="inFlux" className="w-10 h-10 rounded-lg object-cover" />
-            <div>
-              <h1 className="text-xl font-bold text-white">inFlux <span className="text-green-400">Personal Tutor</span></h1>
-            </div>
+      <header style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 50,
+        background: "rgba(12,18,34,0.85)",
+        backdropFilter: "blur(16px)",
+        borderBottom: "1px solid rgba(255,255,255,0.06)",
+      }}>
+        <div style={{
+          maxWidth: 1200,
+          margin: "0 auto",
+          padding: "14px 20px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <GraduationCap size={24} style={{ color: "var(--imaind-blue-light)" }} />
+            <span style={{
+              fontFamily: "'Syne', sans-serif",
+              fontWeight: 700,
+              fontSize: "1.1rem",
+              color: "#fff",
+            }}>
+              ImAInd <span style={{ color: "var(--imaind-blue-light)" }}>TUTOR</span>
+            </span>
           </div>
-          <div className="flex items-center gap-3">
-            <Button 
-              onClick={() => setLocation("/lessons")}
-              variant="ghost" 
-              className="text-slate-300 hover:text-white hover:bg-slate-800"
-            >
-              <GraduationCap className="w-4 h-4 mr-2" />
-              Lessons
-            </Button>
-            <Button 
-              onClick={() => setLocation("/animations")}
-              variant="ghost" 
-              className="text-slate-300 hover:text-white hover:bg-slate-800"
-            >
-              <Film className="w-4 h-4 mr-2" />
-              Animations
-            </Button>
-            <Button 
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <button
               onClick={() => setLocation("/demo")}
-              variant="ghost" 
-              className="text-slate-300 hover:text-white hover:bg-slate-800"
+              style={{
+                background: "transparent",
+                border: "none",
+                color: "rgba(255,255,255,0.4)",
+                cursor: "pointer",
+                padding: "8px 14px",
+                borderRadius: 8,
+                fontSize: "0.875rem",
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+              }}
             >
-              <Play className="w-4 h-4 mr-2" />
-              Ver Demo
-            </Button>
-            <Button asChild className="bg-green-500 hover:bg-green-600 text-slate-900 font-bold">
-              <a href={getLoginUrl()}>Entrar</a>
-            </Button>
+              <Play size={14} /> Demo
+            </button>
+            <button
+              onClick={() => setLocation("/login")}
+              style={{
+                background: "var(--imaind-blue)",
+                color: "#fff",
+                border: "none",
+                padding: "8px 20px",
+                borderRadius: 10,
+                fontSize: "0.875rem",
+                fontWeight: 600,
+                cursor: "pointer",
+              }}
+            >
+              Entrar
+            </button>
           </div>
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-4 py-20">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <Badge className="mb-4 bg-green-500/20 text-green-400 border-green-500/30">
-              <Sparkles className="w-3 h-3 mr-1" />
-              Metodologia Exclusiva inFlux
-            </Badge>
-            <h2 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-              Aprenda Inglês como os 
-              <span className="text-green-400"> Nativos Falam</span>
-            </h2>
-            <p className="text-xl text-slate-300 mb-8 leading-relaxed">
-              Seu tutor pessoal de IA que ensina usando <strong className="text-white">Chunks e Equivalência</strong>. 
+      {/* Hero */}
+      <section style={{ maxWidth: 1200, margin: "0 auto", padding: "60px 20px 40px" }}>
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "1fr",
+          gap: 48,
+          alignItems: "center",
+        }} className="lg:grid-cols-2">
+          {/* Left — Text */}
+          <div style={{ animation: "hero-fade-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) both" }}>
+            <span style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 6,
+              fontSize: "0.75rem",
+              padding: "6px 14px",
+              borderRadius: 999,
+              background: "rgba(26,111,219,0.12)",
+              color: "var(--imaind-blue-light)",
+              border: "1px solid rgba(26,111,219,0.2)",
+              marginBottom: 24,
+            }}>
+              <Sparkles size={12} /> Metodologia Exclusiva inFlux
+            </span>
+
+            <h1 style={{
+              fontFamily: "'Syne', sans-serif",
+              fontWeight: 800,
+              fontSize: "clamp(2.2rem, 5vw, 3.5rem)",
+              lineHeight: 1.1,
+              color: "#fff",
+              marginBottom: 20,
+            }}>
+              Aprenda Inglês{" "}
+              <span style={{
+                background: "linear-gradient(135deg, var(--imaind-blue-light), var(--imaind-green-light))",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}>
+                como os Nativos Falam
+              </span>
+            </h1>
+
+            <p style={{
+              fontSize: "1.1rem",
+              color: "rgba(255,255,255,0.5)",
+              lineHeight: 1.7,
+              marginBottom: 32,
+              maxWidth: 480,
+            }}>
+              Sua tutora pessoal de IA que ensina usando{" "}
+              <strong style={{ color: "rgba(255,255,255,0.8)" }}>Chunks e Equivalência</strong>.
               Pratique expressões reais, não frases de livro.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button 
+
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+              <button
                 onClick={() => setLocation("/demo")}
-                size="lg" 
-                className="bg-green-500 hover:bg-green-600 text-slate-900 font-bold text-lg px-8 py-6"
+                style={{
+                  background: "var(--imaind-blue)",
+                  color: "#fff",
+                  border: "none",
+                  padding: "14px 28px",
+                  borderRadius: 12,
+                  fontSize: "1rem",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  boxShadow: "0 4px 20px rgba(26,111,219,0.3)",
+                  transition: "all 0.2s",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateY(-2px)";
+                  e.currentTarget.style.boxShadow = "0 8px 32px rgba(26,111,219,0.45)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.boxShadow = "0 4px 20px rgba(26,111,219,0.3)";
+                }}
               >
-                <Play className="w-5 h-5 mr-2" />
-                Experimentar Agora
-              </Button>
-              <Button 
-                asChild
-                size="lg" 
-                variant="outline"
-                className="border-slate-600 text-slate-300 hover:bg-slate-800 hover:text-white text-lg px-8 py-6"
+                <Play size={18} /> Experimentar Agora
+              </button>
+              <button
+                onClick={() => setLocation("/login")}
+                style={{
+                  background: "transparent",
+                  color: "rgba(255,255,255,0.6)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  padding: "14px 28px",
+                  borderRadius: 12,
+                  fontSize: "1rem",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                }}
               >
-                <a href={getLoginUrl()}>
-                  Fazer Login
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </a>
-              </Button>
+                Fazer Login <ArrowRight size={16} />
+              </button>
             </div>
           </div>
-          <div className="relative hidden lg:block">
-            <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-3xl blur-3xl"></div>
-            <div className="relative bg-slate-800/50 backdrop-blur border border-slate-700 rounded-3xl p-8">
-              <div className="flex items-center gap-4 mb-6">
-                <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/miss-elie-uniform-avatar_17347370.jpg" alt="Miss Elie" className="w-20 h-20 rounded-full object-cover border-2 border-green-500 shadow-lg shadow-green-500/30" />
+
+          {/* Right — Elie Chat Preview */}
+          <div style={{ position: "relative", animation: "hero-fade-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 200ms both" }} className="hidden lg:block">
+            {/* Glow */}
+            <div style={{
+              position: "absolute",
+              inset: -20,
+              borderRadius: 32,
+              background: "radial-gradient(circle at center, rgba(26,111,219,0.12) 0%, transparent 70%)",
+              filter: "blur(40px)",
+            }} />
+
+            {/* Chat card */}
+            <div style={{
+              position: "relative",
+              borderRadius: 20,
+              padding: 24,
+              background: "rgba(255,255,255,0.03)",
+              backdropFilter: "blur(12px)",
+              border: "1px solid rgba(255,255,255,0.08)",
+            }}>
+              {/* Elie header */}
+              <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 20 }}>
+                <div style={{ position: "relative" }}>
+                  <img
+                    src="/miss-elie-uniform-waving.png"
+                    alt="Elie"
+                    style={{ width: 56, height: 56, borderRadius: 16, objectFit: "cover" }}
+                  />
+                  <div style={{
+                    position: "absolute",
+                    bottom: 2,
+                    right: 2,
+                    width: 10,
+                    height: 10,
+                    borderRadius: "50%",
+                    background: "var(--imaind-green)",
+                    border: "2px solid #0c1222",
+                  }} />
+                </div>
                 <div>
-                  <h3 className="text-white font-bold text-xl">Olá! Eu sou a Elie 👋</h3>
-                  <p className="text-slate-400">Sua tutora pessoal de inglês</p>
+                  <h3 style={{
+                    fontFamily: "'Syne', sans-serif",
+                    fontWeight: 700,
+                    fontSize: "1.1rem",
+                    color: "#fff",
+                    margin: 0,
+                  }}>
+                    Olá! Eu sou a Elie
+                  </h3>
+                  <p style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.4)", margin: 0 }}>
+                    Sua tutora pessoal de inglês
+                  </p>
                 </div>
               </div>
-              <div className="space-y-4">
-                <div className="bg-slate-700/50 rounded-xl p-4">
-                  <p className="text-green-400 font-bold mb-1">"take it for granted"</p>
-                  <p className="text-slate-300 text-sm">= dar como certo</p>
-                  <p className="text-slate-500 text-xs mt-2 italic">"Don't take your health for granted."</p>
-                </div>
-                <div className="bg-slate-700/50 rounded-xl p-4">
-                  <p className="text-green-400 font-bold mb-1">"once in a blue moon"</p>
-                  <p className="text-slate-300 text-sm">= muito raramente</p>
-                  <p className="text-slate-500 text-xs mt-2 italic">"I only see him once in a blue moon."</p>
+
+              {/* Chat bubbles */}
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                <ChatBubble
+                  chunk="take it for granted"
+                  meaning="dar como certo"
+                  example="Don't take your health for granted."
+                />
+                <ChatBubble
+                  chunk="once in a blue moon"
+                  meaning="muito raramente"
+                  example="I only see him once in a blue moon."
+                />
+              </div>
+
+              {/* Input preview */}
+              <div style={{
+                marginTop: 16,
+                padding: "10px 14px",
+                borderRadius: 12,
+                background: "rgba(255,255,255,0.04)",
+                border: "1px solid rgba(255,255,255,0.06)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}>
+                <span style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.2)" }}>
+                  Fale com a Elie...
+                </span>
+                <div style={{ display: "flex", gap: 6 }}>
+                  <Mic size={14} style={{ color: "rgba(255,255,255,0.2)" }} />
                 </div>
               </div>
             </div>
@@ -129,130 +299,177 @@ export default function Home() {
       </section>
 
       {/* Features */}
-      <section className="max-w-7xl mx-auto px-4 py-16">
-        <div className="text-center mb-12">
-          <h3 className="text-3xl font-bold text-white mb-4">
-            Por que escolher o inFlux Personal Tutor?
-          </h3>
-          <p className="text-slate-400 max-w-2xl mx-auto">
-            Combinamos inteligência artificial com a metodologia comprovada da inFlux
+      <section style={{ maxWidth: 1200, margin: "0 auto", padding: "40px 20px 60px" }}>
+        <div style={{ textAlign: "center", marginBottom: 40 }}>
+          <h2 style={{
+            fontFamily: "'Syne', sans-serif",
+            fontWeight: 700,
+            fontSize: "clamp(1.5rem, 3vw, 2rem)",
+            color: "#fff",
+            marginBottom: 10,
+          }}>
+            Por que escolher o ImAInd TUTOR?
+          </h2>
+          <p style={{ color: "rgba(255,255,255,0.4)", maxWidth: 500, margin: "0 auto" }}>
+            Inteligência artificial + metodologia comprovada da inFlux
           </p>
         </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Card className="bg-slate-800/50 border-slate-700 hover:border-green-500/50 transition-colors">
-            <CardContent className="p-6">
-              <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center mb-4">
-                <MessageCircle className="w-6 h-6 text-green-400" />
-              </div>
-              <h4 className="text-white font-bold text-lg mb-2">Chat com IA</h4>
-              <p className="text-slate-400 text-sm">
-                Converse em tempo real com um assistente que entende seu nível e objetivos.
-              </p>
-            </CardContent>
-          </Card>
 
-          <Card className="bg-slate-800/50 border-slate-700 hover:border-blue-500/50 transition-colors">
-            <CardContent className="p-6">
-              <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mb-4">
-                <Zap className="w-6 h-6 text-blue-400" />
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+          gap: 14,
+        }}>
+          {features.map((f, i) => (
+            <div key={i} style={{
+              borderRadius: 16,
+              padding: 22,
+              background: "rgba(255,255,255,0.02)",
+              border: "1px solid rgba(255,255,255,0.06)",
+              transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+              cursor: "default",
+              position: "relative",
+              overflow: "hidden",
+              animation: `stagger-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${100 + i * 80}ms both`,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "rgba(255,255,255,0.05)";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)";
+              e.currentTarget.style.transform = "translateY(-3px)";
+              e.currentTarget.style.boxShadow = "0 8px 32px rgba(0,0,0,0.2)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "rgba(255,255,255,0.02)";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = "none";
+            }}>
+              <div style={{
+                width: 40,
+                height: 40,
+                borderRadius: 10,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                marginBottom: 14,
+                background: `color-mix(in srgb, ${f.color} 12%, transparent)`,
+              }}>
+                <f.icon size={18} style={{ color: f.color }} />
               </div>
-              <h4 className="text-white font-bold text-lg mb-2">Chunks e Equivalência</h4>
-              <p className="text-slate-400 text-sm">
-                Aprenda combinações de palavras reais usadas por nativos, com equivalências em português.
+              <h4 style={{ color: "#fff", fontWeight: 600, marginBottom: 6, fontSize: "0.95rem" }}>
+                {f.title}
+              </h4>
+              <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "0.85rem", lineHeight: 1.6, margin: 0 }}>
+                {f.desc}
               </p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-slate-800/50 border-slate-700 hover:border-purple-500/50 transition-colors">
-            <CardContent className="p-6">
-              <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center mb-4">
-                <TrendingUp className="w-6 h-6 text-purple-400" />
-              </div>
-              <h4 className="text-white font-bold text-lg mb-2">Spaced Repetition</h4>
-              <p className="text-slate-400 text-sm">
-                Sistema inteligente de revisão que garante que você nunca esqueça o que aprendeu.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-slate-800/50 border-slate-700 hover:border-yellow-500/50 transition-colors">
-            <CardContent className="p-6">
-              <div className="w-12 h-12 bg-yellow-500/20 rounded-xl flex items-center justify-center mb-4">
-                <Award className="w-6 h-6 text-yellow-400" />
-              </div>
-              <h4 className="text-white font-bold text-lg mb-2">Exercícios Adaptativos</h4>
-              <p className="text-slate-400 text-sm">
-                Prática focada no seu nível atual, com feedback imediato e personalizado.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-slate-800/50 border-slate-700 hover:border-orange-500/50 transition-colors">
-            <CardContent className="p-6">
-              <div className="w-12 h-12 bg-orange-500/20 rounded-xl flex items-center justify-center mb-4">
-                <Users className="w-6 h-6 text-orange-400" />
-              </div>
-              <h4 className="text-white font-bold text-lg mb-2">Simuladores Reais</h4>
-              <p className="text-slate-400 text-sm">
-                Pratique situações reais: entrevistas, viagens, reuniões e muito mais.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-slate-800/50 border-slate-700 hover:border-pink-500/50 transition-colors">
-            <CardContent className="p-6">
-              <div className="w-12 h-12 bg-pink-500/20 rounded-xl flex items-center justify-center mb-4">
-                <BookOpen className="w-6 h-6 text-pink-400" />
-              </div>
-              <h4 className="text-white font-bold text-lg mb-2">10 Livros Completos</h4>
-              <p className="text-slate-400 text-sm">
-                Do Junior ao Avançado, todo o conteúdo programático da inFlux integrado.
-              </p>
-            </CardContent>
-          </Card>
+            </div>
+          ))}
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-20">
-        <div className="max-w-4xl mx-auto px-4">
-          <div className="bg-gradient-to-r from-green-500 via-green-400 to-emerald-400 rounded-3xl p-12 text-center relative overflow-hidden">
-            <div className="absolute right-0 top-0 opacity-20">
-              <div className="w-64 h-64 bg-white rounded-full -mr-32 -mt-32"></div>
-            </div>
-            <div className="relative z-10">
-              <h3 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">
-                Pronto para transformar seu inglês?
-              </h3>
-              <p className="text-lg text-slate-800 mb-8 max-w-2xl mx-auto">
-                Experimente agora mesmo a versão de demonstração e veja como é aprender com o Fluxie!
-              </p>
-              <Button 
-                onClick={() => setLocation("/demo")}
-                size="lg" 
-                className="bg-slate-900 hover:bg-slate-800 text-white font-bold text-lg px-10 py-6"
-              >
-                <Play className="w-5 h-5 mr-2" />
-                Ver Demonstração Completa
-              </Button>
-            </div>
-          </div>
+      <section style={{ padding: "20px 20px 60px" }}>
+        <div style={{
+          maxWidth: 800,
+          margin: "0 auto",
+          borderRadius: 20,
+          padding: "48px 32px",
+          textAlign: "center",
+          position: "relative",
+          overflow: "hidden",
+          background: "rgba(26,111,219,0.08)",
+          border: "1px solid rgba(26,111,219,0.15)",
+        }}>
+          <h3 style={{
+            fontFamily: "'Syne', sans-serif",
+            fontWeight: 700,
+            fontSize: "clamp(1.3rem, 3vw, 1.8rem)",
+            color: "#fff",
+            marginBottom: 12,
+          }}>
+            Pronto para transformar seu inglês?
+          </h3>
+          <p style={{ color: "rgba(255,255,255,0.45)", marginBottom: 28, maxWidth: 420, margin: "0 auto 28px" }}>
+            Experimente a versão de demonstração e veja como é aprender com a Elie!
+          </p>
+          <button
+            onClick={() => setLocation("/demo")}
+            style={{
+              background: "var(--imaind-blue)",
+              color: "#fff",
+              border: "none",
+              padding: "14px 32px",
+              borderRadius: 12,
+              fontSize: "1rem",
+              fontWeight: 600,
+              cursor: "pointer",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              boxShadow: "0 4px 20px rgba(26,111,219,0.3)",
+            }}
+          >
+            <Play size={18} /> Ver Demonstração
+          </button>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-slate-800 py-8">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/influx-logo_17347370.jpeg" alt="inFlux" className="w-8 h-8 rounded-md object-cover" />
-            <span className="text-white font-bold">inFlux Personal Tutor</span>
-          </div>
-          <p className="text-sm text-slate-500">
-            © 2025 inFlux. Todos os direitos reservados.
-          </p>
-        </div>
+      <footer style={{
+        padding: "20px 0",
+        borderTop: "1px solid rgba(255,255,255,0.04)",
+        textAlign: "center",
+      }}>
+        <p style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.15)" }}>
+          Powered by ImAInd
+        </p>
       </footer>
+
+      <style>{`
+        @media (min-width: 1024px) {
+          .lg\\:grid-cols-2 { grid-template-columns: 1fr 1fr; }
+          .lg\\:block { display: block !important; }
+        }
+        .hidden { display: none; }
+        @keyframes stagger-in {
+          from { opacity: 0; transform: translateY(16px) scale(0.98); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes hero-fade-in {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes hero-glow {
+          0%, 100% { opacity: 0.5; }
+          50% { opacity: 1; }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+function ChatBubble({ chunk, meaning, example }: { chunk: string; meaning: string; example: string }) {
+  return (
+    <div style={{
+      padding: "14px 16px",
+      borderRadius: 14,
+      background: "rgba(255,255,255,0.04)",
+      border: "1px solid rgba(255,255,255,0.06)",
+    }}>
+      <p style={{
+        fontWeight: 700,
+        color: "var(--imaind-blue-light)",
+        fontSize: "0.9rem",
+        margin: "0 0 3px",
+      }}>
+        "{chunk}"
+      </p>
+      <p style={{ color: "rgba(255,255,255,0.55)", fontSize: "0.8rem", margin: "0 0 6px" }}>
+        = {meaning}
+      </p>
+      <p style={{ color: "rgba(255,255,255,0.2)", fontSize: "0.75rem", fontStyle: "italic", margin: 0 }}>
+        "{example}"
+      </p>
     </div>
   );
 }

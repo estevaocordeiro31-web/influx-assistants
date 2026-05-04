@@ -232,7 +232,7 @@ export function TiagoPersonalizedTabs() {
       <div className="mb-8 text-center">
         <div className="flex justify-center mb-4">
           <img
-            src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663292442852/ehhzZKDyjAyBAjSZ.png"
+            src="/elie-profile-formal.png"
             alt="Tiago"
             className="w-32 h-32 rounded-full shadow-lg border-4 border-blue-500"
           />

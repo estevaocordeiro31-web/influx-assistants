@@ -5,10 +5,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { 
-  BookOpen, MessageCircle, Zap, TrendingUp, Award, RotateCcw, 
-  Trophy, Star, Target, Clock, CheckCircle2, Flame, Medal, Mic, GraduationCap,
-  Calendar, Bell, BarChart3
+import {
+  BookOpen, MessageCircle, Zap, TrendingUp, Award,
+  Trophy, Star, Target, Clock, Flame, Medal, Mic, GraduationCap,
+  Calendar, Bell, BarChart3, ChevronRight, Sparkles, Palette, Bot
 } from "lucide-react";
 import { useLocation } from "wouter";
 import { useEffect, useState } from "react";
@@ -19,15 +19,69 @@ import { trpc } from "@/lib/trpc";
 import { NotificationBadge } from "@/components/NotificationBadge";
 import { useNotifications } from "@/hooks/useNotifications";
 import { OnboardingTutorial } from "@/components/OnboardingTutorial";
-import { WelcomeVideoModal, hasSeenWelcomeVideo } from "@/components/WelcomeVideoModal";
 import { LeaderboardWidget } from "@/components/LeaderboardWidget";
 import { StudentCalendar } from "@/components/StudentCalendar";
 import { StudentMessages } from "@/components/StudentMessages";
 import { StudentGrades } from "@/components/StudentGrades";
 import { SyncIndicator, useSyncStatus } from "@/components/SyncIndicator";
 import { getBookTheme, getBookNumberFromLevel } from "@/lib/book-themes";
+import { getThemeById, getDefaultTheme, type AppTheme, type LayoutType } from "@/lib/themes";
+import HeroBookCard from "@/components/HeroBookCard";
+import StatsGrid from "@/components/StatsGrid";
+import NextClassCard from "@/components/NextClassCard";
+import AISuggestionCard from "@/components/AISuggestionCard";
 
-// Dados de demonstração - Aluno avançado Book 5
+// Hook to read selected app theme from localStorage
+// Listens for custom 'tutor-theme-change' event + storage + focus
+function useAppTheme() {
+  const [themeId, setThemeId] = useState(() => localStorage.getItem('tutor_theme') || 'spatial-glossy');
+
+  useEffect(() => {
+    const handler = () => {
+      const newTheme = localStorage.getItem('tutor_theme') || 'spatial-glossy';
+      setThemeId(newTheme);
+    };
+    window.addEventListener('storage', handler);
+    window.addEventListener('focus', handler);
+    window.addEventListener('tutor-theme-change', handler);
+    // Re-read on mount (covers navigation back from ThemeSelector)
+    handler();
+    return () => {
+      window.removeEventListener('storage', handler);
+      window.removeEventListener('focus', handler);
+      window.removeEventListener('tutor-theme-change', handler);
+    };
+  }, []);
+
+  return getThemeById(themeId) || getDefaultTheme();
+}
+
+// Hook to read selected layout from localStorage
+// Listens for custom 'tutor-layout-change' event + storage + focus
+function useLayout(): LayoutType {
+  const [layout, setLayout] = useState<LayoutType>(() => (localStorage.getItem('tutor_layout') as LayoutType) || 'scroll');
+
+  useEffect(() => {
+    const handler = () => {
+      const newLayout = (localStorage.getItem('tutor_layout') as LayoutType) || 'scroll';
+      setLayout(newLayout);
+    };
+    window.addEventListener('storage', handler);
+    window.addEventListener('focus', handler);
+    window.addEventListener('tutor-layout-change', handler);
+    // Also re-read on mount (covers navigation back from ThemeSelector)
+    handler();
+    return () => {
+      window.removeEventListener('storage', handler);
+      window.removeEventListener('focus', handler);
+      window.removeEventListener('tutor-layout-change', handler);
+    };
+  }, []);
+
+  return layout;
+}
+
+// Demo data for unauthenticated/demo mode
 const DEMO_STUDENT = {
   name: "Estevao Cordeiro",
   email: "estevao@influxjundiai.com",
@@ -72,40 +126,43 @@ const DEMO_STUDENT = {
   ],
 };
 
+// Glassmorphism card wrapper with frosted glass + top shine line
+function GlassCard({ children, className = "", style = {}, appTheme }: { children: React.ReactNode; className?: string; style?: React.CSSProperties; appTheme?: AppTheme }) {
+  return (
+    <div
+      className={`rounded-2xl relative overflow-hidden transition-all hover:scale-[1.005] ${className}`}
+      style={{
+        background: appTheme?.cardBg || 'rgba(255, 255, 255, 0.04)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        border: `1px solid ${appTheme?.cardBorder || 'rgba(255, 255, 255, 0.09)'}`,
+        color: appTheme?.cardText || undefined,
+        ...style,
+      }}
+    >
+      {/* Top shine line (Glassmorphism Spatial pattern) */}
+      <div className="absolute top-0 left-0 right-0 h-px"
+        style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)' }} />
+      {children}
+    </div>
+  );
+}
+
 export default function StudentDashboard() {
   const { user, isAuthenticated } = useAuth();
   const [, setLocation] = useLocation();
   const { notifications, clearNotification } = useNotifications();
   const [showOnboarding, setShowOnboarding] = useState(false);
-  const [showWelcomeVideo, setShowWelcomeVideo] = useState(false);
-  const { status, message, setSyncing, setSyncSuccess, setSyncError } = useSyncStatus();
+  const { status, message } = useSyncStatus();
 
-  // Verificar se é o primeiro acesso do usuário
   useEffect(() => {
     if (isAuthenticated && user) {
-      // Mostrar vídeo de boas-vindas ANTES do onboarding (apenas uma vez)
-      if (!hasSeenWelcomeVideo()) {
-        setShowWelcomeVideo(true);
-        return; // Onboarding será exibido após o vídeo
-      }
       const hasSeenOnboarding = localStorage.getItem(`onboarding_completed_${user.id}`);
       if (!hasSeenOnboarding) {
         setShowOnboarding(true);
       }
     }
   }, [isAuthenticated, user]);
-
-  const handleWelcomeVideoClose = () => {
-    setShowWelcomeVideo(false);
-    // Após o vídeo, verificar se deve mostrar o onboarding
-    if (user) {
-      const hasSeenOnboarding = localStorage.getItem(`onboarding_completed_${user.id}`);
-      if (!hasSeenOnboarding) {
-        // Pequeno delay para transição suave
-        setTimeout(() => setShowOnboarding(true), 400);
-      }
-    }
-  };
 
   const handleOnboardingComplete = () => {
     if (user) {
@@ -114,31 +171,18 @@ export default function StudentDashboard() {
     setShowOnboarding(false);
   };
 
-  // Buscar dados personalizados do dashboard do aluno autenticado
   const { data: personalizedDashboard, isLoading: personalizedLoading } = trpc.studentPersonalization.getPersonalizedDashboard.useQuery(
     undefined,
     { enabled: isAuthenticated }
   );
 
-  // Buscar dados consolidados do Dashboard Central (spec v1.0)
-  const { data: centralData } = trpc.studentData.getMyStudentData.useQuery(
-    undefined,
-    { enabled: isAuthenticated }
-  );
-
-  // Buscar cursos extras do aluno logado
   const { data: myCourses } = trpc.studentCourses.getMyCourses.useQuery(
     undefined,
     { enabled: isAuthenticated }
   );
 
-  // Controle de acesso por cursos
   const hasReadingClub = myCourses?.includes('reading_club') ?? false;
-  const hasVacationPlus = myCourses?.some(c => c.startsWith('vp')) ?? false;
-  const hasTraveler = myCourses?.includes('traveler') ?? false;
-  const hasOnBusiness = myCourses?.includes('on_business') ?? false;
 
-  // Usar dados personalizados do dashboard ou dados de demonstração
   const bookNum = personalizedDashboard?.student ? getBookNumberFromLevel(personalizedDashboard.student.level) : 5;
   const studentData = personalizedDashboard?.student && personalizedDashboard?.books ? {
     name: personalizedDashboard.student.name || 'Aluno',
@@ -167,571 +211,540 @@ export default function StudentDashboard() {
     weeklyProgress: [],
   } : DEMO_STUDENT;
 
-  // Get book theme based on student level
   const bookNumber = getBookNumberFromLevel(studentData.level);
-  const theme = getBookTheme(bookNumber);
+  const bookTheme = getBookTheme(bookNumber);
+  const appTheme = useAppTheme();
+  const dashLayout = useLayout();
+
+  // Extract classInfo from personalized dashboard
+  const classInfo = personalizedDashboard?.classInfo || null;
+
+  // Use app theme for global styling, book theme for book-specific accents
+  const theme = {
+    ...bookTheme,
+    // Override primary accent with app theme if not default
+    primary: appTheme.id !== 'spatial-glossy' ? appTheme.accentColor : bookTheme.primary,
+    gradient: appTheme.id !== 'spatial-glossy'
+      ? (appTheme.buttonBg.includes('gradient') ? appTheme.buttonBg : `linear-gradient(135deg, ${appTheme.accentColor}, ${appTheme.valueColor})`)
+      : bookTheme.gradient,
+  };
 
   return (
-    <div className="min-h-screen safe-area-bottom" style={{ background: theme.headerBg }}>
-      <InfluxHeader />
-      
-      {/* Vídeo de Boas-vindas — apenas no primeiro acesso */}
-      {showWelcomeVideo && (
-        <WelcomeVideoModal onClose={handleWelcomeVideoClose} />
-      )}
+    <div className="min-h-screen safe-area-bottom relative"
+      style={{ background: appTheme.background }}>
 
-      {/* Tutorial de Onboarding */}
+      {/* Page-level mesh gradient (Glassmorphism Spatial) */}
+      <div className="fixed inset-0 pointer-events-none z-0" style={{
+        background: `radial-gradient(ellipse 70% 60% at 30% 20%, ${appTheme.accentColor}12, transparent 70%),
+                     radial-gradient(ellipse 50% 50% at 70% 70%, ${appTheme.valueColor || '#2e8b7a'}0d, transparent 70%)`,
+      }} />
+
+      <div className="relative z-10">
+      <InfluxHeader />
+
       {showOnboarding && (
         <OnboardingTutorial onComplete={handleOnboardingComplete} />
       )}
-      
+
       <main className="container mx-auto px-4 py-4 sm:py-6 max-w-7xl">
-        {/* Sync Indicator */}
-        <div className="mb-4">
-          <SyncIndicator status={status} message={message} showBadge={true} />
-        </div>
-        {/* Header do Aluno - Compacto no Mobile */}
-        <div className="mb-4 sm:mb-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
-            <div>
-              <h1 className="text-xl sm:text-3xl font-bold text-white">
-                Olá, {user?.name || studentData.name}! 🎉
-              </h1>
-              <p className="text-slate-300 text-sm sm:text-base mt-1">
-                <span className="font-semibold" style={{ color: theme.primary }}>{theme.emoji} {studentData.level}</span> • 
-                <span className="font-semibold" style={{ color: theme.primary }}> {studentData.currentBook} - Unit {studentData.currentUnit}</span>
-              </p>
-            </div>
-            <div className="hidden sm:flex gap-2 flex-wrap">
-              {studentData.badges.slice(0, 3).map((badge, index) => (
-                <Badge key={index} variant="outline" className="bg-slate-800/50 border-slate-600 text-white">
-                  <span className="mr-1">{badge.icon}</span> {badge.name}
-                </Badge>
-              ))}
-            </div>
-          </div>
+        {/* XP Progress Bar (Conversational AI-First pattern) */}
+        <div className="h-1 rounded-full bg-white/5 overflow-hidden mb-4 animate-fade-in">
+          <div className="h-full rounded-full progress-animate"
+            style={{
+              width: `${Math.min(100, studentData.progressPercentage)}%`,
+              background: `linear-gradient(90deg, ${appTheme.accentColor || '#6b3fa0'}, ${appTheme.valueColor || '#2e8b7a'})`,
+              transition: "width 2s ease-out",
+            }} />
         </div>
 
-        {/* Card de dados do Dashboard Central - exibido apenas se vinculado */}
-        {centralData && (
-          <div className="mb-4 p-3 rounded-xl bg-slate-800/60 border border-slate-700 flex flex-wrap gap-3 items-center text-sm">
-            <span className="text-slate-400 font-medium">📊 Dashboard Central:</span>
-            {centralData.bookLevel && (
-              <span className="text-white">📚 <strong>{centralData.bookLevel}</strong></span>
-            )}
-            {centralData.className && (
-              <span className="text-white">🏫 <strong>{centralData.className}</strong></span>
-            )}
-            {centralData.schedule && (
-              <span className="text-white">🕐 <strong>{centralData.schedule}</strong></span>
-            )}
-            {centralData.healthScore !== null && centralData.healthScore !== undefined && (
-              <span className={`font-semibold ${
-                centralData.healthScore >= 70 ? 'text-green-400' :
-                centralData.healthScore >= 40 ? 'text-yellow-400' : 'text-red-400'
-              }`}>
-                ❤️ Saúde: {centralData.healthScore}%
-              </span>
-            )}
-            {centralData.paConfidenceScore !== null && centralData.paConfidenceScore !== undefined && (
-              <span className="text-purple-400">🤖 Confiança IA: <strong>{centralData.paConfidenceScore}%</strong></span>
-            )}
-            {centralData.currentStreakDays > 0 && (
-              <span className="text-orange-400">🔥 Streak: <strong>{centralData.currentStreakDays}d</strong></span>
-            )}
-            {centralData.totalBadges > 0 && (
-              <span className="text-yellow-400">🏅 Badges: <strong>{centralData.totalBadges}</strong></span>
-            )}
+        {/* Sync Indicator */}
+        <div className="mb-4 animate-fade-in">
+          <SyncIndicator status={status} message={message} showBadge={true} />
+        </div>
+
+        {/* ===== LAYOUT-DEPENDENT DASHBOARD SECTION ===== */}
+        {dashLayout === 'orbit' && (
+          /* ORBIT: Hero centered, stats orbit around it */
+          <div className="mb-5 space-y-4 animate-fade-in-up">
+            <HeroBookCard
+              studentName={user?.name || studentData.name} bookNumber={bookNumber}
+              bookTheme={bookTheme} appTheme={appTheme}
+              currentUnit={studentData.currentUnit} totalUnits={studentData.totalUnits}
+              progressPercentage={studentData.progressPercentage} level={studentData.level}
+              onContinue={() => { const t = document.querySelector('[value="tutor"]') as HTMLButtonElement; if (t) t.click(); }}
+            />
+            {/* Orbit-style: 2x2 stat cards with NextClass & AI filling remaining */}
+            <div className="grid grid-cols-2 gap-3">
+              <StatsGrid appTheme={appTheme} streakDays={studentData.streakDays}
+                hoursLearned={studentData.totalHoursLearned}
+                chunksLearned={studentData.totalChunksLearned}
+                completedBooks={studentData.completedBooks.filter(b => b.progress === 100).length} />
+              <div className="space-y-3">
+                <NextClassCard appTheme={appTheme}
+                  schedule={classInfo?.schedule || null}
+                  teacher={classInfo?.teacher || null}
+                  className={classInfo?.className || null} />
+                <AISuggestionCard appTheme={appTheme}
+                  streakDays={studentData.streakDays}
+                  progressPercentage={studentData.progressPercentage}
+                  hoursLearned={studentData.totalHoursLearned}
+                  currentBook={studentData.currentBook}
+                  objective={personalizedDashboard?.student?.objective} />
+              </div>
+            </div>
           </div>
         )}
 
-        {/* Stats Cards - Grid 2x2 no Mobile */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 mb-4 sm:mb-6">
-          <Card className="bg-slate-800/50 border-slate-700 backdrop-blur">
-            <CardContent className="p-3 sm:p-4">
-              <div className="flex items-center gap-2 sm:gap-3">
-                <div className="p-1.5 sm:p-2 bg-green-500/20 rounded-lg">
-                  <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 text-green-400" />
-                </div>
-                <div>
-                  <p className="text-lg sm:text-2xl font-bold text-white">{studentData.totalChunksLearned}</p>
-                  <p className="text-[10px] sm:text-xs text-slate-400">Chunks</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        {dashLayout === 'scroll' && (
+          /* SCROLL (default): Vertical stack — Hero, Stats, side-by-side cards */
+          <div className="mb-5 space-y-4 animate-fade-in-up">
+            <HeroBookCard
+              studentName={user?.name || studentData.name} bookNumber={bookNumber}
+              bookTheme={bookTheme} appTheme={appTheme}
+              currentUnit={studentData.currentUnit} totalUnits={studentData.totalUnits}
+              progressPercentage={studentData.progressPercentage} level={studentData.level}
+              onContinue={() => { const t = document.querySelector('[value="tutor"]') as HTMLButtonElement; if (t) t.click(); }}
+            />
+            <StatsGrid appTheme={appTheme} streakDays={studentData.streakDays}
+              hoursLearned={studentData.totalHoursLearned}
+              chunksLearned={studentData.totalChunksLearned}
+              completedBooks={studentData.completedBooks.filter(b => b.progress === 100).length} />
+            <div className="grid md:grid-cols-2 gap-3">
+              <NextClassCard appTheme={appTheme}
+                schedule={classInfo?.schedule || null}
+                teacher={classInfo?.teacher || null}
+                className={classInfo?.className || null} />
+              <AISuggestionCard appTheme={appTheme}
+                streakDays={studentData.streakDays}
+                progressPercentage={studentData.progressPercentage}
+                hoursLearned={studentData.totalHoursLearned}
+                currentBook={studentData.currentBook}
+                objective={personalizedDashboard?.student?.objective} />
+            </div>
+          </div>
+        )}
 
-          <Card className="bg-slate-800/50 border-slate-700 backdrop-blur">
-            <CardContent className="p-3 sm:p-4">
-              <div className="flex items-center gap-2 sm:gap-3">
-                <div className="p-1.5 sm:p-2 bg-blue-500/20 rounded-lg">
-                  <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
-                </div>
-                <div>
-                  <p className="text-lg sm:text-2xl font-bold text-white">{studentData.totalHoursLearned}h</p>
-                  <p className="text-[10px] sm:text-xs text-slate-400">Horas</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        {dashLayout === 'split' && (
+          /* SPLIT: Sidebar left (Hero compact + stats) | Content right (cards stacked) */
+          <div className="mb-5 flex flex-col md:flex-row gap-4 animate-fade-in-up">
+            {/* Left sidebar */}
+            <div className="md:w-1/3 space-y-3">
+              <HeroBookCard
+                studentName={user?.name || studentData.name} bookNumber={bookNumber}
+                bookTheme={bookTheme} appTheme={appTheme}
+                currentUnit={studentData.currentUnit} totalUnits={studentData.totalUnits}
+                progressPercentage={studentData.progressPercentage} level={studentData.level}
+                onContinue={() => { const t = document.querySelector('[value="tutor"]') as HTMLButtonElement; if (t) t.click(); }}
+              />
+              <StatsGrid appTheme={appTheme} streakDays={studentData.streakDays}
+                hoursLearned={studentData.totalHoursLearned}
+                chunksLearned={studentData.totalChunksLearned}
+                completedBooks={studentData.completedBooks.filter(b => b.progress === 100).length} />
+            </div>
+            {/* Right content */}
+            <div className="md:w-2/3 space-y-3">
+              <NextClassCard appTheme={appTheme}
+                schedule={classInfo?.schedule || null}
+                teacher={classInfo?.teacher || null}
+                className={classInfo?.className || null} />
+              <AISuggestionCard appTheme={appTheme}
+                streakDays={studentData.streakDays}
+                progressPercentage={studentData.progressPercentage}
+                hoursLearned={studentData.totalHoursLearned}
+                currentBook={studentData.currentBook}
+                objective={personalizedDashboard?.student?.objective} />
+            </div>
+          </div>
+        )}
 
-          <Card className="bg-slate-800/50 border-slate-700 backdrop-blur">
-            <CardContent className="p-3 sm:p-4">
-              <div className="flex items-center gap-2 sm:gap-3">
-                <div className="p-1.5 sm:p-2 bg-orange-500/20 rounded-lg">
-                  <Flame className="w-4 h-4 sm:w-5 sm:h-5 text-orange-400" />
-                </div>
-                <div>
-                  <p className="text-lg sm:text-2xl font-bold text-white">{studentData.streakDays}</p>
-                  <p className="text-[10px] sm:text-xs text-slate-400">Streak</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        {dashLayout === 'narrative' && (
+          /* NARRATIVE: Feed-style vertical cards, each section is a "story" */
+          <div className="mb-5 space-y-3 max-w-lg mx-auto animate-fade-in-up">
+            <HeroBookCard
+              studentName={user?.name || studentData.name} bookNumber={bookNumber}
+              bookTheme={bookTheme} appTheme={appTheme}
+              currentUnit={studentData.currentUnit} totalUnits={studentData.totalUnits}
+              progressPercentage={studentData.progressPercentage} level={studentData.level}
+              onContinue={() => { const t = document.querySelector('[value="tutor"]') as HTMLButtonElement; if (t) t.click(); }}
+            />
+            <AISuggestionCard appTheme={appTheme}
+              streakDays={studentData.streakDays}
+              progressPercentage={studentData.progressPercentage}
+              hoursLearned={studentData.totalHoursLearned}
+              currentBook={studentData.currentBook}
+              objective={personalizedDashboard?.student?.objective} />
+            <StatsGrid appTheme={appTheme} streakDays={studentData.streakDays}
+              hoursLearned={studentData.totalHoursLearned}
+              chunksLearned={studentData.totalChunksLearned}
+              completedBooks={studentData.completedBooks.filter(b => b.progress === 100).length} />
+            <NextClassCard appTheme={appTheme}
+              schedule={classInfo?.schedule || null}
+              teacher={classInfo?.teacher || null}
+              className={classInfo?.className || null} />
+          </div>
+        )}
 
-          <Card className="bg-slate-800/50 border-slate-700 backdrop-blur">
-            <CardContent className="p-3 sm:p-4">
-              <div className="flex items-center gap-2 sm:gap-3">
-                <div className="p-1.5 sm:p-2 bg-purple-500/20 rounded-lg">
-                  <Medal className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400" />
-                </div>
-                <div>
-                  <p className="text-lg sm:text-2xl font-bold text-white">4</p>
-                  <p className="text-[10px] sm:text-xs text-slate-400">Livros</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Action Cards - Grid 2x3 no Mobile com Meu Tutor em Destaque */}
-        <div className="mb-4 sm:mb-6">
-          {/* Meu Tutor - Card de Destaque (Maior) com Fluxie Tech */}
-          <button 
+        {/* ===== QUICK ACTIONS ===== */}
+        <div className="mb-5 animate-fade-in-up stagger-3" style={{ animationFillMode: 'both' }}>
+          {/* Meu Tutor highlight card (Liquid Glass) */}
+          <button
             onClick={() => {
               const tutorTab = document.querySelector('[value="tutor"]') as HTMLButtonElement;
               if (tutorTab) tutorTab.click();
             }}
-            className="w-full mb-3 p-4 sm:p-6 bg-gradient-to-br from-slate-800 to-slate-900 hover:from-slate-700 hover:to-slate-800 rounded-2xl shadow-lg shadow-green-500/20 border border-green-500/30 transition-all duration-200 active:scale-[0.98] overflow-hidden relative"
+            className="liquid-glass liquid-glass-purple w-full mb-3 p-4 sm:p-5 !rounded-2xl relative group"
           >
-            {/* Glow effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 via-blue-500/10 to-green-500/10 animate-pulse" />
-            
             <div className="flex items-center justify-between relative z-10">
               <div className="flex items-center gap-3 sm:gap-4">
                 <div className="relative">
-                  <img 
-                    src="https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/miss-elie-uniform-avatar_17347370.jpg" 
-                    alt="Miss Elie - Tutora IA" 
-                    loading="lazy"
-                    className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-full border-2 border-green-500/60"
+                  <img
+                    src="/miss-elie-uniform-avatar.png"
+                    alt="Miss Elie"
+                    className="w-14 h-14 sm:w-18 sm:h-18 object-contain rounded-xl animate-float-slow"
                   />
-                  {/* Neon glow around image */}
-                  <div className="absolute inset-0 rounded-full bg-green-500/20 blur-md -z-10" />
+                  <div className="absolute inset-0 rounded-xl blur-md -z-10"
+                    style={{ background: 'rgba(124,58,237,0.3)' }} />
                 </div>
                 <div className="text-left">
-                  <h3 className="text-lg sm:text-2xl font-bold text-white flex items-center gap-2">
+                  <h3 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2"
+                    style={{ fontFamily: "'Syne', sans-serif" }}>
                     Meu Tutor
-                    <span className="text-xs sm:text-sm bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full border border-green-500/30">AI</span>
+                    <span className="text-[10px] sm:text-xs px-2 py-0.5 rounded-full"
+                      style={{ background: 'rgba(124,58,237,0.3)', color: '#c084fc', border: '1px solid rgba(124,58,237,0.4)' }}>
+                      AI
+                    </span>
                   </h3>
-                  <p className="text-slate-400 text-xs sm:text-sm">Miss Elie • Vacation Plus • Materiais</p>
+                  <p className="text-white/40 text-xs sm:text-sm">Elie, Vacation Plus, Materiais</p>
                 </div>
               </div>
-              <div className="hidden sm:block text-right">
-                <span className="text-green-400 text-sm font-medium">Acesse agora →</span>
-              </div>
+              <ChevronRight className="w-5 h-5 text-white/30 group-hover:text-white/60 transition-colors" />
             </div>
           </button>
 
-          {/* Grid de Action Cards - 2 colunas no mobile, 3 no tablet, 5 no desktop */}
+          {/* Action grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3">
-            {/* Reading Club - só aparece se aluno tem acesso */}
             {hasReadingClub && (
-              <button 
+              <button
                 onClick={() => {
                   clearNotification('readingClub');
                   const tab = document.querySelector('[value="reading-club"]') as HTMLButtonElement;
                   if (tab) tab.click();
                 }}
-                className="action-card bg-gradient-to-br from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 shadow-lg shadow-orange-500/20 relative"
+                className="liquid-glass action-card relative"
+                style={{ background: 'linear-gradient(135deg, rgba(249,115,22,0.18), rgba(234,88,12,0.08))', borderColor: 'rgba(249,115,22,0.25)' }}
               >
-                <BookOpen className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
-                <span className="text-white font-semibold text-xs sm:text-sm">Reading Club</span>
+                <BookOpen className="w-6 h-6 text-orange-400" />
+                <span className="text-white/80 font-semibold text-xs sm:text-sm">Reading Club</span>
                 <NotificationBadge count={notifications.readingClub} />
               </button>
             )}
-
-            {/* Chat IA */}
-            <button 
+            <button
               onClick={() => {
                 clearNotification('chat');
                 const tab = document.querySelector('[value="chat"]') as HTMLButtonElement;
                 if (tab) tab.click();
               }}
-              className="action-card bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 shadow-lg shadow-blue-500/20 relative"
+              className="liquid-glass action-card relative"
+              style={{ background: 'linear-gradient(135deg, rgba(59,130,246,0.18), rgba(37,99,235,0.08))', borderColor: 'rgba(59,130,246,0.25)' }}
             >
-              <MessageCircle className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
-              <span className="text-white font-semibold text-xs sm:text-sm">Chat IA</span>
+              <MessageCircle className="w-6 h-6 text-blue-400" />
+              <span className="text-white/80 font-semibold text-xs sm:text-sm">Chat IA</span>
               <NotificationBadge count={notifications.chat} />
             </button>
-
-            {/* Exercícios */}
-            <button 
+            <button
               onClick={() => {
                 clearNotification('exercises');
                 const tab = document.querySelector('[value="exercises"]') as HTMLButtonElement;
                 if (tab) tab.click();
               }}
-              className="action-card bg-gradient-to-br from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 shadow-lg shadow-yellow-500/20 relative"
+              className="liquid-glass action-card relative"
+              style={{ background: 'linear-gradient(135deg, rgba(234,179,8,0.18), rgba(202,138,4,0.08))', borderColor: 'rgba(234,179,8,0.25)' }}
             >
-              <Zap className="w-6 h-6 sm:w-7 sm:h-7 text-slate-900" />
-              <span className="text-slate-900 font-semibold text-xs sm:text-sm">Exercícios</span>
+              <Zap className="w-6 h-6 text-yellow-400" />
+              <span className="text-white/80 font-semibold text-xs sm:text-sm">Exercícios</span>
               <NotificationBadge count={notifications.exercises} />
             </button>
-
-            {/* Voice Chat */}
-            <button 
+            <button
               onClick={() => setLocation("/student/voice-chat")}
-              className="action-card bg-gradient-to-br from-purple-500 to-purple-600 hover:from-purple-400 hover:to-purple-500 shadow-lg shadow-purple-500/20"
+              className="liquid-glass action-card"
+              style={{ background: 'linear-gradient(135deg, rgba(168,85,247,0.18), rgba(126,34,206,0.08))', borderColor: 'rgba(168,85,247,0.25)' }}
             >
-              <Mic className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
-              <span className="text-white font-semibold text-xs sm:text-sm">Voice Chat</span>
+              <Mic className="w-6 h-6 text-purple-400" />
+              <span className="text-white/80 font-semibold text-xs sm:text-sm">Voice Chat</span>
             </button>
-
-            {/* Dados */}
-            <button 
+            <button
               onClick={() => {
                 const tab = document.querySelector('[value="sponte"]') as HTMLButtonElement;
                 if (tab) tab.click();
               }}
-              className="action-card bg-gradient-to-br from-cyan-500 to-cyan-600 hover:from-cyan-400 hover:to-cyan-500 shadow-lg shadow-cyan-500/20"
+              className="liquid-glass action-card"
+              style={{ background: 'linear-gradient(135deg, rgba(6,182,212,0.2), rgba(8,145,178,0.08))', borderColor: 'rgba(6,182,212,0.25)' }}
             >
-              <TrendingUp className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
-              <span className="text-white font-semibold text-xs sm:text-sm">Meus Dados</span>
+              <TrendingUp className="w-6 h-6 text-cyan-400" />
+              <span className="text-white/80 font-semibold text-xs sm:text-sm">Meus Dados</span>
+            </button>
+            <button
+              onClick={() => setLocation("/student/elie")}
+              className="liquid-glass action-card"
+              style={{ background: 'linear-gradient(135deg, rgba(236,72,153,0.2), rgba(219,39,119,0.08))', borderColor: 'rgba(236,72,153,0.25)' }}
+            >
+              <Bot className="w-6 h-6 text-pink-400" />
+              <span className="text-white/80 font-semibold text-xs sm:text-sm">Miss Elie</span>
+            </button>
+            <button
+              onClick={() => setLocation("/student/themes")}
+              className="liquid-glass action-card"
+              style={{ background: 'linear-gradient(135deg, rgba(124,58,237,0.2), rgba(109,40,217,0.08))', borderColor: 'rgba(124,58,237,0.25)' }}
+            >
+              <Palette className="w-6 h-6 text-violet-400" />
+              <span className="text-white/80 font-semibold text-xs sm:text-sm">Temas</span>
             </button>
           </div>
         </div>
 
-        {/* Abas Principais - Escondidas visualmente mas funcionais */}
+        {/* ===== TABS ===== */}
         <Tabs defaultValue="overview" className="w-full">
-          {/* Navegação Principal - Compacta no Mobile */}
-          <TabsList className="flex w-full overflow-x-auto bg-slate-900/80 backdrop-blur-sm border border-slate-700/50 rounded-xl p-1 gap-0.5 sm:gap-1 shadow-lg scrollbar-hide">
-            <TabsTrigger 
-              value="overview" 
-              className="flex flex-col items-center justify-center gap-0.5 py-2 px-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-green-400 data-[state=active]:to-green-500 data-[state=active]:text-slate-900 data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200"
-            >
-              <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="text-[8px] sm:text-[10px] font-semibold">Visão Geral</span>
-            </TabsTrigger>
-            
-            <TabsTrigger 
-              value="tutor" 
-              className="flex flex-col items-center justify-center gap-0.5 py-2 px-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-green-400 data-[state=active]:to-green-500 data-[state=active]:text-slate-900 data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200"
-            >
-              <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="text-[8px] sm:text-[10px] font-semibold">Meu Tutor</span>
-            </TabsTrigger>
-            
-            {hasReadingClub && (
-              <TabsTrigger 
-                value="reading-club" 
-                className="flex flex-col items-center justify-center gap-0.5 py-2 px-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-orange-400 data-[state=active]:to-orange-500 data-[state=active]:text-white data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200 relative"
-                onClick={() => clearNotification('readingClub')}
+          <TabsList className="flex w-full overflow-x-auto rounded-2xl p-1 gap-0.5 sm:gap-1 shadow-lg scrollbar-hide"
+            style={{
+              background: 'rgba(255,255,255,0.03)',
+              border: '1px solid rgba(255,255,255,0.08)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+            }}>
+            {[
+              { value: 'overview', icon: BookOpen, label: 'Visão Geral' },
+              { value: 'tutor', icon: GraduationCap, label: 'Meu Tutor' },
+              ...(hasReadingClub ? [{ value: 'reading-club', icon: BookOpen, label: 'Reading' }] : []),
+              { value: 'chat', icon: MessageCircle, label: 'Chat' },
+              { value: 'exercises', icon: Zap, label: 'Exercícios' },
+              { value: 'calendar', icon: Calendar, label: 'Agenda' },
+              { value: 'messages', icon: Bell, label: 'Avisos' },
+              { value: 'grades', icon: BarChart3, label: 'Notas' },
+              { value: 'sponte', icon: TrendingUp, label: 'Dados' },
+            ].map((tab) => (
+              <TabsTrigger
+                key={tab.value}
+                value={tab.value}
+                className="flex flex-col items-center justify-center gap-0.5 py-2 px-1 data-[state=active]:text-white data-[state=active]:shadow-lg text-white/30 hover:text-white/60 rounded-lg transition-all duration-200"
+                style={{}}
+                onClick={() => {
+                  if (tab.value === 'reading-club') clearNotification('readingClub');
+                  if (tab.value === 'chat') clearNotification('chat');
+                  if (tab.value === 'exercises') clearNotification('exercises');
+                }}
               >
-                <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" />
-                <span className="text-[8px] sm:text-[10px] font-semibold">Reading</span>
-                <NotificationBadge count={notifications.readingClub} />
+                <tab.icon className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span className="text-[8px] sm:text-[10px] font-semibold">{tab.label}</span>
+                {tab.value === 'reading-club' && <NotificationBadge count={notifications.readingClub} />}
+                {tab.value === 'chat' && <NotificationBadge count={notifications.chat} />}
+                {tab.value === 'exercises' && <NotificationBadge count={notifications.exercises} />}
               </TabsTrigger>
-            )}
-            
-            <TabsTrigger 
-              value="chat" 
-              className="flex flex-col items-center justify-center gap-0.5 py-2 px-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-blue-400 data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200 relative"
-              onClick={() => clearNotification('chat')}
-            >
-              <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="text-[8px] sm:text-[10px] font-semibold">Chat</span>
-              <NotificationBadge count={notifications.chat} />
-            </TabsTrigger>
-            
-            <TabsTrigger 
-              value="exercises" 
-              className="flex flex-col items-center justify-center gap-0.5 py-2 px-1 data-[state=active]:bg-gradient-to-br data-[state=active]:from-yellow-400 data-[state=active]:to-yellow-500 data-[state=active]:text-slate-900 data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200 relative"
-              onClick={() => clearNotification('exercises')}
-            >
-              <Zap className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="text-[8px] sm:text-[10px] font-semibold">Exercícios</span>
-              <NotificationBadge count={notifications.exercises} />
-            </TabsTrigger>
-            
-            <TabsTrigger 
-              value="calendar" 
-              className="flex flex-col items-center justify-center gap-0.5 py-2 px-2 shrink-0 data-[state=active]:bg-gradient-to-br data-[state=active]:from-teal-400 data-[state=active]:to-teal-500 data-[state=active]:text-slate-900 data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200"
-            >
-              <Calendar className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="text-[8px] sm:text-[10px] font-semibold">Agenda</span>
-            </TabsTrigger>
-            
-            <TabsTrigger 
-              value="messages" 
-              className="flex flex-col items-center justify-center gap-0.5 py-2 px-2 shrink-0 data-[state=active]:bg-gradient-to-br data-[state=active]:from-indigo-400 data-[state=active]:to-indigo-500 data-[state=active]:text-white data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200 relative"
-            >
-              <Bell className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="text-[8px] sm:text-[10px] font-semibold">Avisos</span>
-            </TabsTrigger>
-            
-            <TabsTrigger 
-              value="grades" 
-              className="flex flex-col items-center justify-center gap-0.5 py-2 px-2 shrink-0 data-[state=active]:bg-gradient-to-br data-[state=active]:from-pink-400 data-[state=active]:to-pink-500 data-[state=active]:text-white data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200"
-            >
-              <BarChart3 className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="text-[8px] sm:text-[10px] font-semibold">Notas</span>
-            </TabsTrigger>
-            
-            <TabsTrigger 
-              value="sponte" 
-              className="flex flex-col items-center justify-center gap-0.5 py-2 px-2 shrink-0 data-[state=active]:bg-gradient-to-br data-[state=active]:from-cyan-400 data-[state=active]:to-cyan-500 data-[state=active]:text-slate-900 data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-all duration-200"
-            >
-              <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="text-[8px] sm:text-[10px] font-semibold">Dados</span>
-            </TabsTrigger>
+            ))}
           </TabsList>
 
-          {/* Aba: Visão Geral */}
-          <TabsContent value="overview" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
-            <div className="grid md:grid-cols-2 gap-3 sm:gap-4">
-              {/* Progresso Atual */}
-              <Card className="bg-slate-800/50 border-slate-700">
-                <CardHeader className="p-3 sm:p-6">
-                  <CardTitle className="text-white flex items-center gap-2 text-base sm:text-lg">
-                    <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 text-green-400" />
-                    {studentData.currentBook} - Progresso
-                  </CardTitle>
-                  <CardDescription className="text-slate-400 text-xs sm:text-sm">
-                    Unit {studentData.currentUnit} de {studentData.totalUnits}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-3 sm:space-y-4 p-3 sm:p-6 pt-0">
-                  <div>
-                    <div className="flex justify-between mb-2">
-                      <span className="text-xs sm:text-sm text-slate-300">Progresso do Livro</span>
-                      <span className="text-xs sm:text-sm font-bold text-green-400">{studentData.progressPercentage}%</span>
-                    </div>
-                    <Progress value={studentData.progressPercentage} className="h-2 sm:h-3 bg-slate-700" />
-                  </div>
-                  <Button className="w-full bg-green-500 hover:bg-green-600 text-slate-900 font-bold h-10 sm:h-11">
-                    <Zap className="w-4 h-4 mr-2" />
-                    Continuar Estudando
-                  </Button>
-                </CardContent>
-              </Card>
+          {/* === Tab: Overview === */}
+          <TabsContent value="overview" className="space-y-4 mt-4">
+            {/* Completed Books */}
+            {studentData.completedBooks.filter(b => b.progress === 100).length > 0 && (
+              <GlassCard appTheme={appTheme} className="p-5">
+                <div className="flex items-center gap-2 mb-4">
+                  <Trophy className="w-5 h-5 text-yellow-400" />
+                  <h3 className="text-white font-bold" style={{ fontFamily: "'Syne', sans-serif" }}>Livros Completos</h3>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  {studentData.completedBooks.filter(b => b.progress === 100).map((book) => {
+                    const bt = getBookTheme(book.id);
+                    return (
+                      <div key={book.id} className="text-center p-3 rounded-xl" style={{ background: `${bt.primary}12`, border: `1px solid ${bt.primary}20` }}>
+                        <span className="text-2xl">{bt.emoji}</span>
+                        <p className="text-xs font-bold mt-1" style={{ color: bt.primary }}>{book.name}</p>
+                        <p className="text-[10px] text-white/40">{book.completedAt}</p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </GlassCard>
+            )}
 
-              {/* Chunks Recentes */}
-              <Card className="bg-slate-800/50 border-slate-700">
-                <CardHeader className="p-3 sm:p-6">
-                  <CardTitle className="text-white flex items-center gap-2 text-base sm:text-lg">
-                    <Star className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400" />
-                    Chunks Recentes
-                  </CardTitle>
-                  <CardDescription className="text-slate-400 text-xs sm:text-sm">
-                    Últimas expressões aprendidas
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="p-3 sm:p-6 pt-0">
-                  <div className="space-y-2">
-                    {studentData.recentChunks.slice(0, 3).map((chunk, index) => (
-                      <div key={index} className="p-2 bg-slate-700/50 rounded-lg">
-                        <p className="text-white font-medium text-xs sm:text-sm">{chunk.text}</p>
-                        <p className="text-green-400 text-[10px] sm:text-xs">{chunk.meaning}</p>
+            <div className="grid md:grid-cols-2 gap-4">
+              {/* Recent Chunks */}
+              <GlassCard appTheme={appTheme} className="p-5">
+                <div className="flex items-center gap-2 mb-4">
+                  <Star className="w-5 h-5 text-yellow-400" />
+                  <h3 className="text-white font-bold" style={{ fontFamily: "'Syne', sans-serif" }}>Chunks Recentes</h3>
+                </div>
+                <p className="text-white/40 text-sm mb-4">Últimas expressões aprendidas</p>
+                <div className="space-y-2">
+                  {studentData.recentChunks.slice(0, 3).map((chunk, index) => (
+                    <div key={index} className="p-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.04)' }}>
+                      <p className="text-white font-medium text-sm">{chunk.text}</p>
+                      <p className="text-xs mt-0.5" style={{ color: theme.primary }}>{chunk.meaning}</p>
+                    </div>
+                  ))}
+                  {studentData.recentChunks.length === 0 && (
+                    <p className="text-white/30 text-sm">Nenhum chunk aprendido ainda. Comece a praticar!</p>
+                  )}
+                </div>
+              </GlassCard>
+
+              {/* Weekly Progress */}
+              <GlassCard appTheme={appTheme} className="p-5">
+                <div className="flex items-center gap-2 mb-4">
+                  <TrendingUp className="w-5 h-5 text-cyan-400" />
+                  <h3 className="text-white font-bold" style={{ fontFamily: "'Syne', sans-serif" }}>Progresso Semanal</h3>
+                </div>
+                {studentData.weeklyProgress.length > 0 ? (
+                  <div className="grid grid-cols-7 gap-2">
+                    {studentData.weeklyProgress.map((day, index) => (
+                      <div key={index} className="text-center">
+                        <div
+                          className="rounded-lg mb-1 flex items-end justify-center"
+                          style={{
+                            height: `${Math.max(24, day.hours * 28)}px`,
+                            background: `linear-gradient(to top, ${theme.primary}20, ${theme.primary}80)`,
+                          }}
+                        >
+                          <span className="text-[9px] sm:text-xs text-white font-bold pb-0.5">{day.hours}h</span>
+                        </div>
+                        <span className="text-[9px] sm:text-xs text-white/40">{day.day}</span>
                       </div>
                     ))}
                   </div>
-                  <Button variant="outline" className="w-full mt-3 border-slate-600 text-slate-300 hover:bg-slate-700 h-9 sm:h-10 text-xs sm:text-sm">
-                    Ver Todos os Chunks
-                  </Button>
-                </CardContent>
-              </Card>
+                ) : (
+                  <p className="text-white/30 text-sm">Dados semanais serão exibidos conforme você estuda.</p>
+                )}
+              </GlassCard>
             </div>
 
-            {/* Progresso Semanal */}
-            <Card className="bg-slate-800/50 border-slate-700">
-              <CardHeader className="p-3 sm:p-6">
-                <CardTitle className="text-white flex items-center gap-2 text-base sm:text-lg">
-                  <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
-                  Progresso Semanal
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-3 sm:p-6 pt-0">
-                <div className="grid grid-cols-7 gap-1 sm:gap-2">
-                  {studentData.weeklyProgress.map((day, index) => (
-                    <div key={index} className="text-center">
-                      <div 
-                        className="bg-gradient-to-t from-green-500/20 to-green-500/80 rounded-lg mb-1 flex items-end justify-center"
-                        style={{ height: `${Math.max(20, day.hours * 25)}px` }}
-                      >
-                        <span className="text-[9px] sm:text-xs text-white font-bold pb-0.5">{day.hours}h</span>
-                      </div>
-                      <span className="text-[9px] sm:text-xs text-slate-400">{day.day}</span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Leaderboard */}
             <LeaderboardWidget />
           </TabsContent>
 
-          {/* Aba: Meu Tutor (absorve Meus Livros, Vacation Plus, Revisão, Blog, Materiais) */}
-          <TabsContent value="tutor" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
+          {/* === Tab: Meu Tutor === */}
+          <TabsContent value="tutor" className="space-y-4 mt-4">
             <MeuTutorTab studentData={studentData} />
           </TabsContent>
 
-          {/* Aba: Reading Club */}
+          {/* === Tab: Reading Club === */}
           {hasReadingClub && (
-            <TabsContent value="reading-club" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
+            <TabsContent value="reading-club" className="space-y-4 mt-4">
               <ReadingClubIntegrated />
             </TabsContent>
           )}
 
-          {/* Aba: Chat IA */}
-          <TabsContent value="chat" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
-            <Card className="bg-slate-800/50 border-slate-700">
-              <CardHeader className="p-3 sm:p-6">
-                <CardTitle className="text-white flex items-center gap-2 text-base sm:text-lg">
-                  <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
-                  Chat com Miss Elie
-                </CardTitle>
-                <CardDescription className="text-slate-400 text-xs sm:text-sm">
-                  Seu assistente pessoal de inglês
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3 sm:space-y-4 p-3 sm:p-6 pt-0">
-                <div className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl border border-blue-500/30">
-                  <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663292442852/2aNFQGA4rARocXGp2d4pqb/miss-elie-uniform-teaching-2_17347370.jpg" alt="Miss Elie" className="w-12 h-12 sm:w-20 sm:h-20 object-cover rounded-xl border border-blue-400/40 shadow-lg shadow-blue-500/20 flex-shrink-0" />
-                  <div>
-                    <h3 className="text-white font-bold text-sm sm:text-lg mb-1">Olá! Sou a Elie! 👋</h3>
-                    <p className="text-slate-300 text-xs sm:text-sm">
-                      Como você está no Book 5, posso ajudar com expressões avançadas e prática de conversáo!
-                    </p>
-                  </div>
+          {/* === Tab: Chat === */}
+          <TabsContent value="chat" className="space-y-4 mt-4">
+            <GlassCard appTheme={appTheme} className="p-5">
+              <div className="flex items-center gap-2 mb-4">
+                <MessageCircle className="w-5 h-5 text-blue-400" />
+                <h3 className="text-white font-bold" style={{ fontFamily: "'Syne', sans-serif" }}>Chat com Fluxie</h3>
+              </div>
+              <p className="text-white/40 text-sm mb-4">Seu assistente pessoal de inglês</p>
+              <div className="flex items-start gap-4 p-4 rounded-xl mb-4" style={{
+                background: 'linear-gradient(135deg, rgba(59,130,246,0.1), rgba(168,85,247,0.08))',
+                border: '1px solid rgba(59,130,246,0.15)',
+              }}>
+                <img src="/miss-elie-uniform-waving.png" alt="Fluxie" className="w-14 h-14 sm:w-16 sm:h-16 object-contain" />
+                <div>
+                  <h3 className="text-white font-bold text-sm sm:text-base mb-1">Olá! Sou o Fluxie!</h3>
+                  <p className="text-white/50 text-xs sm:text-sm">
+                    Como você está no {studentData.currentBook}, posso ajudar com expressões e prática de conversação!
+                  </p>
                 </div>
-                <div className="grid grid-cols-2 gap-2 sm:gap-3">
-                  <Button 
-                    onClick={() => setLocation("/student/chat")}
-                    className="bg-blue-500 hover:bg-blue-600 text-white font-bold h-14 sm:h-16 text-sm sm:text-lg"
-                  >
-                    <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                    Chat
-                  </Button>
-                  <Button 
-                    onClick={() => setLocation("/student/voice-chat")}
-                    className="bg-purple-500 hover:bg-purple-600 text-white font-bold h-14 sm:h-16 text-sm sm:text-lg"
-                  >
-                    <Mic className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                    Voice Chat
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* Aba: Exercícios */}
-          <TabsContent value="exercises" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
-            <Card className="bg-slate-800/50 border-slate-700">
-              <CardHeader className="p-3 sm:p-6">
-                <CardTitle className="text-white flex items-center gap-2 text-base sm:text-lg">
-                  <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400" />
-                  Exercícios Personalizados
-                </CardTitle>
-                <CardDescription className="text-slate-400 text-xs sm:text-sm">
-                  Prática focada no seu nível atual
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3 sm:space-y-4 p-3 sm:p-6 pt-0">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                  <div className="p-3 sm:p-4 bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-xl border border-green-500/30">
-                    <h3 className="text-white font-bold mb-1 sm:mb-2 text-sm sm:text-base">Chunks do Book 5</h3>
-                    <p className="text-slate-400 text-xs sm:text-sm mb-2 sm:mb-3">Pratique as expressões da sua unit atual</p>
-                    <Button className="w-full bg-green-500 hover:bg-green-600 text-slate-900 h-9 sm:h-10">
-                      Iniciar
-                    </Button>
-                  </div>
-                  <div className="p-3 sm:p-4 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl border border-purple-500/30">
-                    <h3 className="text-white font-bold mb-1 sm:mb-2 text-sm sm:text-base">Simulador de Situações</h3>
-                    <p className="text-slate-400 text-xs sm:text-sm mb-2 sm:mb-3">Pratique em contextos reais</p>
-                    <Button 
-                      onClick={() => setLocation("/student/simulator")}
-                      className="w-full bg-purple-500 hover:bg-purple-600 text-white h-9 sm:h-10"
-                    >
-                      Iniciar
-                    </Button>
-                  </div>
-                </div>
-                <Button 
-                  onClick={() => setLocation("/student/exercises")}
-                  className="w-full bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-bold h-12 sm:h-14 text-sm sm:text-lg"
-                >
-                  <Zap className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                  Ver Todos os Exercícios
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <Button
+                  onClick={() => setLocation("/student/chat")}
+                  className="h-14 rounded-xl font-bold"
+                  style={{ background: 'linear-gradient(135deg, #3b82f6, #2563eb)' }}>
+                  <MessageCircle className="w-5 h-5 mr-2" /> Chat
                 </Button>
-              </CardContent>
-            </Card>
+                <Button
+                  onClick={() => setLocation("/student/voice-chat")}
+                  className="h-14 rounded-xl font-bold"
+                  style={{ background: 'linear-gradient(135deg, #a855f7, #7c3aed)' }}>
+                  <Mic className="w-5 h-5 mr-2" /> Voice Chat
+                </Button>
+              </div>
+            </GlassCard>
           </TabsContent>
 
-          {/* Aba: Agenda */}
-          <TabsContent value="calendar" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
+          {/* === Tab: Exercises === */}
+          <TabsContent value="exercises" className="space-y-4 mt-4">
+            <GlassCard appTheme={appTheme} className="p-5">
+              <div className="flex items-center gap-2 mb-4">
+                <Zap className="w-5 h-5 text-yellow-400" />
+                <h3 className="text-white font-bold" style={{ fontFamily: "'Syne', sans-serif" }}>Exercícios Personalizados</h3>
+              </div>
+              <p className="text-white/40 text-sm mb-4">Prática focada no seu nível atual</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                <div className="p-4 rounded-xl" style={{
+                  background: 'linear-gradient(135deg, rgba(34,197,94,0.1), rgba(16,185,129,0.08))',
+                  border: '1px solid rgba(34,197,94,0.15)',
+                }}>
+                  <h3 className="text-white font-bold mb-1 text-sm">Chunks do {studentData.currentBook}</h3>
+                  <p className="text-white/40 text-xs mb-3">Pratique as expressões da sua unit atual</p>
+                  <Button className="w-full h-10 rounded-xl" style={{ background: 'linear-gradient(135deg, #22c55e, #16a34a)', color: '#fff' }}>
+                    Iniciar
+                  </Button>
+                </div>
+                <div className="p-4 rounded-xl" style={{
+                  background: 'linear-gradient(135deg, rgba(168,85,247,0.1), rgba(236,72,153,0.08))',
+                  border: '1px solid rgba(168,85,247,0.15)',
+                }}>
+                  <h3 className="text-white font-bold mb-1 text-sm">Simulador de Situações</h3>
+                  <p className="text-white/40 text-xs mb-3">Pratique em contextos reais</p>
+                  <Button
+                    onClick={() => setLocation("/student/simulator")}
+                    className="w-full h-10 rounded-xl"
+                    style={{ background: 'linear-gradient(135deg, #a855f7, #7c3aed)', color: '#fff' }}>
+                    Iniciar
+                  </Button>
+                </div>
+              </div>
+              <Button
+                onClick={() => setLocation("/student/exercises")}
+                className="w-full h-12 rounded-xl font-bold text-sm"
+                style={{ background: 'linear-gradient(135deg, #eab308, #ca8a04)', color: '#1a1145' }}>
+                <Zap className="w-5 h-5 mr-2" /> Ver Todos os Exercícios
+              </Button>
+            </GlassCard>
+          </TabsContent>
+
+          {/* === Tab: Calendar === */}
+          <TabsContent value="calendar" className="space-y-4 mt-4">
             <StudentCalendar studentName={(user?.name || studentData.name) as string} />
           </TabsContent>
 
-          {/* Aba: Mensagens do Pedagógico */}
-          <TabsContent value="messages" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
+          {/* === Tab: Messages === */}
+          <TabsContent value="messages" className="space-y-4 mt-4">
             <StudentMessages studentName={(user?.name || studentData.name) as string} />
           </TabsContent>
 
-          {/* Aba: Notas e Presença */}
-          <TabsContent value="grades" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
+          {/* === Tab: Grades === */}
+          <TabsContent value="grades" className="space-y-4 mt-4">
             <StudentGrades studentName={(user?.name || studentData.name) as string} />
           </TabsContent>
 
-          {/* Aba: Dados do Aluno (sem Sponte) */}
-          <TabsContent value="sponte" className="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
-            <Card className="bg-slate-800/50 border-slate-700">
-              <CardHeader className="p-3 sm:p-6">
-                <CardTitle className="text-white flex items-center gap-2 text-base sm:text-lg">
-                  <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400" />
-                  Seus Dados Escolares
-                </CardTitle>
-                <CardDescription className="text-slate-400 text-xs sm:text-sm">
-                  Frequência, faltas e avaliações
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-3 sm:p-6 pt-0">
-                <SponteDataSection 
-                  data={{
-                    attendance: {
-                      total: 20,
-                      present: 18,
-                      absent: 2,
-                      percentage: 90,
-                    },
-                    absences: {
-                      total: 2,
-                      justified: 1,
-                      unjustified: 1,
-                    },
-                    evaluations: {
-                      average: 8.5,
-                      lastScore: 9.0,
-                      trend: 'up',
-                    },
-                  }}
-                />
-              </CardContent>
-            </Card>
+          {/* === Tab: Student Data === */}
+          <TabsContent value="sponte" className="space-y-4 mt-4">
+            <GlassCard appTheme={appTheme} className="p-5">
+              <div className="flex items-center gap-2 mb-4">
+                <TrendingUp className="w-5 h-5 text-purple-400" />
+                <h3 className="text-white font-bold" style={{ fontFamily: "'Syne', sans-serif" }}>Seus Dados Escolares</h3>
+              </div>
+              <p className="text-white/40 text-sm mb-4">Frequência, faltas e avaliações</p>
+              <SponteDataSection
+                data={{
+                  attendance: { total: 20, present: 18, absent: 2, percentage: 90 },
+                  absences: { total: 2, justified: 1, unjustified: 1 },
+                  evaluations: { average: 8.5, lastScore: 9.0, trend: 'up' },
+                }}
+              />
+            </GlassCard>
           </TabsContent>
         </Tabs>
       </main>
+      </div>
     </div>
   );
 }

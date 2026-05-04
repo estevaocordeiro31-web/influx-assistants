@@ -1,29 +1,24 @@
+import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Users, AlertCircle, LogOut, Search, Bell, Loader2, Edit, BarChart3, Sparkles, Brain, MessageSquare, Hash, RefreshCw, Download, Headphones, KeyRound, LinkIcon } from "lucide-react";
+import { Users, AlertCircle, LogOut, Search, Bell, Loader2, Edit, BarChart3, Sparkles, Brain, MessageSquare, Hash, RefreshCw, Download, Headphones } from "lucide-react";
 import { toast } from "sonner";
 import { useLocation } from "wouter";
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
-import { useAuth } from "@/_core/hooks/useAuth";
-import { CreateStudentDialog } from "@/components/CreateStudentDialog";
-import { ResetPasswordDialog } from "@/components/ResetPasswordDialog";
-import { ReconcileUsersDialog } from "@/components/ReconcileUsersDialog";
-import { Breadcrumb } from "@/components/Breadcrumb";
 
 interface StudentData {
   id: number;
   studentId: string | null;
   name: string;
   email: string;
-  level: "beginner" | "elementary" | "intermediate" | "upper_intermediate" | "advanced" | "proficient";
-  objective: "career" | "travel" | "studies" | "other";
+  level: string;
+  objective: string;
   hoursLearned: number;
   streakDays: number;
   lastActivity: string;
-  status: string;
-  createdAt: Date;
+  status: "active" | "inactive" | "at_risk";
 }
 
 export default function AdminDashboard() {
@@ -31,16 +26,11 @@ export default function AdminDashboard() {
   const [, setLocation] = useLocation();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStudent, setSelectedStudent] = useState<StudentData | null>(null);
-  const [filterLevel, setFilterLevel] = useState<string>("");
-  const [filterObjective, setFilterObjective] = useState<string>("");
-  const [filterStatus, setFilterStatus] = useState<string>("");
-  const [resetStudent, setResetStudent] = useState<{ id: number; name: string; email: string } | null>(null);
-  const [showReconcile, setShowReconcile] = useState(false);
 
   // Buscar alunos do banco de dados
   const { data: studentsData, isLoading, refetch } = trpc.adminStudents.getStudents.useQuery({
     search: searchTerm || undefined,
-    limit: 500,
+    limit: 50,
   });
 
   // Mutation para gerar IDs de todos os alunos
@@ -54,26 +44,6 @@ export default function AdminDashboard() {
   const exportStudentsJSONMutation = trpc.adminExport.exportActiveStudentsJSON.useQuery();
   const exportStudentsCSVMutation = trpc.adminExport.exportActiveStudentsCSV.useQuery();
 
-  // Query para estatísticas de sincronização
-  const syncStatsQuery = trpc.bulkStudentSync.getSyncStatus.useQuery(undefined, {
-    refetchInterval: false,
-  });
-
-  // Mutation para sincronizar todos os alunos
-  const syncAllStudentsMutation = trpc.bulkStudentSync.syncAllStudents.useMutation({
-    onSuccess: (result: any) => {
-      const msg = result.created > 0
-        ? `✅ ${result.created} novos alunos criados, ${result.updated} atualizados!`
-        : `✅ Sincronização concluída: ${result.updated} alunos atualizados`;
-      toast.success(msg);
-      refetch();
-      syncStatsQuery.refetch();
-    },
-    onError: (error: any) => {
-      toast.error(`Erro ao sincronizar: ${error.message}`);
-    },
-  });
-
   const students = studentsData?.students || [];
 
   const handleLogout = async () => {
@@ -81,28 +51,15 @@ export default function AdminDashboard() {
     setLocation("/");
   };
 
-  const filteredStudents = students.filter((student) => {
-    const matchesSearch =
+  const filteredStudents = students.filter(
+    (student) =>
       student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      student.email.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesLevel = !filterLevel || student.level === filterLevel;
-    const matchesObjective = !filterObjective || student.objective === filterObjective;
-    const matchesStatus = !filterStatus || student.status === filterStatus;
-    return matchesSearch && matchesLevel && matchesObjective && matchesStatus;
-  });
+      student.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-  const handleClearFilters = () => {
-    setSearchTerm("");
-    setFilterLevel("");
-    setFilterObjective("");
-    setFilterStatus("");
-  };
-
-  const hasActiveFilters = filterLevel || filterObjective || filterStatus || searchTerm;
-
-  const activeStudents = students.filter((s: StudentData) => s.status === "ativo").length;
-  const atRiskStudents = students.filter((s: StudentData) => s.status === "desistente" || s.status === "trancado").length;
-  const totalHours = students.reduce((sum: number, s: StudentData) => sum + s.hoursLearned, 0);
+  const activeStudents = students.filter((s) => s.status === "active").length;
+  const atRiskStudents = students.filter((s) => s.status === "at_risk").length;
+  const totalHours = students.reduce((sum, s) => sum + s.hoursLearned, 0);
 
   // Mapeamento de níveis
   const levelMap: Record<string, string> = {
@@ -123,155 +80,172 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border bg-card">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Users className="w-6 h-6 text-primary" />
-            <h1 className="text-xl sm:text-2xl font-bold">Dashboard Administrativo</h1>
-          </div>
-          <div className="flex items-center gap-4">
-            <button className="relative p-2 text-muted-foreground hover:text-foreground transition-colors">
-              <Bell className="w-5 h-5" />
-              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+    <div className="min-h-screen" style={{ background: 'linear-gradient(180deg, #06090f 0%, #0c1222 40%, #111827 100%)', fontFamily: "'DM Sans', sans-serif" }}>
+      <header style={{
+        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        background: 'rgba(6,9,15,0.7)',
+        backdropFilter: 'blur(16px)',
+        position: 'sticky', top: 0, zIndex: 40,
+      }}>
+        <div className="max-w-7xl mx-auto px-4 py-3" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
+          <h1 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 'clamp(1rem, 2.5vw, 1.3rem)', color: '#fff', margin: 0 }}>
+            Dashboard Administrativo
+          </h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+            <button
+              onClick={() => setLocation("/admin/gemini-chat")}
+              style={{
+                padding: '6px 12px', borderRadius: 10, fontSize: '0.8rem', fontWeight: 500,
+                background: 'rgba(168,85,247,0.1)', border: '1px solid rgba(168,85,247,0.15)',
+                color: '#a78bfa', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4,
+              }}
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              Gemini AI
             </button>
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-muted-foreground">{user?.name || "Admin"}</span>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleLogout}
-                className="gap-2"
-              >
-                <LogOut className="w-4 h-4" />
-                Sair
-              </Button>
-            </div>
+            <button
+              onClick={() => setLocation("/support/ellie")}
+              style={{
+                padding: '6px 12px', borderRadius: 10, fontSize: '0.8rem', fontWeight: 500,
+                background: 'rgba(77,168,255,0.1)', border: '1px solid rgba(77,168,255,0.15)',
+                color: '#4da8ff', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4,
+              }}
+            >
+              <Headphones className="w-3.5 h-3.5" />
+              Ellie's Support
+            </button>
+            <button
+              onClick={() => setLocation("/admin/notifications")}
+              style={{
+                padding: '6px 12px', borderRadius: 10, fontSize: '0.8rem', fontWeight: 500,
+                background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
+                color: 'rgba(255,255,255,0.6)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4,
+                position: 'relative',
+              }}
+            >
+              <Bell className="w-3.5 h-3.5" />
+              <span style={{ fontSize: '0.75rem' }}>Notificacoes</span>
+              <span style={{
+                position: 'absolute', top: -4, right: -4,
+                width: 16, height: 16, borderRadius: '50%',
+                background: '#ef4444', color: '#fff', fontSize: '0.6rem', fontWeight: 700,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>3</span>
+            </button>
+            <button
+              onClick={handleLogout}
+              style={{
+                padding: '6px 12px', borderRadius: 10, fontSize: '0.8rem',
+                background: 'none', border: 'none',
+                color: 'rgba(255,255,255,0.3)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4,
+              }}
+            >
+              <LogOut className="w-3.5 h-3.5" /> Sair
+            </button>
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="container mx-auto px-4 py-8 space-y-6">
-        {/* Breadcrumb */}
-        <Breadcrumb items={[
-          { label: 'Dashboard', href: '/admin', current: false },
-          { label: 'Alunos', current: true },
-        ]} />
-
-        {/* Card de Status de Sincronização */}
-        {syncStatsQuery.data && (
-          <div className="flex items-center gap-2 p-3 rounded-lg bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 text-sm">
-            <RefreshCw className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
-            <span className="text-green-700 dark:text-green-300">
-              <strong>Dashboard Central:</strong> {syncStatsQuery.data.centralTotal} alunos ({syncStatsQuery.data.centralAtivos} ativos)
-              &nbsp;&bull;&nbsp;
-              <strong>inFlux:</strong> {syncStatsQuery.data.totalStudents} usuários ({syncStatsQuery.data.linkedTotal} vinculados)
-              {syncStatsQuery.data.unlinked > 0 && (
-                <span className="text-amber-600 dark:text-amber-400">&nbsp;&bull;&nbsp;{syncStatsQuery.data.unlinked} sem vínculo</span>
-              )}
-            </span>
-          </div>
-        )}
-
-        {/* KPI Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Card className="bg-card border-border">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Total de Alunos</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl sm:text-3xl font-bold">{students.length}</div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-card border-border">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-green-600">Alunos Ativos</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl sm:text-3xl font-bold text-green-600">{activeStudents}</div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-card border-border">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-red-600">Em Risco</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl sm:text-3xl font-bold text-red-600">{atRiskStudents}</div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-card border-border">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-blue-600">Total de Horas</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl sm:text-3xl font-bold text-blue-600">{totalHours}h</div>
-            </CardContent>
-          </Card>
+      <main className="max-w-7xl mx-auto px-4 py-8">
+        {/* Metricas */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+          {[
+            { label: 'Total de Alunos', value: students.length, color: '#fff' },
+            { label: 'Alunos Ativos', value: activeStudents, color: '#6abf4b' },
+            { label: 'Em Risco', value: atRiskStudents, color: '#ef4444' },
+            { label: 'Total de Horas', value: `${totalHours}h`, color: '#4da8ff' },
+          ].map((stat) => (
+            <div key={stat.label} style={{
+              borderRadius: 16, padding: '16px 14px',
+              background: 'rgba(255,255,255,0.03)',
+              border: '1px solid rgba(255,255,255,0.07)',
+              backdropFilter: 'blur(20px)',
+            }}>
+              <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.35)', margin: '0 0 6px' }}>{stat.label}</p>
+              <p style={{ fontSize: '1.8rem', fontWeight: 700, color: stat.color, fontFamily: "'Syne', sans-serif", margin: 0 }}>
+                {stat.value}
+              </p>
+            </div>
+          ))}
         </div>
 
         {/* Lista de Alunos */}
-        <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between flex-col sm:flex-row gap-4">
+        <div style={{ borderRadius: 20, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', backdropFilter: 'blur(20px)', overflow: 'hidden' }}>
+          <div style={{ padding: '20px 20px 12px' }}>
+            <div className="flex items-center justify-between flex-wrap gap-3">
               <div>
-                <CardTitle>Alunos</CardTitle>
-                <CardDescription>
+                <h2 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 600, fontSize: '1.1rem', color: '#fff', margin: '0 0 4px' }}>Alunos</h2>
+                <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: '0.8rem', margin: 0 }}>
                   Visualize e gerencie todos os alunos da plataforma
-                </CardDescription>
+                </p>
               </div>
-              <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 flex-wrap">
-                <CreateStudentDialog onSuccess={() => refetch()} />
-                <Button
-                  onClick={async () => {
-                    try {
-                      await assignAllIdsMutation.mutateAsync();
-                      refetch();
-                      toast.success('IDs de alunos gerados com sucesso!');
-                    } catch (error: any) {
-                      toast.error(`Erro ao gerar IDs: ${error.message}`);
-                    }
-                  }}
-                  disabled={assignAllIdsMutation.isPending}
-                  className="gap-2"
-                >
-                  {assignAllIdsMutation.isPending ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <Hash className="w-4 h-4" />
-                  )}
-                  Gerar IDs
-                </Button>
-                <Button
+              <div className="flex gap-2 flex-wrap">
+                <Button 
                   variant="outline"
                   onClick={async () => {
                     try {
-                      await syncAllStudentsMutation.mutateAsync({});
+                      const result = await assignAllIdsMutation.mutateAsync();
+                      toast.success(result.message);
                     } catch (error) {
-                      toast.error("Erro ao sincronizar alunos");
+                      toast.error("Erro ao gerar IDs");
                     }
                   }}
-                  disabled={syncAllStudentsMutation.isPending}
-                  className="bg-green-50 hover:bg-green-100 border-green-200 dark:bg-green-950 dark:hover:bg-green-900 dark:border-green-800"
-                  title={syncStatsQuery.data ? `Dashboard Central: ${syncStatsQuery.data.centralTotal} alunos (${syncStatsQuery.data.centralAtivos} ativos) | inFlux: ${syncStatsQuery.data.totalStudents} usuários` : 'Sincronizar com Dashboard Central'}
+                  disabled={assignAllIdsMutation.isPending}
                 >
-                  {syncAllStudentsMutation.isPending ? (
+                  {assignAllIdsMutation.isPending ? (
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                   ) : (
-                    <RefreshCw className="w-4 h-4 mr-2" />
+                    <Hash className="w-4 h-4 mr-2" />
                   )}
-                  Sincronizar com Dashboard
-                  {syncStatsQuery.data && (
-                    <span className="ml-1 text-xs text-green-600 dark:text-green-400">
-                      ({syncStatsQuery.data.centralAtivos} ativos)
-                    </span>
-                  )}
+                  Gerar IDs
                 </Button>
-                <Button
+                <Button 
+                  variant="outline"
+                  onClick={() => setLocation("/admin/personalized-links")}
+                >
+                  Gerar Links
+                </Button>
+                <Button 
+                  variant="outline"
+                  onClick={() => setLocation("/admin/upload-materials")}
+                >
+                  Compartilhar Materiais
+                </Button>
+                <Button 
+                  variant="outline"
+                  onClick={() => setLocation("/admin/dashboard")}
+                  className="bg-blue-50 hover:bg-blue-100 border-blue-200"
+                >
+                  <BarChart3 className="w-4 h-4 mr-2 text-blue-600" />
+                  Estatísticas de Alunos
+                </Button>
+                <Button 
+                  variant="outline"
+                  onClick={async () => {
+                    try {
+                      const result = await exportStudentsCSVMutation.refetch();
+                      if (result.data?.csv) {
+                        const blob = new Blob([result.data.csv], { type: 'text/csv;charset=utf-8;' });
+                        const link = document.createElement('a');
+                        link.href = URL.createObjectURL(blob);
+                        link.download = `alunos_ativos_${new Date().toISOString().split('T')[0]}.csv`;
+                        link.click();
+                        toast.success(`${result.data.count} alunos exportados com sucesso!`);
+                      }
+                    } catch (error) {
+                      toast.error('Erro ao exportar dados de alunos ativos');
+                    }
+                  }}
+                  disabled={exportStudentsCSVMutation.isLoading}
+                >
+                  {exportStudentsCSVMutation.isLoading ? (
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  ) : (
+                    <Download className="w-4 h-4 mr-2" />
+                  )}
+                  Exportar Alunos Ativos (CSV)
+                </Button>
+                <Button 
                   variant="outline"
                   onClick={async () => {
                     try {
@@ -298,167 +272,90 @@ export default function AdminDashboard() {
                   )}
                   Exportar Alunos Ativos (JSON)
                 </Button>
-                {syncStatsQuery.data && syncStatsQuery.data.unlinked > 0 && (
-                  <Button
-                    variant="outline"
-                    onClick={() => setShowReconcile(true)}
-                    className="bg-orange-50 hover:bg-orange-100 border-orange-300 text-orange-700 dark:bg-orange-950 dark:hover:bg-orange-900 dark:border-orange-800 dark:text-orange-300"
-                    title="Vincular usuários sem student_id ao Dashboard Central"
-                  >
-                    <LinkIcon className="w-4 h-4 mr-2" />
-                    Reconciliar ({syncStatsQuery.data.unlinked} sem vínculo)
-                  </Button>
-                )}
               </div>
             </div>
-          </CardHeader>
-          <CardContent>
+          </div>
+          <div style={{ padding: '0 20px 20px' }}>
             {/* Barra de Busca */}
             <div className="mb-6">
               <div className="relative">
-                <Search className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
-                <Input
+                <Search className="absolute left-3 top-3 w-4 h-4" style={{ color: 'rgba(255,255,255,0.25)' }} />
+                <input
                   placeholder="Buscar por nome ou email..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
+                  style={{
+                    width: '100%', padding: '10px 14px 10px 36px', borderRadius: 12,
+                    background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
+                    color: '#fff', fontSize: '0.875rem', outline: 'none',
+                  }}
                 />
-              </div>
-            </div>
-
-            {/* Filtros Avançados */}
-            <div className="mb-6 p-4 bg-muted/30 rounded-lg border border-border">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="font-semibold text-sm">Filtros Avançados</h3>
-                {hasActiveFilters && (
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={handleClearFilters}
-                    className="text-xs"
-                  >
-                    Limpar Filtros
-                  </Button>
-                )}
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <label className="text-xs font-medium mb-2 block">Nível</label>
-                  <select
-                    value={filterLevel}
-                    onChange={(e) => setFilterLevel(e.target.value)}
-                    className="w-full px-3 py-2 border border-border rounded-md bg-background text-sm"
-                  >
-                    <option value="">Todos os níveis</option>
-                    <option value="beginner">Iniciante</option>
-                    <option value="elementary">Elementar</option>
-                    <option value="intermediate">Intermediário</option>
-                    <option value="upper_intermediate">Intermediário Superior</option>
-                    <option value="advanced">Avançado</option>
-                    <option value="proficient">Proficiente</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="text-xs font-medium mb-2 block">Objetivo</label>
-                  <select
-                    value={filterObjective}
-                    onChange={(e) => setFilterObjective(e.target.value)}
-                    className="w-full px-3 py-2 border border-border rounded-md bg-background text-sm"
-                  >
-                    <option value="">Todos os objetivos</option>
-                    <option value="career">Carreira</option>
-                    <option value="travel">Viagens</option>
-                    <option value="studies">Estudos</option>
-                    <option value="other">Outro</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="text-xs font-medium mb-2 block">Status</label>
-                  <select
-                    value={filterStatus}
-                    onChange={(e) => setFilterStatus(e.target.value)}
-                    className="w-full px-3 py-2 border border-border rounded-md bg-background text-sm"
-                  >
-                    <option value="">Todos os status</option>
-                    <option value="ativo">Ativo</option>
-                    <option value="inativo">Inativo</option>
-                    <option value="desistente">Desistente</option>
-                    <option value="trancado">Trancado</option>
-                  </select>
-                </div>
               </div>
             </div>
 
             {/* Tabela de Alunos */}
             {isLoading ? (
-              <div className="flex items-center justify-center py-12">
-                <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+              <div style={{ padding: '48px 0', textAlign: 'center' }}>
+                <div style={{ width: 32, height: 32, borderRadius: 10, margin: '0 auto 12px', background: 'rgba(255,255,255,0.04)', animation: 'app-loading-pulse 2s ease-in-out infinite' }} />
+                <p style={{ color: 'rgba(255,255,255,0.25)', fontSize: '0.85rem' }}>Carregando...</p>
               </div>
             ) : filteredStudents.length === 0 ? (
-              <div className="text-center py-12">
-                <AlertCircle className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-                <p className="text-muted-foreground">Nenhum aluno encontrado</p>
+              <div style={{ padding: '48px 0', textAlign: 'center' }}>
+                <Users style={{ width: 40, height: 40, color: 'rgba(255,255,255,0.08)', margin: '0 auto 12px' }} />
+                <p style={{ color: 'rgba(255,255,255,0.25)' }}>Nenhum aluno encontrado</p>
               </div>
             ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
+              <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                   <thead>
-                    <tr className="border-b border-border">
-                      <th className="text-left py-3 px-4 font-semibold">ID</th>
-                      <th className="text-left py-3 px-4 font-semibold">Nome</th>
-                      <th className="text-left py-3 px-4 font-semibold hidden sm:table-cell">Email</th>
-                      <th className="text-left py-3 px-4 font-semibold">Nível</th>
-                      <th className="text-left py-3 px-4 font-semibold hidden md:table-cell">Objetivo</th>
-                      <th className="text-left py-3 px-4 font-semibold hidden lg:table-cell">Horas</th>
-                      <th className="text-left py-3 px-4 font-semibold hidden xl:table-cell">Streak</th>
-                      <th className="text-left py-3 px-4 font-semibold">Status</th>
-                      <th className="text-left py-3 px-4 font-semibold">Ações</th>
+                    <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                      {['ID', 'Nome', 'Email', 'Nivel', 'Objetivo', 'Horas', 'Streak', 'Status', 'Acoes'].map(h => (
+                        <th key={h} style={{ textAlign: 'left', padding: '10px 12px', fontSize: '0.75rem', fontWeight: 600, color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{h}</th>
+                      ))}
                     </tr>
                   </thead>
                   <tbody>
                     {filteredStudents.map((student) => (
-                      <tr key={student.id} className="border-b border-border hover:bg-muted/50">
-                        <td className="py-3 px-4 text-xs">{student.studentId || "-"}</td>
-                        <td className="py-3 px-4 font-medium">{student.name}</td>
-                        <td className="py-3 px-4 text-xs hidden sm:table-cell">{student.email}</td>
-                        <td className="py-3 px-4 text-xs">{levelMap[student.level] || student.level}</td>
-                        <td className="py-3 px-4 text-xs hidden md:table-cell">{objectiveMap[student.objective] || student.objective}</td>
-                        <td className="py-3 px-4 text-xs hidden lg:table-cell">{student.hoursLearned}h</td>
-                        <td className="py-3 px-4 text-xs hidden xl:table-cell">{student.streakDays} dias</td>
-                        <td className="py-3 px-4">
-                          <span
-                            className={`inline-block px-2 py-1 text-xs rounded-full font-medium ${
-                              student.status === "ativo"
-                                ? "bg-green-100 text-green-800"
-                                : student.status === "inativo"
-                                ? "bg-gray-100 text-gray-800"
-                                : "bg-red-100 text-red-800"
-                            }`}
-                          >
-                            {student.status}
+                      <tr
+                        key={student.id}
+                        style={{ borderBottom: '1px solid rgba(255,255,255,0.04)', cursor: 'pointer', transition: 'background 0.15s' }}
+                        onClick={() => setSelectedStudent(student as StudentData)}
+                        onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
+                      >
+                        <td style={{ padding: '10px 12px', fontSize: '0.75rem', fontFamily: 'monospace', color: 'rgba(255,255,255,0.3)' }}>
+                          {(student as any).studentId || '-'}
+                        </td>
+                        <td style={{ padding: '10px 12px', fontSize: '0.85rem', fontWeight: 500, color: '#fff' }}>{student.name}</td>
+                        <td style={{ padding: '10px 12px', fontSize: '0.8rem', color: 'rgba(255,255,255,0.35)' }}>{student.email}</td>
+                        <td style={{ padding: '10px 12px', fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)' }}>{levelMap[student.level] || student.level}</td>
+                        <td style={{ padding: '10px 12px', fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)' }}>{objectiveMap[student.objective] || student.objective}</td>
+                        <td style={{ padding: '10px 12px', fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)' }}>{student.hoursLearned}h</td>
+                        <td style={{ padding: '10px 12px', fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)' }}>{student.streakDays}d</td>
+                        <td style={{ padding: '10px 12px' }}>
+                          <span style={{
+                            padding: '3px 8px', borderRadius: 999, fontSize: '0.7rem', fontWeight: 600,
+                            background: student.status === 'active' ? 'rgba(106,191,75,0.1)' : student.status === 'inactive' ? 'rgba(255,255,255,0.04)' : 'rgba(239,68,68,0.1)',
+                            color: student.status === 'active' ? '#6abf4b' : student.status === 'inactive' ? 'rgba(255,255,255,0.3)' : '#ef4444',
+                            border: `1px solid ${student.status === 'active' ? 'rgba(106,191,75,0.15)' : student.status === 'inactive' ? 'rgba(255,255,255,0.06)' : 'rgba(239,68,68,0.15)'}`,
+                          }}>
+                            {student.status === 'active' ? 'Ativo' : student.status === 'inactive' ? 'Inativo' : 'Em Risco'}
                           </span>
                         </td>
-                        <td className="py-3 px-4">
-                          <div className="flex items-center gap-1">
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => setSelectedStudent(student)}
-                              className="gap-1"
+                        <td style={{ padding: '10px 12px' }}>
+                          <div style={{ display: 'flex', gap: 4 }}>
+                            <button
+                              onClick={(e) => { e.stopPropagation(); setLocation(`/admin/student/${student.id}/edit`); }}
+                              style={{ padding: '4px 8px', borderRadius: 6, background: 'rgba(77,168,255,0.08)', border: '1px solid rgba(77,168,255,0.12)', color: '#4da8ff', fontSize: '0.75rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 3 }}
                             >
-                              <Edit className="w-4 h-4" />
-                              <span className="hidden sm:inline">Editar</span>
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => setResetStudent({ id: student.id, name: student.name, email: student.email })}
-                              className="gap-1 text-yellow-600 hover:text-yellow-700 hover:bg-yellow-50 dark:hover:bg-yellow-950"
-                              title="Resetar senha"
+                              <Edit style={{ width: 12, height: 12 }} /> Editar
+                            </button>
+                            <button
+                              onClick={(e) => { e.stopPropagation(); setLocation(`/admin/student/${student.id}/analysis`); }}
+                              style={{ padding: '4px 8px', borderRadius: 6, background: 'rgba(168,85,247,0.08)', border: '1px solid rgba(168,85,247,0.12)', color: '#a78bfa', fontSize: '0.75rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 3 }}
                             >
-                              <KeyRound className="w-4 h-4" />
-                              <span className="hidden lg:inline">Senha</span>
-                            </Button>
+                              <BarChart3 style={{ width: 12, height: 12 }} /> Analise
+                            </button>
                           </div>
                         </td>
                       </tr>
@@ -467,26 +364,63 @@ export default function AdminDashboard() {
                 </table>
               </div>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
+
+        {/* Detalhes do Aluno Selecionado */}
+        {selectedStudent && (
+          <div style={{
+            marginTop: 20, borderRadius: 20, padding: '20px',
+            background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)',
+            backdropFilter: 'blur(20px)',
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
+              <div>
+                <h3 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 600, fontSize: '1.1rem', color: '#fff', margin: '0 0 4px' }}>{selectedStudent.name}</h3>
+                <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: '0.8rem', margin: 0 }}>{selectedStudent.email}</p>
+              </div>
+              <button onClick={() => setSelectedStudent(null)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.25)', cursor: 'pointer', fontSize: '1rem' }}>x</button>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 12, marginBottom: 16 }}>
+              {[
+                { label: 'Nivel', value: levelMap[selectedStudent.level] },
+                { label: 'Objetivo', value: objectiveMap[selectedStudent.objective] },
+                { label: 'Horas', value: `${selectedStudent.hoursLearned}h` },
+                { label: 'Streak', value: `${selectedStudent.streakDays} dias` },
+              ].map(item => (
+                <div key={item.label}>
+                  <p style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.3)', margin: '0 0 2px' }}>{item.label}</p>
+                  <p style={{ fontSize: '0.9rem', fontWeight: 600, color: '#fff', margin: 0 }}>{item.value}</p>
+                </div>
+              ))}
+            </div>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              <button
+                onClick={() => setLocation(`/admin/student/${selectedStudent.id}/edit`)}
+                style={{
+                  padding: '8px 16px', borderRadius: 10,
+                  background: 'rgba(77,168,255,0.1)', border: '1px solid rgba(77,168,255,0.2)',
+                  color: '#4da8ff', fontSize: '0.85rem', fontWeight: 500, cursor: 'pointer',
+                  display: 'flex', alignItems: 'center', gap: 6,
+                }}
+              >
+                <Edit style={{ width: 14, height: 14 }} /> Editar Perfil
+              </button>
+              <button
+                onClick={() => setLocation(`/admin/student/${selectedStudent.id}/analysis`)}
+                style={{
+                  padding: '8px 16px', borderRadius: 10,
+                  background: 'rgba(168,85,247,0.1)', border: '1px solid rgba(168,85,247,0.2)',
+                  color: '#a78bfa', fontSize: '0.85rem', fontWeight: 500, cursor: 'pointer',
+                  display: 'flex', alignItems: 'center', gap: 6,
+                }}
+              >
+                <BarChart3 style={{ width: 14, height: 14 }} /> Analise Cruzada
+              </button>
+            </div>
+          </div>
+        )}
       </main>
-
-      {/* Reset Password Dialog */}
-      <ResetPasswordDialog
-        open={!!resetStudent}
-        onOpenChange={(open) => !open && setResetStudent(null)}
-        student={resetStudent}
-      />
-
-      {/* Reconcile Users Dialog */}
-      <ReconcileUsersDialog
-        open={showReconcile}
-        onOpenChange={setShowReconcile}
-        onSuccess={() => {
-          syncStatsQuery.refetch();
-          refetch();
-        }}
-      />
     </div>
   );
 }

@@ -4,32 +4,8 @@ import { invokeLLM } from "../_core/llm";
 import { transcribeAudio } from "../_core/voiceTranscription";
 import { addMessageToConversation, getStudentProfile, getDb } from "../db";
 import { TRPCError } from "@trpc/server";
-import { storagePut } from "../storage";
 
 export const pronunciationRouter = router({
-  /**
-   * Upload de áudio base64 para S3 — retorna URL pública para transcrever
-   */
-  uploadAudio: protectedProcedure
-    .input(
-      z.object({
-        audioBase64: z.string().min(1),
-        mimeType: z.string().default("audio/webm"),
-      })
-    )
-    .mutation(async ({ ctx, input }) => {
-      if (!ctx.user) throw new TRPCError({ code: "UNAUTHORIZED" });
-      const buffer = Buffer.from(input.audioBase64, "base64");
-      if (buffer.length > 16 * 1024 * 1024) {
-        throw new TRPCError({ code: "BAD_REQUEST", message: "Áudio muito grande. Máximo: 16MB" });
-      }
-      const ext = input.mimeType.includes("webm") ? "webm" : input.mimeType.includes("mp4") ? "mp4" : "mp3";
-      const fileKey = `audio/${ctx.user.id}/${Date.now()}-${Math.random().toString(36).substring(7)}.${ext}`;
-      const { url } = await storagePut(fileKey, buffer, input.mimeType);
-      return { url };
-    }),
-
-
   transcribeAndEvaluate: protectedProcedure
     .input(
       z.object({

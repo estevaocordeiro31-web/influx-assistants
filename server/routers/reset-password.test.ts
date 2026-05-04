@@ -92,7 +92,7 @@ describe('Reset de Senha pelo Admin', () => {
   describe('Formato das credenciais para compartilhamento', () => {
     it('deve formatar credenciais para WhatsApp/email', () => {
       const credentials = {
-        url: 'https://influxassist-2anfqga4.manus.space/login',
+        url: 'https://tutor.imaind.tech/login',
         email: 'camila@email.com',
         password: 'Camila@2026',
       };

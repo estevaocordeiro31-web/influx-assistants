@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -97,3 +98,77 @@ export function PersonalizedContent() {
       </div>
 
       {/* Conteúdo das abas */}
+      {activeTab === "suggestions" && suggestions && (
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold flex items-center gap-2">
+            <TrendingUp className="h-5 w-5" />
+            Sugestões para seu nível
+          </h3>
+          <div className="grid gap-3">
+            {suggestions.suggestions.map((suggestion, idx) => (
+              <Card key={idx} className="p-4 hover:shadow-md transition-shadow">
+                <p className="text-sm">{suggestion}</p>
+              </Card>
+            ))}
+          </div>
+          <p className="text-sm text-gray-600 mt-4">{suggestions.message}</p>
+        </div>
+      )}
+
+      {activeTab === "chunks" && chunks && (
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold flex items-center gap-2">
+            <BookOpen className="h-5 w-5" />
+            Chunks do seu nível ({chunks.total})
+          </h3>
+          <div className="grid gap-3">
+            {chunks.chunks.map((chunk) => (
+              <Card key={chunk.id} className="p-4">
+                <div className="space-y-2">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <p className="font-semibold text-blue-600">{chunk.englishChunk}</p>
+                      <p className="text-sm text-gray-600">{chunk.portugueseEquivalent}</p>
+                    </div>
+                    <Badge variant="outline" className="capitalize">
+                      {chunk.nativeUsageFrequency.replace("_", " ")}
+                    </Badge>
+                  </div>
+                  {chunk.example && (
+                    <p className="text-sm italic text-gray-500">Ex: {chunk.example}</p>
+                  )}
+                  <div className="flex gap-2">
+                    <Badge variant="secondary" className="capitalize">
+                      {chunk.context.replace("_", " ")}
+                    </Badge>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {activeTab === "progress" && progress && (
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold">Seu Progresso</h3>
+          <div className="grid grid-cols-2 gap-4">
+            <Card className="p-4">
+              <p className="text-sm text-gray-600">Horas Aprendidas</p>
+              <p className="text-3xl font-bold">{progress.hoursLearned}</p>
+            </Card>
+            <Card className="p-4">
+              <p className="text-sm text-gray-600">Dias Seguidos</p>
+              <p className="text-3xl font-bold">{progress.streakDays}</p>
+            </Card>
+            <Card className="p-4 col-span-2">
+              <p className="text-sm text-gray-600 mb-2">Nível Atual</p>
+              <p className="text-2xl font-bold capitalize">{progress.level}</p>
+              <p className="text-sm text-gray-500 mt-2">Book {progress.book}</p>
+            </Card>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

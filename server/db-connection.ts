@@ -18,15 +18,28 @@ let centralDb: MySql2Database;
 // Initialize connections lazily
 let initialized = false;
 
+export function buildConnectionConfig(url: string) {
+  const cleanUrl = url.replace(/\?ssl=.*$/, '');
+  const isTiDB = url.includes('tidbcloud.com');
+  return {
+    uri: cleanUrl,
+    ...(isTiDB ? { ssl: { rejectUnauthorized: true } } : {}),
+  };
+}
+
 async function initializeConnections() {
   if (initialized) return;
-  
-  localConnection = await mysql.createConnection(process.env.DATABASE_URL!);
+
+  localConnection = await mysql.createConnection(
+    buildConnectionConfig(process.env.DATABASE_URL!)
+  );
   localDb = drizzle(localConnection);
-  
-  centralConnection = await mysql.createConnection(process.env.CENTRAL_DATABASE_URL!);
+
+  centralConnection = await mysql.createConnection(
+    buildConnectionConfig(process.env.CENTRAL_DATABASE_URL!)
+  );
   centralDb = drizzle(centralConnection);
-  
+
   initialized = true;
 }
 

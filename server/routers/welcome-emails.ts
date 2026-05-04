@@ -59,7 +59,7 @@ export const welcomeEmailsRouter = router({
           studentName: user.name || 'Aluno',
           email: user.email,
           password: defaultPassword,
-          loginUrl: 'https://influxassist-2anfqga4.manus.space/login',
+          loginUrl: 'https://tutor.imaind.tech/login',
         });
 
         if (!success) {
@@ -119,7 +119,7 @@ export const welcomeEmailsRouter = router({
           studentName: user.name || 'Aluno',
           email: user.email,
           password: `${firstName}@2026`,
-          loginUrl: 'https://influxassist-2anfqga4.manus.space/login',
+          loginUrl: 'https://tutor.imaind.tech/login',
         };
       });
 

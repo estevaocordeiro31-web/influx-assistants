@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const EVENT_URL = "https://influxassist-2anfqga4.manus.space/events/register";
+const EVENT_URL = "https://tutor.imaind.tech/events/register";
 const QR_URL = `https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${encodeURIComponent(EVENT_URL)}&bgcolor=021a06&color=40e080&margin=16&qzone=2`;
 
 const FLOATING_ITEMS = [

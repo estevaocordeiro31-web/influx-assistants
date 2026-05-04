@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { MessageCircle, X, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -47,3 +48,108 @@ const avatarImages: Record<EllieState, string> = {
   success: '/miss-elie-uniform-thumbsup.png',
   help: '/miss-elie-uniform-teaching.png',
   neutral: '/miss-elie-uniform-avatar.png',
+  celebration: '/miss-elie-uniform-full.png',
+};
+
+export function EllieFloatingAvatar({
+  studentBook = 'Regular',
+  onRequestSupport,
+  isOpen: initialOpen = false,
+}: EllieFloatingAvatarProps) {
+  const [isOpen, setIsOpen] = useState(initialOpen);
+  const [currentState, setCurrentState] = useState<EllieState>('welcome');
+
+  const handleStateChange = (state: EllieState) => {
+    setCurrentState(state);
+  };
+
+  const message = ellieMessages[studentBook][currentState];
+  const avatarImage = avatarImages[currentState];
+
+  return (
+    <div className="fixed bottom-6 right-6 z-50">
+      {/* Chat Bubble */}
+      {isOpen && (
+        <div className="absolute bottom-24 right-0 mb-4 animate-in fade-in slide-in-from-bottom-2">
+          <Card className="w-80 bg-slate-800 border-green-400 shadow-lg">
+            <div className="p-4">
+              {/* Avatar */}
+              <div className="flex justify-center mb-4">
+                <img
+                  src={avatarImage}
+                  alt="Ellie"
+                  className="w-32 h-32 object-contain rounded-lg"
+                />
+              </div>
+
+              {/* Message */}
+              <div className="bg-slate-700 rounded-lg p-3 mb-4">
+                <p className="text-slate-100 text-sm leading-relaxed">{message}</p>
+              </div>
+
+              {/* State Buttons */}
+              <div className="grid grid-cols-2 gap-2 mb-4">
+                <Button
+                  size="sm"
+                  variant={currentState === 'success' ? 'default' : 'outline'}
+                  onClick={() => handleStateChange('success')}
+                  className="text-xs"
+                >
+                  ✨ Sucesso
+                </Button>
+                <Button
+                  size="sm"
+                  variant={currentState === 'help' ? 'default' : 'outline'}
+                  onClick={() => handleStateChange('help')}
+                  className="text-xs"
+                >
+                  ❓ Ajuda
+                </Button>
+                <Button
+                  size="sm"
+                  variant={currentState === 'celebration' ? 'default' : 'outline'}
+                  onClick={() => handleStateChange('celebration')}
+                  className="text-xs"
+                >
+                  🎉 Celebração
+                </Button>
+                <Button
+                  size="sm"
+                  variant={currentState === 'neutral' ? 'default' : 'outline'}
+                  onClick={() => handleStateChange('neutral')}
+                  className="text-xs"
+                >
+                  💬 Neutro
+                </Button>
+              </div>
+
+              {/* Support Button */}
+              <Button
+                onClick={() => {
+                  onRequestSupport?.();
+                  setIsOpen(false);
+                }}
+                className="w-full bg-green-500 hover:bg-green-600 text-white"
+              >
+                <Phone className="w-4 h-4 mr-2" />
+                Solicitar Comissário
+              </Button>
+            </div>
+          </Card>
+        </div>
+      )}
+
+      {/* Floating Button */}
+      <Button
+        onClick={() => setIsOpen(!isOpen)}
+        className="rounded-full w-16 h-16 p-0 bg-gradient-to-r from-green-400 to-green-500 hover:from-green-500 hover:to-green-600 shadow-lg"
+      >
+        {isOpen ? (
+          <X className="w-6 h-6" />
+        ) : (
+          <MessageCircle className="w-6 h-6" />
+        )}
+      </Button>
+    </div>
+  );
+}
