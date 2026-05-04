@@ -17,3 +17,6 @@
 - [x] Valentine's Totem page com QR Code para atividade
 - [x] Seção "Em breve" para convites do evento Valentine's
 - [x] Redesign ValentinesTotem com glassmorphism, motion effects e visual premium
+- [x] Tela com QR Code para login do aluno (estilo glassmorphism)
+- [x] Games Arena Valentine's Day (Word Scramble, Love Match, Emoji Decoder, Tongue Twisters, Speed Dating)
+- [x] Botão Games Arena na home do ValentinesRestaurant

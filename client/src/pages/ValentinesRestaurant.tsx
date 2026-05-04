@@ -216,6 +216,14 @@ export default function ValentinesRestaurant() {
               onClick={() => { setSection('restaurant'); setChatMessages([]); setChatInput(''); setOrderComplete(false); setMessageCount(0); }}
               color="#f44336"
             />
+            <MissionButton
+              icon={<Sparkles size={18} className="text-cyan-400" />}
+              title="Games Arena"
+              description="5 jogos: Word Scramble, Love Match, Emoji Decoder e mais!"
+              points={390}
+              onClick={() => navigate('/events/valentines/games')}
+              color="#00bcd4"
+            />
           </div>
         </div>
       </div>

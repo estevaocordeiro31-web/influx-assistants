@@ -3548,3 +3548,78 @@
 [2026-05-04T17:59:17.913Z] [Auth] Missing session cookie
 [2026-05-04T17:59:20.248Z] [Auth] Missing session cookie
 [2026-05-04T17:59:20.428Z] [Auth] Missing session cookie
+[2026-05-04T17:59:40.992Z] [Auth] Missing session cookie
+[2026-05-04T17:59:41.175Z] [Auth] Missing session cookie
+[2026-05-04T17:59:44.302Z] [Auth] Missing session cookie
+[2026-05-04T17:59:46.576Z] [Auth] Missing session cookie
+[2026-05-04T17:59:46.743Z] [Auth] Missing session cookie
+[2026-05-04T18:24:28.558Z] [Auth] Missing session cookie
+[2026-05-04T18:24:28.729Z] [Auth] Missing session cookie
+[2026-05-04T18:24:31.067Z] [Auth] Missing session cookie
+[2026-05-04T18:24:31.269Z] [Auth] Missing session cookie
+[2026-05-04T18:29:26.527Z] [Auth] Missing session cookie
+[2026-05-04T18:29:26.707Z] [Auth] Missing session cookie
+[2026-05-04T18:29:28.967Z] [Auth] Missing session cookie
+[2026-05-04T18:29:29.185Z] [Auth] Missing session cookie
+[2026-05-04T18:29:33.654Z] 2:29:33 PM [vite] (client) hmr update /src/App.tsx, /src/index.css
+[2026-05-04T18:29:36.219Z] [Auth] Missing session cookie
+[2026-05-04T18:29:36.405Z] [Auth] Missing session cookie
+[2026-05-04T18:29:38.658Z] [Auth] Missing session cookie
+[2026-05-04T18:29:38.842Z] [Auth] Missing session cookie
+[2026-05-04T18:29:46.759Z] 2:29:46 PM [vite] (client) hmr update /src/App.tsx, /src/index.css
+[2026-05-04T18:29:49.134Z] [Auth] Missing session cookie
+[2026-05-04T18:29:49.304Z] [Auth] Missing session cookie
+[2026-05-04T18:29:51.694Z] [Auth] Missing session cookie
+[2026-05-04T18:29:51.886Z] [Auth] Missing session cookie
+[2026-05-04T18:31:49.673Z] [Auth] Missing session cookie
+[2026-05-04T18:31:49.853Z] [Auth] Missing session cookie
+[2026-05-04T18:31:53.500Z] [Auth] Missing session cookie
+[2026-05-04T18:31:53.677Z] [Auth] Missing session cookie
+[2026-05-04T18:31:57.056Z] [Auth] Missing session cookie
+[2026-05-04T18:31:57.234Z] [Auth] Missing session cookie
+[2026-05-04T18:32:06.501Z] [Auth] Missing session cookie
+[2026-05-04T18:32:06.695Z] [Auth] Missing session cookie
+[2026-05-04T18:33:21.046Z] [Auth] Missing session cookie
+[2026-05-04T18:33:21.230Z] [Auth] Missing session cookie
+[2026-05-04T18:33:31.993Z] [Auth] Missing session cookie
+[2026-05-04T18:33:32.194Z] [Auth] Missing session cookie
+[2026-05-04T18:33:40.794Z] [Auth] Missing session cookie
+[2026-05-04T18:33:40.978Z] [Auth] Missing session cookie
+[2026-05-04T18:33:45.126Z] [Auth] Missing session cookie
+[2026-05-04T18:33:45.317Z] [Auth] Missing session cookie
+[2026-05-04T18:33:53.836Z] 2:33:53 PM [vite] (client) hmr update /src/App.tsx, /src/index.css
+[2026-05-04T18:33:54.968Z] [Auth] Missing session cookie
+[2026-05-04T18:34:07.836Z] [Auth] Missing session cookie
+[2026-05-04T18:34:08.048Z] [Auth] Missing session cookie
+[2026-05-04T18:34:08.852Z] [Auth] Missing session cookie
+[2026-05-04T18:34:09.048Z] [Auth] Missing session cookie
+[2026-05-04T18:34:12.242Z] [Auth] Missing session cookie
+[2026-05-04T18:34:12.435Z] [Auth] Missing session cookie
+[2026-05-04T18:34:33.424Z] 2:34:33 PM [vite] (client) hmr update /src/pages/ValentinesRestaurant.tsx, /src/index.css
+[2026-05-04T18:34:37.796Z] [Auth] Missing session cookie
+[2026-05-04T18:34:37.998Z] [Auth] Missing session cookie
+[2026-05-04T18:34:40.456Z] [Auth] Missing session cookie
+[2026-05-04T18:34:40.628Z] [Auth] Missing session cookie
+[2026-05-04T18:34:46.588Z] Dev server process group stopped
+[2026-05-04T18:34:46.591Z] ELIFECYCLE  Command failed.
+[2026-05-04T18:34:46.638Z] Dev server exited with code -15
+[2026-05-04T18:34:49.628Z] Starting dev server with command: pnpm run dev
+[2026-05-04T18:34:50.308Z] 
+[2026-05-04T18:34:50.309Z] > influx-personal-tutor@1.1.0 dev /home/ubuntu/influx-assistants
+[2026-05-04T18:34:50.309Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-05-04T18:34:50.310Z] 
+[2026-05-04T18:34:52.416Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-04T18:34:52.899Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-04T18:34:52.958Z] Server running on http://localhost:3000/
+[2026-05-04T18:34:52.959Z] [Jobs] Inicializando jobs em background...
+[2026-05-04T18:34:53.040Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-04T18:34:53.041Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-04T18:34:53.041Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-04T18:34:58.354Z] [Auth] Missing session cookie
+[2026-05-04T18:34:58.536Z] [Auth] Missing session cookie
+[2026-05-04T18:34:58.701Z] [Auth] Missing session cookie
+[2026-05-04T18:34:58.891Z] [Auth] Missing session cookie
+[2026-05-04T18:39:05.664Z] [Auth] Missing session cookie
+[2026-05-04T18:39:05.841Z] [Auth] Missing session cookie
+[2026-05-04T18:39:07.956Z] [Auth] Missing session cookie
+[2026-05-04T18:39:08.131Z] [Auth] Missing session cookie
