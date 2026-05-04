@@ -37,7 +37,7 @@ const cityConfig = {
 const characterConfig = {
   lucas: {
     name: "Lucas",
-    avatar: "/images/characters/lucas-adult.png",
+    avatar: "/images/characters/manus-storage/lucas-adult_50f0317c.png",
   },
   emily: {
     name: "Emily",

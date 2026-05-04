@@ -7,7 +7,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import "@/styles/tutor-theme.css";
 
-const SPLASH_DARK_SRC = "/videos/splash-dark.mp4";
+const SPLASH_DARK_SRC = "/manus-storage/splash-dark_2e7bf9e3.mp4";
 const FADE_DURATION_MS = 1000;
 const VIDEO_DURATION_MS = 8000;
 

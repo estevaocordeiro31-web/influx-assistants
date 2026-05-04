@@ -39,10 +39,10 @@ const STATE_IMAGES: Record<ElieState, string> = {
 
 /** Video per state (only used at full size) */
 const STATE_VIDEOS: Record<string, string> = {
-  greeting: "/videos/elie/elie-greeting.mp4",
+  greeting: "/manus-storage/elie-greeting_ffac6c7b.mp4",
   talking: "/videos/elie/elie-talking.mp4",
-  thinking: "/videos/elie/elie-thinking.mp4",
-  listening: "/videos/elie/elie-listening.mp4",
+  thinking: "/manus-storage/elie-thinking_5c17e3da.mp4",
+  listening: "/manus-storage/elie-listening_de488abd.mp4",
 };
 
 export function ElieCompanion({

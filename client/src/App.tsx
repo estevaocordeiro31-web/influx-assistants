@@ -58,6 +58,7 @@ import VacationPlus2 from "./pages/VacationPlus2";
 import VacationPlus2Lesson from "./pages/VacationPlus2Lesson";
 import TotemManager from "./pages/admin/TotemManager";
 import StudentSplash from "./pages/StudentSplash";
+import ValentinesRestaurant from "./pages/ValentinesRestaurant";
 import StudentOnboarding from "./pages/StudentOnboarding";
 import StudentHomeNew from "./pages/StudentHomeNew";
 import StudentChatNew from "./pages/StudentChatNew";
@@ -151,6 +152,7 @@ function Router() {
       <Route path="/book/vacation-plus-2/lesson/:lessonNumber" component={VacationPlus2Lesson} />
       <Route path="/passport/:studentId" component={StudentPassport} />
       <Route path="/totem/:totemId" component={TotemMode} />
+      <Route path="/events/valentines" component={ValentinesRestaurant} />
       <Route path="/passport/checkin" component={PassportCheckInPage} />
       <Route path="/passport/sync" component={PassportSyncPage} />
       {/* Rota exclusiva para Tiago */}

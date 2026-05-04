@@ -3237,3 +3237,73 @@
 [2026-04-07T21:06:03.203Z] }
 [2026-04-07T21:06:03.203Z] 
 [2026-04-07T21:06:03.203Z] Node.js v22.13.0
+[2026-05-04T15:54:56.632Z] Starting dev server with command: pnpm run dev
+[2026-05-04T15:54:57.168Z] 
+[2026-05-04T15:54:57.169Z] > influx-personal-tutor@1.1.0 dev /home/ubuntu/influx-assistants
+[2026-05-04T15:54:57.169Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-05-04T15:54:57.169Z] 
+[2026-05-04T15:54:57.172Z] sh: 1: tsx: not found
+[2026-05-04T15:54:57.176Z] ELIFECYCLE  Command failed.
+[2026-05-04T15:54:57.198Z] Dev server exited with code 1
+[2026-05-04T16:18:16.639Z] Starting dev server with command: pnpm run dev
+[2026-05-04T16:18:17.321Z] 
+[2026-05-04T16:18:17.321Z] > influx-personal-tutor@1.1.0 dev /home/ubuntu/influx-assistants
+[2026-05-04T16:18:17.321Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-05-04T16:18:17.322Z] 
+[2026-05-04T16:18:19.138Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-04T16:18:19.508Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-04T16:18:19.585Z] Server running on http://localhost:3000/
+[2026-05-04T16:18:19.586Z] [Jobs] Inicializando jobs em background...
+[2026-05-04T16:18:19.696Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-04T16:18:19.697Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-04T16:18:19.697Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-04T16:22:53.635Z] 12:22:53 PM [vite] (client) hmr update /src/App.tsx, /src/index.css
+[2026-05-04T16:23:40.621Z] 12:23:40 PM [vite] (client) hmr update /src/index.css, /src/pages/ValentinesRestaurant.tsx
+[2026-05-04T16:24:13.512Z] 12:24:13 PM [vite] (client) hmr update /src/index.css, /src/pages/ValentinesRestaurant.tsx
+[2026-05-04T16:24:29.404Z] 12:24:29 PM [vite] (client) hmr update /src/index.css, /src/pages/ValentinesRestaurant.tsx
+[2026-05-04T16:24:56.153Z] [Auth] Missing session cookie
+[2026-05-04T16:24:56.332Z] [Auth] Missing session cookie
+[2026-05-04T16:24:58.447Z] [Auth] Missing session cookie
+[2026-05-04T16:24:58.670Z] [Auth] Missing session cookie
+[2026-05-04T16:25:01.153Z] [Auth] Missing session cookie
+[2026-05-04T16:25:01.322Z] [Auth] Missing session cookie
+[2026-05-04T16:28:05.835Z] [Auth] Missing session cookie
+[2026-05-04T16:28:06.013Z] [Auth] Missing session cookie
+[2026-05-04T16:28:08.347Z] [Auth] Missing session cookie
+[2026-05-04T16:28:08.518Z] [Auth] Missing session cookie
+[2026-05-04T16:30:06.160Z] [Auth] Missing session cookie
+[2026-05-04T16:30:06.331Z] [Auth] Missing session cookie
+[2026-05-04T16:30:08.605Z] [Auth] Missing session cookie
+[2026-05-04T16:30:08.775Z] [Auth] Missing session cookie
+[2026-05-04T16:30:11.934Z] 12:30:11 PM [tsx] change in ./server/_core/index.ts Restarting...
+[2026-05-04T16:30:13.485Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-04T16:30:13.787Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-04T16:30:13.828Z] Server running on http://localhost:3000/
+[2026-05-04T16:30:13.828Z] [Jobs] Inicializando jobs em background...
+[2026-05-04T16:30:13.844Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-04T16:30:13.844Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-04T16:30:13.845Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-04T16:30:21.256Z] [Auth] Missing session cookie
+[2026-05-04T16:30:21.462Z] [Auth] Missing session cookie
+[2026-05-04T16:31:29.823Z] 12:31:29 PM [vite] (client) hmr update /src/index.css, /src/components/MyFavoriteTips.tsx
+[2026-05-04T16:31:29.829Z] 12:31:29 PM [vite] (client) hmr update /src/index.css, /src/components/TiagoPersonalizedTabs.tsx
+[2026-05-04T16:31:29.839Z] 12:31:29 PM [vite] (client) hmr update /src/index.css, /src/components/tutor/ElieCompanion.tsx
+[2026-05-04T16:31:29.841Z] 12:31:29 PM [vite] (client) hmr update /src/index.css, /src/components/vacation-plus-2/CulturalFactCard.tsx
+[2026-05-04T16:31:29.895Z] 12:31:29 PM [vite] (client) hmr update /src/pages/StudentSplash.tsx, /src/index.css
+[2026-05-04T16:31:32.218Z] [Auth] Missing session cookie
+[2026-05-04T16:31:32.443Z] [Auth] Missing session cookie
+[2026-05-04T16:31:40.410Z] Dev server process group stopped
+[2026-05-04T16:31:40.413Z] ELIFECYCLE  Command failed.
+[2026-05-04T16:31:40.441Z] Dev server exited with code -15
+[2026-05-04T16:31:43.444Z] Starting dev server with command: pnpm run dev
+[2026-05-04T16:31:44.032Z] 
+[2026-05-04T16:31:44.033Z] > influx-personal-tutor@1.1.0 dev /home/ubuntu/influx-assistants
+[2026-05-04T16:31:44.033Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-05-04T16:31:44.034Z] 
+[2026-05-04T16:31:45.547Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-04T16:31:45.728Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-04T16:31:45.767Z] Server running on http://localhost:3000/
+[2026-05-04T16:31:45.768Z] [Jobs] Inicializando jobs em background...
+[2026-05-04T16:31:45.783Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-04T16:31:45.784Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-04T16:31:45.784Z] [Jobs] Todos os jobs foram inicializados
