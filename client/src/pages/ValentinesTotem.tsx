@@ -542,6 +542,61 @@ export default function ValentinesTotem() {
           </div>
         </GlassCard>
 
+        {/* ── KARAOKE MULTIPLAYER ── */}
+        <GlassCard
+          className="mt-8 p-5 text-center"
+          delay={1.4}
+          style={{
+            background: "linear-gradient(135deg, rgba(156,39,176,0.08), rgba(233,30,99,0.05))",
+            borderColor: "rgba(156,39,176,0.2)",
+          }}
+          glow
+        >
+          <div style={{ animation: "floatUp 2.5s ease-in-out infinite" }}>
+            <span className="text-3xl">🎤🎤</span>
+          </div>
+          <h3
+            className="text-base font-black mt-2 uppercase tracking-wider"
+            style={{
+              background: "linear-gradient(90deg, #ff1493, #ff69b4, #ff1493)",
+              backgroundSize: "200% auto",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              animation: "shimmer 4s linear infinite",
+            }}
+          >
+            Karaoke Multiplayer
+          </h3>
+          <p className="text-pink-300/60 text-xs mt-2 leading-relaxed max-w-xs mx-auto">
+            Desafie um amigo! Competição lado-a-lado com placar ao vivo. Adivinhe as músicas românticas!
+          </p>
+          <div
+            className="inline-block p-4 rounded-2xl mt-4"
+            style={{
+              background: "white",
+              boxShadow: "0 0 40px rgba(156,39,176,0.3), 0 0 80px rgba(156,39,176,0.1)",
+              animation: "pulseGlow 4s ease-in-out infinite",
+            }}
+          >
+            <QRCodeSVG
+              value="https://influxassist-2anfqga4.manus.space/events/valentines/karaoke-multiplayer"
+              size={160}
+              level="H"
+              bgColor="#ffffff"
+              fgColor="#1a0011"
+              imageSettings={{
+                src: "/logo-influx.png",
+                x: undefined,
+                y: undefined,
+                height: 28,
+                width: 28,
+                excavate: true,
+              }}
+            />
+          </div>
+          <p className="text-purple-300/40 text-[0.55rem] mt-3">600 pontos • Até 8 músicas</p>
+        </GlassCard>
+
         {/* ── CONVITES - EM BREVE ── */}
         <GlassCard
           className="mt-8 overflow-hidden"
