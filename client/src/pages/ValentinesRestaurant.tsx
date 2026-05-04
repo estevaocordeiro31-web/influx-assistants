@@ -6,6 +6,7 @@ import {
   HelpCircle, Utensils, Globe, Sparkles, Check, X, ArrowLeft, MessageCircle, Send, Loader2
 } from "lucide-react";
 import { trpc } from "@/lib/trpc";
+import { useAuth } from "@/_core/hooks/useAuth";
 import {
   VALENTINE_CHUNKS, VALENTINE_CURIOSITIES, VOCAB_COMPARISONS,
   CHARACTER_IMAGES, CHARACTER_INFO, CHARACTER_COLORS, HERO_BANNER,
@@ -19,6 +20,7 @@ type Section = 'home' | 'chunks' | 'quiz' | 'curiosities' | 'vocab' | 'restauran
 
 export default function ValentinesRestaurant() {
   const [, navigate] = useLocation();
+  const { user } = useAuth();
   const [section, setSection] = useState<Section>('home');
   const [ageMode, setAgeMode] = useState<AgeMode>('adult');
   const [chunkIndex, setChunkIndex] = useState(0);
@@ -57,6 +59,19 @@ export default function ValentinesRestaurant() {
     const character = charMap[voice] || 'lucas';
     const ttsKey = `${character}-${text.substring(0, 20)}`;
     setTtsLoading(ttsKey);
+
+    // If user is not logged in, use browser TTS directly (no redirect)
+    if (!user) {
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = voice;
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+      }
+      setTtsLoading(null);
+      return;
+    }
+
     try {
       const result = await ttsSpeak.mutateAsync({ text, character, situation: 'casual' });
       if (result.audioUrl) {

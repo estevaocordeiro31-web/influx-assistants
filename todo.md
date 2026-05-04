@@ -20,3 +20,4 @@
 - [x] Tela com QR Code para login do aluno (estilo glassmorphism)
 - [x] Games Arena Valentine's Day (Word Scramble, Love Match, Emoji Decoder, Tongue Twisters, Speed Dating)
 - [x] Botão Games Arena na home do ValentinesRestaurant
+- [x] Fix: TTS não deve redirecionar para login - usar fallback browser quando não autenticado
