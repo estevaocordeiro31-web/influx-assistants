@@ -458,7 +458,7 @@ export default function ValentinesTotem() {
             }}
           >
             <QRCodeSVG
-              value={ACTIVITY_URL}
+              value="https://influxassist-2anfqga4.manus.space/events/valentines/register"
               size={200}
               level="H"
               bgColor="#ffffff"
