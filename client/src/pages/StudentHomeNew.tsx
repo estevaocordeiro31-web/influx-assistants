@@ -21,7 +21,7 @@ import { getBookNumberFromLevel } from "@/lib/book-themes";
 import {
   MessageCircle, BookOpen, Trophy, Flame, Zap, Star, Target,
   Settings, ChevronRight, Mic, TrendingUp, Clock, Sparkles,
-  Palette, Check, X,
+  Palette, Check, X, Heart,
 } from "lucide-react";
 import "@/styles/tutor-theme.css";
 
@@ -903,6 +903,45 @@ function StudentHomeInner() {
           )}
 
           {/* ── QUICK ACTIONS ── */}
+          {/* ── VALENTINE'S DAY EVENT BANNER ── */}
+          <section style={{ marginTop: 20, animation: "imaind-text-reveal 0.6s ease-out 0.82s both" }}>
+            <button
+              onClick={() => navigate("/events/valentines")}
+              style={{
+                width: "100%", display: "flex", alignItems: "center", gap: 12,
+                padding: "14px 16px", borderRadius: t.cardRadius,
+                background: "linear-gradient(135deg, rgba(233,30,99,0.15), rgba(255,82,82,0.08))",
+                border: "1.5px solid rgba(233,30,99,0.3)",
+                cursor: "pointer", textAlign: "left", transition: "all 0.2s",
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.transform = "translateY(-2px)";
+                e.currentTarget.style.borderColor = "rgba(233,30,99,0.5)";
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.borderColor = "rgba(233,30,99,0.3)";
+              }}
+            >
+              <div style={{
+                width: 40, height: 40, borderRadius: 12,
+                background: "linear-gradient(135deg, #e91e63, #ff5252)",
+                display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+              }}>
+                <Heart size={20} style={{ color: "#fff" }} />
+              </div>
+              <div style={{ flex: 1 }}>
+                <p style={{ fontSize: "0.8rem", fontWeight: 700, color: t.textPrimary, margin: 0 }}>
+                  Valentine's Restaurant
+                </p>
+                <p style={{ fontSize: "0.6rem", color: t.textSecondary, margin: "2px 0 0" }}>
+                  Atividade especial com Lucas, Emily & Aiko
+                </p>
+              </div>
+              <ChevronRight size={16} style={{ color: "#e91e63", flexShrink: 0 }} />
+            </button>
+          </section>
+
           <section style={{ marginTop: 20, animation: "imaind-text-reveal 0.6s ease-out 0.85s both" }}>
             <p style={{
               fontSize: "0.6rem", fontWeight: 700, color: t.textMuted,

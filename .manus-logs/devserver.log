@@ -3307,3 +3307,228 @@
 [2026-05-04T16:31:45.783Z] [DailySync] Job agendado para rodar diariamente às 18:00
 [2026-05-04T16:31:45.784Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
 [2026-05-04T16:31:45.784Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-04T16:38:31.025Z] [Auth] Missing session cookie
+[2026-05-04T16:38:33.835Z] [Auth] Missing session cookie
+[2026-05-04T16:38:34.023Z] [Auth] Missing session cookie
+[2026-05-04T16:41:03.289Z] [Auth] Missing session cookie
+[2026-05-04T16:41:03.587Z] [Auth] Missing session cookie
+[2026-05-04T16:41:06.457Z] [Auth] Missing session cookie
+[2026-05-04T16:41:06.717Z] [Auth] Missing session cookie
+[2026-05-04T16:44:26.802Z] [Auth] Missing session cookie
+[2026-05-04T16:44:26.983Z] [Auth] Missing session cookie
+[2026-05-04T16:44:30.178Z] [Auth] Missing session cookie
+[2026-05-04T16:44:30.974Z] [Auth] Missing session cookie
+[2026-05-04T16:45:08.679Z] [Auth] Missing session cookie
+[2026-05-04T16:45:08.951Z] [Auth] Missing session cookie
+[2026-05-04T16:45:10.195Z] 12:45:10 PM [tsx] change in ./server/routers.ts Restarting...
+[2026-05-04T16:45:12.272Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-04T16:45:12.578Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-04T16:45:12.634Z] Server running on http://localhost:3000/
+[2026-05-04T16:45:12.634Z] [Jobs] Inicializando jobs em background...
+[2026-05-04T16:45:12.653Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-04T16:45:12.654Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-04T16:45:12.655Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-04T16:45:18.471Z] [Auth] Missing session cookie
+[2026-05-04T16:45:18.648Z] [Auth] Missing session cookie
+[2026-05-04T16:45:23.147Z] [Auth] Missing session cookie
+[2026-05-04T16:45:23.319Z] [Auth] Missing session cookie
+[2026-05-04T16:46:42.686Z] 12:46:42 PM [vite] (client) hmr update /src/pages/ValentinesRestaurant.tsx, /src/index.css
+[2026-05-04T16:46:46.242Z] [Auth] Missing session cookie
+[2026-05-04T16:46:46.457Z] [Auth] Missing session cookie
+[2026-05-04T16:46:47.607Z] Dev server process group stopped
+[2026-05-04T16:46:47.610Z] ELIFECYCLE  Command failed.
+[2026-05-04T16:46:47.645Z] Dev server exited with code -15
+[2026-05-04T16:46:50.648Z] Starting dev server with command: pnpm run dev
+[2026-05-04T16:46:51.331Z] 
+[2026-05-04T16:46:51.331Z] > influx-personal-tutor@1.1.0 dev /home/ubuntu/influx-assistants
+[2026-05-04T16:46:51.332Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-05-04T16:46:51.332Z] 
+[2026-05-04T16:46:52.915Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-04T16:46:53.113Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-04T16:46:53.157Z] Server running on http://localhost:3000/
+[2026-05-04T16:46:53.158Z] [Jobs] Inicializando jobs em background...
+[2026-05-04T16:46:53.174Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-04T16:46:53.174Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-04T16:46:53.175Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-04T16:47:57.426Z] [ValentinesChat] Error: Error: LLM invoke failed: 400 Bad Request – [{
+[2026-05-04T16:47:57.426Z] "error": {
+[2026-05-04T16:47:57.427Z] "code": 400,
+[2026-05-04T16:47:57.427Z] "message": "Invalid JSON payload received. Unknown name \"thinking\": Cannot find field.",
+[2026-05-04T16:47:57.428Z] "status": "INVALID_ARGUMENT",
+[2026-05-04T16:47:57.428Z] "details": [
+[2026-05-04T16:47:57.428Z] {
+[2026-05-04T16:47:57.428Z] "@type": "type.googleapis.com/google.rpc.BadRequest",
+[2026-05-04T16:47:57.428Z] "fieldViolations": [
+[2026-05-04T16:47:57.429Z] {
+[2026-05-04T16:47:57.429Z] "description": "Invalid JSON payload received. Unknown name \"thinking\": Cannot find field."
+[2026-05-04T16:47:57.429Z] }
+[2026-05-04T16:47:57.429Z] ]
+[2026-05-04T16:47:57.429Z] }
+[2026-05-04T16:47:57.429Z] ]
+[2026-05-04T16:47:57.430Z] }
+[2026-05-04T16:47:57.430Z] }
+[2026-05-04T16:47:57.430Z] ]
+[2026-05-04T16:47:57.430Z] at invokeLLM (/home/ubuntu/influx-assistants/server/_core/llm.ts:326:11)
+[2026-05-04T16:47:57.430Z] at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[2026-05-04T16:47:57.430Z] at async <anonymous> (/home/ubuntu/influx-assistants/server/routers/valentines-chat.ts:94:26)
+[2026-05-04T16:47:57.431Z] at async resolveMiddleware (/home/ubuntu/influx-assistants/node_modules/.pnpm/@trpc+server@11.17.0_typescript@5.9.3/node_modules/@trpc/server/src/unstable-core-do-not-import/procedureBuilder.ts:576:22)
+[2026-05-04T16:47:57.431Z] at async callRecursive (/home/ubuntu/influx-assistants/node_modules/.pnpm/@trpc+server@11.17.0_typescript@5.9.3/node_modules/@trpc/server/src/unstable-core-do-not-import/procedureBuilder.ts:642:20)
+[2026-05-04T16:47:57.431Z] at async callRecursive (/home/ubuntu/influx-assistants/node_modules/.pnpm/@trpc+server@11.17.0_typescript@5.9.3/node_modules/@trpc/server/src/unstable-core-do-not-import/procedureBuilder.ts:642:20)
+[2026-05-04T16:47:57.432Z] at async procedure (/home/ubuntu/influx-assistants/node_modules/.pnpm/@trpc+server@11.17.0_typescript@5.9.3/node_modules/@trpc/server/src/unstable-core-do-not-import/procedureBuilder.ts:682:20)
+[2026-05-04T16:47:57.432Z] at async <anonymous> (/home/ubuntu/influx-assistants/node_modules/.pnpm/@trpc+server@11.17.0_typescript@5.9.3/node_modules/@trpc/server/src/unstable-core-do-not-import/http/resolveResponse.ts:375:31)
+[2026-05-04T16:47:57.433Z] at async Promise.all (index 0)
+[2026-05-04T16:47:57.433Z] at async resolveResponse (/home/ubuntu/influx-assistants/node_modules/.pnpm/@trpc+server@11.17.0_typescript@5.9.3/node_modules/@trpc/server/src/unstable-core-do-not-import/http/resolveResponse.ts:681:35)
+[2026-05-04T16:47:57.434Z] at async <anonymous> (/home/ubuntu/influx-assistants/node_modules/.pnpm/@trpc+server@11.17.0_typescript@5.9.3/node_modules/@trpc/server/src/adapters/node-http/nodeHTTPRequestHandler.ts:100:26)
+[2026-05-04T16:48:24.121Z] [Auth] Missing session cookie
+[2026-05-04T16:48:24.159Z] [ValentinesChat] Error: Error: LLM invoke failed: 400 Bad Request – [{
+[2026-05-04T16:48:24.161Z] "error": {
+[2026-05-04T16:48:24.161Z] "code": 400,
+[2026-05-04T16:48:24.162Z] "message": "Invalid JSON payload received. Unknown name \"thinking\": Cannot find field.",
+[2026-05-04T16:48:24.163Z] "status": "INVALID_ARGUMENT",
+[2026-05-04T16:48:24.163Z] "details": [
+[2026-05-04T16:48:24.163Z] {
+[2026-05-04T16:48:24.164Z] "@type": "type.googleapis.com/google.rpc.BadRequest",
+[2026-05-04T16:48:24.164Z] "fieldViolations": [
+[2026-05-04T16:48:24.164Z] {
+[2026-05-04T16:48:24.165Z] "description": "Invalid JSON payload received. Unknown name \"thinking\": Cannot find field."
+[2026-05-04T16:48:24.165Z] }
+[2026-05-04T16:48:24.165Z] ]
+[2026-05-04T16:48:24.166Z] }
+[2026-05-04T16:48:24.166Z] ]
+[2026-05-04T16:48:24.166Z] }
+[2026-05-04T16:48:24.167Z] }
+[2026-05-04T16:48:24.167Z] ]
+[2026-05-04T16:48:24.167Z] at invokeLLM (/home/ubuntu/influx-assistants/server/_core/llm.ts:326:11)
+[2026-05-04T16:48:24.167Z] at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[2026-05-04T16:48:24.167Z] at async <anonymous> (/home/ubuntu/influx-assistants/server/routers/valentines-chat.ts:94:26)
+[2026-05-04T16:48:24.168Z] at async resolveMiddleware (/home/ubuntu/influx-assistants/node_modules/.pnpm/@trpc+server@11.17.0_typescript@5.9.3/node_modules/@trpc/server/src/unstable-core-do-not-import/procedureBuilder.ts:576:22)
+[2026-05-04T16:48:24.168Z] at async callRecursive (/home/ubuntu/influx-assistants/node_modules/.pnpm/@trpc+server@11.17.0_typescript@5.9.3/node_modules/@trpc/server/src/unstable-core-do-not-import/procedureBuilder.ts:642:20)
+[2026-05-04T16:48:24.168Z] at async callRecursive (/home/ubuntu/influx-assistants/node_modules/.pnpm/@trpc+server@11.17.0_typescript@5.9.3/node_modules/@trpc/server/src/unstable-core-do-not-import/procedureBuilder.ts:642:20)
+[2026-05-04T16:48:24.168Z] at async procedure (/home/ubuntu/influx-assistants/node_modules/.pnpm/@trpc+server@11.17.0_typescript@5.9.3/node_modules/@trpc/server/src/unstable-core-do-not-import/procedureBuilder.ts:682:20)
+[2026-05-04T16:48:24.168Z] at async <anonymous> (/home/ubuntu/influx-assistants/node_modules/.pnpm/@trpc+server@11.17.0_typescript@5.9.3/node_modules/@trpc/server/src/unstable-core-do-not-import/http/resolveResponse.ts:375:31)
+[2026-05-04T16:48:24.169Z] at async resolveResponse (/home/ubuntu/influx-assistants/node_modules/.pnpm/@trpc+server@11.17.0_typescript@5.9.3/node_modules/@trpc/server/src/unstable-core-do-not-import/http/resolveResponse.ts:413:31)
+[2026-05-04T16:48:24.169Z] at async <anonymous> (/home/ubuntu/influx-assistants/node_modules/.pnpm/@trpc+server@11.17.0_typescript@5.9.3/node_modules/@trpc/server/src/adapters/node-http/nodeHTTPRequestHandler.ts:100:26)
+[2026-05-04T16:48:36.320Z] [Auth] Missing session cookie
+[2026-05-04T16:48:36.678Z] [Auth] Missing session cookie
+[2026-05-04T16:48:38.270Z] 12:48:38 PM [tsx] change in ./server/routers/valentines-chat.ts Restarting...
+[2026-05-04T16:48:39.718Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-04T16:48:39.927Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-04T16:48:39.976Z] Server running on http://localhost:3000/
+[2026-05-04T16:48:39.977Z] [Jobs] Inicializando jobs em background...
+[2026-05-04T16:48:40.002Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-04T16:48:40.003Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-04T16:48:40.003Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-04T16:48:46.556Z] [Auth] Missing session cookie
+[2026-05-04T16:48:46.746Z] [Auth] Missing session cookie
+[2026-05-04T16:48:47.712Z] [Auth] Missing session cookie
+[2026-05-04T16:48:47.777Z] [ValentinesChat] Error: LLM invoke failed: 400 Bad Request – [{
+[2026-05-04T16:48:47.777Z] "error": {
+[2026-05-04T16:48:47.778Z] "code": 400,
+[2026-05-04T16:48:47.778Z] "message": "Invalid JSON payload received. Unknown name \"thinking\": Cannot find field.",
+[2026-05-04T16:48:47.778Z] "status": "INVALID_ARGUMENT",
+[2026-05-04T16:48:47.778Z] "details": [
+[2026-05-04T16:48:47.778Z] {
+[2026-05-04T16:48:47.778Z] "@type": "type.googleapis.com/google.rpc.BadRequest",
+[2026-05-04T16:48:47.779Z] "fieldViolations": [
+[2026-05-04T16:48:47.779Z] {
+[2026-05-04T16:48:47.779Z] "description": "Invalid JSON payload received. Unknown name \"thinking\": Cannot find field."
+[2026-05-04T16:48:47.779Z] }
+[2026-05-04T16:48:47.779Z] ]
+[2026-05-04T16:48:47.779Z] }
+[2026-05-04T16:48:47.780Z] ]
+[2026-05-04T16:48:47.780Z] }
+[2026-05-04T16:48:47.780Z] }
+[2026-05-04T16:48:47.780Z] ]
+[2026-05-04T16:48:47.780Z] [ValentinesChat] Full error: {}
+[2026-05-04T16:49:45.666Z] [Auth] Missing session cookie
+[2026-05-04T16:49:45.703Z] [ValentinesChat] Error: LLM invoke failed: 400 Bad Request – [{
+[2026-05-04T16:49:45.704Z] "error": {
+[2026-05-04T16:49:45.704Z] "code": 400,
+[2026-05-04T16:49:45.704Z] "message": "Invalid JSON payload received. Unknown name \"thinking\": Cannot find field.",
+[2026-05-04T16:49:45.705Z] "status": "INVALID_ARGUMENT",
+[2026-05-04T16:49:45.705Z] "details": [
+[2026-05-04T16:49:45.705Z] {
+[2026-05-04T16:49:45.706Z] "@type": "type.googleapis.com/google.rpc.BadRequest",
+[2026-05-04T16:49:45.706Z] "fieldViolations": [
+[2026-05-04T16:49:45.706Z] {
+[2026-05-04T16:49:45.707Z] "description": "Invalid JSON payload received. Unknown name \"thinking\": Cannot find field."
+[2026-05-04T16:49:45.707Z] }
+[2026-05-04T16:49:45.707Z] ]
+[2026-05-04T16:49:45.708Z] }
+[2026-05-04T16:49:45.708Z] ]
+[2026-05-04T16:49:45.708Z] }
+[2026-05-04T16:49:45.708Z] }
+[2026-05-04T16:49:45.709Z] ]
+[2026-05-04T16:49:45.709Z] [ValentinesChat] Full error: {}
+[2026-05-04T16:51:17.984Z] 12:51:17 PM [tsx] change in ./server/_core/llm.ts Restarting...
+[2026-05-04T16:51:19.552Z] c[OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-04T16:51:19.781Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-04T16:51:19.823Z] Server running on http://localhost:3000/
+[2026-05-04T16:51:19.824Z] [Jobs] Inicializando jobs em background...
+[2026-05-04T16:51:19.839Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-04T16:51:19.840Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-04T16:51:19.840Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-04T16:51:23.982Z] [Auth] Missing session cookie
+[2026-05-04T16:51:24.177Z] [Auth] Missing session cookie
+[2026-05-04T16:51:29.314Z] [Auth] Missing session cookie
+[2026-05-04T16:54:16.097Z] 12:54:16 PM [vite] (client) hmr update /src/pages/ValentinesRestaurant.tsx, /src/index.css
+[2026-05-04T16:54:19.098Z] [Auth] Missing session cookie
+[2026-05-04T16:54:19.354Z] [Auth] Missing session cookie
+[2026-05-04T16:54:21.995Z] [Auth] Missing session cookie
+[2026-05-04T16:54:22.165Z] [Auth] Missing session cookie
+[2026-05-04T17:08:12.362Z] 1:08:12 PM [vite] (client) hmr update /src/pages/StudentHomeNew.tsx, /src/index.css
+[2026-05-04T17:08:18.157Z] Dev server process group stopped
+[2026-05-04T17:08:18.159Z] ELIFECYCLE  Command failed.
+[2026-05-04T17:08:18.223Z] Dev server exited with code -15
+[2026-05-04T17:08:21.181Z] Starting dev server with command: pnpm run dev
+[2026-05-04T17:08:21.720Z] 
+[2026-05-04T17:08:21.721Z] > influx-personal-tutor@1.1.0 dev /home/ubuntu/influx-assistants
+[2026-05-04T17:08:21.722Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-05-04T17:08:21.722Z] 
+[2026-05-04T17:08:23.281Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-04T17:08:23.474Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-04T17:08:23.517Z] Server running on http://localhost:3000/
+[2026-05-04T17:08:23.518Z] [Jobs] Inicializando jobs em background...
+[2026-05-04T17:08:23.534Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-04T17:08:23.534Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-04T17:08:23.535Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-04T17:08:30.486Z] [Auth] Missing session cookie
+[2026-05-04T17:08:30.664Z] [Auth] Missing session cookie
+[2026-05-04T17:09:04.645Z] [Auth] Missing session cookie
+[2026-05-04T17:09:04.844Z] [Auth] Missing session cookie
+[2026-05-04T17:09:11.461Z] [Auth] Missing session cookie
+[2026-05-04T17:09:11.664Z] [Auth] Missing session cookie
+[2026-05-04T17:10:47.358Z] [Auth] Missing session cookie
+[2026-05-04T17:10:47.527Z] [Auth] Missing session cookie
+[2026-05-04T17:10:49.648Z] [Auth] Missing session cookie
+[2026-05-04T17:10:49.914Z] [Auth] Missing session cookie
+[2026-05-04T17:10:56.801Z] 1:10:56 PM [vite] (client) hmr update /src/App.tsx, /src/index.css
+[2026-05-04T17:11:00.019Z] 1:11:00 PM [vite] (client) ✨ new dependencies optimized: qrcode.react
+[2026-05-04T17:11:00.020Z] 1:11:00 PM [vite] (client) ✨ optimized dependencies changed. reloading
+[2026-05-04T17:11:02.400Z] Dev server process group stopped
+[2026-05-04T17:11:02.402Z] ELIFECYCLE  Command failed.
+[2026-05-04T17:11:02.498Z] Dev server exited with code -15
+[2026-05-04T17:11:05.428Z] Starting dev server with command: pnpm run dev
+[2026-05-04T17:11:05.998Z] 
+[2026-05-04T17:11:05.999Z] > influx-personal-tutor@1.1.0 dev /home/ubuntu/influx-assistants
+[2026-05-04T17:11:05.999Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-05-04T17:11:06.000Z] 
+[2026-05-04T17:11:07.635Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-04T17:11:07.851Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-04T17:11:07.899Z] Server running on http://localhost:3000/
+[2026-05-04T17:11:07.901Z] [Jobs] Inicializando jobs em background...
+[2026-05-04T17:11:07.916Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-04T17:11:07.917Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-04T17:11:07.917Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-04T17:11:19.964Z] [Auth] Missing session cookie
+[2026-05-04T17:11:20.145Z] [Auth] Missing session cookie
+[2026-05-04T17:12:06.481Z] 1:12:06 PM [vite] (client) hmr update /src/pages/ValentinesTotem.tsx, /src/index.css
+[2026-05-04T17:12:19.401Z] [Auth] Missing session cookie
+[2026-05-04T17:12:19.572Z] [Auth] Missing session cookie
+[2026-05-04T17:12:23.377Z] [Auth] Missing session cookie
+[2026-05-04T17:12:23.557Z] [Auth] Missing session cookie
+[2026-05-04T17:12:34.217Z] [Auth] Missing session cookie
+[2026-05-04T17:12:34.410Z] [Auth] Missing session cookie
+[2026-05-04T17:12:37.372Z] [Auth] Missing session cookie
+[2026-05-04T17:12:39.930Z] [Auth] Missing session cookie
+[2026-05-04T17:12:40.096Z] [Auth] Missing session cookie

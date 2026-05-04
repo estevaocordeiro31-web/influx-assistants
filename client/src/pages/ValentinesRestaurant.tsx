@@ -1,17 +1,18 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import {
   Heart, ChevronRight, ChevronLeft, Volume2, Star, Trophy, BookOpen,
-  HelpCircle, Utensils, Globe, Sparkles, Check, X, ArrowLeft
+  HelpCircle, Utensils, Globe, Sparkles, Check, X, ArrowLeft, MessageCircle, Send, Loader2
 } from "lucide-react";
+import { trpc } from "@/lib/trpc";
 import {
   VALENTINE_CHUNKS, VALENTINE_CURIOSITIES, VOCAB_COMPARISONS,
   CHARACTER_IMAGES, CHARACTER_INFO, CHARACTER_COLORS, HERO_BANNER,
   type Character
 } from "@/data/valentines/chunks";
 import { VALENTINE_QUIZ } from "@/data/valentines/quiz";
-// Food challenge system prompt available in @/data/valentines/speaking
+// Food Challenge uses valentinesChat tRPC router
 
 type AgeMode = 'teen' | 'adult';
 type Section = 'home' | 'chunks' | 'quiz' | 'curiosities' | 'vocab' | 'restaurant';
@@ -30,6 +31,15 @@ export default function ValentinesRestaurant() {
   const [showTranslation, setShowTranslation] = useState(false);
   const [totalPoints, setTotalPoints] = useState(0);
 
+  // Food Challenge state
+  const [chatMessages, setChatMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([]);
+  const [chatInput, setChatInput] = useState('');
+  const [chatLoading, setChatLoading] = useState(false);
+  const [orderComplete, setOrderComplete] = useState(false);
+  const [messageCount, setMessageCount] = useState(0);
+
+  const sendChatMessage = trpc.valentinesChat.sendMessage.useMutation();
+
   const currentChunk = VALENTINE_CHUNKS[chunkIndex];
   const currentQuiz = VALENTINE_QUIZ[quizIndex];
   const currentCuriosity = VALENTINE_CURIOSITIES[curiosityIndex];
@@ -37,13 +47,32 @@ export default function ValentinesRestaurant() {
   const getCharImage = (char: Character) => CHARACTER_IMAGES[char][ageMode];
   const getCharInfo = (char: Character) => CHARACTER_INFO[char];
 
-  // TTS function
-  const speak = (text: string, voice: string) => {
-    if ('speechSynthesis' in window) {
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = voice;
-      utterance.rate = 0.9;
-      window.speechSynthesis.speak(utterance);
+  // TTS function - uses server-side TTS with real character voices
+  const [ttsLoading, setTtsLoading] = useState<string | null>(null);
+  const ttsSpeak = trpc.tts.speak.useMutation();
+
+  const speak = async (text: string, voice: string) => {
+    // Map voice locale to character name
+    const charMap: Record<string, Character> = { 'en-US': 'lucas', 'en-GB': 'emily', 'en-AU': 'aiko' };
+    const character = charMap[voice] || 'lucas';
+    const ttsKey = `${character}-${text.substring(0, 20)}`;
+    setTtsLoading(ttsKey);
+    try {
+      const result = await ttsSpeak.mutateAsync({ text, character, situation: 'casual' });
+      if (result.audioUrl) {
+        const audio = new Audio(result.audioUrl);
+        audio.play();
+      }
+    } catch {
+      // Fallback to browser TTS if server TTS fails
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = voice;
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+      }
+    } finally {
+      setTtsLoading(null);
     }
   };
 
@@ -178,6 +207,14 @@ export default function ValentinesRestaurant() {
               points={80}
               onClick={() => { setSection('vocab'); setVocabCategory('food'); }}
               color="#4caf50"
+            />
+            <MissionButton
+              icon={<MessageCircle size={18} className="text-red-400" />}
+              title="Food Challenge"
+              description="Faça seu pedido no restaurante conversando com Lucas, Emily e Aiko!"
+              points={150}
+              onClick={() => { setSection('restaurant'); setChatMessages([]); setChatInput(''); setOrderComplete(false); setMessageCount(0); }}
+              color="#f44336"
             />
           </div>
         </div>
@@ -571,6 +608,153 @@ export default function ValentinesRestaurant() {
           >
             Concluir! +80pts <Check size={16} />
           </Button>
+        </div>
+      </div>
+    );
+  }
+
+  // Restaurant Food Challenge Section
+  if (section === 'restaurant') {
+    const handleSendChat = async () => {
+      if (!chatInput.trim() || chatLoading) return;
+      const userMsg = chatInput.trim();
+      setChatInput('');
+      const newMessages = [...chatMessages, { role: 'user' as const, content: userMsg }];
+      setChatMessages(newMessages);
+      setChatLoading(true);
+      setMessageCount(prev => prev + 1);
+      try {
+        const result = await sendChatMessage.mutateAsync({
+          messages: newMessages.map(m => ({ role: m.role, content: m.content })),
+        });
+        setChatMessages(prev => [...prev, { role: 'assistant', content: result.message }]);
+        // Check if order is complete (after 6+ messages from user)
+        if (messageCount >= 5) {
+          setOrderComplete(true);
+        }
+      } catch {
+        setChatMessages(prev => [...prev, { role: 'assistant', content: "[Lucas] Oops! The kitchen got a bit hectic. Could you try again?" }]);
+      } finally {
+        setChatLoading(false);
+      }
+    };
+
+    return (
+      <div className="min-h-screen flex flex-col" style={{ background: "linear-gradient(180deg, #1a0a1e 0%, #2d0a1e 100%)" }}>
+        <div className="max-w-md mx-auto px-4 pt-6 flex-1 flex flex-col w-full">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-4">
+            <button onClick={() => setSection('home')} className="text-gray-400 hover:text-white">
+              <ArrowLeft size={20} />
+            </button>
+            <div className="flex items-center gap-2">
+              <MessageCircle size={16} className="text-red-400" />
+              <span className="text-white font-bold text-sm">Food Challenge</span>
+            </div>
+            <span className="text-gray-400 text-xs">{messageCount} msgs</span>
+          </div>
+
+          {/* Characters strip */}
+          <div className="flex justify-center gap-2 mb-3">
+            {(['lucas', 'emily', 'aiko'] as Character[]).map(char => (
+              <div key={char} className="flex items-center gap-1 px-2 py-1 rounded-full" style={{ background: `${CHARACTER_COLORS[char]}15`, border: `1px solid ${CHARACTER_COLORS[char]}30` }}>
+                <img src={getCharImage(char)} alt={getCharInfo(char).name} className="w-6 h-6 rounded-full object-cover object-top" />
+                <span className="text-white text-[10px] font-medium">{getCharInfo(char).name}</span>
+                <span className="text-[10px]">{getCharInfo(char).roleEmoji}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Chat Messages */}
+          <div className="flex-1 overflow-y-auto rounded-2xl p-3 mb-3 space-y-3" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", minHeight: '300px', maxHeight: 'calc(100vh - 280px)' }}>
+            {chatMessages.length === 0 && (
+              <div className="text-center py-8">
+                <div className="w-16 h-16 rounded-2xl overflow-hidden mx-auto mb-3 border-2" style={{ borderColor: CHARACTER_COLORS.lucas }}>
+                  <img src={getCharImage('lucas')} alt="Lucas" className="w-full h-full object-cover object-top" />
+                </div>
+                <p className="text-white font-bold text-sm mb-1">Welcome to inFlux Restaurant!</p>
+                <p className="text-gray-400 text-xs mb-4">Faça seu pedido em inglês! Lucas, Emily e Aiko vão te atender.</p>
+                <div className="flex flex-wrap justify-center gap-2">
+                  {["Hi! I'd like to see the menu", "Hello! Table for two, please", "Good evening! What do you recommend?"].map(prompt => (
+                    <button
+                      key={prompt}
+                      onClick={() => { setChatInput(prompt); }}
+                      className="px-3 py-1.5 rounded-xl text-xs text-pink-300 transition-all active:scale-95"
+                      style={{ background: "rgba(233,30,99,0.1)", border: "1px solid rgba(233,30,99,0.2)" }}
+                    >
+                      {prompt}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+            {chatMessages.map((msg, idx) => {
+              // Detect which character is speaking
+              const charMatch = msg.role === 'assistant' ? msg.content.match(/^\[(Lucas|Emily|Aiko)\]/) : null;
+              const speakingChar = charMatch ? charMatch[1].toLowerCase() as Character : null;
+              return (
+                <div key={idx} className={`flex gap-2 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  {msg.role === 'assistant' && speakingChar && (
+                    <img src={getCharImage(speakingChar)} alt={speakingChar} className="w-8 h-8 rounded-full object-cover object-top shrink-0 mt-1" style={{ border: `2px solid ${CHARACTER_COLORS[speakingChar]}` }} />
+                  )}
+                  <div
+                    className={`max-w-[80%] rounded-2xl px-3 py-2 text-sm ${msg.role === 'user' ? 'text-white' : 'text-gray-100'}`}
+                    style={msg.role === 'user'
+                      ? { background: 'linear-gradient(135deg, #e91e63, #c2185b)' }
+                      : { background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.1)' }
+                    }
+                  >
+                    <p className="whitespace-pre-wrap">{msg.role === 'assistant' && speakingChar ? msg.content.replace(/^\[(Lucas|Emily|Aiko)\]\s*/, '') : msg.content}</p>
+                  </div>
+                </div>
+              );
+            })}
+            {chatLoading && (
+              <div className="flex gap-2 justify-start">
+                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+                  <Loader2 size={14} className="text-pink-400 animate-spin" />
+                </div>
+                <div className="rounded-2xl px-3 py-2 text-sm text-gray-400" style={{ background: 'rgba(255,255,255,0.05)' }}>
+                  typing...
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Order Complete Banner */}
+          {orderComplete && (
+            <div className="rounded-xl p-3 mb-3 text-center" style={{ background: 'rgba(76,175,80,0.15)', border: '1px solid rgba(76,175,80,0.3)' }}>
+              <p className="text-green-300 text-sm font-bold">Order complete! Great job!</p>
+              <Button
+                onClick={() => { setTotalPoints(prev => prev + 150); setSection('home'); }}
+                className="mt-2 bg-green-600 hover:bg-green-700 text-white text-sm"
+                size="sm"
+              >
+                Concluir! +150pts <Check size={14} className="ml-1" />
+              </Button>
+            </div>
+          )}
+
+          {/* Input Area */}
+          <div className="flex gap-2 pb-4">
+            <input
+              value={chatInput}
+              onChange={e => setChatInput(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSendChat(); } }}
+              placeholder="Type your order in English..."
+              className="flex-1 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-500 outline-none"
+              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
+              disabled={chatLoading}
+            />
+            <button
+              onClick={handleSendChat}
+              disabled={!chatInput.trim() || chatLoading}
+              className="w-11 h-11 rounded-xl flex items-center justify-center transition-all active:scale-95 disabled:opacity-40"
+              style={{ background: 'linear-gradient(135deg, #e91e63, #c2185b)' }}
+            >
+              {chatLoading ? <Loader2 size={16} className="text-white animate-spin" /> : <Send size={16} className="text-white" />}
+            </button>
+          </div>
         </div>
       </div>
     );

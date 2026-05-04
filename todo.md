@@ -11,3 +11,8 @@
 - [x] Valentine's Restaurant - Vocab Battle (US vs UK vs AU comparison in 3 categories)
 - [x] Valentine's Restaurant - Route registered in App.tsx (/events/valentines)
 - [x] Valentine's Restaurant - Points system tracking across missions
+- [x] Valentine's Restaurant - Food Challenge com IA (roleplay no restaurante)
+- [x] Valentine's Restaurant - Speaking Practice com áudio ElevenLabs (sotaques US/UK/AU)
+- [x] Valentine's Restaurant - Adicionar banner na StudentHomeNew
+- [x] Valentine's Totem page com QR Code para atividade
+- [x] Seção "Em breve" para convites do evento Valentine's
