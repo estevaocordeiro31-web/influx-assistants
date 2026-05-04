@@ -4635,3 +4635,18 @@
 [2026-05-04T21:53:22.251Z] [Auth] Missing session cookie
 [2026-05-04T21:53:30.332Z] [Auth] Missing session cookie
 [2026-05-04T21:53:30.499Z] [Auth] Missing session cookie
+[2026-05-04T21:53:46.551Z] [Auth] Missing session cookie
+[2026-05-04T21:53:46.734Z] [Auth] Missing session cookie
+[2026-05-04T21:53:49.016Z] [Auth] Missing session cookie
+[2026-05-04T21:53:49.207Z] [Auth] Missing session cookie
+[2026-05-04T23:09:36.762Z] [Auth] Missing session cookie
+[2026-05-04T23:09:36.952Z] [Auth] Missing session cookie
+[2026-05-04T23:10:41.219Z] 7:10:41 PM [vite] (client) hmr update /src/App.tsx, /src/index.css
+[2026-05-04T23:10:42.073Z] [Auth] Missing session cookie
+[2026-05-04T23:10:48.629Z] 7:10:48 PM [vite] (client) hmr update /src/App.tsx, /src/index.css
+[2026-05-04T23:10:49.554Z] [Auth] Missing session cookie
+[2026-05-04T23:11:06.749Z] 7:11:06 PM [vite] (client) hmr update /src/pages/ValentinesRestaurant.tsx, /src/index.css
+[2026-05-04T23:11:33.765Z] [Auth] Missing session cookie
+[2026-05-04T23:11:33.954Z] [Auth] Missing session cookie
+[2026-05-04T23:11:39.773Z] [Auth] Missing session cookie
+[2026-05-04T23:11:39.948Z] [Auth] Missing session cookie

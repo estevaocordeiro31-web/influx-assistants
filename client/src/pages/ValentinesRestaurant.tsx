@@ -296,6 +296,14 @@ export default function ValentinesRestaurant() {
               onClick={() => navigate('/events/valentines/karaoke')}
               color="#9C27B0"
             />
+            <MissionButton
+              icon={<Music size={18} className="text-pink-400" />}
+              title="🎤 Karaoke Multiplayer"
+              description="Desafie um amigo! Competição lado-a-lado com placar ao vivo"
+              points={600}
+              onClick={() => navigate('/events/valentines/karaoke-multiplayer')}
+              color="#ff1493"
+            />
           </div>
         </div>
       </div>

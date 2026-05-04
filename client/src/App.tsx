@@ -64,6 +64,7 @@ import ValentinesLoginQR from "./pages/ValentinesLoginQR";
 import ValentinesGames from "./pages/ValentinesGames";
 import ValentinesLeaderboard from "./pages/ValentinesLeaderboard";
 import ValentinesKaraoke from "./pages/ValentinesKaraoke";
+import ValentinesKaraokeMultiplayer from "./pages/ValentinesKaraokeMultiplayer";
 import StudentOnboarding from "./pages/StudentOnboarding";
 import StudentHomeNew from "./pages/StudentHomeNew";
 import StudentChatNew from "./pages/StudentChatNew";
@@ -163,6 +164,7 @@ function Router() {
       <Route path="/events/valentines/games" component={ValentinesGames} />
       <Route path="/events/valentines/leaderboard" component={ValentinesLeaderboard} />
       <Route path="/events/valentines/karaoke" component={ValentinesKaraoke} />
+      <Route path="/events/valentines/karaoke-multiplayer" component={ValentinesKaraokeMultiplayer} />
       <Route path="/passport/checkin" component={PassportCheckInPage} />
       <Route path="/passport/sync" component={PassportSyncPage} />
       {/* Rota exclusiva para Tiago */}
