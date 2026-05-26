@@ -4705,3 +4705,9 @@
 [2026-05-26T21:00:00.013Z] [DailySync] Executando sincronização agendada...
 [2026-05-26T21:00:00.013Z] [DailySync] Iniciando sincronização diária...
 [2026-05-26T21:00:00.452Z] [DailySync] Nenhum aluno novo encontrado
+[2026-05-26T21:00:50.495Z] [Auth] Missing session cookie
+[2026-05-26T21:00:50.633Z] [Auth] Missing session cookie
+[2026-05-26T21:01:10.627Z] [Auth] Missing session cookie
+[2026-05-26T21:01:10.764Z] [Auth] Missing session cookie
+[2026-05-26T21:01:21.678Z] [Auth] Missing session cookie
+[2026-05-26T21:01:27.229Z] [Auth] Missing session cookie
