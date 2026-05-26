@@ -38,10 +38,11 @@ export default function ValentinesKaraoke() {
   const fetchPreview = async (deezerId: number) => {
     setAudioLoading(true);
     try {
-      const response = await fetch(`https://api.deezer.com/track/${deezerId}`);
-      const data = await response.json();
-      if (data.preview) {
-        setAudioUrl(data.preview);
+      const result = await trpc.deezerPreview.getPreview.fetch({ deezerId });
+      if (result.preview) {
+        setAudioUrl(result.preview);
+      } else {
+        console.warn('No preview available for song:', deezerId);
       }
     } catch (err) {
       console.error('Error fetching preview:', err);

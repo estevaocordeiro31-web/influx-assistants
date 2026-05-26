@@ -4676,3 +4676,32 @@
 [2026-05-04T23:17:38.850Z] 7:17:38 PM [vite] (client) hmr update /src/App.tsx, /src/index.css
 [2026-05-04T23:17:39.899Z] [Auth] Missing session cookie
 [2026-05-04T23:17:45.456Z] 7:17:45 PM [vite] (client) hmr update /src/pages/ValentinesTotem.tsx, /src/index.css
+[2026-05-26T20:57:02.056Z] Starting dev server with command: pnpm run dev
+[2026-05-26T20:57:04.389Z] > influx-personal-tutor@1.1.0 dev /home/ubuntu/influx-assistants
+[2026-05-26T20:57:04.389Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-05-26T20:57:06.457Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-26T20:57:06.719Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-26T20:57:06.773Z] Server running on http://localhost:3000/
+[2026-05-26T20:57:06.773Z] [Jobs] Inicializando jobs em background...
+[2026-05-26T20:57:06.940Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-26T20:57:06.940Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-26T20:57:06.940Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-26T20:58:46.209Z] ELIFECYCLE  Command failed.
+[2026-05-26T20:58:46.284Z] Dev server exited with code -1
+[2026-05-26T20:58:46.342Z] Starting dev server with command: pnpm run dev
+[2026-05-26T20:58:47.163Z] > influx-personal-tutor@1.1.0 dev /home/ubuntu/influx-assistants
+[2026-05-26T20:58:47.164Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-05-26T20:58:49.256Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-26T20:58:49.513Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-26T20:58:49.555Z] Server running on http://localhost:3000/
+[2026-05-26T20:58:49.556Z] [Jobs] Inicializando jobs em background...
+[2026-05-26T20:58:49.580Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-26T20:58:49.580Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-26T20:58:49.580Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-26T20:59:00.698Z] [Auth] Missing session cookie
+[2026-05-26T20:59:01.073Z] [Auth] Missing session cookie
+[2026-05-26T20:59:55.124Z] [Auth] Missing session cookie
+[2026-05-26T20:59:55.258Z] [Auth] Missing session cookie
+[2026-05-26T21:00:00.013Z] [DailySync] Executando sincronização agendada...
+[2026-05-26T21:00:00.013Z] [DailySync] Iniciando sincronização diária...
+[2026-05-26T21:00:00.452Z] [DailySync] Nenhum aluno novo encontrado
