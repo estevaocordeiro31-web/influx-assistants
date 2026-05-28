@@ -51,6 +51,7 @@ import { extraExercisesRouter } from "./routers/extra-exercises";
 import { valentinesChatRouter } from "./routers/valentines-chat";
 import { culturalEventsRouter } from "./routers/cultural-events";
 import { deezerPreviewRouter } from "./routers/deezer-preview";
+import { pronunciationAnalysisRouter } from "./routers/pronunciation-analysis";
 
 export const appRouter = router({
   system: systemRouter,
@@ -114,6 +115,7 @@ export const appRouter = router({
   valentinesChat: valentinesChatRouter,
   culturalEvents: culturalEventsRouter,
   deezerPreview: deezerPreviewRouter,
+  pronunciationAnalysis: pronunciationAnalysisRouter,
 });
 
 export type AppRouter = typeof appRouter;
