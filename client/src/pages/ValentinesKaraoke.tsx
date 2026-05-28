@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, Music, Play, Pause, Trophy, Star, Heart, ChevronRight, Volume2, CheckCircle, XCircle, Sparkles } from 'lucide-react';
 import { useValentinesScore } from '@/hooks/useValentinesScore';
 import { KaraokeAudioRecorder } from '@/components/KaraokeAudioRecorder';
-import { useState, useRef } from 'react';
 
 // Shuffle array helper
 const shuffle = <T,>(arr: T[]): T[] => [...arr].sort(() => Math.random() - 0.5);
@@ -550,20 +549,20 @@ export default function ValentinesKaraoke() {
             100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
           }
         `}</style>
-      </div>
 
-      {/* Pronunciation Analysis Modal */}
-      {showPronunciationAnalysis && currentSong && (
-        <KaraokeAudioRecorder
-          songId={currentSong.id}
-          songTitle={currentSong.title}
-          expectedLyrics={currentSong.lyricsHint}
-          onAnalysisComplete={() => {
-            setShowPronunciationAnalysis(false);
-          }}
-          onClose={() => setShowPronunciationAnalysis(false)}
-        />
-      )}
+        {/* Pronunciation Analysis Modal */}
+        {showPronunciationAnalysis && currentSong && (
+          <KaraokeAudioRecorder
+            songId={currentSong.id}
+            songTitle={currentSong.title}
+            expectedLyrics={currentSong.lyricsHint}
+            onAnalysisComplete={() => {
+              setShowPronunciationAnalysis(false);
+            }}
+            onClose={() => setShowPronunciationAnalysis(false)}
+          />
+        )}
+      </div>
     );
   }
 

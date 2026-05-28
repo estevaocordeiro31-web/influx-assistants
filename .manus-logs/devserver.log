@@ -4820,3 +4820,118 @@
 [2026-05-28T15:07:17.714Z] 3:07:17 PM [vite] (client) hmr update /src/pages/ValentinesLeaderboard.tsx, /src/index.css
 [2026-05-28T15:07:28.526Z] 3:07:28 PM [vite] (client) hmr update /src/pages/ValentinesLeaderboard.tsx, /src/index.css
 [2026-05-28T15:07:39.083Z] 3:07:39 PM [vite] (client) hmr update /src/pages/ValentinesLeaderboard.tsx, /src/index.css
+[2026-05-28T15:09:49.803Z] 3:09:49 PM [vite] (client) Pre-transform error: /home/ubuntu/influx-assistants/client/src/pages/ValentinesKaraoke.tsx: Identifier 'useState' has already been declared. (9:9)
+[2026-05-28T15:09:49.803Z] 7 | import { useValentinesScore } from '@/hooks/useValentinesScore';
+[2026-05-28T15:09:49.803Z] 8 | import { KaraokeAudioRecorder } from '@/components/KaraokeAudioRecorder';
+[2026-05-28T15:09:49.803Z] >  9 | import { useState, useRef } from 'react';
+[2026-05-28T15:09:49.803Z] |          ^
+[2026-05-28T15:09:49.803Z] 10 |
+[2026-05-28T15:09:49.803Z] 11 | // Shuffle array helper
+[2026-05-28T15:09:49.803Z] 12 | const shuffle = <T,>(arr: T[]): T[] => [...arr].sort(() => Math.random() - 0.5);
+[2026-05-28T15:09:49.803Z] Plugin: vite:react-babel
+[2026-05-28T15:09:49.803Z] File: /home/ubuntu/influx-assistants/client/src/pages/ValentinesKaraoke.tsx:9:9
+[2026-05-28T15:09:49.803Z] 7  |  import { useValentinesScore } from '@/hooks/useValentinesScore';
+[2026-05-28T15:09:49.803Z] 8  |  import { KaraokeAudioRecorder } from '@/components/KaraokeAudioRecorder';
+[2026-05-28T15:09:49.803Z] 9  |  import { useState, useRef } from 'react';
+[2026-05-28T15:09:49.803Z] |           ^
+[2026-05-28T15:09:49.803Z] 10 |
+[2026-05-28T15:09:49.803Z] 11 |  // Shuffle array helper
+[2026-05-28T15:09:49.956Z] 3:09:49 PM [vite] Internal server error: /home/ubuntu/influx-assistants/client/src/pages/ValentinesKaraoke.tsx: Identifier 'useState' has already been declared. (9:9)
+[2026-05-28T15:09:49.956Z] 7 | import { useValentinesScore } from '@/hooks/useValentinesScore';
+[2026-05-28T15:09:49.956Z] 8 | import { KaraokeAudioRecorder } from '@/components/KaraokeAudioRecorder';
+[2026-05-28T15:09:49.956Z] >  9 | import { useState, useRef } from 'react';
+[2026-05-28T15:09:49.956Z] |          ^
+[2026-05-28T15:09:49.956Z] 10 |
+[2026-05-28T15:09:49.956Z] 11 | // Shuffle array helper
+[2026-05-28T15:09:49.956Z] 12 | const shuffle = <T,>(arr: T[]): T[] => [...arr].sort(() => Math.random() - 0.5);
+[2026-05-28T15:09:49.956Z] Plugin: vite:react-babel
+[2026-05-28T15:09:49.956Z] File: /home/ubuntu/influx-assistants/client/src/pages/ValentinesKaraoke.tsx:9:9
+[2026-05-28T15:09:49.956Z] 7  |  import { useValentinesScore } from '@/hooks/useValentinesScore';
+[2026-05-28T15:09:49.956Z] 8  |  import { KaraokeAudioRecorder } from '@/components/KaraokeAudioRecorder';
+[2026-05-28T15:09:49.956Z] 9  |  import { useState, useRef } from 'react';
+[2026-05-28T15:09:49.956Z] |           ^
+[2026-05-28T15:09:49.956Z] 10 |
+[2026-05-28T15:09:49.956Z] 11 |  // Shuffle array helper
+[2026-05-28T15:09:49.956Z] at toParseError (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parse-error.ts:95:45)
+[2026-05-28T15:09:49.956Z] at raise (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/tokenizer/index.ts:1504:19)
+[2026-05-28T15:09:49.956Z] at declareName (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/scope.ts:72:21)
+[2026-05-28T15:09:49.956Z] at declareNameFromIdentifier (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/lval.ts:876:16)
+[2026-05-28T15:09:49.956Z] at checkIdentifier (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/lval.ts:871:12)
+[2026-05-28T15:09:49.956Z] at checkLVal (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/lval.ts:763:12)
+[2026-05-28T15:09:49.956Z] at finishImportSpecifier (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:3229:10)
+[2026-05-28T15:09:49.956Z] at parseImportSpecifier (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:3490:17)
+[2026-05-28T15:09:49.956Z] at parseImportSpecifier (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:4404:20)
+[2026-05-28T15:09:49.956Z] at parseNamedImportSpecifiers (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:3451:36)
+[2026-05-28T15:09:49.956Z] at parseImportSpecifiersAndAfter (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:3179:37)
+[2026-05-28T15:09:49.956Z] at parseImport (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:3148:17)
+[2026-05-28T15:09:49.957Z] at parseImport (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:2970:28)
+[2026-05-28T15:09:49.957Z] at parseStatementContent (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:647:25)
+[2026-05-28T15:09:49.957Z] at parseStatementContent (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:3220:20)
+[2026-05-28T15:09:49.957Z] at parseStatementLike (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:482:17)
+[2026-05-28T15:09:49.957Z] at parseModuleItem (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:419:17)
+[2026-05-28T15:09:49.957Z] at parseBlockOrModuleBlockBody (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1443:16)
+[2026-05-28T15:09:49.957Z] at parseBlockBody (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:1417:10)
+[2026-05-28T15:09:49.957Z] at parseProgram (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:229:10)
+[2026-05-28T15:09:49.957Z] at parseTopLevel (/
+[2026-05-28T15:09:49.957Z] home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/statement.ts:203:25)
+[2026-05-28T15:09:49.957Z] at parse (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/parser/index.ts:83:25)
+[2026-05-28T15:09:49.957Z] at parse (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/plugins/typescript/index.ts:4354:20)
+[2026-05-28T15:09:49.957Z] at parse (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+parser@7.29.3/node_modules/@babel/parser/src/index.ts:86:38)
+[2026-05-28T15:09:49.957Z] at parser (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+core@7.29.0/node_modules/@babel/core/src/parser/index.ts:29:19)
+[2026-05-28T15:09:49.957Z] at parser.next (<anonymous>)
+[2026-05-28T15:09:49.957Z] at normalizeFile (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+core@7.29.0/node_modules/@babel/core/src/transformation/normalize-file.ts:50:24)
+[2026-05-28T15:09:49.957Z] at normalizeFile.next (<anonymous>)
+[2026-05-28T15:09:49.957Z] at run (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+core@7.29.0/node_modules/@babel/core/src/transformation/index.ts:41:36)
+[2026-05-28T15:09:49.957Z] at run.next (<anonymous>)
+[2026-05-28T15:09:49.957Z] at transform (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+core@7.29.0/node_modules/@babel/core/src/transform.ts:29:20)
+[2026-05-28T15:09:49.957Z] at transform.next (<anonymous>)
+[2026-05-28T15:09:49.957Z] at step (/home/ubuntu/influx-assistants/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:261:32)
+[2026-05-28T15:09:49.957Z] at /home/ubuntu/influx-assistants/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:273:13
+[2026-05-28T15:09:49.957Z] at async.call.result.err.err (/home/ubuntu/influx-assistants/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:223:11)
+[2026-05-28T15:09:49.957Z] at /home/ubuntu/influx-assistants/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:189:28
+[2026-05-28T15:09:49.957Z] at <anonymous> (/home/ubuntu/influx-assistants/node_modules/.pnpm/@babel+core@7.29.0/node_modules/@babel/core/src/gensync-utils/async.ts:90:7)
+[2026-05-28T15:09:49.957Z] at /home/ubuntu/influx-assistants/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:113:33
+[2026-05-28T15:09:49.957Z] at step (/home/ubuntu/influx-assistants/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:287:14)
+[2026-05-28T15:09:49.957Z] at /home/ubuntu/influx-assistants/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:273:13
+[2026-05-28T15:09:49.957Z] at async.call.result.err.err (/home/ubuntu/influx-assistants/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:223:11)
+[2026-05-28T18:19:51.910Z] 6:19:51 PM [vite] (client) hmr update /src/pages/ValentinesKaraoke.tsx, /src/index.css
+[2026-05-28T18:20:03.188Z] 6:20:03 PM [vite] (client) hmr update /src/pages/ValentinesKaraoke.tsx, /src/index.css
+[2026-05-28T18:20:24.687Z] 6:20:24 PM [vite] (client) hmr update /src/pages/ValentinesKaraoke.tsx, /src/index.css
+[2026-05-28T18:20:30.422Z] [Auth] Missing session cookie
+[2026-05-28T18:20:30.584Z] [Auth] Missing session cookie
+[2026-05-28T18:21:16.849Z] 6:21:16 PM [tsx] change in ./server/routers.ts Restarting...
+[2026-05-28T18:21:16.875Z] c
+[2026-05-28T18:21:18.780Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-28T18:21:19.006Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-28T18:21:19.049Z] Server running on http://localhost:3000/
+[2026-05-28T18:21:19.049Z] [Jobs] Inicializando jobs em background...
+[2026-05-28T18:21:19.075Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-28T18:21:19.075Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-28T18:21:19.075Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-28T18:21:25.865Z] 6:21:25 PM [tsx] change in ./server/routers.ts Restarting...
+[2026-05-28T18:21:25.927Z] c
+[2026-05-28T18:21:27.848Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-28T18:21:28.085Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-28T18:21:28.131Z] Server running on http://localhost:3000/
+[2026-05-28T18:21:28.132Z] [Jobs] Inicializando jobs em background...
+[2026-05-28T18:21:28.160Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-28T18:21:28.160Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-28T18:21:28.160Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-28T18:22:21.284Z] 6:22:21 PM [tsx] change in ./server/routers.ts Restarting...
+[2026-05-28T18:22:21.315Z] c
+[2026-05-28T18:22:23.090Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-28T18:22:23.323Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-28T18:22:23.372Z] Server running on http://localhost:3000/
+[2026-05-28T18:22:23.372Z] [Jobs] Inicializando jobs em background...
+[2026-05-28T18:22:23.398Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-28T18:22:23.398Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-28T18:22:23.398Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-28T18:22:26.750Z] 6:22:26 PM [tsx] change in ./server/routers.ts Restarting...
+[2026-05-28T18:22:26.799Z] c
+[2026-05-28T18:22:28.604Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-28T18:22:28.863Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-28T18:22:28.916Z] Server running on http://localhost:3000/
+[2026-05-28T18:22:28.916Z] [Jobs] Inicializando jobs em background...
+[2026-05-28T18:22:28.942Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-28T18:22:28.942Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-28T18:22:28.942Z] [Jobs] Todos os jobs foram inicializados
