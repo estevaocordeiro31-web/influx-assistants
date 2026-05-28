@@ -4810,3 +4810,13 @@
 [2026-05-28T14:20:42.506Z] [DailySync] Job agendado para rodar diariamente às 18:00
 [2026-05-28T14:20:42.506Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
 [2026-05-28T14:20:42.506Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-28T14:22:30.033Z] [Auth] Missing session cookie
+[2026-05-28T14:22:30.185Z] [Auth] Missing session cookie
+[2026-05-28T15:05:13.335Z] 3:05:13 PM [vite] (client) hmr update /src/pages/ValentinesKaraoke.tsx, /src/index.css
+[2026-05-28T15:05:25.680Z] 3:05:25 PM [vite] (client) hmr update /src/pages/ValentinesKaraoke.tsx, /src/index.css
+[2026-05-28T15:06:02.716Z] 3:06:02 PM [vite] (client) hmr update /src/pages/ValentinesKaraoke.tsx, /src/index.css
+[2026-05-28T15:06:35.462Z] 3:06:35 PM [vite] (client) hmr update /src/App.tsx, /src/index.css
+[2026-05-28T15:07:10.947Z] 3:07:10 PM [vite] (client) hmr update /src/pages/ValentinesLeaderboard.tsx, /src/index.css
+[2026-05-28T15:07:17.714Z] 3:07:17 PM [vite] (client) hmr update /src/pages/ValentinesLeaderboard.tsx, /src/index.css
+[2026-05-28T15:07:28.526Z] 3:07:28 PM [vite] (client) hmr update /src/pages/ValentinesLeaderboard.tsx, /src/index.css
+[2026-05-28T15:07:39.083Z] 3:07:39 PM [vite] (client) hmr update /src/pages/ValentinesLeaderboard.tsx, /src/index.css

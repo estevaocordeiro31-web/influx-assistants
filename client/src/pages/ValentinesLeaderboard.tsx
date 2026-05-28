@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { ArrowLeft, Trophy, Medal, Crown, Flame, Star, Users } from "lucide-react";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { LeaderboardPronunciationBadges } from "@/components/PronunciationBadges";
 
 type LeaderboardEntry = {
   rank: number;
@@ -10,6 +11,7 @@ type LeaderboardEntry = {
   totalPoints: number;
   missionsCompleted: Record<string, boolean>;
   isGuest: boolean;
+  pronunciationScore?: number;
 };
 
 const EVENT_ID = "valentines-2026";
@@ -204,7 +206,9 @@ export default function ValentinesLeaderboard() {
           <h3 className="text-pink-300/50 text-xs font-semibold uppercase tracking-widest text-center mb-3">
             Outros participantes
           </h3>
-          {rest.map((player, idx) => (
+          {rest.map((player, idx) => {
+            const pronunciationScore = player.pronunciationScore || 0;
+            return (
             <div
               key={idx}
               className="flex items-center gap-3 bg-white/5 backdrop-blur-sm rounded-xl px-4 py-3 border border-white/10"
@@ -217,13 +221,19 @@ export default function ValentinesLeaderboard() {
               <span className="text-pink-300/60 font-bold w-6 text-center text-sm">{idx + 4}</span>
               <div className="flex-1 min-w-0">
                 <p className="text-white font-semibold text-sm truncate">{player.name}</p>
-                <p className="text-pink-300/40 text-xs">
-                  {Object.values(player.missionsCompleted).filter(Boolean).length} missões
-                </p>
+                <div className="flex items-center gap-2 mt-1">
+                  <p className="text-pink-300/40 text-xs">
+                    {Object.values(player.missionsCompleted).filter(Boolean).length} missões
+                  </p>
+                  {pronunciationScore > 0 && (
+                    <LeaderboardPronunciationBadges pronunciationScore={pronunciationScore} />
+                  )}
+                </div>
               </div>
               <span className="text-yellow-400 font-bold text-sm">{player.totalPoints} pts</span>
             </div>
-          ))}
+          );
+          })}
         </div>
       )}
 

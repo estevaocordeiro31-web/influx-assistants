@@ -5,6 +5,8 @@ import { KARAOKE_SONGS, KARAOKE_CELEBRATION_IMAGES, DECADE_INFO, type KaraokeSon
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Music, Play, Pause, Trophy, Star, Heart, ChevronRight, Volume2, CheckCircle, XCircle, Sparkles } from 'lucide-react';
 import { useValentinesScore } from '@/hooks/useValentinesScore';
+import { KaraokeAudioRecorder } from '@/components/KaraokeAudioRecorder';
+import { useState, useRef } from 'react';
 
 // Shuffle array helper
 const shuffle = <T,>(arr: T[]): T[] => [...arr].sort(() => Math.random() - 0.5);
@@ -30,6 +32,7 @@ export default function ValentinesKaraoke() {
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [audioLoading, setAudioLoading] = useState(false);
   const [roundScores, setRoundScores] = useState<{ song: KaraokeSong; correct: boolean; points: number }[]>([]);
+  const [showPronunciationAnalysis, setShowPronunciationAnalysis] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const currentSong = currentSongs[currentIndex];
@@ -517,6 +520,16 @@ export default function ValentinesKaraoke() {
             </div>
           </div>
 
+          {/* Pronunciation Analysis Button */}
+          {isCorrect && (
+            <Button
+              onClick={() => setShowPronunciationAnalysis(true)}
+              className="w-full py-3 text-sm mb-3 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 rounded-xl flex items-center justify-center gap-2"
+            >
+              🎤 Analisar Minha Pronúncia
+            </Button>
+          )}
+
           {/* Next button */}
           <Button
             onClick={nextSong}
@@ -538,6 +551,19 @@ export default function ValentinesKaraoke() {
           }
         `}</style>
       </div>
+
+      {/* Pronunciation Analysis Modal */}
+      {showPronunciationAnalysis && currentSong && (
+        <KaraokeAudioRecorder
+          songId={currentSong.id}
+          songTitle={currentSong.title}
+          expectedLyrics={currentSong.lyricsHint}
+          onAnalysisComplete={() => {
+            setShowPronunciationAnalysis(false);
+          }}
+          onClose={() => setShowPronunciationAnalysis(false)}
+        />
+      )}
     );
   }
 
