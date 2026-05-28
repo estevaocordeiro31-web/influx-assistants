@@ -4711,3 +4711,82 @@
 [2026-05-26T21:01:10.764Z] [Auth] Missing session cookie
 [2026-05-26T21:01:21.678Z] [Auth] Missing session cookie
 [2026-05-26T21:01:27.229Z] [Auth] Missing session cookie
+[2026-05-28T13:15:28.325Z] Starting dev server with command: pnpm run dev
+[2026-05-28T13:15:30.637Z] > influx-personal-tutor@1.1.0 dev /home/ubuntu/influx-assistants
+[2026-05-28T13:15:30.637Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-05-28T13:15:32.629Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-28T13:15:32.867Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-28T13:15:32.923Z] Server running on http://localhost:3000/
+[2026-05-28T13:15:32.924Z] [Jobs] Inicializando jobs em background...
+[2026-05-28T13:15:32.970Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-28T13:15:32.970Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-28T13:15:32.970Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-28T13:16:07.309Z] 1:16:07 PM [tsx] change in ./drizzle/schema.ts Restarting...
+[2026-05-28T13:16:07.347Z] c
+[2026-05-28T13:16:09.155Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-28T13:16:09.407Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-28T13:16:09.455Z] Server running on http://localhost:3000/
+[2026-05-28T13:16:09.456Z] [Jobs] Inicializando jobs em background...
+[2026-05-28T13:16:09.481Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-28T13:16:09.481Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-28T13:16:09.481Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-28T13:17:16.862Z] 1:17:16 PM [tsx] change in ./server/routers/deezer-preview.ts Restarting...
+[2026-05-28T13:17:16.895Z] c
+[2026-05-28T13:17:18.584Z] /home/ubuntu/influx-assistants/server/routers/deezer-preview.ts:3
+[2026-05-28T13:17:18.584Z] import { db } from "../db";
+[2026-05-28T13:17:18.584Z] ^
+[2026-05-28T13:17:18.584Z] SyntaxError: The requested module '../db' does not provide an export named 'db'
+[2026-05-28T13:17:18.584Z] at ModuleJob._instantiate (node:internal/modules/esm/module_job:180:21)
+[2026-05-28T13:17:18.584Z] at async ModuleJob.run (node:internal/modules/esm/module_job:263:5)
+[2026-05-28T13:17:18.584Z] at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:547:26)
+[2026-05-28T13:17:18.584Z] at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)
+[2026-05-28T13:17:18.584Z] Node.js v22.13.0
+[2026-05-28T13:17:41.545Z] 1:17:41 PM [tsx] change in ./server/db.ts Rerunning...
+[2026-05-28T13:17:41.545Z] c
+[2026-05-28T13:17:43.183Z] /home/ubuntu/influx-assistants/server/routers/deezer-preview.ts:3
+[2026-05-28T13:17:43.183Z] import { db } from "../db";
+[2026-05-28T13:17:43.183Z] ^
+[2026-05-28T13:17:43.183Z] SyntaxError: The requested module '../db' does not provide an export named 'db'
+[2026-05-28T13:17:43.183Z] at ModuleJob._instantiate (node:internal/modules/esm/module_job:180:21)
+[2026-05-28T13:17:43.183Z] at async ModuleJob.run (node:internal/modules/esm/module_job:263:5)
+[2026-05-28T13:17:43.183Z] at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:547:26)
+[2026-05-28T13:17:43.183Z] at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)
+[2026-05-28T13:17:43.183Z] Node.js v22.13.0
+[2026-05-28T13:17:56.397Z] 1:17:56 PM [tsx] change in ./server/routers/deezer-preview.ts Rerunning...
+[2026-05-28T13:17:56.397Z] c
+[2026-05-28T13:17:58.340Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-28T13:17:58.573Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-28T13:17:58.619Z] Server running on http://localhost:3000/
+[2026-05-28T13:17:58.619Z] [Jobs] Inicializando jobs em background...
+[2026-05-28T13:17:58.646Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-28T13:17:58.646Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-28T13:17:58.646Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-28T13:18:02.492Z] 1:18:02 PM [tsx] change in ./server/routers/deezer-preview.ts Restarting...
+[2026-05-28T13:18:02.535Z] c
+[2026-05-28T13:18:04.480Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-28T13:18:04.706Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-28T13:18:04.761Z] Server running on http://localhost:3000/
+[2026-05-28T13:18:04.761Z] [Jobs] Inicializando jobs em background...
+[2026-05-28T13:18:04.803Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-28T13:18:04.803Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-28T13:18:04.804Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-28T13:18:10.191Z] 1:18:10 PM [tsx] change in ./server/routers/deezer-preview.ts Restarting...
+[2026-05-28T13:18:10.247Z] c
+[2026-05-28T13:18:12.208Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-28T13:18:12.529Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-28T13:18:12.575Z] Server running on http://localhost:3000/
+[2026-05-28T13:18:12.575Z] [Jobs] Inicializando jobs em background...
+[2026-05-28T13:18:12.601Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-28T13:18:12.601Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-28T13:18:12.601Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-28T13:18:15.798Z] 1:18:15 PM [tsx] change in ./server/routers/deezer-preview.ts Restarting...
+[2026-05-28T13:18:15.855Z] c
+[2026-05-28T13:18:17.741Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-28T13:18:17.980Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-28T13:18:18.025Z] Server running on http://localhost:3000/
+[2026-05-28T13:18:18.025Z] [Jobs] Inicializando jobs em background...
+[2026-05-28T13:18:18.051Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-28T13:18:18.051Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-28T13:18:18.051Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-28T13:18:25.928Z] [Auth] Missing session cookie
+[2026-05-28T13:18:26.335Z] [Auth] Missing session cookie

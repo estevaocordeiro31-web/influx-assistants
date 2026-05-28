@@ -260,3 +260,124 @@ export async function assignStudentIdsToAllUsers(): Promise<number> {
   
   return count;
 }
+
+
+// Cache helpers for Deezer previews
+export async function getCachedPreview(deezerId: number) {
+  const db = await getDb();
+  if (!db) return null;
+
+  try {
+    const { deezerPreviewCache } = await import("../drizzle/schema");
+    const { eq } = await import("drizzle-orm");
+    
+    const cached = await db
+      .select()
+      .from(deezerPreviewCache)
+      .where(eq(deezerPreviewCache.deezerId, deezerId))
+      .limit(1);
+
+    if (cached.length > 0) {
+      const cache = cached[0];
+      // Check if cache is still valid
+      if (cache.expiresAt && new Date(cache.expiresAt) > new Date()) {
+        return cache;
+      }
+    }
+    return null;
+  } catch (error) {
+    console.error('Error getting cached preview:', error);
+    return null;
+  }
+}
+
+export async function cachePreview(
+  deezerId: number,
+  title: string,
+  artist: string,
+  previewUrl: string | null,
+  albumCover: string | null,
+  duration?: number
+) {
+  const db = await getDb();
+  if (!db) return false;
+
+  try {
+    const { deezerPreviewCache } = await import("../drizzle/schema");
+    
+    const expiresAt = new Date();
+    expiresAt.setHours(expiresAt.getHours() + 24); // 24 hour TTL
+
+    await db
+      .insert(deezerPreviewCache)
+      .values({
+        deezerId,
+        title,
+        artist,
+        previewUrl,
+        albumCover,
+        duration: duration || null,
+        isAvailable: !!previewUrl,
+        expiresAt,
+      })
+      .onDuplicateKeyUpdate({
+        set: {
+          title,
+          artist,
+          previewUrl,
+          albumCover,
+          isAvailable: !!previewUrl,
+          expiresAt,
+        },
+      });
+
+    return true;
+  } catch (error) {
+    console.error('Error caching preview:', error);
+    return false;
+  }
+}
+
+export async function getFallbackAudio(deezerId: number) {
+  const db = await getDb();
+  if (!db) return null;
+
+  try {
+    const { karaokeAudioFallback } = await import("../drizzle/schema");
+    const { eq } = await import("drizzle-orm");
+    
+    const fallback = await db
+      .select()
+      .from(karaokeAudioFallback)
+      .where(eq(karaokeAudioFallback.deezerId, deezerId))
+      .limit(1);
+
+    return fallback.length > 0 ? fallback[0] : null;
+  } catch (error) {
+    console.error('Error getting fallback audio:', error);
+    return null;
+  }
+}
+
+export async function getCacheStats() {
+  const db = await getDb();
+  if (!db) return null;
+
+  try {
+    const { deezerPreviewCache } = await import("../drizzle/schema");
+    
+    const total = await db.select().from(deezerPreviewCache);
+    const available = total.filter((c) => c.isAvailable).length;
+    const expired = total.filter((c) => c.expiresAt && new Date(c.expiresAt) < new Date()).length;
+
+    return {
+      totalCached: total.length,
+      availablePreviews: available,
+      expiredEntries: expired,
+      cacheHitRate: total.length > 0 ? ((available / total.length) * 100).toFixed(2) : '0',
+    };
+  } catch (error) {
+    console.error('Error getting cache stats:', error);
+    return null;
+  }
+}

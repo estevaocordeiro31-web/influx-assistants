@@ -979,3 +979,59 @@ export const eventMissionProgress = mysqlTable("event_mission_progress", {
   completedAt: timestamp("completed_at"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
+
+
+// Deezer preview cache table
+export const deezerPreviewCache = mysqlTable("deezer_preview_cache", {
+  id: int("id").primaryKey().autoincrement(),
+  deezerId: int("deezer_id").notNull().unique(),
+  title: varchar("title", { length: 255 }).notNull(),
+  artist: varchar("artist", { length: 255 }).notNull(),
+  previewUrl: text("preview_url"),
+  albumCover: text("album_cover"),
+  duration: int("duration"), // in seconds
+  isAvailable: boolean("is_available").default(true),
+  lastFetched: timestamp("last_fetched").defaultNow().notNull(),
+  expiresAt: timestamp("expires_at"), // TTL for cache invalidation
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type DeezerPreviewCache = typeof deezerPreviewCache.$inferSelect;
+export type InsertDeezerPreviewCache = typeof deezerPreviewCache.$inferInsert;
+
+// Karaoke pronunciation analysis results
+export const karaokePronunciationAnalysis = mysqlTable("karaoke_pronunciation_analysis", {
+  id: int("id").primaryKey().autoincrement(),
+  participantId: int("participant_id").notNull(),
+  songId: varchar("song_id", { length: 50 }).notNull(),
+  audioUrl: text("audio_url").notNull(),
+  transcription: text("transcription"),
+  pronunciationScore: decimal("pronunciation_score", { precision: 5, scale: 2 }),
+  accuracy: decimal("accuracy", { precision: 5, scale: 2 }), // percentage 0-100
+  fluency: decimal("fluency", { precision: 5, scale: 2 }), // percentage 0-100
+  completeness: decimal("completeness", { precision: 5, scale: 2 }), // percentage 0-100
+  feedback: text("feedback"),
+  analysisData: json("analysis_data"), // detailed Whisper analysis
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type KaraokePronunciationAnalysis = typeof karaokePronunciationAnalysis.$inferSelect;
+export type InsertKaraokePronunciationAnalysis = typeof karaokePronunciationAnalysis.$inferInsert;
+
+// Karaoke fallback audio sources
+export const karaokeAudioFallback = mysqlTable("karaoke_audio_fallback", {
+  id: int("id").primaryKey().autoincrement(),
+  deezerId: int("deezer_id").notNull().unique(),
+  youtubeUrl: text("youtube_url"),
+  spotifyUrl: text("spotify_url"),
+  soundCloudUrl: text("soundcloud_url"),
+  fallbackPreviewUrl: text("fallback_preview_url"),
+  source: varchar("source", { length: 50 }).notNull(), // 'youtube', 'spotify', 'soundcloud', 'custom'
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type KaraokeAudioFallback = typeof karaokeAudioFallback.$inferSelect;
+export type InsertKaraokeAudioFallback = typeof karaokeAudioFallback.$inferInsert;
