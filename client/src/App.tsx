@@ -68,6 +68,7 @@ import ValentinesKaraokeMultiplayer from "./pages/ValentinesKaraokeMultiplayer";
 import ValentinesStudentRegister from "./pages/ValentinesStudentRegister";
 import PronunciationHistory from "./pages/PronunciationHistory";
 import TutorComparison from "./pages/TutorComparison";
+import ToeicClass from "./pages/ToeicClass";
 import StudentOnboarding from "./pages/StudentOnboarding";
 import StudentHomeNew from "./pages/StudentHomeNew";
 import StudentChatNew from "./pages/StudentChatNew";
@@ -171,6 +172,7 @@ function Router() {
       <Route path="/events/valentines/register" component={ValentinesStudentRegister} />
       <Route path="/events/valentines/pronunciation-history" component={PronunciationHistory} />
       <Route path="/events/valentines/tutor-comparison" component={TutorComparison} />
+      <Route path="/toeic-class" component={ToeicClass} />
       <Route path="/passport/checkin" component={PassportCheckInPage} />
       <Route path="/passport/sync" component={PassportSyncPage} />
       {/* Rota exclusiva para Tiago */}

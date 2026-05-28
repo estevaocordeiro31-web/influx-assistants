@@ -4935,3 +4935,29 @@
 [2026-05-28T18:22:28.942Z] [DailySync] Job agendado para rodar diariamente às 18:00
 [2026-05-28T18:22:28.942Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
 [2026-05-28T18:22:28.942Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-28T18:24:32.183Z] [Auth] Missing session cookie
+[2026-05-28T18:24:32.320Z] [Auth] Missing session cookie
+[2026-05-28T19:32:23.220Z] [Auth] Missing session cookie
+[2026-05-28T19:32:23.383Z] [Auth] Missing session cookie
+[2026-05-28T19:32:25.295Z] [Auth] Missing session cookie
+[2026-05-28T19:32:26.944Z] [Auth] Missing session cookie
+[2026-05-28T19:32:27.093Z] [Auth] Missing session cookie
+[2026-05-28T19:35:19.081Z] [Auth] Missing session cookie
+[2026-05-28T19:35:19.231Z] [Auth] Missing session cookie
+[2026-05-28T19:35:26.171Z] [Auth] Missing session cookie
+[2026-05-28T19:35:26.338Z] [Auth] Missing session cookie
+[2026-05-28T19:45:49.644Z] 7:45:49 PM [vite] (client) hmr update /src/App.tsx, /src/index.css
+[2026-05-28T19:45:51.114Z] [Auth] Missing session cookie
+[2026-05-28T19:45:55.120Z] 7:45:55 PM [vite] (client) hmr update /src/App.tsx, /src/index.css
+[2026-05-28T19:45:57.107Z] [Auth] Missing session cookie
+[2026-05-28T19:46:34.303Z] [Auth] Missing session cookie
+[2026-05-28T19:46:34.499Z] [Auth] Missing session cookie
+[2026-05-28T19:46:36.672Z] [Auth] Missing session cookie
+[2026-05-28T19:46:36.823Z] [Auth] Missing session cookie
+[2026-05-28T19:47:16.787Z] 7:47:16 PM [vite] (client) hmr update /src/index.css, /src/pages/ToeicClass.tsx
+[2026-05-28T19:47:22.846Z] [Auth] Missing session cookie
+[2026-05-28T19:47:22.987Z] [Auth] Missing session cookie
+[2026-05-28T19:47:23.492Z] [Auth] Missing session cookie
+[2026-05-28T19:47:23.910Z] [Auth] Missing session cookie
+[2026-05-28T19:47:26.848Z] [Auth] Missing session cookie
+[2026-05-28T19:47:27.005Z] [Auth] Missing session cookie
