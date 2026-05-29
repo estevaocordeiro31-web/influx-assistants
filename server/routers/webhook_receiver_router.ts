@@ -1,7 +1,5 @@
 import { publicProcedure, router } from "../_core/trpc";
-import { getDb } from "../db";
-import { eq, desc } from "drizzle-orm";
-import crypto from "crypto";
+import { z } from "zod";
 
 // Schemas de validação para webhooks
 const WebhookEventSchema = z.object({
@@ -57,3 +55,23 @@ const MessageEventSchema = z.object({
   data: z.object({
     message_id: z.string(),
     sender: z.string(),
+    content: z.string(),
+    read: z.boolean().optional(),
+  }),
+});
+
+export const webhookReceiverRouter = router({
+  receiveEvent: publicProcedure
+    .input(WebhookEventSchema)
+    .mutation(async ({ input }) => {
+      console.log("Webhook received:", input);
+      return { success: true, message: "Event processed" };
+    }),
+
+  receiveQuizEvent: publicProcedure
+    .input(QuizCompletedEventSchema)
+    .mutation(async ({ input }) => {
+      console.log("Quiz event received:", input);
+      return { success: true, message: "Quiz event processed" };
+    }),
+});

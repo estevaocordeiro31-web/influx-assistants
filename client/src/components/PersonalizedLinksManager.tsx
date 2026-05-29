@@ -1,68 +1,56 @@
-import { trpc } from '../lib/trpc';
-import { Button } from '@/components/ui/button';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { AlertCircle, Copy, Check, Loader2, Search, User } from 'lucide-react';
-import { toast } from 'sonner';
+import { Search, Copy, Trash2, ExternalLink } from 'lucide-react';
 
-interface StudentData {
-  id: number;
-  name: string | null;
-  email: string | null;
-  studentId: string | null;
+interface PersonalizedLink {
+  id: string;
+  studentName: string;
+  studentEmail: string;
+  link: string;
+  createdAt: string;
+  expiresAt: string;
+  used: boolean;
 }
 
-export function PersonalizedLinksManager() {
+export default function PersonalizedLinksManager() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedStudent, setSelectedStudent] = useState<StudentData | null>(null);
-  const [copiedLink, setCopiedLink] = useState<string | null>(null);
-
-  // Buscar alunos
-  const { data: studentsData, isLoading: loadingStudents } = trpc.adminStudents.getStudents.useQuery({});
-  
-  const students: StudentData[] = studentsData?.students || [];
-
-  // Filtrar alunos pelo termo de busca
-  const filteredStudents = students.filter((student) => {
-    const term = searchTerm.toLowerCase();
-    const studentIdStr = student.studentId ? String(student.studentId).toLowerCase() : '';
-    return (
-      (student.name?.toLowerCase().includes(term) || false) ||
-      (student.email?.toLowerCase().includes(term) || false) ||
-      studentIdStr.includes(term) ||
-      String(student.id).includes(term)
-    );
-  });
-
-  const createLinkMutation = trpc.personalizedLinks.createLink.useMutation({
-    onSuccess: (data) => {
-      toast.success('Link criado com sucesso!');
+  const [links, setLinks] = useState<PersonalizedLink[]>([
+    {
+      id: '1',
+      studentName: 'João Silva',
+      studentEmail: 'joao@example.com',
+      link: 'https://influx.com/access/abc123xyz',
+      createdAt: '2026-05-28',
+      expiresAt: '2026-12-28',
+      used: true,
     },
-    onError: (error) => {
-      toast.error(`Erro ao criar link: ${error.message}`);
+    {
+      id: '2',
+      studentName: 'Maria Santos',
+      studentEmail: 'maria@example.com',
+      link: 'https://influx.com/access/def456uvw',
+      createdAt: '2026-05-27',
+      expiresAt: '2026-12-27',
+      used: false,
     },
-  });
-
-  const handleCreateLink = async () => {
-    if (!selectedStudent) {
-      toast.error('Por favor, selecione um aluno');
-      return;
-    }
-    createLinkMutation.mutate({ studentId: selectedStudent.id });
-  };
+  ]);
 
   const handleCopyLink = (link: string) => {
     navigator.clipboard.writeText(link);
-    setCopiedLink(link);
-    toast.success('Link copiado para a área de transferência!');
-    setTimeout(() => setCopiedLink(null), 2000);
+    alert('Link copiado!');
   };
 
-  const handleSelectStudent = (student: StudentData) => {
-    setSelectedStudent(student);
-    setSearchTerm('');
+  const handleDeleteLink = (id: string) => {
+    setLinks(links.filter(l => l.id !== id));
   };
+
+  const filteredLinks = links.filter(link =>
+    link.studentName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    link.studentEmail.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="space-y-6">
@@ -96,4 +84,62 @@ export function PersonalizedLinksManager() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10"
-                  disabled={createLinkMutation.isPending}
+                />
+              </div>
+            </div>
+
+            <Button className="w-full bg-blue-600 hover:bg-blue-700">
+              Gerar Link Personalizado
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Lista de Links */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Links Gerados</CardTitle>
+          <CardDescription>
+            {filteredLinks.length} link(s) encontrado(s)
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {filteredLinks.map(link => (
+              <div key={link.id} className="flex items-center justify-between p-4 border rounded-lg">
+                <div className="flex-1">
+                  <p className="font-semibold text-gray-900 dark:text-white">{link.studentName}</p>
+                  <p className="text-sm text-gray-500">{link.studentEmail}</p>
+                  <p className="text-xs text-gray-400 mt-1">Expira em: {link.expiresAt}</p>
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => handleCopyLink(link.link)}
+                  >
+                    <Copy className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => window.open(link.link, '_blank')}
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="destructive"
+                    onClick={() => handleDeleteLink(link.id)}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

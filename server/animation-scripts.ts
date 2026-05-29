@@ -97,3 +97,29 @@ export const SCRIPT_LUCAS_LOCH_NESS: AnimationScript = {
       id: 5,
       action: "Lucas acordando assustado",
       dialogue: "I woke up freaking out! In New York, the scariest thing we got is the subway at 3 AM!",
+      dialoguePt: "Acordei assustado! Em Nova York, a coisa mais assustadora é o metrô às 3 da manhã!",
+      emotion: 'scared',
+      soundEffect: 'som de despertador'
+    }
+  ],
+
+  chunks: [
+    {
+      chunk: "I gotta see",
+      meaning: "tenho que ver / preciso ver",
+      example: "I gotta see this before I leave",
+      connectedSpeech: "I gotta → [aɪ ˈɡɑdə]"
+    }
+  ],
+
+  connectedSpeech: [
+    {
+      original: "I have got to",
+      spoken: "I gotta",
+      phonetic: "[aɪ ˈɡɑdə]"
+    }
+  ],
+
+  culturalNote: "The Loch Ness Monster is a legendary creature said to inhabit Loch Ness in Scotland. Despite many investigations, no conclusive evidence has been found.",
+  culturalNotePt: "O Monstro do Lago Ness é uma criatura lendária que supostamente habita o Lago Ness na Escócia. Apesar de muitas investigações, nenhuma evidência conclusiva foi encontrada."
+};
