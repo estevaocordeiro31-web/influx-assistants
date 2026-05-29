@@ -26,7 +26,7 @@ const TOEIC_PARTS: ToeicPart[] = [
     questions: 6,
     duration: '~5 min',
     icon: <Volume2 className="w-5 h-5" />,
-    audioFile: '/toeic-audio/media1.mp3',
+    audioFile: 'https://manus-storage.s3.amazonaws.com/media1_2299f552.mp3',
   },
   {
     id: 'part2',
@@ -36,7 +36,7 @@ const TOEIC_PARTS: ToeicPart[] = [
     questions: 25,
     duration: '~10 min',
     icon: <Headphones className="w-5 h-5" />,
-    audioFile: '/toeic-audio/media2.mp3',
+    audioFile: 'https://manus-storage.s3.amazonaws.com/media2_394ed3b8.mp3',
   },
   {
     id: 'part3',
@@ -46,7 +46,7 @@ const TOEIC_PARTS: ToeicPart[] = [
     questions: 39,
     duration: '~15 min',
     icon: <Headphones className="w-5 h-5" />,
-    audioFile: '/toeic-audio/media3.mp3',
+    audioFile: 'https://manus-storage.s3.amazonaws.com/media3_f8f5f36d.mp3',
   },
   {
     id: 'part4',
@@ -56,7 +56,7 @@ const TOEIC_PARTS: ToeicPart[] = [
     questions: 30,
     duration: '~15 min',
     icon: <Volume2 className="w-5 h-5" />,
-    audioFile: '/toeic-audio/media4.mp3',
+    audioFile: 'https://manus-storage.s3.amazonaws.com/media4_6c8e1659.mp3',
   },
   {
     id: 'part5',
