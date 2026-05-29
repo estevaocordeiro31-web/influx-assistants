@@ -54,6 +54,7 @@ import { deezerPreviewRouter } from "./routers/deezer-preview";
 import { pronunciationAnalysisRouter } from "./routers/pronunciation-analysis";
 import { whatsappReportRouter } from "./routers/whatsapp-report";
 import { certificateGeneratorRouter } from "./routers/certificate-generator";
+import { leaderboardRouter } from "./routers/leaderboard";
 
 export const appRouter = router({
   system: systemRouter,
@@ -120,6 +121,7 @@ export const appRouter = router({
   pronunciationAnalysis: pronunciationAnalysisRouter,
   whatsappReport: whatsappReportRouter,
   certificateGenerator: certificateGeneratorRouter,
+  leaderboard: leaderboardRouter,
 });
 
 export type AppRouter = typeof appRouter;

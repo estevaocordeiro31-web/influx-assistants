@@ -381,3 +381,131 @@ export async function getCacheStats() {
     return null;
   }
 }
+
+
+// Leaderboard and scoring helpers
+export async function saveEventParticipantScore(
+  participantId: number,
+  missionId: string,
+  score: number,
+  timeSpentSeconds: number = 0
+) {
+  const db = await getDb();
+  if (!db) return false;
+
+  try {
+    const { eventMissionProgress } = await import("../drizzle/schema");
+    const { eq, and } = await import("drizzle-orm");
+
+    // Check if mission progress exists
+    const existing = await db
+      .select()
+      .from(eventMissionProgress)
+      .where(
+        and(
+          eq(eventMissionProgress.participantId, participantId),
+          eq(eventMissionProgress.missionId, missionId)
+        )
+      )
+      .limit(1);
+
+    if (existing.length > 0) {
+      // Update existing score
+      await db
+        .update(eventMissionProgress)
+        .set({
+          score,
+          completed: score > 0,
+          timeSpentSeconds,
+          completedAt: new Date(),
+        })
+        .where(
+          and(
+            eq(eventMissionProgress.participantId, participantId),
+            eq(eventMissionProgress.missionId, missionId)
+          )
+        );
+    } else {
+      // Insert new score
+      await db.insert(eventMissionProgress).values({
+        participantId,
+        missionId,
+        score,
+        completed: score > 0,
+        timeSpentSeconds,
+        completedAt: new Date(),
+      });
+    }
+
+    // Update total points in eventParticipants
+    const { eventParticipants } = await import("../drizzle/schema");
+    const { eq: eqOp } = await import("drizzle-orm");
+
+    const allMissions = await db
+      .select()
+      .from(eventMissionProgress)
+      .where(eqOp(eventMissionProgress.participantId, participantId));
+
+    const totalPoints = allMissions.reduce((sum, m) => sum + (m.score || 0), 0);
+
+    await db
+      .update(eventParticipants)
+      .set({ totalPoints })
+      .where(eqOp(eventParticipants.id, participantId));
+
+    return true;
+  } catch (error) {
+    console.error("Error saving event participant score:", error);
+    return false;
+  }
+}
+
+export async function getEventLeaderboard(eventId: string, limit: number = 100) {
+  const db = await getDb();
+  if (!db) return [];
+
+  try {
+    const { eventParticipants } = await import("../drizzle/schema");
+    const { desc, eq } = await import("drizzle-orm");
+
+    const leaderboard = await db
+      .select()
+      .from(eventParticipants)
+      .where(eq(eventParticipants.eventId, eventId))
+      .orderBy(desc(eventParticipants.totalPoints))
+      .limit(limit);
+
+    return leaderboard;
+  } catch (error) {
+    console.error("Error getting event leaderboard:", error);
+    return [];
+  }
+}
+
+export async function getParticipantRank(participantId: number, eventId: string) {
+  const db = await getDb();
+  if (!db) return null;
+
+  try {
+    const { eventParticipants } = await import("../drizzle/schema");
+    const { desc, eq } = await import("drizzle-orm");
+
+    const allParticipants = await db
+      .select()
+      .from(eventParticipants)
+      .where(eq(eventParticipants.eventId, eventId))
+      .orderBy(desc(eventParticipants.totalPoints));
+
+    const rank = allParticipants.findIndex((p) => p.id === participantId) + 1;
+    const participant = allParticipants.find((p) => p.id === participantId);
+
+    return {
+      rank,
+      totalPoints: participant?.totalPoints || 0,
+      totalParticipants: allParticipants.length,
+    };
+  } catch (error) {
+    console.error("Error getting participant rank:", error);
+    return null;
+  }
+}

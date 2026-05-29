@@ -5002,3 +5002,50 @@
 [2026-05-29T16:35:10.471Z] [Auth] Missing session cookie
 [2026-05-29T16:35:10.581Z] [Auth] Missing session cookie
 [2026-05-29T16:35:10.739Z] [Auth] Missing session cookie
+[2026-05-29T16:36:05.889Z] [Auth] Missing session cookie
+[2026-05-29T16:36:06.080Z] [Auth] Missing session cookie
+[2026-05-29T16:36:57.332Z] [Auth] Missing session cookie
+[2026-05-29T16:36:57.532Z] [Auth] Missing session cookie
+[2026-05-29T16:37:00.393Z] [Auth] Missing session cookie
+[2026-05-29T16:37:00.565Z] [Auth] Missing session cookie
+[2026-05-29T16:37:31.927Z] 4:37:31 PM [tsx] change in ./server/db.ts Restarting...
+[2026-05-29T16:37:32.004Z] c
+[2026-05-29T16:37:34.361Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-29T16:37:34.727Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-29T16:37:34.804Z] Server running on http://localhost:3000/
+[2026-05-29T16:37:34.804Z] [Jobs] Inicializando jobs em background...
+[2026-05-29T16:37:34.894Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-29T16:37:34.894Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-29T16:37:34.894Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-29T16:37:45.372Z] [Auth] Missing session cookie
+[2026-05-29T16:37:45.537Z] [Auth] Missing session cookie
+[2026-05-29T16:37:47.917Z] [Auth] Missing session cookie
+[2026-05-29T16:37:48.092Z] [Auth] Missing session cookie
+[2026-05-29T16:37:57.841Z] [Auth] Missing session cookie
+[2026-05-29T16:37:57.994Z] [Auth] Missing session cookie
+[2026-05-29T16:38:00.405Z] [Auth] Missing session cookie
+[2026-05-29T16:38:00.569Z] [Auth] Missing session cookie
+[2026-05-29T16:38:09.201Z] 4:38:09 PM [tsx] change in ./server/routers.ts Restarting...
+[2026-05-29T16:38:09.242Z] c
+[2026-05-29T16:38:11.295Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-29T16:38:11.544Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-29T16:38:11.597Z] Server running on http://localhost:3000/
+[2026-05-29T16:38:11.597Z] [Jobs] Inicializando jobs em background...
+[2026-05-29T16:38:11.625Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-29T16:38:11.625Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-29T16:38:11.625Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-29T16:38:22.753Z] [Auth] Missing session cookie
+[2026-05-29T16:38:22.912Z] [Auth] Missing session cookie
+[2026-05-29T16:38:27.729Z] [Auth] Missing session cookie
+[2026-05-29T16:38:27.909Z] [Auth] Missing session cookie
+[2026-05-29T16:38:30.013Z] 4:38:30 PM [tsx] change in ./server/routers.ts Restarting...
+[2026-05-29T16:38:30.088Z] c
+[2026-05-29T16:38:31.911Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-05-29T16:38:32.162Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-05-29T16:38:32.209Z] Server running on http://localhost:3000/
+[2026-05-29T16:38:32.209Z] [Jobs] Inicializando jobs em background...
+[2026-05-29T16:38:32.237Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-05-29T16:38:32.237Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-05-29T16:38:32.238Z] [Jobs] Todos os jobs foram inicializados
+[2026-05-29T16:38:41.539Z] [Auth] Missing session cookie
+[2026-05-29T16:38:41.760Z] [Auth] Missing session cookie
