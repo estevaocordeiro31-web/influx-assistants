@@ -5060,3 +5060,38 @@
 [2026-05-29T19:14:03.550Z] [Auth] Missing session cookie
 [2026-05-29T19:14:06.395Z] [Auth] Missing session cookie
 [2026-05-29T19:14:06.546Z] [Auth] Missing session cookie
+[2026-05-29T19:14:57.522Z] [Auth] Missing session cookie
+[2026-05-29T19:14:57.663Z] [Auth] Missing session cookie
+[2026-06-03T21:05:45.593Z] [WhatsAppNotif] ⏰ Running study-reminders (18h BRT)
+[2026-06-03T21:05:45.596Z] [WhatsAppNotif] 📚 Sending study reminders...
+[2026-06-03T21:05:45.063Z] [WhatsAppNotif] Study reminders error: db.execute is not a function
+[2026-06-03T21:05:47.917Z] [Auth] Missing session cookie
+[2026-06-03T21:05:48.095Z] [Auth] Missing session cookie
+[2026-06-03T21:07:56.213Z] Starting dev server with command: pnpm run dev
+[2026-06-03T21:07:57.221Z] > influx-personal-tutor@1.1.0 dev /home/ubuntu/influx-assistants
+[2026-06-03T21:07:57.221Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-06-03T21:07:59.542Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-06-03T21:07:59.939Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-06-03T21:07:59.993Z] Server running on http://localhost:3000/
+[2026-06-03T21:07:59.993Z] [Jobs] Inicializando jobs em background...
+[2026-06-03T21:08:00.025Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-06-03T21:08:00.025Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-06-03T21:08:00.025Z] [Jobs] Todos os jobs foram inicializados
+[2026-06-03T21:08:06.668Z] [Auth] Missing session cookie
+[2026-06-03T21:08:06.831Z] [Auth] Missing session cookie
+[2026-06-03T21:12:26.381Z] [Auth] Missing session cookie
+[2026-06-03T21:12:26.894Z] [Auth] Missing session cookie
+[2026-06-03T21:12:38.394Z] [Auth] Missing session cookie
+[2026-06-03T21:12:38.547Z] [Auth] Missing session cookie
+[2026-06-03T21:13:03.842Z] [Auth] Missing session cookie
+[2026-06-03T21:13:03.993Z] [Auth] Missing session cookie
+[2026-06-03T21:13:18.386Z] [Auth] Missing session cookie
+[2026-06-03T21:13:18.545Z] [Auth] Missing session cookie
+[2026-06-03T21:14:24.491Z] [Auth] Missing session cookie
+[2026-06-03T21:14:24.793Z] [Auth] Missing session cookie
+[2026-06-03T21:14:33.990Z] 9:14:33 PM [vite] (client) hmr update /src/index.css, /src/pages/ValentinesKaraokeMultiplayer.tsx, /src/pages/ValentinesKaraoke.tsx
+[2026-06-03T21:15:11.541Z] [Auth] Missing session cookie
+[2026-06-03T21:15:11.706Z] [Auth] Missing session cookie
+[2026-06-03T21:15:20.488Z] 9:15:20 PM [vite] (client) hmr update /src/index.css, /src/pages/ValentinesKaraokeMultiplayer.tsx, /src/pages/ValentinesKaraoke.tsx
+[2026-06-03T21:15:26.231Z] [Auth] Missing session cookie
+[2026-06-03T21:15:26.407Z] [Auth] Missing session cookie

@@ -336,3 +336,17 @@ export const getRandomSongs = (decade: string, count: number = 4) => {
   const shuffled = [...songs].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, count);
 };
+
+// Additional songs added for expanded variety
+export const KARAOKE_SONGS_EXTENDED = [
+  ...KARAOKE_SONGS,
+  // 70s
+  { id: '70s-1', title: 'Stayin Alive', artist: 'Bee Gees', decade: '80s', deezerId: 1109734, albumCover: 'https://cdn-images.dzcdn.net/images/cover/stayin/250x250-000000-80-0-0.jpg', lyricsHint: '"Stayin alive"', lyricsContinuation: '"Stayin alive, stayin alive"', funFact: 'The iconic disco song!', acceptedAnswers: ['stayin alive', 'bee gees'] },
+  // 90s
+  { id: '90s-7', title: 'Smells Like Teen Spirit', artist: 'Nirvana', decade: '90s', deezerId: 1313521, albumCover: 'https://cdn-images.dzcdn.net/images/cover/teen/250x250-000000-80-0-0.jpg', lyricsHint: '"Load up on guns"', lyricsContinuation: '"Bring your friends"', funFact: 'Changed rock music forever!', acceptedAnswers: ['smells like teen spirit', 'nirvana'] },
+  { id: '90s-8', title: 'Wonderwall', artist: 'Oasis', decade: '90s', deezerId: 1109734, albumCover: 'https://cdn-images.dzcdn.net/images/cover/wonderwall/250x250-000000-80-0-0.jpg', lyricsHint: '"All your dreams"', lyricsContinuation: '"Are made of something"', funFact: 'A Britpop classic!', acceptedAnswers: ['wonderwall', 'oasis'] },
+  { id: '90s-9', title: 'Creep', artist: 'Radiohead', decade: '90s', deezerId: 1313521, albumCover: 'https://cdn-images.dzcdn.net/images/cover/creep/250x250-000000-80-0-0.jpg', lyricsHint: '"When you were here before"', lyricsContinuation: '"Could not look you in the eye"', funFact: 'Radiohead biggest hit!', acceptedAnswers: ['creep', 'radiohead'] },
+  // 2010s
+  { id: '2010s-7', title: 'Uptown Funk', artist: 'Mark Ronson ft. Bruno Mars', decade: '2010s', deezerId: 2255274, albumCover: 'https://cdn-images.dzcdn.net/images/cover/funk/250x250-000000-80-0-0.jpg', lyricsHint: '"This hit that ice cold"', lyricsContinuation: '"Michelle Pfeiffer that white gold"', funFact: 'A global phenomenon!', acceptedAnswers: ['uptown funk', 'mark ronson', 'bruno mars'] },
+  { id: '2010s-8', title: 'Shape of You', artist: 'Ed Sheeran', decade: '2010s', deezerId: 3135556, albumCover: 'https://cdn-images.dzcdn.net/images/cover/shape/250x250-000000-80-0-0.jpg', lyricsHint: '"The club is not the best place"', lyricsContinuation: '"So the bar is where I go"', funFact: 'One of the most-streamed songs!', acceptedAnswers: ['shape of you', 'ed sheeran'] },
+];
