@@ -5113,3 +5113,20 @@
 [2026-06-03T21:22:38.249Z] [Auth] Missing session cookie
 [2026-06-03T21:22:51.875Z] [Auth] Missing session cookie
 [2026-06-03T21:22:52.026Z] [Auth] Missing session cookie
+[2026-06-03T21:23:25.018Z] [Auth] Missing session cookie
+[2026-06-03T21:23:25.171Z] [Auth] Missing session cookie
+[2026-06-03T21:38:00.030Z] [WhatsAppNotif] ⏰ Running study-reminders (18h BRT)
+[2026-06-03T21:38:00.030Z] [WhatsAppNotif] 📚 Sending study reminders...
+[2026-06-03T21:38:00.035Z] [WhatsAppNotif] Study reminders error: db.execute is not a function
+[2026-06-05T19:03:14.640Z] Starting dev server with command: pnpm run dev
+[2026-06-05T19:03:15.628Z] > influx-personal-tutor@1.1.0 dev /home/ubuntu/influx-assistants
+[2026-06-05T19:03:15.628Z] > NODE_ENV=development tsx watch server/_core/index.ts
+[2026-06-05T19:03:17.883Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-06-05T19:03:18.182Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-06-05T19:03:18.241Z] Server running on http://localhost:3000/
+[2026-06-05T19:03:18.241Z] [Jobs] Inicializando jobs em background...
+[2026-06-05T19:03:18.267Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-06-05T19:03:18.267Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-06-05T19:03:18.267Z] [Jobs] Todos os jobs foram inicializados
+[2026-06-05T19:03:23.507Z] [Auth] Missing session cookie
+[2026-06-05T19:03:23.670Z] [Auth] Missing session cookie
