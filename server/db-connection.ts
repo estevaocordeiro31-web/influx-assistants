@@ -7,11 +7,11 @@
 
 import { drizzle } from "drizzle-orm/mysql2";
 import mysql from "mysql2/promise";
-import type { Connection } from "mysql2/promise";
+import type { Pool } from "mysql2/promise";
 import type { MySql2Database } from "drizzle-orm/mysql2";
 
-let localConnection: Connection;
-let centralConnection: Connection;
+let localConnection: Pool;
+let centralConnection: Pool;
 let localDb: MySql2Database;
 let centralDb: MySql2Database;
 
@@ -27,17 +27,24 @@ export function buildConnectionConfig(url: string) {
   };
 }
 
+// Pools instead of single connections: TiDB Cloud closes idle connections,
+// so a long-lived single connection eventually throws "connection is in
+// closed state". Pools transparently re-open connections.
+const POOL_OPTS = { connectionLimit: 5, enableKeepAlive: true, keepAliveInitialDelay: 10000 } as const;
+
 async function initializeConnections() {
   if (initialized) return;
 
-  localConnection = await mysql.createConnection(
-    buildConnectionConfig(process.env.DATABASE_URL!)
-  );
+  localConnection = mysql.createPool({
+    ...buildConnectionConfig(process.env.DATABASE_URL!),
+    ...POOL_OPTS,
+  });
   localDb = drizzle(localConnection);
 
-  centralConnection = await mysql.createConnection(
-    buildConnectionConfig(process.env.CENTRAL_DATABASE_URL!)
-  );
+  centralConnection = mysql.createPool({
+    ...buildConnectionConfig(process.env.CENTRAL_DATABASE_URL!),
+    ...POOL_OPTS,
+  });
   centralDb = drizzle(centralConnection);
 
   initialized = true;

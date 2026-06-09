@@ -1,18 +1,28 @@
 import { eq, and } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
+import type { MySql2Database } from "drizzle-orm/mysql2";
 import mysql from "mysql2/promise";
 import { InsertUser, users, studentProfiles, InsertStudentProfile, chunks, conversations, InsertConversation, messages, InsertMessage, studentChunkProgress, alerts, InsertAlert } from "../drizzle/schema";
 import { ENV } from './_core/env';
 import { buildConnectionConfig } from './db-connection';
 
-let _db: ReturnType<typeof drizzle> | null = null;
+let _db: MySql2Database | null = null;
 
 // Lazily create the drizzle instance so local tooling can run without a DB.
+// Uses a connection pool: TiDB Cloud drops idle connections, and a single
+// long-lived connection would die and never reconnect (causing the
+// "connection is in closed state" error on auth/session lookups). A pool
+// transparently re-opens connections as needed.
 export async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
     try {
-      const connection = await mysql.createConnection(buildConnectionConfig(process.env.DATABASE_URL));
-      _db = drizzle(connection);
+      const pool = mysql.createPool({
+        ...buildConnectionConfig(process.env.DATABASE_URL),
+        connectionLimit: 5,
+        enableKeepAlive: true,
+        keepAliveInitialDelay: 10000,
+      });
+      _db = drizzle(pool);
     } catch (error) {
       console.warn("[Database] Failed to connect:", error);
       _db = null;
