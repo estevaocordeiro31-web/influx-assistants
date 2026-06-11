@@ -66,7 +66,13 @@ export const chatRouter = router({
             throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Falha ao criar conversa" });
           }
           
-          conversationId = (newConversation as any).insertId as number;
+          // drizzle/mysql2 retorna [ResultSetHeader] (insertId em [0]); o mock de teste
+          // retorna { insertId }. Cobrir os dois formatos — senão conversationId fica
+          // undefined e o insert em `messages` falha (conversation_id sem default).
+          conversationId = ((newConversation as any).insertId ?? (newConversation as any)[0]?.insertId) as number;
+          if (!conversationId) {
+            throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Falha ao obter id da conversa" });
+          }
         }
 
         const previousMessages = await getConversationMessages(conversationId);
