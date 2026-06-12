@@ -5130,3 +5130,14 @@
 [2026-06-05T19:03:18.267Z] [Jobs] Todos os jobs foram inicializados
 [2026-06-05T19:03:23.507Z] [Auth] Missing session cookie
 [2026-06-05T19:03:23.670Z] [Auth] Missing session cookie
+[2026-06-12T17:54:29.349Z] 5:54:29 PM [vite] (client) hmr update /src/pages/ToeicClass.tsx, /src/index.css
+[2026-06-12T17:54:29.351Z] 5:54:29 PM [vite] (client) hmr update /src/pages/ValentinesKaraoke.tsx, /src/index.css
+[2026-06-12T17:54:29.563Z] 5:54:29 PM [tsx] unlink in ./server/routers/chat.ts Restarting...
+[2026-06-12T17:54:29.641Z] c
+[2026-06-12T17:54:33.117Z] [OAuth] Initialized with baseURL: https://api.manus.im
+[2026-06-12T17:54:33.378Z] [DirectLogin] Rota registrada: GET /api/direct-login/:token
+[2026-06-12T17:54:33.421Z] Server running on http://localhost:3000/
+[2026-06-12T17:54:33.421Z] [Jobs] Inicializando jobs em background...
+[2026-06-12T17:54:33.446Z] [DailySync] Job agendado para rodar diariamente às 18:00
+[2026-06-12T17:54:33.447Z] [WhatsAppNotif] ✅ Jobs agendados: 09:00 (milestones) + 18:00 (study reminders)
+[2026-06-12T17:54:33.447Z] [Jobs] Todos os jobs foram inicializados
