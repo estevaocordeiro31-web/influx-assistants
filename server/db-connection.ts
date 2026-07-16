@@ -12,8 +12,10 @@ import type { MySql2Database } from "drizzle-orm/mysql2";
 
 let localConnection: Pool;
 let centralConnection: Pool;
+let prodConnection: Pool;
 let localDb: MySql2Database;
 let centralDb: MySql2Database;
+let prodDb: MySql2Database;
 
 // Initialize connections lazily
 let initialized = false;
@@ -46,6 +48,24 @@ async function initializeConnections() {
     ...POOL_OPTS,
   });
   centralDb = drizzle(centralConnection);
+
+  // Fix parcial seguro (2026-07-15): CENTRAL_DATABASE_URL aponta pra um
+  // snapshot congelado desde 22/05 (achado real: 20% dos IDs já divergiram
+  // da producao real ao comparar amostra). PROD_DATABASE_URL e' a conexao
+  // NOVA, so' de leitura, pro mesmo banco real que o Brain usa — usada so'
+  // pelas 2 telas de admin que exibem lista/detalhe de aluno
+  // (admin-students.ts). Os caminhos de ESCRITA (elie-sync.ts, sync.ts,
+  // db-central.ts) continuam em centralConnection de proposito — escrever
+  // na producao real exige reconciliar antes os 232 vinculos users.student_id
+  // por telefone/CPF (nao por ID), projeto separado, ainda nao feito. Ver
+  // docs/plans/TUTOR_DEFASAGEM_2026-07-15.md no repo do Brain.
+  if (process.env.PROD_DATABASE_URL) {
+    prodConnection = mysql.createPool({
+      ...buildConnectionConfig(process.env.PROD_DATABASE_URL),
+      ...POOL_OPTS,
+    });
+    prodDb = drizzle(prodConnection);
+  }
 
   initialized = true;
 }
@@ -82,4 +102,17 @@ export async function getLocalDb() {
 export async function getCentralDb() {
   await initializeConnections();
   return centralDb;
+}
+
+/**
+ * Get PROD (real production) database — read-only por convenção de uso.
+ * So' pra telas que exibem dado real de aluno (admin-students.ts). NAO usar
+ * pra escrever progresso/inteligencia da Elie ate a reconciliacao dos
+ * vinculos users.student_id acontecer — ver
+ * docs/plans/TUTOR_DEFASAGEM_2026-07-15.md no repo do Brain.
+ */
+export async function getProdDb() {
+  await initializeConnections();
+  if (!prodDb) throw new Error('PROD_DATABASE_URL não configurada');
+  return prodDb;
 }

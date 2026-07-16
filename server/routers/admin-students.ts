@@ -3,14 +3,19 @@ import { z } from 'zod';
 import { TRPCError } from '@trpc/server';
 import { getDb, assignStudentId, assignStudentIdsToAllUsers } from '../db';
 import { users, studentProfiles } from '../../drizzle/schema';
-import { students as centralStudents } from '../../drizzle/schema-central';
-import { eq } from 'drizzle-orm';
-import { getCentralDb } from '../db-connection';
+import { sql } from 'drizzle-orm';
+import { getProdDb } from '../db-connection';
 
 export const adminStudentsRouter = router({
   /**
    * Obter lista de alunos (admin only)
-   * Busca do banco central TiDB (tabela students)
+   * Fix 2026-07-15: migrado do banco "central" (TiDB congelado desde 22/05,
+   * achado real: 20% dos IDs já divergiram da produção) pra PROD_DATABASE_URL
+   * (mesmo banco real que o Brain usa). SQL raw em vez do schema-central.ts —
+   * schemas Drizzle já provaram divergir de tabelas reais em outros casos
+   * (ver docs/plans/TUTOR_DEFASAGEM_2026-07-15.md no repo do Brain). Só
+   * leitura — caminhos de escrita (elie-sync.ts/sync.ts/db-central.ts)
+   * continuam no banco antigo até a reconciliação de verdade acontecer.
    */
   getStudents: adminProcedure
     .input(
@@ -22,22 +27,14 @@ export const adminStudentsRouter = router({
     )
     .query(async ({ input }) => {
       try {
-        const centralDb = await getCentralDb();
+        const prodDb = await getProdDb();
 
-        // Buscar alunos da tabela students do banco central
-        let allStudents = await centralDb
-          .select({
-            id: centralStudents.id,
-            matricula: centralStudents.matricula,
-            name: centralStudents.name,
-            email: centralStudents.email,
-            phone: centralStudents.phone,
-            status: centralStudents.status,
-            createdAt: centralStudents.createdAt,
-            updatedAt: centralStudents.updatedAt,
-          })
-          .from(centralStudents)
-          .orderBy(centralStudents.name);
+        const rows: any = await prodDb.execute(sql`
+          SELECT id, matricula, name, email, phone, status, createdAt, updatedAt
+          FROM students
+          ORDER BY name
+        `);
+        const allStudents = (Array.isArray(rows[0]) ? rows[0] : rows) as any[];
 
         // Filtrar em memória se necessário
         let filteredStudents = allStudents;
@@ -100,12 +97,13 @@ export const adminStudentsRouter = router({
     .input(z.object({ studentId: z.number() }))
     .query(async ({ input }) => {
       try {
-        const centralDb = await getCentralDb();
+        const prodDb = await getProdDb();
 
-        const [student] = await centralDb
-          .select()
-          .from(centralStudents)
-          .where(eq(centralStudents.id, input.studentId));
+        const rows: any = await prodDb.execute(sql`
+          SELECT id, matricula, name, email, phone, status, createdAt, updatedAt
+          FROM students WHERE id = ${input.studentId} LIMIT 1
+        `);
+        const student = ((Array.isArray(rows[0]) ? rows[0] : rows) as any[])[0];
 
         if (!student) {
           throw new TRPCError({
