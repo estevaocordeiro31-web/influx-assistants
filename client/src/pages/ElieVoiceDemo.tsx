@@ -36,7 +36,12 @@ function cleanTextForSpeech(text: string): string {
   return text
     .replace(EMOJI_REGEX, '')
     .replace(/\*\*(.+?)\*\*/g, '$1')
-    .replace(/\*(.+?)\*/g, '$1')
+    // *texto* de asterisco simples quase sempre e' rubrica de acao/emocao
+    // (ex: "*sorrindo*", "*acena com a mao*") — a Elie estava FALANDO essas
+    // rubricas em voz alta em vez de so' interpreta-las como gesto de texto.
+    // Remove o conteudo inteiro, nao so' o asterisco.
+    .replace(/\*(.+?)\*/g, '')
+    .replace(/\([^)]*\b(sorrindo|sorri|acena|rindo|piscando|gesticulando)\b[^)]*\)/gi, '')
     .replace(/^#{1,6}\s*/gm, '')
     .replace(/(^|\n)\s*[-*]\s+/g, '$1')
     .replace(/\s+-\s+/g, '. ')
