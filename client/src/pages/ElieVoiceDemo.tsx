@@ -78,6 +78,10 @@ export default function ElieVoiceDemo() {
     recognition.lang = 'pt-BR';
 
     recognition.onresult = (event: any) => {
+      // So reage a fala se estivermos no modo "ouvindo" — enquanto ela fala
+      // ou pensa, ignora qualquer coisa detectada (evita reagir a eco do
+      // proprio audio dela, e evita reiniciar o reconhecimento a cada turno).
+      if (modeRef.current !== 'listening') return;
       let interim = '';
       let finalText = '';
       for (let i = event.resultIndex; i < event.results.length; i++) {
@@ -94,12 +98,13 @@ export default function ElieVoiceDemo() {
     recognition.onerror = (event: any) => {
       console.error('[ElieVoiceDemo] reconhecimento de voz erro:', event.error);
     };
-    // Reconhecimento contínuo se encerra sozinho de tempos em tempos (limite do
-    // browser) — reinicia automaticamente enquanto a conversa estiver ativa,
-    // pra manter o "modo fluido" sem exigir clique do usuário a cada turno.
+    // O reconhecimento fica ligado o tempo TODO da conversa (nao para/reinicia
+    // a cada turno — isso e' o que disparava o som de "iniciando gravacao" do
+    // sistema toda vez). Se o browser encerrar sozinho (limite de silencio),
+    // reinicia uma unica vez em segundo plano, sem trocar de modo.
     recognition.onend = () => {
-      if (!stoppedByUserRef.current && modeRef.current === 'listening') {
-        try { recognition.start(); } catch { /* já rodando, ignora */ }
+      if (!stoppedByUserRef.current) {
+        try { recognition.start(); } catch { /* ja rodando, ignora */ }
       }
     };
 
@@ -111,11 +116,9 @@ export default function ElieVoiceDemo() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const startListening = () => {
-    stoppedByUserRef.current = false;
-    setMode('listening');
-    try { recognitionRef.current?.start(); } catch { /* já rodando, ignora */ }
-  };
+  // So' liga o modo "ouvindo" — o reconhecimento em si ja esta rodando
+  // continuamente desde o connect() (ver comentario no recognition.onend).
+  const startListening = () => setMode('listening');
 
   const connect = async () => {
     setMode('connecting');
@@ -149,6 +152,11 @@ export default function ElieVoiceDemo() {
 
       setMode('speaking');
       await synthesizer.speakTextAsync(greeting);
+
+      // Unico lugar que de fato "aperta o botao" de gravar — o resto da
+      // conversa so alterna o modo (ver onresult), sem novo start/stop.
+      stoppedByUserRef.current = false;
+      try { recognitionRef.current?.start(); } catch { /* já rodando, ignora */ }
       startListening();
     } catch (e: any) {
       console.error('[ElieVoiceDemo] connect falhou:', e);
@@ -170,11 +178,11 @@ export default function ElieVoiceDemo() {
   useEffect(() => () => disconnect(), []);
 
   // Turno completo: recebe texto (falado ou digitado), consulta Claude,
-  // e faz a Elie falar a resposta. Pausa o reconhecimento enquanto ela
-  // fala, pra nao se ouvir e entrar em loop.
+  // e faz a Elie falar a resposta. O reconhecimento continua ligado o
+  // tempo todo (nao para/reinicia) — so ignoramos o que ele capta
+  // enquanto o modo nao e' "listening" (ver recognition.onresult).
   const handleUserSpeech = async (text: string) => {
     if (!text || !synthesizerRef.current) return;
-    recognitionRef.current?.stop();
     setMode('thinking');
     const t0 = performance.now();
     setTurns((prev) => [...prev, { role: 'user', text }]);
