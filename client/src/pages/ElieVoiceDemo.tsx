@@ -25,20 +25,43 @@ const MODE_LABEL: Record<Mode, string> = {
   error: 'Erro',
 };
 
-// A resposta do Claude vem formatada em markdown (**CHUNK:**, listas, etc.)
-// pra leitura em texto — falado literalmente, o avatar lê os asteriscos e
-// cerquilhas em voz alta. Limpa antes de mandar pro speakTextAsync; o texto
-// original (com formatacao) continua no historico visual.
-function stripMarkdownForSpeech(text: string): string {
+// A resposta do Claude vem formatada em markdown + emoji (pro chat de texto)
+// — falado literalmente, o avatar lia simbolo por simbolo, sem pausa nenhuma.
+// Limpa tudo isso e monta um SSML com pausas reais entre frases + estilo
+// "calm" (unico que a voz Francisca suporta) pra soar mais natural. O texto
+// original (com formatacao) continua no historico visual, so o audio muda.
+const EMOJI_REGEX = new RegExp('[\\u{1F300}-\\u{1FAFF}\\u{2600}-\\u{27BF}\\u{2190}-\\u{21FF}\\u{2B00}-\\u{2BFF}\\uFE0F]', 'gu');
+
+function cleanTextForSpeech(text: string): string {
   return text
+    .replace(EMOJI_REGEX, '')
     .replace(/\*\*(.+?)\*\*/g, '$1')
     .replace(/\*(.+?)\*/g, '$1')
     .replace(/^#{1,6}\s*/gm, '')
-    .replace(/^[-*]\s+/gm, '')
+    .replace(/(^|\n)\s*[-*]\s+/g, '$1')
+    .replace(/\s+-\s+/g, '. ')
     .replace(/`{1,3}([^`]*)`{1,3}/g, '$1')
     .replace(/\n{2,}/g, '. ')
     .replace(/\n/g, ' ')
+    .replace(/\s{2,}/g, ' ')
     .trim();
+}
+
+function escapeSsml(text: string): string {
+  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+// Quebra em frases e insere pausa real entre elas — sem isso o Azure fala
+// tudo "em cima", sem intonacao (era exatamente a reclamacao).
+function toSpeechSsml(text: string, voiceName: string): string {
+  const clean = cleanTextForSpeech(text);
+  const sentences = clean.split(/(?<=[.!?])\s+/).filter(Boolean);
+  const body = sentences.map((s) => escapeSsml(s)).join(' <break time="380ms"/> ');
+  return `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="https://www.w3.org/2001/mstts" xml:lang="pt-BR">
+    <voice name="${voiceName}">
+      <mstts:express-as style="calm" styledegree="1">${body}</mstts:express-as>
+    </voice>
+  </speak>`;
 }
 
 export default function ElieVoiceDemo() {
@@ -151,7 +174,7 @@ export default function ElieVoiceDemo() {
       setTurns([{ role: 'elie', text: greeting }]);
 
       setMode('speaking');
-      await synthesizer.speakTextAsync(greeting);
+      await synthesizer.speakSsmlAsync(toSpeechSsml(greeting, VOICE_NAME));
 
       // Unico lugar que de fato "aperta o botao" de gravar — o resto da
       // conversa so alterna o modo (ver onresult), sem novo start/stop.
@@ -192,7 +215,7 @@ export default function ElieVoiceDemo() {
       const claudeMs = Math.round(performance.now() - t0);
 
       setMode('speaking');
-      await synthesizerRef.current.speakTextAsync(stripMarkdownForSpeech(responseText));
+      await synthesizerRef.current.speakSsmlAsync(toSpeechSsml(responseText, VOICE_NAME));
       const totalMs = Math.round(performance.now() - t0);
 
       setTurns((prev) => [...prev, { role: 'elie', text: responseText, latencyMs: totalMs }]);
