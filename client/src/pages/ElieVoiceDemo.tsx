@@ -11,10 +11,17 @@ interface Turn {
   latencyMs?: number;
 }
 
-// Avatar stock "talking head" (visual neutro, sem treino custom da Elie ainda) + voz pt-BR.
+// Avatar stock "talking head" (visual neutro, sem treino custom da Elie ainda).
+// Voz "Multilingual" (nao a Francisca comum) porque as respostas misturam
+// portugues com chunks em ingles — a voz regular pt-BR lia ingles com sotaque
+// forçado; a Multilingual troca a pronuncia por idioma automaticamente.
+// Confirmado testando as duas isoladas antes de trocar (ver diario 20/07).
 const AVATAR_CHARACTER = 'meg';
 const AVATAR_STYLE = 'formal';
-const VOICE_NAME = 'pt-BR-FranciscaNeural';
+const VOICE_NAME = 'pt-BR-ThalitaMultilingualNeural';
+// Vozes "Multilingual" nao tem StyleList (conferido em /voices/list) — soi
+// aplicamos mstts:express-as quando a voz realmente suporta o estilo.
+const VOICE_STYLE: string | null = null;
 
 const MODE_LABEL: Record<Mode, string> = {
   idle: 'Desconectado',
@@ -27,9 +34,9 @@ const MODE_LABEL: Record<Mode, string> = {
 
 // A resposta do Claude vem formatada em markdown + emoji (pro chat de texto)
 // — falado literalmente, o avatar lia simbolo por simbolo, sem pausa nenhuma.
-// Limpa tudo isso e monta um SSML com pausas reais entre frases + estilo
-// "calm" (unico que a voz Francisca suporta) pra soar mais natural. O texto
-// original (com formatacao) continua no historico visual, so o audio muda.
+// Limpa tudo isso e monta um SSML com pausas reais entre frases pra soar
+// mais natural. O texto original (com formatacao) continua no historico
+// visual, so o audio muda.
 const EMOJI_REGEX = new RegExp('[\\u{1F300}-\\u{1FAFF}\\u{2600}-\\u{27BF}\\u{2190}-\\u{21FF}\\u{2B00}-\\u{2BFF}\\uFE0F]', 'gu');
 
 function cleanTextForSpeech(text: string): string {
@@ -58,14 +65,13 @@ function escapeSsml(text: string): string {
 
 // Quebra em frases e insere pausa real entre elas — sem isso o Azure fala
 // tudo "em cima", sem intonacao (era exatamente a reclamacao).
-function toSpeechSsml(text: string, voiceName: string): string {
+function toSpeechSsml(text: string, voiceName: string, style: string | null): string {
   const clean = cleanTextForSpeech(text);
   const sentences = clean.split(/(?<=[.!?])\s+/).filter(Boolean);
   const body = sentences.map((s) => escapeSsml(s)).join(' <break time="380ms"/> ');
+  const inner = style ? `<mstts:express-as style="${style}" styledegree="1">${body}</mstts:express-as>` : body;
   return `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="https://www.w3.org/2001/mstts" xml:lang="pt-BR">
-    <voice name="${voiceName}">
-      <mstts:express-as style="calm" styledegree="1">${body}</mstts:express-as>
-    </voice>
+    <voice name="${voiceName}">${inner}</voice>
   </speak>`;
 }
 
@@ -106,9 +112,15 @@ export default function ElieVoiceDemo() {
     recognition.lang = 'pt-BR';
 
     recognition.onresult = (event: any) => {
-      // So reage a fala se estivermos no modo "ouvindo" — enquanto ela fala
-      // ou pensa, ignora qualquer coisa detectada (evita reagir a eco do
-      // proprio audio dela, e evita reiniciar o reconhecimento a cada turno).
+      // Se ela esta falando e o usuario comeca a falar por cima, interrompe
+      // ("barge-in") em vez de deixar ela terminar a resposta inteira antes
+      // de ouvir de novo — e' o que faz o modo soar "fluido" de verdade.
+      // Risco conhecido, sem headset: audio dela vazando pro microfone pode
+      // disparar uma interrupcao falsa (sem controle de eco pelo lado daqui).
+      if (modeRef.current === 'speaking') {
+        synthesizerRef.current?.stopSpeakingAsync().catch(() => {});
+        setMode('listening');
+      }
       if (modeRef.current !== 'listening') return;
       let interim = '';
       let finalText = '';
@@ -179,7 +191,7 @@ export default function ElieVoiceDemo() {
       setTurns([{ role: 'elie', text: greeting }]);
 
       setMode('speaking');
-      await synthesizer.speakSsmlAsync(toSpeechSsml(greeting, VOICE_NAME));
+      await synthesizer.speakSsmlAsync(toSpeechSsml(greeting, VOICE_NAME, VOICE_STYLE));
 
       // Unico lugar que de fato "aperta o botao" de gravar — o resto da
       // conversa so alterna o modo (ver onresult), sem novo start/stop.
@@ -220,7 +232,7 @@ export default function ElieVoiceDemo() {
       const claudeMs = Math.round(performance.now() - t0);
 
       setMode('speaking');
-      await synthesizerRef.current.speakSsmlAsync(toSpeechSsml(responseText, VOICE_NAME));
+      await synthesizerRef.current.speakSsmlAsync(toSpeechSsml(responseText, VOICE_NAME, VOICE_STYLE));
       const totalMs = Math.round(performance.now() - t0);
 
       setTurns((prev) => [...prev, { role: 'elie', text: responseText, latencyMs: totalMs }]);
