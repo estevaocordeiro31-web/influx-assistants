@@ -36,8 +36,8 @@ export default function ElieVoiceDemo() {
     setState('connecting');
     setError('');
     try {
-      const { data: ice } = await iceTokenQuery.refetch();
-      if (!ice) throw new Error('Sem token ICE do Azure');
+      const { data: ice, error: iceError } = await iceTokenQuery.refetch();
+      if (!ice) throw new Error(iceError?.message || 'Sem token ICE do Azure (motivo desconhecido)');
 
       const speechConfig = SpeechSDK.SpeechConfig.fromAuthorizationToken(ice.authToken, ice.region);
       speechConfig.speechSynthesisVoiceName = VOICE_NAME;
