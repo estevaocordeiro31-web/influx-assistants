@@ -41,6 +41,12 @@ export const chatRouter = router({
         objective: z.string().optional(),
         level: z.string().optional(),
         message: z.string().min(1),
+        // Modo voz (ElieVoiceDemo): resposta longa/estruturada (CHUNK/
+        // EQUIVALÊNCIA/EXPLICAÇÃO/EXEMPLO) é ótima pra ler na tela, péssima
+        // pra ouvir — Estevao pediu latência menor; a resposta inteira
+        // precisa ser gerada E falada, então respostas mais curtas ajudam
+        // nos dois (menos tempo de geração, menos tempo de fala).
+        voiceMode: z.boolean().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -84,10 +90,14 @@ export const chatRouter = router({
           .map(c => `- "${c.englishChunk}" (${c.portugueseEquivalent}): ${c.example || 'Exemplo não disponível'}`)
           .join("\n");
 
+        const voiceModeInstruction = input.voiceMode
+          ? "\n\nMODO VOZ ATIVO: sua resposta vai ser FALADA em voz alta pra um avatar, não lida na tela. Responda de forma BREVE e conversacional — 1 a 3 frases curtas, como numa ligação de verdade. NÃO use o formato CHUNK/EQUIVALÊNCIA/EXPLICAÇÃO/EXEMPLO nem listas — fale o chunk e a equivalência dentro da própria frase, naturalmente."
+          : "";
+
         const llmMessages = [
           {
             role: "system" as const,
-            content: `${INFLUX_SYSTEM_PROMPT}\n\nChunks relevantes para este aluno:\n${chunksContext}`,
+            content: `${INFLUX_SYSTEM_PROMPT}\n\nChunks relevantes para este aluno:\n${chunksContext}${voiceModeInstruction}`,
           },
           ...previousMessages.map(msg => ({
             role: msg.role as "user" | "assistant",
@@ -101,6 +111,7 @@ export const chatRouter = router({
 
         const response = await invokeLLM({
           messages: llmMessages,
+          ...(input.voiceMode ? { maxTokens: 220 } : {}),
         });
 
         const assistantMessage = typeof response.choices[0]?.message?.content === 'string' 

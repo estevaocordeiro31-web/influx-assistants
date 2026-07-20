@@ -227,7 +227,10 @@ export default function ElieVoiceDemo() {
     const t0 = performance.now();
     setTurns((prev) => [...prev, { role: 'user', text }]);
     try {
-      const result = await sendMessage.mutateAsync({ message: text, objective: 'free_chat' });
+      // voiceMode:true pede resposta curta (o texto TODO precisa ser gerado
+      // e depois FALADO — resposta longa custa nos dois: mais tempo de
+      // geração, mais tempo de fala).
+      const result = await sendMessage.mutateAsync({ message: text, objective: 'free_chat', voiceMode: true });
       const responseText = result?.message || 'Desculpe, não consegui responder agora.';
       const claudeMs = Math.round(performance.now() - t0);
 
@@ -235,8 +238,11 @@ export default function ElieVoiceDemo() {
       await synthesizerRef.current.speakSsmlAsync(toSpeechSsml(responseText, VOICE_NAME, VOICE_STYLE));
       const totalMs = Math.round(performance.now() - t0);
 
-      setTurns((prev) => [...prev, { role: 'elie', text: responseText, latencyMs: totalMs }]);
-      console.log(`[ElieVoiceDemo] latencia Claude=${claudeMs}ms total(com fala)=${totalMs}ms`);
+      // latencyMs mostrado na tela = tempo até ELA COMEÇAR a falar (o que
+      // realmente importa pra sensação de "fluido") — não o total com a
+      // fala inteira, que sempre vai ser mais longo quanto mais ela falar.
+      setTurns((prev) => [...prev, { role: 'elie', text: responseText, latencyMs: claudeMs }]);
+      console.log(`[ElieVoiceDemo] tempo-ate-comecar-a-falar=${claudeMs}ms total-com-fala=${totalMs}ms`);
     } catch (e: any) {
       console.error('[ElieVoiceDemo] turno falhou:', e);
       setTurns((prev) => [...prev, { role: 'elie', text: `Erro: ${e.message}` }]);
@@ -298,7 +304,7 @@ export default function ElieVoiceDemo() {
                 <div style={{ display: 'inline-block', padding: '8px 12px', borderRadius: 8, background: t.role === 'user' ? '#2563eb' : '#1f2937', maxWidth: '80%' }}>
                   {t.text}
                 </div>
-                {t.latencyMs != null && <div style={{ fontSize: 11, color: '#6b7280', marginTop: 2 }}>latência total: {t.latencyMs}ms</div>}
+                {t.latencyMs != null && <div style={{ fontSize: 11, color: '#6b7280', marginTop: 2 }}>tempo até começar a falar: {t.latencyMs}ms</div>}
               </div>
             ))}
             {interimText && (
