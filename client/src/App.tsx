@@ -14,6 +14,7 @@ import Exercises from "./pages/Exercises";
 import Login from "./pages/Login";
 import AdminNotifications from "./pages/AdminNotifications";
 import VoiceChatPage from "./pages/VoiceChatPage";
+import AriaVoiceDemo from "./pages/AriaVoiceDemo";
 import BlogTips from "./pages/BlogTips";
 import SituationSimulator from "./pages/SituationSimulator";
 import { AccessViaLink } from "./pages/AccessViaLink";
@@ -136,6 +137,7 @@ function Router() {
       <Route path="/demo/chat" component={Chat} />
       <Route path="/demo/exercises" component={Exercises} />
       <Route path="/demo/voice-chat" component={VoiceChatPage} />
+      <Route path="/aria-voice" component={AriaVoiceDemo} />
       <Route path="/demo/blog-tips" component={BlogTips} />
       <Route path="/demo/simulator" component={SituationSimulator} />
       <Route path="/lessons" component={LessonsPage} />
