@@ -3,6 +3,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { chatRouter } from "./routers/chat";
+import { ariaVoiceRouter } from "./routers/aria-voice";
 import { pronunciationRouter } from "./routers/pronunciation";
 import { studentRouter } from "./routers/student";
 import { notificationsRouter } from "./routers/notifications";
@@ -76,6 +77,7 @@ export const appRouter = router({
   gemini: geminiRouter,
 
   chat: chatRouter,
+  ariaVoice: ariaVoiceRouter,
   pronunciation: pronunciationRouter,
   student: studentRouter,
   studentProfile: studentProfileRouter,
