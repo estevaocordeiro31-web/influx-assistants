@@ -25,6 +25,22 @@ const MODE_LABEL: Record<Mode, string> = {
   error: 'Erro',
 };
 
+// A resposta do Claude vem formatada em markdown (**CHUNK:**, listas, etc.)
+// pra leitura em texto — falado literalmente, o avatar lê os asteriscos e
+// cerquilhas em voz alta. Limpa antes de mandar pro speakTextAsync; o texto
+// original (com formatacao) continua no historico visual.
+function stripMarkdownForSpeech(text: string): string {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, '$1')
+    .replace(/\*(.+?)\*/g, '$1')
+    .replace(/^#{1,6}\s*/gm, '')
+    .replace(/^[-*]\s+/gm, '')
+    .replace(/`{1,3}([^`]*)`{1,3}/g, '$1')
+    .replace(/\n{2,}/g, '. ')
+    .replace(/\n/g, ' ')
+    .trim();
+}
+
 export default function ElieVoiceDemo() {
   const { user } = useAuth();
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -168,7 +184,7 @@ export default function ElieVoiceDemo() {
       const claudeMs = Math.round(performance.now() - t0);
 
       setMode('speaking');
-      await synthesizerRef.current.speakTextAsync(responseText);
+      await synthesizerRef.current.speakTextAsync(stripMarkdownForSpeech(responseText));
       const totalMs = Math.round(performance.now() - t0);
 
       setTurns((prev) => [...prev, { role: 'elie', text: responseText, latencyMs: totalMs }]);
