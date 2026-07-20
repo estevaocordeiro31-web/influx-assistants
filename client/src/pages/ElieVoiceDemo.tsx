@@ -6,17 +6,17 @@ import * as SpeechSDK from 'microsoft-cognitiveservices-speech-sdk';
 type ConnState = 'idle' | 'connecting' | 'connected' | 'error';
 
 interface Turn {
-  role: 'user' | 'aria';
+  role: 'user' | 'elie';
   text: string;
   latencyMs?: number;
 }
 
-// Avatar stock "talking head" (visual neutro, sem treino custom) + voz pt-BR.
+// Avatar stock "talking head" (visual neutro, sem treino custom da Elie ainda) + voz pt-BR.
 const AVATAR_CHARACTER = 'meg';
 const AVATAR_STYLE = 'formal';
 const VOICE_NAME = 'pt-BR-FranciscaNeural';
 
-export default function AriaVoiceDemo() {
+export default function ElieVoiceDemo() {
   const { user } = useAuth();
   const videoRef = useRef<HTMLVideoElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -29,7 +29,7 @@ export default function AriaVoiceDemo() {
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
 
-  const iceTokenQuery = trpc.ariaVoice.getIceToken.useQuery(undefined, { enabled: false });
+  const iceTokenQuery = trpc.elieVoice.getIceToken.useQuery(undefined, { enabled: false });
   const sendMessage = trpc.chat.sendMessage.useMutation();
 
   const connect = async () => {
@@ -60,9 +60,9 @@ export default function AriaVoiceDemo() {
 
       await synthesizer.startAvatarAsync(pc);
       setState('connected');
-      setTurns([{ role: 'aria', text: 'Oi! Sou a ARIA. Pode escrever algo que eu falo em voz alta pra você.' }]);
+      setTurns([{ role: 'elie', text: 'Oi! Sou a Elie. Pode escrever algo que eu falo em voz alta pra você.' }]);
     } catch (e: any) {
-      console.error('[AriaVoiceDemo] connect falhou:', e);
+      console.error('[ElieVoiceDemo] connect falhou:', e);
       setError(e.message || String(e));
       setState('error');
     }
@@ -93,23 +93,23 @@ export default function AriaVoiceDemo() {
       await synthesizerRef.current.speakTextAsync(responseText);
       const totalMs = Math.round(performance.now() - t0);
 
-      setTurns((prev) => [...prev, { role: 'aria', text: responseText, latencyMs: totalMs }]);
-      console.log(`[AriaVoiceDemo] latencia Claude=${claudeMs}ms total(com fala)=${totalMs}ms`);
+      setTurns((prev) => [...prev, { role: 'elie', text: responseText, latencyMs: totalMs }]);
+      console.log(`[ElieVoiceDemo] latencia Claude=${claudeMs}ms total(com fala)=${totalMs}ms`);
     } catch (e: any) {
-      console.error('[AriaVoiceDemo] turno falhou:', e);
-      setTurns((prev) => [...prev, { role: 'aria', text: `Erro: ${e.message}` }]);
+      console.error('[ElieVoiceDemo] turno falhou:', e);
+      setTurns((prev) => [...prev, { role: 'elie', text: `Erro: ${e.message}` }]);
     } finally {
       setBusy(false);
     }
   };
 
   if (!user) {
-    return <div style={{ padding: 40, color: '#fff', background: '#0c1222', minHeight: '100vh' }}>Faça login para acessar a demo da ARIA.</div>;
+    return <div style={{ padding: 40, color: '#fff', background: '#0c1222', minHeight: '100vh' }}>Faça login para acessar a demo da Elie.</div>;
   }
 
   return (
     <div style={{ minHeight: '100vh', background: '#0c1222', color: '#fff', padding: 24, fontFamily: "'DM Sans', sans-serif" }}>
-      <h1 style={{ fontSize: '1.4rem', marginBottom: 16 }}>ARIA — voz + avatar (prova de conceito)</h1>
+      <h1 style={{ fontSize: '1.4rem', marginBottom: 16 }}>Elie — voz + avatar (prova de conceito)</h1>
 
       <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
         <div>
@@ -146,7 +146,7 @@ export default function AriaVoiceDemo() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && send()}
               disabled={state !== 'connected' || busy}
-              placeholder="Escreva algo pra ARIA falar..."
+              placeholder="Escreva algo pra Elie falar..."
               style={{ flex: 1, padding: 10, borderRadius: 8, border: '1px solid #374151', background: '#0c1222', color: '#fff' }}
             />
             <button onClick={send} disabled={state !== 'connected' || busy} style={{ padding: '10px 20px', borderRadius: 8, background: '#059669', color: '#fff', border: 'none' }}>

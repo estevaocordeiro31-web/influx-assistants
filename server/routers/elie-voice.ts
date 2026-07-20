@@ -6,7 +6,7 @@ import { TRPCError } from "@trpc/server";
  * A subscription key nunca sai do servidor — o client só recebe Urls/Username/Password
  * de curta duração pra montar o RTCPeerConnection.
  */
-export const ariaVoiceRouter = router({
+export const elieVoiceRouter = router({
   getIceToken: protectedProcedure.query(async () => {
     const endpoint = process.env.AZURE_FOUNDRY_ENDPOINT;
     const key = process.env.AZURE_FOUNDRY_KEY1;
